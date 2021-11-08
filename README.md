@@ -10,7 +10,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
-## `yarn`
+### `yarn`
 
 Installs all the necessary packages. Run this after every pull or checkout.
 
