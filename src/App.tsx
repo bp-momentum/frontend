@@ -1,20 +1,40 @@
 import "./App.css";
-import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { BrowserRouter, Route, Routes, Navigate  } from "react-router-dom";
 import Home from "./pages/home";
+import Login from "./pages/login";
+
+function getSessionStorageOrDefault(key: string, defaultValue: any) {
+  const stored = sessionStorage.getItem(key);
+  if (!stored) {
+    return defaultValue;
+  }
+  return JSON.parse(stored);
+}
+
 
 // Basic App that is just used to Route to different pages
 function App() : JSX.Element {
+  const [token, setToken] = useState<string | null>(getSessionStorageOrDefault("token", false));
+
+  useEffect(() => {
+    sessionStorage.setItem("token", JSON.stringify(token));
+  }, [token]);
+
+  if (!token) {
+    return (
+      <Login setToken={setToken}  />
+    );
+  }
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/user/" >
-          <Route path="login/" element={<div>Login</div>} />
-          <Route path="register/" element={<div>Register</div>} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
