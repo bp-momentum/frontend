@@ -1,10 +1,16 @@
-import fetch from "node-fetch";
+import fetch, {Response} from "node-fetch";
 import {Route} from "./routes";
 
-export default class Api {
-  static serverUrl = "http://78.46.150.116:8000/";
+class Api {
+  serverUrl = "http://78.46.150.116:8000/";
 
-  static execute = (route: Route, body?: Record<string, unknown>) : Promise<unknown> | undefined => {
+  /*
+  UNCOMMENTING EVERYTHING BREAKS THE WHOLE APP... BRUH
+  executeAndGetJson = (route: Route, body?: Record<string, unknown>) : Promise<unknown> | undefined => {
+    return this.execute(route, body)?.then((r) => r.json());
+  }
+
+  execute = (route: Route, body?: Record<string, unknown>) : Promise<Response> | undefined => {
     switch (route.method) {
     case "GET":
       return this.executeGet(route);
@@ -13,7 +19,7 @@ export default class Api {
     }
   }
 
-  static executeGet = (route: Route) : Promise<unknown> => {
+  executeGet = (route: Route) : Promise<Response> => {
     if (route.needsAuth) {
       return this.get(route.route);
     } else {
@@ -21,22 +27,22 @@ export default class Api {
     }
   }
 
-  static get = (route: string): Promise<unknown> => {
+  get = (route: string): Promise<Response> => {
     return fetch(this.parseRoute(route), {
       method: "GET",
-    }).then((r) => r.json());
+    });
   }
 
-  static getWithAuth = (route: string): Promise<unknown> => {
+  getWithAuth = (route: string): Promise<Response> => {
     return fetch(this.parseRoute(route), {
       method: "GET",
       headers: {"X-Auth-Token": "Token"}
-    }).then((r) => r.json());
+    });
   }
 
-  static executePost = (route: Route, body?: Record<string, unknown>): Promise<unknown> | undefined => {
+  executePost = (route: Route, body?: Record<string, unknown>): Promise<Response> | undefined => {
     if (!this.checkBody(route, body)) {
-      throw Error("Invalid body provided!");
+      throw new Error("Invalid body provided!");
     }
 
     if (route.needsAuth) {
@@ -54,28 +60,28 @@ export default class Api {
     }
   }
 
-  static post = (route: string): Promise<unknown> => {
+  post = (route: string): Promise<Response> => {
     return fetch(this.parseRoute(route), {
       method: "POST",
-    }).then((r) => r.json());
+    });
   }
 
-  static postWithBody = (route: string, body: Record<string, unknown>): Promise<unknown> => {
+  postWithBody = (route: string, body: Record<string, unknown>): Promise<Response> => {
     return fetch(this.parseRoute(route), {
       method: "POST",
       body: JSON.stringify(body),
       headers: {"Content-Type": "application/json"}
-    }).then((r) => r.json());
+    });
   }
 
-  static postWithAuth = (route: string): Promise<unknown> => {
+  postWithAuth = (route: string): Promise<Response> => {
     return fetch(this.parseRoute(route), {
       method: "POST",
       headers: {"X-Auth-Token": "Token"}
-    }).then((r) => r.json());
+    });
   }
 
-  static postWithAuthAndBody = (route: string, body: Record<string, unknown>): Promise<unknown> => {
+  postWithAuthAndBody = (route: string, body: Record<string, unknown>): Promise<Response> => {
     return fetch(this.parseRoute(route), {
       method: "POST",
       body: JSON.stringify(body),
@@ -83,10 +89,10 @@ export default class Api {
         "X-Auth-Token": "Token",
         "Content-Type": "application/json"
       }
-    }).then((r) => r.json());
+    });
   }
 
-  static parseRoute = (route: string): string => {
+  parseRoute = (route: string): string => {
     if (route.startsWith("/")) {
       route = route.substr(1);
     }
@@ -97,7 +103,7 @@ export default class Api {
     }
   }
 
-  static checkBody = (route: Route, body?: Record<string, unknown>): boolean => {
+  checkBody = (route: Route, body?: Record<string, unknown>): boolean => {
     if (route.body == null)
       return true;
 
@@ -110,5 +116,8 @@ export default class Api {
     }
     return true;
   }
-
+   */
 }
+
+const api = new Api();
+export default api;

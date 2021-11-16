@@ -1,9 +1,7 @@
 import { Button, Form, Input, Checkbox, Row, Col, Radio, Steps  } from "antd";
 import React from "react";
-import Api from "../util/api";
+import api from "../util/api";
 import Routes from "../util/routes";
-// import Routes from "../util/routes";
-// import User, { IUser } from "../util/user";
 const { Step } = Steps;
 
 interface LoginProps {
@@ -29,9 +27,7 @@ const onFinish = (values: any, register: boolean) => {
 
 const test = async () => {
   console.log("test");
-  const json = await Api.execute(Routes.registerUser, {
-
-  });
+  console.log(api.serverUrl);
 };
 
 const onFinishFailed = (errorInfo: any) => {
