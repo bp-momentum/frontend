@@ -6,29 +6,29 @@ interface LoginProps {
   setToken: (token: string) => void;
 }
 
-const onFinish = (values: any, register: boolean) => {
-  const username = values["username"];
-  const password = values["password"];
-
-  if (register) {
-    const repeatPassword = values["repeat-password"];
-    if (repeatPassword !== password) {
-      console.log("Failed Register! Passwords do not match!");
-      return;
-    }
-
-    console.log("Register with username:", username, "Password:", password);
-  } else {
-    console.log("Login with username:", username, "Password:", password);
-  }
-};
-
-const onFinishFailed = (errorInfo: any) => {
-  console.log("Failed:", errorInfo);
-};
-
 const Login = (props: LoginProps) : JSX.Element  => {
   const [register, setRegister] = React.useState(false);
+
+  const onFinish = (values: any) => {
+    const username = values["username"];
+    const password = values["password"];
+  
+    if (register) {
+      const repeatPassword = values["repeat-password"];
+      if (repeatPassword !== password) {
+        console.log("Failed Register! Passwords do not match!");
+        return;
+      }
+  
+      console.log("Register with username:", username, "Password:", password);
+    } else {
+      console.log("Login with username:", username, "Password:", password);
+    }
+  };
+  
+  const onFinishFailed = (errorInfo: any) => {
+    console.log("Failed:", errorInfo);
+  };
 
   return (
     <>
@@ -48,7 +48,7 @@ const Login = (props: LoginProps) : JSX.Element  => {
             labelCol={{ span: 10 }}
             wrapperCol={{ span: 20 }}
             initialValues={{ remember: true }}
-            onFinish={(values) => onFinish(values, register)}
+            onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
           >
