@@ -1,5 +1,8 @@
 import { Button, Form, Input, Checkbox, Row, Col, Radio, Steps  } from "antd";
 import React from "react";
+import Api from "../util/api";
+import Routes from "../util/routes";
+// import Routes from "../util/routes";
 // import User, { IUser } from "../util/user";
 const { Step } = Steps;
 
@@ -22,6 +25,13 @@ const onFinish = (values: any, register: boolean) => {
   } else {
     console.log("Login with username:", username, "Password:", password);
   }
+};
+
+const test = async () => {
+  console.log("test");
+  const json = await Api.execute(Routes.registerUser, {
+
+  });
 };
 
 const onFinishFailed = (errorInfo: any) => {
@@ -69,7 +79,7 @@ const Login = (props: LoginProps) : JSX.Element  => {
               <Input.Password />
             </Form.Item>
 
-            {register && 
+            {register &&
               <Form.Item
                 label="Repeat Password"
                 name="repeat-password"
@@ -90,7 +100,7 @@ const Login = (props: LoginProps) : JSX.Element  => {
             </Form.Item>
           </Form>
         </Col>
-        { register && 
+        { register &&
         <Col>
           <Steps progressDot current={1} direction="vertical">
             <Step title="Create User" />
