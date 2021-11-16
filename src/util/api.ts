@@ -1,106 +1,102 @@
 import {Route} from "./routes";
 
-class Api {
-  serverUrl = "http://78.46.150.116:8000/";
+const Api = {
+  serverUrl: "http://78.46.150.116:8000/",
 
-  executeAndGetJson = (route: Route, body?: Record<string, unknown>) : Promise<unknown> | undefined => {
-    return this.execute(route, body)?.then((r) => r.json());
-  }
-
-  execute = (route: Route, body?: Record<string, unknown>) : Promise<Response> | undefined => {
+  execute: (route: Route, body?: Record<string, unknown>) : Promise<unknown> | undefined => {
     switch (route.method) {
     case "GET":
-      return this.executeGet(route);
+      return Api.executeGet(route);
     case "POST":
-      return this.executePost(route, body);
+      return Api.executePost(route, body);
     }
-  }
+  },
 
-  executeGet = (route: Route) : Promise<Response> => {
+  executeGet: (route: Route) : Promise<unknown> => {
     if (route.needsAuth) {
-      return this.get(route.route);
+      return Api.get(route.route);
     } else {
-      return this.getWithAuth(route.route);
+      return Api.getWithAuth(route.route);
     }
-  }
+  },
 
-  get = (route: string): Promise<Response> => {
-    return fetch(this.parseRoute(route), {
+  get: (route: string): Promise<unknown> => {
+    return fetch(Api.parseRoute(route), {
       method: "GET",
-    });
-  }
+    }).then((r: any) => r.json());
+  },
 
-  getWithAuth = (route: string): Promise<Response> => {
-    return fetch(this.parseRoute(route), {
+  getWithAuth: (route: string): Promise<unknown> => {
+    return fetch(Api.parseRoute(route), {
       method: "GET",
       headers: {"X-Auth-Token": "Token"}
-    });
-  }
+    }).then((r: any) => r.json());
+  },
 
-  executePost = (route: Route, body?: Record<string, unknown>): Promise<Response> | undefined => {
-    if (!this.checkBody(route, body)) {
-      throw new Error("Invalid body provided!");
+  executePost: (route: Route, body?: Record<string, unknown>): Promise<unknown> | undefined => {
+    if (!Api.checkBody(route, body)) {
+      throw Error("Invalid body provided!");
     }
 
     if (route.needsAuth) {
       if (route.body == null) {
-        return this.post(route.route);
+        return Api.post(route.route);
       } else if (body != null) {
-        return  this.postWithBody(route.route, body);
+        return Api.postWithBody(route.route, body);
       }
     } else {
       if (route.body == null) {
-        return this.postWithAuth(route.route);
+        return Api.postWithAuth(route.route);
       } else if (body != null) {
-        return this.postWithAuthAndBody(route.route, body);
+        return Api.postWithAuthAndBody(route.route, body);
       }
     }
-  }
+  },
 
-  post = (route: string): Promise<Response> => {
-    return fetch(this.parseRoute(route), {
+  post: (route: string): Promise<unknown> => {
+    return fetch(Api.parseRoute(route), {
       method: "POST",
-    });
-  }
+    }).then((r: any) => r.json());
+  },
 
-  postWithBody = (route: string, body: Record<string, unknown>): Promise<Response> => {
-    return fetch(this.parseRoute(route), {
+  postWithBody: (route: string, body: Record<string, unknown>): Promise<unknown> => {
+    return fetch(Api.parseRoute(route), {
       method: "POST",
       body: JSON.stringify(body),
       headers: {"Content-Type": "application/json"}
-    });
-  }
+    }).then((r: any) => r.json());
+  },
 
-  postWithAuth = (route: string): Promise<Response> => {
-    return fetch(this.parseRoute(route), {
+  postWithAuth: (route: string): Promise<unknown> => {
+    return fetch(Api.parseRoute(route), {
       method: "POST",
       headers: {"X-Auth-Token": "Token"}
-    });
-  }
+    }).then((r: any) => r.json());
+  },
 
-  postWithAuthAndBody = (route: string, body: Record<string, unknown>): Promise<Response> => {
-    return fetch(this.parseRoute(route), {
+  postWithAuthAndBody: (route: string, body: Record<string, unknown>): Promise<unknown> => {
+    return fetch(Api.parseRoute(route), {
       method: "POST",
       body: JSON.stringify(body),
       headers: {
         "X-Auth-Token": "Token",
         "Content-Type": "application/json"
       }
-    });
-  }
+    }).then((r: any) => r.json());
+  },
 
-  parseRoute = (route: string): string => {
+  parseRoute: (route: string): string => {
     if (route.startsWith("/")) {
       route = route.substr(1);
     }
-    if (this.serverUrl.endsWith("/")) {
-      return this.serverUrl + route;
+    if (Api.serverUrl.endsWith("/")) {
+      return Api.serverUrl + route;
     } else {
-      return this.serverUrl + "/" + route;
+      return Api.serverUrl + "/" + route;
     }
-  }
+  },
 
-  checkBody = (route: Route, body?: Record<string, unknown>): boolean => {
+  checkBody: (route: Route, body?: Record<string, unknown>): boolean => {
     if (route.body == null)
       return true;
 
@@ -113,7 +109,8 @@ class Api {
     }
     return true;
   }
-}
 
-const api = new Api();
-export default api;
+};
+
+
+export default Api;
