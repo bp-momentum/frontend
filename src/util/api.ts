@@ -1,11 +1,8 @@
-import fetch, {Response} from "node-fetch";
 import {Route} from "./routes";
 
 class Api {
   serverUrl = "http://78.46.150.116:8000/";
 
-  /*
-  UNCOMMENTING EVERYTHING BREAKS THE WHOLE APP... BRUH
   executeAndGetJson = (route: Route, body?: Record<string, unknown>) : Promise<unknown> | undefined => {
     return this.execute(route, body)?.then((r) => r.json());
   }
@@ -116,7 +113,6 @@ class Api {
     }
     return true;
   }
-   */
 }
 
 const api = new Api();
