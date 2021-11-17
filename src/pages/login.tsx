@@ -1,5 +1,7 @@
 import { Button, Form, Input, Checkbox, Row, Col, Radio, Steps  } from "antd";
 import React from "react";
+import api from "../util/api";
+import Routes from "../util/routes";
 const { Step } = Steps;
 
 interface LoginProps {
@@ -15,11 +17,20 @@ const Login = (props: LoginProps) : JSX.Element  => {
   
     if (register) {
       const repeatPassword = values["repeat-password"];
+      const firstName = values["first-name"];
+      const lastName = values["last-name"];
       if (repeatPassword !== password) {
         console.log("Failed Register! Passwords do not match!");
         return;
       }
-  
+
+      api.execute(Routes.registerUser, {
+        first_name: firstName,
+        last_name: lastName,
+        username: username,
+        password: password
+      })?.then(console.log);
+
       console.log("Register with username:", username, "Password:", password);
     } else {
       console.log("Login with username:", username, "Password:", password);
@@ -52,6 +63,23 @@ const Login = (props: LoginProps) : JSX.Element  => {
             onFinishFailed={onFinishFailed}
             autoComplete="off"
           >
+
+            <Form.Item
+              label="First Name"
+              name="first-name"
+              rules={[{ required: true, message: "Please input your First Name!" }]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              label="Last Name"
+              name="last-name"
+              rules={[{ required: true, message: "Please input your Last Name!" }]}
+            >
+              <Input />
+            </Form.Item>
+
             <Form.Item
               label="Username"
               name="username"
