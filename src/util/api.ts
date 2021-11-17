@@ -40,15 +40,15 @@ const Api = {
 
     if (route.needsAuth) {
       if (route.body == null) {
-        return Api.post(route.route);
-      } else if (body != null) {
-        return Api.postWithBody(route.route, body);
-      }
-    } else {
-      if (route.body == null) {
         return Api.postWithAuth(route.route);
       } else if (body != null) {
         return Api.postWithAuthAndBody(route.route, body);
+      }
+    } else {
+      if (route.body == null) {
+        return Api.post(route.route);
+      } else if (body != null) {
+        return Api.postWithBody(route.route, body);
       }
     }
   },
