@@ -23,14 +23,14 @@ const Api = {
   get: (route: string): Promise<unknown> => {
     return fetch(Api.parseRoute(route), {
       method: "GET",
-    }).then((r: any) => r.json());
+    }).then((r) => r.json());
   },
 
   getWithAuth: (route: string): Promise<unknown> => {
     return fetch(Api.parseRoute(route), {
       method: "GET",
       headers: {"X-Auth-Token": "Token"}
-    }).then((r: any) => r.json());
+    }).then((r) => r.json());
   },
 
   executePost: (route: Route, body?: Record<string, unknown>): Promise<unknown> | undefined => {
@@ -56,7 +56,7 @@ const Api = {
   post: (route: string): Promise<unknown> => {
     return fetch(Api.parseRoute(route), {
       method: "POST",
-    }).then((r: any) => r.json());
+    }).then((r) => r.json());
   },
 
   postWithBody: (route: string, body: Record<string, unknown>): Promise<unknown> => {
@@ -64,14 +64,14 @@ const Api = {
       method: "POST",
       body: JSON.stringify(body),
       headers: {"Content-Type": "application/json"}
-    }).then((r: any) => r.json());
+    }).then((r) => r.json());
   },
 
   postWithAuth: (route: string): Promise<unknown> => {
     return fetch(Api.parseRoute(route), {
       method: "POST",
       headers: {"X-Auth-Token": "Token"}
-    }).then((r: any) => r.json());
+    }).then((r) => r.json());
   },
 
   postWithAuthAndBody: (route: string, body: Record<string, unknown>): Promise<unknown> => {
@@ -82,7 +82,7 @@ const Api = {
         "X-Auth-Token": "Token",
         "Content-Type": "application/json"
       }
-    }).then((r: any) => r.json());
+    }).then((r) => r.json());
   },
 
   parseRoute: (route: string): string => {
