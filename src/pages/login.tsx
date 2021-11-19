@@ -1,4 +1,4 @@
-import {Button, Form, Input, Checkbox, Row, Col, Radio, Steps, Alert} from "antd";
+import {Button, Form, Input, Checkbox, Row, Col, Radio, Steps, Space, Alert} from "antd";
 import React from "react";
 import api from "../util/api";
 import Routes from "../util/routes";
@@ -10,7 +10,7 @@ interface LoginProps {
 
 const Login = (props: LoginProps) : JSX.Element  => {
   const [register, setRegister] = React.useState(false);
-  const [error, setError] = React.useState("");
+  const [error, setError] = React.useState<null | string>();
 
   const onFinish = (values: any) => {
     const username = values["username"];
@@ -26,12 +26,12 @@ const Login = (props: LoginProps) : JSX.Element  => {
         return;
       }
 
-      api.execute(Routes.registerUser, {
+      api.execute(Routes.registerUser({
         first_name: firstName,
-        last_name: lastName,
-        username: username,
-        password: password
-      })?.then(console.log);
+        last_name:  lastName,
+        username:   username,
+        password:   password
+      }))?.then(console.log);
 
       console.log("Register with username:", username, "Password:", password);
     } else {
@@ -44,12 +44,24 @@ const Login = (props: LoginProps) : JSX.Element  => {
   };
 
   return (
-    <>
+    <Space size="large" style={{width: "100%", height: "100%", position: "absolute", display: "flex", flexDirection: "column", justifyContent: "center"}}>
+      { register &&
+      <Row justify="center">
+        <Space direction="vertical" size="large" />
+        <Col>
+          <Steps current={1}>
+            <Step title="Create User" />
+            <Step title="Validate Email" />
+            <Step title="Done" />
+          </Steps>
+        </Col>
+      </Row>
+      }
       <Row justify="center">
         <Col>
           <Radio.Group onChange={e => {
             setRegister(e.target.value === "Register");
-            setError("");
+            setError(null);
           }} defaultValue="Login" >
             <Radio.Button value="Login">Login</Radio.Button>
             <Radio.Button value="Register">Register</Radio.Button>
@@ -59,7 +71,6 @@ const Login = (props: LoginProps) : JSX.Element  => {
       <Row justify="center">
         <Col>
           <Form
-            style={{margin: "auto"}}
             name="basic"
             labelCol={{ span: 10 }}
             wrapperCol={{ span: 20 }}
@@ -115,7 +126,7 @@ const Login = (props: LoginProps) : JSX.Element  => {
               <Checkbox>Remember me</Checkbox>
             </Form.Item>
 
-            {error !== "" &&
+            {error &&
             <Alert message={error} type="error" showIcon/>
             }
 
@@ -126,17 +137,8 @@ const Login = (props: LoginProps) : JSX.Element  => {
             </Form.Item>
           </Form>
         </Col>
-        { register &&
-        <Col>
-          <Steps progressDot current={1} direction="vertical">
-            <Step title="Create User" />
-            <Step title="Validate Email" />
-            <Step title="Done" />
-          </Steps>
-        </Col>
-        }
       </Row>
-    </>
+    </Space>
   );
 };
 

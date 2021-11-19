@@ -1,32 +1,29 @@
-export default class Routes {
-  static registerUser : Route = {
-    route: "/api/register",
-    needsAuth: false,
-    method: "POST",
-    body: {
-      first_name: {
-        required: true,
-      },
-      last_name: {
-        required: true,
-      },
-      username: {
-        required: true,
-      },
-      password: {
-        required: true,
-      }
-    }
-  }
-}
-
 export interface Route {
   route: string,
   method: "GET" | "POST";
   needsAuth: boolean;
-  body?: Record<string, ParameterOption>;
+  body?: Record<string, unknown>;
 }
 
-export interface ParameterOption {
-  required: boolean,
-}
+const Routes = {
+  registerUser: (props: {
+    first_name: string,
+    last_name:  string,
+    username:   string,
+    password:   string,
+  }): Route => {
+    return {
+      route: "/api/register",
+      needsAuth: false,
+      method: "POST",
+      body: {
+        first_name: props.first_name,
+        last_name:  props.last_name,
+        username:   props.username,
+        password:   props.password
+      }
+    };
+  }
+};
+
+export default Routes;

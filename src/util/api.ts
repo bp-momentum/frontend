@@ -3,12 +3,12 @@ import {Route} from "./routes";
 const Api = {
   serverUrl: "http://78.46.150.116:8000/",
 
-  execute: (route: Route, body?: Record<string, unknown>) : Promise<unknown> | undefined => {
+  execute: (route: Route) : Promise<unknown> | undefined => {
     switch (route.method) {
     case "GET":
       return Api.executeGet(route);
     case "POST":
-      return Api.executePost(route, body);
+      return Api.executePost(route);
     }
   },
 
@@ -33,22 +33,18 @@ const Api = {
     }).then((r) => r.json());
   },
 
-  executePost: (route: Route, body?: Record<string, unknown>): Promise<unknown> | undefined => {
-    if (!Api.checkBody(route, body)) {
-      throw Error("Invalid body provided!");
-    }
-
+  executePost: (route: Route): Promise<unknown> | undefined => {
     if (route.needsAuth) {
       if (route.body == null) {
         return Api.postWithAuth(route.route);
-      } else if (body != null) {
-        return Api.postWithAuthAndBody(route.route, body);
+      } else if (route.body != null) {
+        return Api.postWithAuthAndBody(route.route, route.body);
       }
     } else {
       if (route.body == null) {
         return Api.post(route.route);
-      } else if (body != null) {
-        return Api.postWithBody(route.route, body);
+      } else if (route.body != null) {
+        return Api.postWithBody(route.route, route.body);
       }
     }
   },
@@ -94,22 +90,7 @@ const Api = {
     } else {
       return Api.serverUrl + "/" + route;
     }
-  },
-
-  checkBody: (route: Route, body?: Record<string, unknown>): boolean => {
-    if (route.body == null)
-      return true;
-
-    for (const key in route.body) {
-      const parameter = route.body[key];
-      if (parameter.required) {
-        if (!body || body[key] == null)
-          return false;
-      }
-    }
-    return true;
   }
-
 };
 
 
