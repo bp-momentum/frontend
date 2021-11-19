@@ -80,6 +80,7 @@ const Login = (props: LoginProps) : JSX.Element  => {
             autoComplete="off"
           >
 
+            {register &&
             <Form.Item
               label="First Name"
               name="first-name"
@@ -87,14 +88,18 @@ const Login = (props: LoginProps) : JSX.Element  => {
             >
               <Input />
             </Form.Item>
+            }
 
+
+            {register &&
             <Form.Item
               label="Last Name"
               name="last-name"
-              rules={[{ required: true, message: "Please input your Last Name!" }]}
+              rules={[{required: true, message: "Please input your Last Name!"}]}
             >
-              <Input />
+              <Input/>
             </Form.Item>
+            }
 
             <Form.Item
               label="Username"
