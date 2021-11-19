@@ -1,4 +1,4 @@
-import { Button, Form, Input, Checkbox, Row, Col, Radio, Steps  } from "antd";
+import {Button, Form, Input, Checkbox, Row, Col, Radio, Steps, Alert} from "antd";
 import React from "react";
 import api from "../util/api";
 import Routes from "../util/routes";
@@ -10,16 +10,18 @@ interface LoginProps {
 
 const Login = (props: LoginProps) : JSX.Element  => {
   const [register, setRegister] = React.useState(false);
+  const [error, setError] = React.useState("");
 
   const onFinish = (values: any) => {
     const username = values["username"];
     const password = values["password"];
-  
+
     if (register) {
       const repeatPassword = values["repeat-password"];
       const firstName = values["first-name"];
       const lastName = values["last-name"];
       if (repeatPassword !== password) {
+        setError("Passwords do not match!");
         console.log("Failed Register! Passwords do not match!");
         return;
       }
@@ -36,7 +38,7 @@ const Login = (props: LoginProps) : JSX.Element  => {
       console.log("Login with username:", username, "Password:", password);
     }
   };
-  
+
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
@@ -45,7 +47,10 @@ const Login = (props: LoginProps) : JSX.Element  => {
     <>
       <Row justify="center">
         <Col>
-          <Radio.Group onChange={e => {setRegister(e.target.value === "Register");}} defaultValue="Login" >
+          <Radio.Group onChange={e => {
+            setRegister(e.target.value === "Register");
+            setError("");
+          }} defaultValue="Login" >
             <Radio.Button value="Login">Login</Radio.Button>
             <Radio.Button value="Register">Register</Radio.Button>
           </Radio.Group>
@@ -109,6 +114,10 @@ const Login = (props: LoginProps) : JSX.Element  => {
             <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
               <Checkbox>Remember me</Checkbox>
             </Form.Item>
+
+            {error !== "" &&
+            <Alert message={error} type="error" showIcon/>
+            }
 
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
               <Button type="primary" htmlType="submit">
