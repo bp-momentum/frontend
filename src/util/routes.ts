@@ -1,3 +1,5 @@
+import {fireEvent} from "@testing-library/react";
+
 export interface Route {
   route: string,
   method: "GET" | "POST";
@@ -37,7 +39,27 @@ const Routes = {
         password: props.password,
       }
     };
-  }
+  },
+  createUser: (props: {
+    firstName: string,
+    lastName: string,
+    username: string,
+    email: string,
+    token: string,
+  }) : Route => {
+    return {
+      route: "/api/createuser",
+      needsAuth: false,
+      method: "POST",
+      body: {
+        first_name: props.firstName,
+        last_name: props.lastName,
+        username: props.username,
+        email_address: props.email,
+        session_token: props.token,
+      }
+    };
+  },
 };
 
 export default Routes;

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes} from "react-router-dom";
 import Home from "./pages/home";
 import Login from "./pages/login";
+import CreateUser from "./pages/createUser";
 
 function getSessionStorageOrDefault(key: string, defaultValue: unknown) {
   const stored = sessionStorage.getItem(key);
@@ -31,6 +32,7 @@ function App() : JSX.Element {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home token={token} />} />
+          <Route path="/createuser" element={<CreateUser token={token} />} />
         </Routes>
       </BrowserRouter>
     </>
