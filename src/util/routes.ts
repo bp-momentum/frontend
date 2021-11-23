@@ -45,18 +45,16 @@ const Routes = {
     lastName: string,
     username: string,
     email: string,
-    token: string,
   }) : Route => {
     return {
       route: "/api/createuser",
-      needsAuth: false,
+      needsAuth: true,
       method: "POST",
       body: {
         first_name: props.firstName,
         last_name: props.lastName,
         username: props.username,
         email_address: props.email,
-        session_token: props.token,
       }
     };
   },

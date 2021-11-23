@@ -5,6 +5,7 @@ import Home from "./pages/home";
 import Login from "./pages/login";
 import { useAppSelector } from "./redux/hooks";
 import CreateUser from "./pages/createUser";
+import api from "./util/api";
 
 // Basic App that is just used to Route to different pages
 function App() : JSX.Element {
@@ -13,6 +14,7 @@ function App() : JSX.Element {
 
   useEffect(() => {
     sessionStorage.setItem("token", JSON.stringify(token));
+    api.setToken(token || "");
   }, [token]);
 
   // TODO: check token validity 

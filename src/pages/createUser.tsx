@@ -3,12 +3,9 @@ import {UserOutlined, MailOutlined} from "@ant-design/icons";
 import React from "react";
 import Api from "../util/api";
 import Routes from "../util/routes";
-import {useAppSelector} from "../redux/hooks";
-
+import {Navigate} from "react-router-dom";
 
 const CreateUser = () : JSX.Element => {
-
-  const token = useAppSelector(state => state.token.token)!;
 
   const onFinish = async (values: any) => {
     const firstName = values["first_name"];
@@ -21,9 +18,9 @@ const CreateUser = () : JSX.Element => {
       lastName: lastName,
       username: username,
       email: email,
-      token: token,
     }));
     console.log(response);
+    return <Navigate to="/"/>;
   };
 
   const onFinishFailed = (errorInfo: unknown) => {
