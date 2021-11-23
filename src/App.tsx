@@ -1,45 +1,35 @@
 import "./App.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes} from "react-router-dom";
 import Home from "./pages/home";
 import Login from "./pages/login";
+import { useAppSelector } from "./redux/hooks";
 import CreateUser from "./pages/createUser";
-
-function getSessionStorageOrDefault(key: string, defaultValue: unknown) {
-  const stored = sessionStorage.getItem(key);
-  if (!stored) {
-    return defaultValue;
-  }
-  return JSON.parse(stored);
-}
 
 // Basic App that is just used to Route to different pages
 function App() : JSX.Element {
-  const [token, setToken] = useState<string | null>(getSessionStorageOrDefault("token", false));
 
-  const logout = () => {
-    setToken(null);
-  };
+  const token = useAppSelector((state) => state.token.token);
 
   useEffect(() => {
     sessionStorage.setItem("token", JSON.stringify(token));
   }, [token]);
 
+  // TODO: check token validity 
+
   if (!token) {
     return (
-      <Login setToken={setToken}  />
+      <Login />
     );
   }
 
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home token={token} logout={logout}/>} />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
           <Route path="/createuser" element={<CreateUser token={token} />} />
-        </Routes>
-      </BrowserRouter>
-    </>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

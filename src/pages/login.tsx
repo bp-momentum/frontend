@@ -3,12 +3,11 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import React from "react";
 import api from "../util/api";
 import Routes from "../util/routes";
+import { useAppDispatch } from "../redux/hooks";
+import { setToken } from "../redux/token/tokenSlice";
 
-interface LoginProps {
-  setToken: (token: string) => void;
-}
-
-const Login = (props: LoginProps) : JSX.Element  => {
+const Login = () : JSX.Element  => {
+  const dispatch = useAppDispatch();
   const [error, setError] = React.useState<null | string>();
 
   const onFinish = async (values: any) => {
@@ -20,8 +19,12 @@ const Login = (props: LoginProps) : JSX.Element  => {
     const response = await api.execute(Routes.login({
       username: username,
       password: password
-    }));
+    })).catch(() => {
+      setError("Internal Server Error");
+    });
     console.log(response);
+
+    if (!response) return;
 
     if (!response.success) {
       setError(response.description ?? "Something went wrong.");
@@ -30,7 +33,8 @@ const Login = (props: LoginProps) : JSX.Element  => {
 
     console.log("Logged in successfully!");
     const token = response.data["session_token"];
-    props.setToken(token);
+
+    dispatch(setToken(token));
   };
 
   const onFinishFailed = (errorInfo: unknown) => {
