@@ -1,15 +1,17 @@
 import React from "react";
+import { useAppSelector } from "../redux/hooks";
 import helper from "../util/helper";
 
-interface HomeProps {
-  token: string;
-}
+const Home = () : JSX.Element => {
 
-const Home = (props: HomeProps) : JSX.Element => {
+  // const [token, setToken] = useContext(TokenContext)!;
+
+  const token = useAppSelector(state => state.token.token)!;
+
   return (
     <header className="App-header">
       <p>
-        Du bist ein {helper.getAccountType(props.token)}!
+        Du bist ein {helper.getAccountType(token)}!
       </p>
     </header>
   );
