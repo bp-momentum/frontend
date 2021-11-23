@@ -27,7 +27,7 @@ function App() : JSX.Element {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-          <Route path="/createuser" element={<CreateUser token={token} />} />
+        <Route path="/createuser" element={<CreateUser />} />
       </Routes>
     </BrowserRouter>
   );
