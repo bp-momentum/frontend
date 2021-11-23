@@ -1,4 +1,5 @@
 import {Button, Form, Input, Checkbox, Row, Col, Space, Alert} from "antd";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import React from "react";
 import api from "../util/api";
 import Routes from "../util/routes";
@@ -39,7 +40,7 @@ const Login = (props: LoginProps) : JSX.Element  => {
   return (
     <Space size="large" style={{width: "100%", height: "100%", position: "absolute", display: "flex", flexDirection: "column", justifyContent: "center"}}>
       <Col>
-        <Row justify="center" style={{fontSize: "30px"}}>
+        <Row justify="center" style={{fontSize: "30px", fontWeight: "bold"}}>
           Welcome!
         </Row>
         <Row justify="center">
@@ -49,9 +50,9 @@ const Login = (props: LoginProps) : JSX.Element  => {
       <Row justify="center">
         <Col>
           <Form
-            name="basic"
-            labelCol={{ span: 10 }}
-            wrapperCol={{ span: 20 }}
+            name="login"
+            labelCol={{ span: 16 }}
+            wrapperCol={{ span: 24  }}
             initialValues={{ remember: true }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
@@ -59,28 +60,24 @@ const Login = (props: LoginProps) : JSX.Element  => {
           >
 
             <Form.Item
-              label="Username"
               name="username"
               rules={[{ required: true, message: "Please enter your username!" }]}
             >
-              <Input />
+              <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username"/>
             </Form.Item>
 
             <Form.Item
-              label="Password"
               name="password"
               rules={[{ required: true, message: "Please enter your password!" }]}
             >
-              <Input.Password />
+              <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Password"/>
             </Form.Item>
 
             <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
               <Checkbox>Remember me</Checkbox>
             </Form.Item>
 
-            {error &&
-            <Alert message={error} type="error" showIcon/>
-            }
+            {error && <Alert message={error} type="error" showIcon/>}
 
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
               <Button type="primary" htmlType="submit">
