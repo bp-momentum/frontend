@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import api from "../../util/api";
 
 interface TokenState {
   token: string | null;
@@ -14,9 +15,11 @@ export const tokenSlice = createSlice({
   reducers: {
     setToken: (state, action: PayloadAction<string>) => {
       state.token = action.payload;
+      api.setToken(action.payload);
     },
     unsetToken: (state) => {
       state.token = null;
+      api.setToken("");
     }
   }
 });
