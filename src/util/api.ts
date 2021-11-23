@@ -1,97 +1,102 @@
 import {Route} from "./routes";
 
-const Api = {
-  serverUrl: "http://78.46.150.116:8000/",
+class Api {
+  serverUrl = "http://78.46.150.116:8000/";
+  token = "";
 
-  execute: (route: Route) : Promise<ApiResponse> => {
+  setToken(token: string): void {
+    this.token = token;
+  }
+
+  execute = (route: Route) : Promise<ApiResponse> => {
     switch (route.method) {
     case "GET":
-      return Api.executeGet(route);
+      return this.executeGet(route);
     case "POST":
-      return Api.executePost(route);
+      return this.executePost(route);
     }
-  },
+  };
 
-  executeGet: (route: Route) : Promise<ApiResponse> => {
+  executeGet = (route: Route) : Promise<ApiResponse> => {
     if (route.needsAuth) {
-      return Api.get(route.route);
+      return this.getWithAuth(route.route);
     } else {
-      return Api.getWithAuth(route.route);
+      return this.get(route.route);
     }
-  },
+  };
 
-  get: (route: string): Promise<ApiResponse> => {
-    return fetch(Api.parseRoute(route), {
+  get = (route: string): Promise<ApiResponse> => {
+    return fetch(this.parseRoute(route), {
       method: "GET",
     }).then((r) => r.json());
-  },
+  };
 
-  getWithAuth: (route: string): Promise<ApiResponse> => {
-    return fetch(Api.parseRoute(route), {
+  getWithAuth = (route: string): Promise<ApiResponse> => {
+    return fetch(this.parseRoute(route), {
       method: "GET",
-      headers: {"X-Auth-Token": "Token"}
+      headers: {"X-Auth-Token": this.token}
     }).then((r) => r.json());
-  },
+  };
 
-  executePost: (route: Route): Promise<ApiResponse> => {
+  executePost = (route: Route): Promise<ApiResponse> => {
     if (route.needsAuth) {
       if (route.body == null) {
-        return Api.postWithAuth(route.route);
+        return this.postWithAuth(route.route);
       } else {
-        return Api.postWithAuthAndBody(route.route, route.body);
+        return this.postWithAuthAndBody(route.route, route.body);
       }
     } else {
       if (route.body == null) {
-        return Api.post(route.route);
+        return this.post(route.route);
       } else {
-        return Api.postWithBody(route.route, route.body);
+        return this.postWithBody(route.route, route.body);
       }
     }
-  },
+  };
 
-  post: (route: string): Promise<ApiResponse> => {
-    return fetch(Api.parseRoute(route), {
+  post = (route: string): Promise<ApiResponse> => {
+    return fetch(this.parseRoute(route), {
       method: "POST",
     }).then((r) => r.json());
-  },
+  };
 
-  postWithBody: (route: string, body: Record<string, unknown>): Promise<ApiResponse> => {
-    return fetch(Api.parseRoute(route), {
+  postWithBody = (route: string, body: Record<string, unknown>): Promise<ApiResponse> => {
+    return fetch(this.parseRoute(route), {
       method: "POST",
       body: JSON.stringify(body),
       headers: {"Content-Type": "application/json"}
     }).then((r) => r.json());
-  },
+  };
 
-  postWithAuth: (route: string): Promise<ApiResponse> => {
-    return fetch(Api.parseRoute(route), {
+  postWithAuth = (route: string): Promise<ApiResponse> => {
+    return fetch(this.parseRoute(route), {
       method: "POST",
-      headers: {"X-Auth-Token": "Token"}
+      headers: {"X-Auth-Token": this.token}
     }).then((r) => r.json());
-  },
+  };
 
-  postWithAuthAndBody: (route: string, body: Record<string, unknown>): Promise<ApiResponse> => {
-    return fetch(Api.parseRoute(route), {
+  postWithAuthAndBody = (route: string, body: Record<string, unknown>): Promise<ApiResponse> => {
+    return fetch(this.parseRoute(route), {
       method: "POST",
       body: JSON.stringify(body),
       headers: {
-        "X-Auth-Token": "Token",
+        "X-Auth-Token": this.token,
         "Content-Type": "application/json"
       }
     }).then((r) => r.json());
-  },
+  };
 
-  parseRoute: (route: string): string => {
+  parseRoute = (route: string): string => {
     if (route.startsWith("/")) {
       route = route.substr(1);
     }
-    if (Api.serverUrl.endsWith("/")) {
-      return Api.serverUrl + route;
+    if (this.serverUrl.endsWith("/")) {
+      return this.serverUrl + route;
     } else {
-      return Api.serverUrl + "/" + route;
+      return this.serverUrl + "/" + route;
     }
   }
-};
+}
 
 interface ApiResponse {
   success: boolean;
@@ -99,4 +104,4 @@ interface ApiResponse {
   data: Record<string, any>;
 }
 
-export default Api;
+export default new Api();
