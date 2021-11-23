@@ -59,6 +59,8 @@ const Login = (props: LoginProps) : JSX.Element  => {
             autoComplete="off"
           >
 
+            {error && <Alert message={error} type="error" showIcon style={{marginBottom: "20px"}}/>}
+
             <Form.Item
               name="username"
               rules={[{ required: true, message: "Please enter your username!" }]}
@@ -76,8 +78,6 @@ const Login = (props: LoginProps) : JSX.Element  => {
             <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
               <Checkbox>Remember me</Checkbox>
             </Form.Item>
-
-            {error && <Alert message={error} type="error" showIcon/>}
 
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
               <Button type="primary" htmlType="submit">
