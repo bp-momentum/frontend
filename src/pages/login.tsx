@@ -1,73 +1,52 @@
-import {Button, Form, Input, Checkbox, Row, Col, Radio, Steps, Space, Alert} from "antd";
+import {Button, Form, Input, Checkbox, Row, Col, Space, Alert} from "antd";
 import React from "react";
 import api from "../util/api";
 import Routes from "../util/routes";
-const { Step } = Steps;
 
 interface LoginProps {
   setToken: (token: string) => void;
 }
 
 const Login = (props: LoginProps) : JSX.Element  => {
-  const [register, setRegister] = React.useState(false);
   const [error, setError] = React.useState<null | string>();
 
-  const onFinish = (values: any) => {
+  const onFinish = async (values: any) => {
     const username = values["username"];
     const password = values["password"];
+    const remember = values["remember"];
 
-    if (register) {
-      const repeatPassword = values["repeat-password"];
-      const firstName = values["first-name"];
-      const lastName = values["last-name"];
-      if (repeatPassword !== password) {
-        setError("Passwords do not match!");
-        console.log("Failed Register! Passwords do not match!");
-        return;
-      }
+    const response = await api.execute(Routes.login({
+      username: username,
+      password: password
+    }));
 
-      api.execute(Routes.registerUser({
-        first_name: firstName,
-        last_name:  lastName,
-        username:   username,
-        password:   password
-      }))?.then(console.log);
-
-      console.log("Register with username:", username, "Password:", password);
-    } else {
-      console.log("Login with username:", username, "Password:", password);
+    if (!response) {
+      setError("Something went wrong.");
+      return;
     }
+
+    if (!response.success) {
+      setError(response.description ?? "Something went wrong.");
+      return;
+    }
+
+    console.log("Logged in successfully!");
   };
 
-  const onFinishFailed = (errorInfo: any) => {
+  const onFinishFailed = (errorInfo: unknown) => {
     console.log("Failed:", errorInfo);
   };
 
   return (
     <Space size="large" style={{width: "100%", height: "100%", position: "absolute", display: "flex", flexDirection: "column", justifyContent: "center"}}>
-      { register &&
-      <Row justify="center">
-        <Space direction="vertical" size="large" />
-        <Col>
-          <Steps current={1}>
-            <Step title="Create User" />
-            <Step title="Validate Email" />
-            <Step title="Done" />
-          </Steps>
-        </Col>
-      </Row>
-      }
-      <Row justify="center">
-        <Col>
-          <Radio.Group onChange={e => {
-            setRegister(e.target.value === "Register");
-            setError(null);
-          }} defaultValue="Login" >
-            <Radio.Button value="Login">Login</Radio.Button>
-            <Radio.Button value="Register">Register</Radio.Button>
-          </Radio.Group>
-        </Col>
-      </Row>
+      <Col>
+        <Row justify="center" style={{fontSize: "30px"}}>
+          Welcome!
+        </Row>
+        <Row justify="center">
+          Please enter your credentials.
+        </Row>
+      </Col>
       <Row justify="center">
         <Col>
           <Form
@@ -80,31 +59,10 @@ const Login = (props: LoginProps) : JSX.Element  => {
             autoComplete="off"
           >
 
-            {register &&
-            <Form.Item
-              label="First Name"
-              name="first-name"
-              rules={[{ required: true, message: "Please input your First Name!" }]}
-            >
-              <Input />
-            </Form.Item>
-            }
-
-
-            {register &&
-            <Form.Item
-              label="Last Name"
-              name="last-name"
-              rules={[{required: true, message: "Please input your Last Name!"}]}
-            >
-              <Input/>
-            </Form.Item>
-            }
-
             <Form.Item
               label="Username"
               name="username"
-              rules={[{ required: true, message: "Please input your username!" }]}
+              rules={[{ required: true, message: "Please enter your username!" }]}
             >
               <Input />
             </Form.Item>
@@ -112,20 +70,10 @@ const Login = (props: LoginProps) : JSX.Element  => {
             <Form.Item
               label="Password"
               name="password"
-              rules={[{ required: true, message: "Please input your password!" }]}
+              rules={[{ required: true, message: "Please enter your password!" }]}
             >
               <Input.Password />
             </Form.Item>
-
-            {register &&
-              <Form.Item
-                label="Repeat Password"
-                name="repeat-password"
-                rules={[{ required: true, message: "Please input your password again!" }]}
-              >
-                <Input.Password />
-              </Form.Item>
-            }
 
             <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
               <Checkbox>Remember me</Checkbox>
@@ -137,7 +85,7 @@ const Login = (props: LoginProps) : JSX.Element  => {
 
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
               <Button type="primary" htmlType="submit">
-                {register ? "Register" : "Login"}
+                Login
               </Button>
             </Form.Item>
           </Form>
