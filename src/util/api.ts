@@ -37,13 +37,13 @@ const Api = {
     if (route.needsAuth) {
       if (route.body == null) {
         return Api.postWithAuth(route.route);
-      } else if (route.body != null) {
+      } else {
         return Api.postWithAuthAndBody(route.route, route.body);
       }
     } else {
       if (route.body == null) {
         return Api.post(route.route);
-      } else if (route.body != null) {
+      } else {
         return Api.postWithBody(route.route, route.body);
       }
     }
