@@ -1,4 +1,4 @@
-import {Alert, Button, Checkbox, Col, Form, Input, Row, Space} from "antd";
+import {Button, Col, Form, Input, Row, Space} from "antd";
 import {UserOutlined, MailOutlined} from "@ant-design/icons";
 import React from "react";
 import Api from "../util/api";
