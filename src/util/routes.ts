@@ -23,6 +23,20 @@ const Routes = {
         password:   props.password
       }
     };
+  },
+  login: (props: {
+    username: string,
+    password: string,
+  }) : Route => {
+    return {
+      route: "/api/login",
+      needsAuth: false,
+      method: "POST",
+      body: {
+        username: props.username,
+        password: props.password,
+      }
+    };
   }
 };
 
