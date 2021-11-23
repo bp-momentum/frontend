@@ -14,11 +14,13 @@ const Login = (props: LoginProps) : JSX.Element  => {
     const username = values["username"];
     const password = values["password"];
     const remember = values["remember"];
+    setError(null);
 
     const response = await api.execute(Routes.login({
       username: username,
       password: password
     }));
+    console.log(response);
 
     if (!response.success) {
       setError(response.description ?? "Something went wrong.");
@@ -26,6 +28,8 @@ const Login = (props: LoginProps) : JSX.Element  => {
     }
 
     console.log("Logged in successfully!");
+    const token = response.data["session_token"];
+    props.setToken(token);
   };
 
   const onFinishFailed = (errorInfo: unknown) => {
