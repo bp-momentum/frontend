@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 
 interface HomeProps {
   token: string;
+  logout: () => void;
 }
 
 const Home = (props: HomeProps) : JSX.Element => {
@@ -13,6 +14,7 @@ const Home = (props: HomeProps) : JSX.Element => {
       <p>
         Du bist ein {helper.getAccountType(props.token)}!
       </p>
+      <Button onClick={props.logout}>Logout</Button>
       { helper.getAccountType(props.token) !== "user" &&
         <Link to={"/createuser"}>
           <Button>Create User</Button>

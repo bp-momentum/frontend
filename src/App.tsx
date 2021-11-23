@@ -17,6 +17,10 @@ function getSessionStorageOrDefault(key: string, defaultValue: unknown) {
 function App() : JSX.Element {
   const [token, setToken] = useState<string | null>(getSessionStorageOrDefault("token", false));
 
+  const logout = () => {
+    setToken(null);
+  };
+
   useEffect(() => {
     sessionStorage.setItem("token", JSON.stringify(token));
   }, [token]);
@@ -31,7 +35,7 @@ function App() : JSX.Element {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home token={token} />} />
+          <Route path="/" element={<Home token={token} logout={logout}/>} />
           <Route path="/createuser" element={<CreateUser token={token} />} />
         </Routes>
       </BrowserRouter>
