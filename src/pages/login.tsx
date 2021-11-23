@@ -20,11 +20,6 @@ const Login = (props: LoginProps) : JSX.Element  => {
       password: password
     }));
 
-    if (!response) {
-      setError("Something went wrong.");
-      return;
-    }
-
     if (!response.success) {
       setError(response.description ?? "Something went wrong.");
       return;

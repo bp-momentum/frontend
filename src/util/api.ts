@@ -3,7 +3,7 @@ import {Route} from "./routes";
 const Api = {
   serverUrl: "http://78.46.150.116:8000/",
 
-  execute: (route: Route) : Promise<ApiResponse> | undefined => {
+  execute: (route: Route) : Promise<ApiResponse> => {
     switch (route.method) {
     case "GET":
       return Api.executeGet(route);
@@ -33,7 +33,7 @@ const Api = {
     }).then((r) => r.json());
   },
 
-  executePost: (route: Route): Promise<ApiResponse> | undefined => {
+  executePost: (route: Route): Promise<ApiResponse> => {
     if (route.needsAuth) {
       if (route.body == null) {
         return Api.postWithAuth(route.route);
