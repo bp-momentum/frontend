@@ -95,8 +95,8 @@ const Api = {
 
 interface ApiResponse {
   success: boolean;
-  description?: string;
-  data?: Record<string, any>;
+  description: string;
+  data: Record<string, any>;
 }
 
 export default Api;
