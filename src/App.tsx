@@ -1,17 +1,16 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Route, Routes, Navigate  } from "react-router-dom";
+import { BrowserRouter, Route, Routes} from "react-router-dom";
 import Home from "./pages/home";
 import Login from "./pages/login";
 
-function getSessionStorageOrDefault(key: string, defaultValue: any) {
+function getSessionStorageOrDefault(key: string, defaultValue: unknown) {
   const stored = sessionStorage.getItem(key);
   if (!stored) {
     return defaultValue;
   }
   return JSON.parse(stored);
 }
-
 
 // Basic App that is just used to Route to different pages
 function App() : JSX.Element {
@@ -31,7 +30,7 @@ function App() : JSX.Element {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home token={token} />} />
         </Routes>
       </BrowserRouter>
     </>
