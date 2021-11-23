@@ -3,7 +3,7 @@ import {Route} from "./routes";
 const Api = {
   serverUrl: "http://78.46.150.116:8000/",
 
-  execute: (route: Route) : Promise<unknown> | undefined => {
+  execute: (route: Route) : Promise<ApiResponse> | undefined => {
     switch (route.method) {
     case "GET":
       return Api.executeGet(route);
@@ -12,7 +12,7 @@ const Api = {
     }
   },
 
-  executeGet: (route: Route) : Promise<unknown> => {
+  executeGet: (route: Route) : Promise<ApiResponse> => {
     if (route.needsAuth) {
       return Api.get(route.route);
     } else {
@@ -20,20 +20,20 @@ const Api = {
     }
   },
 
-  get: (route: string): Promise<unknown> => {
+  get: (route: string): Promise<ApiResponse> => {
     return fetch(Api.parseRoute(route), {
       method: "GET",
     }).then((r) => r.json());
   },
 
-  getWithAuth: (route: string): Promise<unknown> => {
+  getWithAuth: (route: string): Promise<ApiResponse> => {
     return fetch(Api.parseRoute(route), {
       method: "GET",
       headers: {"X-Auth-Token": "Token"}
     }).then((r) => r.json());
   },
 
-  executePost: (route: Route): Promise<unknown> | undefined => {
+  executePost: (route: Route): Promise<ApiResponse> | undefined => {
     if (route.needsAuth) {
       if (route.body == null) {
         return Api.postWithAuth(route.route);
@@ -49,13 +49,13 @@ const Api = {
     }
   },
 
-  post: (route: string): Promise<unknown> => {
+  post: (route: string): Promise<ApiResponse> => {
     return fetch(Api.parseRoute(route), {
       method: "POST",
     }).then((r) => r.json());
   },
 
-  postWithBody: (route: string, body: Record<string, unknown>): Promise<unknown> => {
+  postWithBody: (route: string, body: Record<string, unknown>): Promise<ApiResponse> => {
     return fetch(Api.parseRoute(route), {
       method: "POST",
       body: JSON.stringify(body),
@@ -63,14 +63,14 @@ const Api = {
     }).then((r) => r.json());
   },
 
-  postWithAuth: (route: string): Promise<unknown> => {
+  postWithAuth: (route: string): Promise<ApiResponse> => {
     return fetch(Api.parseRoute(route), {
       method: "POST",
       headers: {"X-Auth-Token": "Token"}
     }).then((r) => r.json());
   },
 
-  postWithAuthAndBody: (route: string, body: Record<string, unknown>): Promise<unknown> => {
+  postWithAuthAndBody: (route: string, body: Record<string, unknown>): Promise<ApiResponse> => {
     return fetch(Api.parseRoute(route), {
       method: "POST",
       body: JSON.stringify(body),
@@ -93,5 +93,10 @@ const Api = {
   }
 };
 
+interface ApiResponse {
+  success: boolean;
+  description?: string;
+  data?: Record<string, any>;
+}
 
 export default Api;
