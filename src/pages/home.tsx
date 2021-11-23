@@ -1,22 +1,20 @@
 import React from "react";
-import logo from "../logo.svg";
+import { useAppSelector } from "../redux/hooks";
+import helper from "../util/helper";
 
-// Example home page
-export default function Home () : JSX.Element {
+const Home = () : JSX.Element => {
+
+  // const [token, setToken] = useContext(TokenContext)!;
+
+  const token = useAppSelector(state => state.token.token)!;
+
   return (
     <header className="App-header">
-      <img src={logo} className="App-logo" alt="logo" />
       <p>
-    Edit <code>src/App.tsx</code> and save to reload.
+        Du bist ein {helper.getAccountType(token)}!
       </p>
-      <a
-        className="App-link"
-        href="https://reactjs.org"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-    Learn Simple React
-      </a>
     </header>
   );
-}
+};
+
+export default Home;
