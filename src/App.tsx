@@ -6,6 +6,7 @@ import Login from "./pages/login";
 import { useAppSelector } from "./redux/hooks";
 import CreateUser from "./pages/createUser";
 import api from "./util/api";
+import Register from "./pages/register";
 
 // Basic App that is just used to Route to different pages
 function App() : JSX.Element {
@@ -23,7 +24,7 @@ function App() : JSX.Element {
 
   if (new_user_token) {
     return (
-      <CreateUser />
+      <Register registerToken={new_user_token} />
     );
   }
   
