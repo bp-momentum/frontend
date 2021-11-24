@@ -1,5 +1,3 @@
-import {fireEvent} from "@testing-library/react";
-
 export interface Route {
   route: string,
   method: "GET" | "POST";
@@ -8,11 +6,17 @@ export interface Route {
 }
 
 const Routes = {
+  /**
+   * Registers a new user with a given registerToken.
+   * The user receives this token in their register email.
+   */
   registerUser: (props: {
     first_name: string,
-    last_name:  string,
-    username:   string,
-    password:   string,
+    last_name: string,
+    username: string,
+    email: string,
+    password: string,
+    registerToken: string,
   }): Route => {
     return {
       route: "/api/register",
@@ -22,10 +26,16 @@ const Routes = {
         first_name: props.first_name,
         last_name:  props.last_name,
         username:   props.username,
-        password:   props.password
+        password:   props.password,
+        email_address: props.email,
+        new_user_token: props.registerToken,
       }
     };
   },
+
+  /**
+   * Login with a given username and password.
+   */
   login: (props: {
     username: string,
     password: string,
@@ -40,6 +50,11 @@ const Routes = {
       }
     };
   },
+
+  /**
+   * Create a new user by logging in with an admin or trainer account.
+   * The given user's email will receive a registration link.
+   */
   createUser: (props: {
     firstName: string,
     lastName: string,
