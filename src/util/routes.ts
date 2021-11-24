@@ -52,7 +52,6 @@ const Routes = {
   createUser: (props: {
     firstName: string,
     lastName: string,
-    username: string,
     email: string,
   }) : Route => {
     return {
@@ -62,7 +61,6 @@ const Routes = {
       body: {
         first_name: props.firstName,
         last_name: props.lastName,
-        username: props.username,
         email_address: props.email,
       }
     };

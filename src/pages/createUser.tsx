@@ -1,5 +1,5 @@
 import {Button, Col, Form, Input, Row, Space} from "antd";
-import {UserOutlined, MailOutlined} from "@ant-design/icons";
+import {MailOutlined} from "@ant-design/icons";
 import React from "react";
 import Api from "../util/api";
 import Routes from "../util/routes";
@@ -10,13 +10,11 @@ const CreateUser = () : JSX.Element => {
   const onFinish = async (values: any) => {
     const firstName = values["first_name"];
     const lastName = values["last_name"];
-    const username = values["username"];
     const email = values["email_address"];
 
     const response = await Api.execute(Routes.createUser({
       firstName: firstName,
       lastName: lastName,
-      username: username,
       email: email,
     }));
     console.log(response);
@@ -61,13 +59,6 @@ const CreateUser = () : JSX.Element => {
               rules={[{ required: true, message: "Please enter their last name!" }]}
             >
               <Input placeholder="Last Name"/>
-            </Form.Item>
-
-            <Form.Item
-              name="username"
-              rules={[{ required: true, message: "Please enter their username!" }]}
-            >
-              <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username"/>
             </Form.Item>
 
             <Form.Item
