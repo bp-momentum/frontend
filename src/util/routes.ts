@@ -1,5 +1,3 @@
-import {fireEvent} from "@testing-library/react";
-
 export interface Route {
   route: string,
   method: "GET" | "POST";
@@ -43,7 +41,6 @@ const Routes = {
   createUser: (props: {
     firstName: string,
     lastName: string,
-    username: string,
     email: string,
   }) : Route => {
     return {
@@ -53,7 +50,6 @@ const Routes = {
       body: {
         first_name: props.firstName,
         last_name: props.lastName,
-        username: props.username,
         email_address: props.email,
       }
     };
