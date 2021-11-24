@@ -5,6 +5,7 @@ import api from "../util/api";
 import Routes from "../util/routes";
 import { useAppDispatch } from "../redux/hooks";
 import { setToken } from "../redux/token/tokenSlice";
+import { useNavigate } from "react-router";
 
 export interface RegisterProps {
   registerToken: string;
@@ -12,6 +13,7 @@ export interface RegisterProps {
 
 const Register = (props: RegisterProps) : JSX.Element => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [error, setError] = React.useState<null | string>();
 
   const onFinish = async (values: any) => {
@@ -29,7 +31,9 @@ const Register = (props: RegisterProps) : JSX.Element => {
       password: password,
       registerToken: props.registerToken,
       username: username,
-    }));
+    })).catch((error) => {
+      setError(error.message);
+    });
 
     if (!response) {
       setError("Something went wrong.");
@@ -41,9 +45,11 @@ const Register = (props: RegisterProps) : JSX.Element => {
       return;
     }
 
+
     console.log("Registered successfully!");
     const token = response.data["session_token"];
     dispatch(setToken(token));
+    navigate("", {replace: true});
   };
 
   const onFinishFailed = (errorInfo: unknown) => {
