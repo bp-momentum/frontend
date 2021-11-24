@@ -20,7 +20,7 @@ function App() : JSX.Element {
   const useQuery = new URLSearchParams(useLocation().search);
   const new_user_token = useQuery.get("new_user_token");
 
-  // It is probably enough to just pass the token to CreateUser directly as a prop
+  // It is probably enough to just pass the token to Register directly as a prop
 
   if (new_user_token) {
     return (
