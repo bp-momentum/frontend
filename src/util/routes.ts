@@ -13,14 +13,16 @@ const Routes = {
   registerUser: (props: {
     password: string,
     registerToken: string,
+    username: string,
   }): Route => {
     return {
       route: "/api/register",
       needsAuth: false,
       method: "POST",
       body: {
-        password:   props.password,
+        password: props.password,
         new_user_token: props.registerToken,
+        username: props.username,
       }
     };
   },
