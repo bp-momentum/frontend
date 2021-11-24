@@ -1,4 +1,4 @@
-import {Route} from "./routes";
+import { Route } from "./routes";
 
 class Api {
   serverUrl = "http://78.46.150.116:8000/";
