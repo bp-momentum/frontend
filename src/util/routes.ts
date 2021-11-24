@@ -11,10 +11,6 @@ const Routes = {
    * The user receives this token in their register email.
    */
   registerUser: (props: {
-    first_name: string,
-    last_name: string,
-    username: string,
-    email: string,
     password: string,
     registerToken: string,
   }): Route => {
@@ -23,11 +19,7 @@ const Routes = {
       needsAuth: false,
       method: "POST",
       body: {
-        first_name: props.first_name,
-        last_name:  props.last_name,
-        username:   props.username,
         password:   props.password,
-        email_address: props.email,
         new_user_token: props.registerToken,
       }
     };
