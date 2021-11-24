@@ -3,8 +3,8 @@ import {LockOutlined, UserOutlined} from "@ant-design/icons";
 import React from "react";
 import api from "../util/api";
 import Routes from "../util/routes";
-import {setToken} from "../redux/token/tokenSlice";
-import {useAppDispatch} from "../redux/hooks";
+import { useAppDispatch } from "../redux/hooks";
+import { setToken } from "../redux/token/tokenSlice";
 
 export interface RegisterProps {
   registerToken: string;
@@ -15,6 +15,7 @@ const Register = (props: RegisterProps) : JSX.Element => {
   const [error, setError] = React.useState<null | string>();
 
   const onFinish = async (values: any) => {
+    setError(null);
     const password = values["password"];
     const passwordRepeat = values["password-repeat"];
     const username = values["username"];
@@ -41,7 +42,8 @@ const Register = (props: RegisterProps) : JSX.Element => {
     }
 
     console.log("Registered successfully!");
-    dispatch(setToken(props.registerToken));
+    const token = response.data["session_token"];
+    dispatch(setToken(token));
   };
 
   const onFinishFailed = (errorInfo: unknown) => {
