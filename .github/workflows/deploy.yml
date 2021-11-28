@@ -1,0 +1,33 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  NODE_VERSION: 16
+jobs:
+  test:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - run: yarn
+      - run: yarn test
+      - run: eslint ./src/
+        name: Run eslint
+
+  deploy:
+    runs-on: self-hosted
+    needs: test
+    steps:
+      - run: CI=false yarn build
+        name: Build static page
+      - run: rm -rf /var/www/vhosts/bp/*
+        name: Delete old files
+      - run: cp -r build/* /var/www/vhosts/bp/
+        name: Copy new files
+
