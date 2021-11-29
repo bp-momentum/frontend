@@ -1,24 +1,37 @@
-import {Button, Col, Form, Input, Row, Space} from "antd";
+import {Alert, Button, Col, Form, FormInstance, Input, Row, Space} from "antd";
 import {MailOutlined} from "@ant-design/icons";
 import React from "react";
 import Api from "../util/api";
 import Routes from "../util/routes";
-import {Navigate} from "react-router-dom";
 
 const CreateUser = () : JSX.Element => {
+  const [error, setError] = React.useState<null | string>();
+  const [success, setSuccess] = React.useState<null | string>();
+  const formRef = React.createRef<FormInstance>();
 
   const onFinish = async (values: any) => {
     const firstName = values["first_name"];
     const lastName = values["last_name"];
     const email = values["email_address"];
 
+    setError(null);
     const response = await Api.execute(Routes.createUser({
       firstName: firstName,
       lastName: lastName,
       email: email,
     }));
     console.log(response);
-    return <Navigate to="/"/>;
+
+    if (!response) return;
+
+    if (!response.success) {
+      setError(response.description ?? "Something went wrong.");
+      return;
+    }
+
+    formRef.current?.resetFields();
+    setSuccess(response.description ?? "Successfully created user!");
+    setTimeout(() => setSuccess(null), 2000);
   };
 
   const onFinishFailed = (errorInfo: unknown) => {
@@ -38,6 +51,7 @@ const CreateUser = () : JSX.Element => {
       <Row justify="center">
         <Col>
           <Form
+            ref={formRef}
             name="login"
             labelCol={{ span: 16 }}
             wrapperCol={{ span: 24  }}
@@ -46,6 +60,9 @@ const CreateUser = () : JSX.Element => {
             onFinishFailed={onFinishFailed}
             autoComplete="off"
           >
+
+            {success && <Alert message={success} type="success" showIcon style={{marginBottom: "20px"}}/>}
+            {error && <Alert message={error} type="error" showIcon style={{marginBottom: "20px"}}/>}
 
             <Form.Item
               name="first_name"
