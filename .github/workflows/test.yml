@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - run: yarn
-      - run: yarn test
       - run: eslint ./src/
         name: Run eslint
+      - run: yarn test
 
