@@ -1,13 +1,17 @@
 import React from "react";
 import logo from "../logo.svg";
+import Container from "../shared/container";
 
 // Example home page
 export default function Home () : JSX.Element {
   return (
-    <header className="App-header">
+    <Container
+      currentPage="home"
+      color="blue"
+    >
       <img src={logo} className="App-logo" alt="logo" />
       <p>
-    Edit <code>src/App.tsx</code> and save to reload.
+        Edit <code>src/App.tsx</code> and save to reload.
       </p>
       <a
         className="App-link"
@@ -15,8 +19,8 @@ export default function Home () : JSX.Element {
         target="_blank"
         rel="noopener noreferrer"
       >
-    Learn Simple React
+        Learn Simple React
       </a>
-    </header>
+    </Container>
   );
 }
