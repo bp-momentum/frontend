@@ -9,12 +9,24 @@ class Api {
   }
 
   execute = (route: Route) : Promise<ApiResponse> => {
+    let response;
     switch (route.method) {
     case "GET":
-      return this.executeGet(route);
+      response = this.executeGet(route);
+      break;
     case "POST":
-      return this.executePost(route);
+      response = this.executePost(route);
+      break;
     }
+
+    return response.catch((error) => {
+      console.error(error);
+      return {
+        success: false,
+        data: {},
+        description: "Something went wrong."
+      };
+    });
   };
 
   executeGet = (route: Route) : Promise<ApiResponse> => {
