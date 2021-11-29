@@ -1,5 +1,6 @@
 import React from "react";
 import { useAppSelector } from "../redux/hooks";
+import Container from "../shared/container";
 import helper from "../util/helper";
 
 const Home = () : JSX.Element => {
