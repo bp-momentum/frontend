@@ -1,0 +1,23 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - '**'
+      - '!main'
+
+env:
+  NODE_VERSION: 16
+jobs:
+  test:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - run: yarn
+      - run: eslint ./src/
+        name: Run eslint
+      - run: yarn test
+
