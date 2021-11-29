@@ -49,7 +49,17 @@ const Login = () : JSX.Element  => {
   };
 
   return (
-    <Space size="large" style={{width: "100%", height: "100%", position: "absolute", display: "flex", flexDirection: "column", justifyContent: "center"}}>
+    <Space 
+      size="large"
+      style={{
+        width: "100%",
+        height: "100%",
+        position: "absolute",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center"
+      }}
+    >
       <Col>
         <Row justify="center" style={{fontSize: "30px", fontWeight: "bold"}}>
           Welcome!

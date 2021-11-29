@@ -33,7 +33,7 @@ export default function Container (props: ContainerProps) : JSX.Element {
   };
 
   return (
-    <Layout>
+    <Layout style={{height: "100%", position: "absolute", width: "100%"}}>
       <Header style={{backgroundColor: "#fff"}}>
         <Menu mode="horizontal" selectedKeys={[props.currentPage]} onClick={handleClick}>
           <Menu.Item key="home" icon={<HomeTwoTone twoToneColor={props.color}/>}>
@@ -51,7 +51,7 @@ export default function Container (props: ContainerProps) : JSX.Element {
           </Menu.Item>
         </Menu>
       </Header>
-      <Content>
+      <Content style={{position: "relative"}}>
         {props.children}
       </Content>
       <Footer>
