@@ -31,7 +31,7 @@ const CreateUser = () : JSX.Element => {
 
     formRef.current?.resetFields();
     setSuccess(response.description ?? "Successfully created user!");
-    setTimeout(() => setSuccess(null), 2000);
+    setTimeout(() => setSuccess(null), 5000);
   };
 
   const onFinishFailed = (errorInfo: unknown) => {
