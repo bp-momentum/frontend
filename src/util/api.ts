@@ -24,7 +24,7 @@ class Api {
       return {
         success: false,
         data: {},
-        description: "Something went wrong."
+        description: "Unable to connect to server."
       };
     });
   };
