@@ -1,7 +1,5 @@
-import {AccountType} from "./account";
-
 const Helper = {
-  getAccountType: (token: string) : AccountType | undefined => {
+  getAccountType: (token: string) : "user" | "trainer" | "admin" => {
     return Helper.getJWTPayload(token)["account_type"];
   },
 

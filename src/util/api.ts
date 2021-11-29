@@ -1,4 +1,4 @@
-import {Route} from "./routes";
+import { Route } from "./routes";
 
 class Api {
   serverUrl = "http://78.46.150.116:8000/";
@@ -9,12 +9,24 @@ class Api {
   }
 
   execute = (route: Route) : Promise<ApiResponse> => {
+    let response;
     switch (route.method) {
     case "GET":
-      return this.executeGet(route);
+      response = this.executeGet(route);
+      break;
     case "POST":
-      return this.executePost(route);
+      response = this.executePost(route);
+      break;
     }
+
+    return response.catch((error) => {
+      console.error(error);
+      return {
+        success: false,
+        data: {},
+        description: "Unable to connect to server."
+      };
+    });
   };
 
   executeGet = (route: Route) : Promise<ApiResponse> => {
@@ -34,7 +46,7 @@ class Api {
   getWithAuth = (route: string): Promise<ApiResponse> => {
     return fetch(this.parseRoute(route), {
       method: "GET",
-      headers: {"X-Auth-Token": this.token}
+      headers: {"Session-Token": this.token}
     }).then((r) => r.json());
   };
 
@@ -71,7 +83,7 @@ class Api {
   postWithAuth = (route: string): Promise<ApiResponse> => {
     return fetch(this.parseRoute(route), {
       method: "POST",
-      headers: {"X-Auth-Token": this.token}
+      headers: {"Session-Token": this.token}
     }).then((r) => r.json());
   };
 
@@ -80,7 +92,7 @@ class Api {
       method: "POST",
       body: JSON.stringify(body),
       headers: {
-        "X-Auth-Token": this.token,
+        "Session-Token": this.token,
         "Content-Type": "application/json"
       }
     }).then((r) => r.json());

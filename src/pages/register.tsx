@@ -1,40 +1,55 @@
-import { Button, Form, Input, Checkbox, Row, Col, Space, Alert } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import {Alert, Button, Col, Form, Input, Row, Space} from "antd";
+import {LockOutlined, UserOutlined} from "@ant-design/icons";
 import React from "react";
 import api from "../util/api";
 import Routes from "../util/routes";
 import { useAppDispatch } from "../redux/hooks";
 import { setToken } from "../redux/token/tokenSlice";
+import { useNavigate } from "react-router";
 
-const Login = () : JSX.Element  => {
+export interface RegisterProps {
+  registerToken: string;
+}
+
+const Register = (props: RegisterProps) : JSX.Element => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [error, setError] = React.useState<null | string>();
 
   const onFinish = async (values: any) => {
-    const username = values["username"];
-    const password = values["password"];
-    const remember = values["remember"];
     setError(null);
+    const password = values["password"];
+    const passwordRepeat = values["password-repeat"];
+    const username = values["username"];
 
-    const response = await api.execute(Routes.login({
+    if (password !== passwordRepeat) {
+      setError("The passwords do not match.");
+      return;
+    }
+
+    const response = await api.execute(Routes.registerUser({
+      password: password,
+      registerToken: props.registerToken,
       username: username,
-      password: password
-    })).catch(() => {
-      setError("Internal Server Error");
+    })).catch((error) => {
+      setError(error.message);
     });
-    console.log(response);
 
-    if (!response) return;
+    if (!response) {
+      setError("Something went wrong.");
+      return;
+    }
 
     if (!response.success) {
       setError(response.description ?? "Something went wrong.");
       return;
     }
 
-    console.log("Logged in successfully!");
-    const token = response.data["session_token"];
 
+    console.log("Registered successfully!");
+    const token = response.data["session_token"];
     dispatch(setToken(token));
+    navigate("", {replace: true});
   };
 
   const onFinishFailed = (errorInfo: unknown) => {
@@ -45,21 +60,22 @@ const Login = () : JSX.Element  => {
     <Space size="large" style={{width: "100%", height: "100%", position: "absolute", display: "flex", flexDirection: "column", justifyContent: "center"}}>
       <Col>
         <Row justify="center" style={{fontSize: "30px", fontWeight: "bold"}}>
-          Welcome!
+          Register your account
         </Row>
         <Row justify="center">
-          Please enter your credentials.
+          Please choose a new username and password
         </Row>
       </Col>
       <Row justify="center">
         <Col>
           <Form
-            name="login"
+            name="register"
             labelCol={{ span: 16 }}
             wrapperCol={{ span: 24  }}
             initialValues={{ remember: true }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
+            onValuesChange={() => setError(null)}
             autoComplete="off"
           >
 
@@ -67,7 +83,7 @@ const Login = () : JSX.Element  => {
 
             <Form.Item
               name="username"
-              rules={[{ required: true, message: "Please enter your username!" }]}
+              rules={[{ required: true, message: "Please choose a username!" }]}
             >
               <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username"/>
             </Form.Item>
@@ -79,8 +95,11 @@ const Login = () : JSX.Element  => {
               <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Password"/>
             </Form.Item>
 
-            <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
-              <Checkbox>Remember me</Checkbox>
+            <Form.Item
+              name="password-repeat"
+              rules={[{ required: true, message: "Please enter your password again!" }]}
+            >
+              <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Password"/>
             </Form.Item>
 
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
@@ -95,4 +114,5 @@ const Login = () : JSX.Element  => {
   );
 };
 
-export default Login;
+export default Register;
+
