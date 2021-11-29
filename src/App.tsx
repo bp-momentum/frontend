@@ -10,10 +10,6 @@ function App() : JSX.Element {
 
   const token = useAppSelector((state) => state.token.token);
 
-  useEffect(() => {
-    sessionStorage.setItem("token", JSON.stringify(token));
-  }, [token]);
-
   // TODO: check token validity 
 
   if (!token) {
