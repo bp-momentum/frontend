@@ -40,8 +40,8 @@ const Login = () : JSX.Element  => {
     console.log("Logged in successfully!");
     const token = response.data["session_token"];
 
-    dispatch(setToken(token));
     setLoading(false);
+    dispatch(setToken(token));
   };
 
   const onFinishFailed = (errorInfo: unknown) => {
@@ -49,7 +49,7 @@ const Login = () : JSX.Element  => {
   };
 
   return (
-    <Space 
+    <Space
       size="large"
       style={{
         width: "100%",
