@@ -1,5 +1,6 @@
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import Container from "../shared/container";
 import helper from "../util/helper";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
@@ -18,7 +19,10 @@ const Home = () : JSX.Element => {
   };
 
   return (
-    <header className="App-header">
+    <Container
+      currentPage="home"
+      color="blue"
+    >
       <p>
         Du bist ein {helper.getAccountType(token)}!
       </p>
@@ -28,7 +32,7 @@ const Home = () : JSX.Element => {
           <Button>Create User</Button>
         </Link>
       }
-    </header>
+    </Container>
   );
 };
 
