@@ -7,6 +7,8 @@ import { useAppSelector } from "./redux/hooks";
 import CreateUser from "./pages/createUser";
 import api from "./util/api";
 import Register from "./pages/register";
+import Helper from "./util/helper";
+import AutoLogin from "./pages/autoLogin";
 
 // Basic App that is just used to Route to different pages
 function App() : JSX.Element {
@@ -30,11 +32,15 @@ function App() : JSX.Element {
     );
   }
 
-  // TODO: check token validity
-
-  if (!token) {
+  if (!Helper.isRefreshTokenValid(refreshToken)) {
     return (
       <Login />
+    );
+  }
+
+  if (!Helper.isSessionTokenValid(token)) {
+    return(
+      <AutoLogin />
     );
   }
 
