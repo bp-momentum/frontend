@@ -12,10 +12,12 @@ import Register from "./pages/register";
 function App() : JSX.Element {
 
   const token = useAppSelector((state) => state.token.token);
+  const refreshToken = useAppSelector((state) => state.token.refreshToken);
 
   useEffect(() => {
     api.setToken(token || "");
-  }, [token]);
+    api.setRefreshToken(refreshToken || "");
+  }, [refreshToken, token]);
 
   const useQuery = new URLSearchParams(useLocation().search);
   const new_user_token = useQuery.get("new_user_token");
@@ -27,8 +29,8 @@ function App() : JSX.Element {
       <Register registerToken={new_user_token} />
     );
   }
-  
-  // TODO: check token validity 
+
+  // TODO: check token validity
 
   if (!token) {
     return (

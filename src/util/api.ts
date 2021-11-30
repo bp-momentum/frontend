@@ -3,9 +3,14 @@ import { Route } from "./routes";
 class Api {
   serverUrl = "http://78.46.150.116:8000/";
   token = "";
+  refreshToken = "";
 
   setToken(token: string): void {
     this.token = token;
+  }
+
+  setRefreshToken(refreshToken: string): void {
+    this.refreshToken = refreshToken;
   }
 
   execute = (route: Route) : Promise<ApiResponse> => {

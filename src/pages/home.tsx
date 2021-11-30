@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import helper from "../util/helper";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
-import { unsetToken } from "../redux/token/tokenSlice";
+import {unsetRefreshToken, unsetToken} from "../redux/token/tokenSlice";
 
 const Home = () : JSX.Element => {
 
@@ -12,7 +12,10 @@ const Home = () : JSX.Element => {
   const dispatch = useAppDispatch();
   const token = useAppSelector(state => state.token.token)!;
 
-  const logout = () => dispatch(unsetToken());
+  const logout = () => {
+    dispatch(unsetRefreshToken());
+    dispatch(unsetToken());
+  };
 
   return (
     <header className="App-header">
