@@ -5,7 +5,7 @@ export interface Route {
   body?: Record<string, unknown>;
 }
 
-const Routes = {
+export const Routes = {
   /**
    * Registers a new user with a given registerToken.
    * The user receives this token in their register email.
@@ -65,6 +65,22 @@ const Routes = {
       }
     };
   },
+
+  /**
+   * Fetch a new session token with a given refresh token.
+   */
+  auth: (props: {
+    refreshToken: string,
+  }) : Route => {
+    return {
+      route: "/api/auth",
+      needsAuth: false,
+      method: "POST",
+      body: {
+        refresh_token: props.refreshToken,
+      }
+    };
+  }
 };
 
 export default Routes;
