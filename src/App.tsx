@@ -7,6 +7,7 @@ import { useAppSelector } from "./redux/hooks";
 import CreateUser from "./pages/createUser";
 import api from "./util/api";
 import Register from "./pages/register";
+import ManagePlans from "./pages/manage/plans";
 
 // Basic App that is just used to Route to different pages
 function App() : JSX.Element {
@@ -40,6 +41,11 @@ function App() : JSX.Element {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/createuser" element={<CreateUser />} />
+      <Route path="/manage" >  {/* TODO: route to 404 maybe? */}
+        <Route path="plans" element={<ManagePlans />} />
+        <Route path="users" element={<>not yet implemented</>} />
+      </Route>
+
       <Route path="*" element={<div style={{fontSize: 180, textAlign: "center"}}> 404 </div>} />
     </Routes>
   );
