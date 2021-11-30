@@ -1,5 +1,5 @@
-import { Button, Form, Input, Checkbox, Row, Col, Space, Alert } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import {Button, Form, Input, Checkbox, Row, Col, Space, Alert, Spin} from "antd";
+import { UserOutlined, LockOutlined, LoadingOutlined } from "@ant-design/icons";
 import React from "react";
 import api from "../util/api";
 import Routes from "../util/routes";
@@ -9,12 +9,14 @@ import { setToken } from "../redux/token/tokenSlice";
 const Login = () : JSX.Element  => {
   const dispatch = useAppDispatch();
   const [error, setError] = React.useState<null | string>();
+  const [loading, setLoading] = React.useState(false);
 
   const onFinish = async (values: any) => {
     const username = values["username"];
     const password = values["password"];
     const remember = values["remember"];
     setError(null);
+    setLoading(true);
 
     const response = await api.execute(Routes.login({
       username: username,
@@ -24,16 +26,21 @@ const Login = () : JSX.Element  => {
     });
     console.log(response);
 
-    if (!response) return;
+    if (!response) {
+      setLoading(false);
+      return;
+    }
 
     if (!response.success) {
       setError(response.description ?? "Something went wrong.");
+      setLoading(false);
       return;
     }
 
     console.log("Logged in successfully!");
     const token = response.data["session_token"];
 
+    setLoading(false);
     dispatch(setToken(token));
   };
 
@@ -42,7 +49,17 @@ const Login = () : JSX.Element  => {
   };
 
   return (
-    <Space size="large" style={{width: "100%", height: "100%", position: "absolute", display: "flex", flexDirection: "column", justifyContent: "center"}}>
+    <Space
+      size="large"
+      style={{
+        width: "100%",
+        height: "100%",
+        position: "absolute",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center"
+      }}
+    >
       <Col>
         <Row justify="center" style={{fontSize: "30px", fontWeight: "bold"}}>
           Welcome!
@@ -84,7 +101,8 @@ const Login = () : JSX.Element  => {
             </Form.Item>
 
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" disabled={loading} style={{ display: "flex"}}>
+                {loading && <Spin indicator={<LoadingOutlined style={{ fontSize: 12, marginRight: "10px" }} spin />} />}
                 Login
               </Button>
             </Form.Item>
