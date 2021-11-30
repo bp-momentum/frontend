@@ -4,7 +4,7 @@ import React from "react";
 import api from "../util/api";
 import Routes from "../util/routes";
 import { useAppDispatch } from "../redux/hooks";
-import { setToken } from "../redux/token/tokenSlice";
+import {setRefreshToken, setToken} from "../redux/token/tokenSlice";
 
 const Login = () : JSX.Element  => {
   const dispatch = useAppDispatch();
@@ -33,7 +33,11 @@ const Login = () : JSX.Element  => {
 
     console.log("Logged in successfully!");
     const token = response.data["session_token"];
+    const refreshToken = response.data["refresh_token"];
 
+    if (remember) {
+      dispatch(setRefreshToken(refreshToken));
+    }
     dispatch(setToken(token));
   };
 
