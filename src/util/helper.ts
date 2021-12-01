@@ -3,6 +3,22 @@ const Helper = {
     return Helper.getJWTPayload(token)["account_type"];
   },
 
+  isSessionTokenValid: (token?: string | null) : boolean => Helper.checkTokenTime(86400000, token),
+  isRefreshTokenValid: (token?: string | null) : boolean => Helper.checkTokenTime(2592000000, token),
+
+  checkTokenTime: (timeout: number, token?: string | null) : boolean => {
+    if (!token) {
+      return false;
+    }
+    const payload = Helper.getJWTPayload(token);
+    if (!payload["tokentime"]) {
+      return false;
+    }
+    const tokenTime = payload["tokentime"] * 1000;
+    const now = Date.now();
+    return tokenTime > (now - timeout);
+  },
+
   getJWTPayload: (token: string) : Record<string, any> => {
     const split = token.split(".");
     if (split.length !== 3)

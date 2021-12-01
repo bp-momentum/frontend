@@ -1,10 +1,10 @@
-import {Alert, Button, Col, Form, Input, Row, Space} from "antd";
+import {Alert, Button, Checkbox, Col, Form, Input, Row, Space} from "antd";
 import {LockOutlined, UserOutlined} from "@ant-design/icons";
 import React from "react";
 import api from "../util/api";
 import Routes from "../util/routes";
 import { useAppDispatch } from "../redux/hooks";
-import { setToken } from "../redux/token/tokenSlice";
+import {setRefreshToken, setToken} from "../redux/token/tokenSlice";
 import { useNavigate } from "react-router";
 
 export interface RegisterProps {
@@ -21,6 +21,7 @@ const Register = (props: RegisterProps) : JSX.Element => {
     const password = values["password"];
     const passwordRepeat = values["password-repeat"];
     const username = values["username"];
+    const remember = values["remember"];
 
     if (password !== passwordRepeat) {
       setError("The passwords do not match.");
@@ -45,9 +46,13 @@ const Register = (props: RegisterProps) : JSX.Element => {
       return;
     }
 
-
     console.log("Registered successfully!");
     const token = response.data["session_token"];
+    const refreshToken = response.data["refresh_token"];
+
+    if (remember) {
+      dispatch(setRefreshToken(refreshToken));
+    }
     dispatch(setToken(token));
     navigate("", {replace: true});
   };
@@ -100,6 +105,10 @@ const Register = (props: RegisterProps) : JSX.Element => {
               rules={[{ required: true, message: "Please enter your password again!" }]}
             >
               <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Password"/>
+            </Form.Item>
+
+            <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
+              <Checkbox>Remember me</Checkbox>
             </Form.Item>
 
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
