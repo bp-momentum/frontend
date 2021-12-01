@@ -5,7 +5,7 @@ export interface Route {
   body?: Record<string, unknown>;
 }
 
-export const Routes = {
+const Routes = {
   /**
    * Registers a new user with a given registerToken.
    * The user receives this token in their register email.
