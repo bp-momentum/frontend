@@ -65,6 +65,22 @@ const Routes = {
       }
     };
   },
+
+  /**
+   * Fetch a new session token with a given refresh token.
+   */
+  auth: (props: {
+    refreshToken: string,
+  }) : Route => {
+    return {
+      route: "/api/auth",
+      needsAuth: false,
+      method: "POST",
+      body: {
+        refresh_token: props.refreshToken,
+      }
+    };
+  }
 };
 
 export default Routes;
