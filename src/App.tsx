@@ -32,7 +32,7 @@ function App() : JSX.Element {
     );
   }
 
-  if (!Helper.isRefreshTokenValid(refreshToken)) {
+  if (!Helper.isRefreshTokenValid(refreshToken) && !Helper.isSessionTokenValid(token)) {
     return (
       <Login />
     );
