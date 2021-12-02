@@ -6,21 +6,19 @@ import { Button, Col, Row, Space } from "antd";
 import { Link } from "react-router-dom";
 import {unsetRefreshToken, unsetToken} from "../redux/token/tokenSlice";
 
-const Home = () : JSX.Element => {
-
-  // const [token, setToken] = useContext(TokenContext)!;
+const Settings = () : JSX.Element => {
 
   const dispatch = useAppDispatch();
   const token = useAppSelector(state => state.token.token)!;
 
-  const logout = () => {
+  const deleteAccount = () => {
     dispatch(unsetRefreshToken());
     dispatch(unsetToken());
   };
 
   return (
     <Container
-      currentPage="home"
+      currentPage="settings"
       color="blue"
     >
       <Space
@@ -36,17 +34,15 @@ const Home = () : JSX.Element => {
       >
         <Col>
           <Row justify="center" style={{fontSize: "30px", fontWeight: "bold"}}>
-          Du bist ein {helper.getAccountType(token)}!
+          Account Settings
+          </Row>
+          <Row justify="center">
+          Deleting your Account is irreversible.
           </Row>
         </Col>
         <Row justify="center">
           <Col>
-            <Button onClick={logout}>Logout</Button>
-            { helper.getAccountType(token) !== "user" &&
-              <Link to={"/createuser"}>
-                <Button>Create User</Button>
-              </Link>
-            }
+            <Button onClick={deleteAccount} danger>Delete Account</Button>
           </Col>
         </Row>
       </Space>
@@ -54,4 +50,4 @@ const Home = () : JSX.Element => {
   );
 };
 
-export default Home;
+export default Settings;
