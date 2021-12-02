@@ -54,8 +54,6 @@ export default function Container (props: ContainerProps) : JSX.Element {
       <Content style={{position: "relative"}}>
         {props.children}
       </Content>
-      <Footer>
-      </Footer>
     </Layout>
   );
 }
