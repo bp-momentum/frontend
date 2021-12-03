@@ -1,71 +1,98 @@
-import React, { CSSProperties } from "react";
+import React from "react";
 import { Button, Card, Col, Layout, Row } from "antd";
-import { DragDropContext, Droppable, Draggable, DropResult, DraggingStyle, NotDraggingStyle } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, Draggable, DropResult, DraggableLocation } from "react-beautiful-dnd";
 import PlusOutlined from "@ant-design/icons/lib/icons/PlusOutlined";
 import Container from "../../shared/container";
 
 const { Sider, Content } = Layout;
 
-class ExerciseData {
-  name: string | null = null;
-  description: string | null = null;
+// get from API later
+enum ExerciseType {
+  Squat = "Squat",
+  Pushup = "Pushup",
 }
 
-interface ExerciseCardDate {
+class ExerciseData {
+  id: string;
+  type: ExerciseType;
+  description: string;
+
+  constructor(id: string, {type=ExerciseType.Squat, description=""}={}) {
+    this.id = id;
+    this.type = type;
+    this.description = description;
+  }
+}
+
+interface ExerciseCardData {
   id: string;
   data: ExerciseData;
 }
 
-// fake data generator
-const getItems = (count: number) =>
-  Array.from({ length: count }, (v, k) => k).map(k => ({
-    id: `item-${k}`,
-    data: new ExerciseData()
-  }));
+// reorder all lists after drag and drop
+const reorder = (
+  listLeave: ExerciseCardData[],
+  listJoin: ExerciseCardData[],
+  source: DraggableLocation,
+  dest: DraggableLocation,
+  count: number, 
+  setCount: React.Dispatch<React.SetStateAction<number>>) => {
 
-// a little function to help us with reordering the result
-const reorder = (listLeave: any[], listJoin: any[], startIndex: number, endIndex: number) => {
-  const result1 = Array.from(listLeave);
-  const result2 = Array.from(listJoin);
-  const [removed] = result1.splice(startIndex, 1);
-  if (listLeave === listJoin) {
-    result1.splice(endIndex, 0, removed);
-  } else {
-    result2.splice(endIndex, 0, removed);
+  const leaveArr = Array.from(listLeave);
+  const joinArr = Array.from(listJoin);
+  const fromStore = source.droppableId === "store";   // false
+  const toStore = dest.droppableId === "store";       // false
+
+  // easy if in same list
+  if (source.droppableId === dest.droppableId) {
+    const item = leaveArr.splice(source.index, 1)[0];
+    leaveArr.splice(dest.index, 0, item);
+    return {leave: leaveArr, join: leaveArr};
   }
-  return {leave: result1, join: result2};
+  
+  // remove from source when moving to store
+  if (toStore) {
+    leaveArr.splice(source.index, 1);
+    return {leave: leaveArr, join: joinArr};
+  }
+
+  // duplicate item when leaving store
+  if (fromStore) {
+    setCount(count + 1);
+    const item = {id: `exercise-${count}`, data: leaveArr[source.index].data};
+    joinArr.splice(dest.index, 0, item);
+    return {leave: leaveArr, join: joinArr};
+  }
+
+  // move from list to list (not store)
+  const item = leaveArr.splice(source.index, 1)[0];
+  joinArr.splice(dest.index, 0, item);
+  return {leave: leaveArr, join: joinArr};
 };
 
-const grid = 8;
-const getItemStyle = (isDragging: boolean, draggableStyle: DraggingStyle | NotDraggingStyle | undefined): CSSProperties | undefined => ({
-  // some basic styles to make the items look a bit nicer
-  userSelect: "none",
-  margin: `0 0 ${grid}px 0`,
-  ...draggableStyle
-});
-
-const Exercise = ({item, index}: {item: ExerciseCardDate, index: number}) => {
+const Exercise = ({item, index}: {item: ExerciseCardData, index: number}) => {
   return (
     <Draggable key={item.id} draggableId={item.id} index={index}>
-      {(provided, snapshot) => (
+      {(provided) => (
         <div
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          style={getItemStyle(
-            snapshot.isDragging,
-            provided.draggableProps.style
-          )}
+          style={{
+            ...provided.draggableProps.style, 
+            userSelect: "none",
+            margin: "0 0 8px 0", }}
         >
-          <Card title={item.data?.name} bordered/>
+          <Card title={item.data?.type} bordered>
+            {item.data?.type}
+          </Card>
         </div>
       )}
     </Draggable>
   );
-  // TODO: leave something behind on left list
 };
 
-const Day = ({list, name}: {list: any[], name: string}) => {
+const Day = ({list, name}: {list: ExerciseCardData[], name: string}) => {
   return (
     <Col>
       <h1>
@@ -106,21 +133,19 @@ const Day = ({list, name}: {list: any[], name: string}) => {
 };
 
 const ManagePlans = () : JSX.Element => {
-  const [storeItems, setStoreItems] = React.useState( getItems(0));
-  const [monday, setMonday] = React.useState( getItems(0));
-  const [tuesday, setTuesday] = React.useState( getItems(0));
-  const [wednesday, setWednesday] = React.useState( getItems(0));
-  const [thursday, setThursday] = React.useState( getItems(0));
-  const [friday, setFriday] = React.useState( getItems(0));
-  const [saturday, setSaturday] = React.useState( getItems(0));
-  const [sunday, setSunday] = React.useState( getItems(0));
+  const [storeItems, setStoreItems] = React.useState<ExerciseCardData[]>([]);
+  const [monday, setMonday] = React.useState<ExerciseCardData[]>([]);
+  const [tuesday, setTuesday] = React.useState<ExerciseCardData[]>([]);
+  const [wednesday, setWednesday] = React.useState<ExerciseCardData[]>([]);
+  const [thursday, setThursday] = React.useState<ExerciseCardData[]>([]);
+  const [friday, setFriday] = React.useState<ExerciseCardData[]>([]);
+  const [saturday, setSaturday] = React.useState<ExerciseCardData[]>([]);
+  const [sunday, setSunday] = React.useState<ExerciseCardData[]>([]);
 
   const [count, setCount] = React.useState(0);
 
   function DropToState(drop: string) {
     switch (drop) {
-    case "store":
-      return {get: storeItems, set: setStoreItems};
     case "monday":
       return {get: monday, set: setMonday};
     case "tuesday":
@@ -135,14 +160,19 @@ const ManagePlans = () : JSX.Element => {
       return {get: saturday, set: setSaturday};
     case "sunday":
       return {get: sunday, set: setSunday};
-    default:
+    case "store": default:
       return {get: storeItems, set: setStoreItems};
     }
   }
 
   function addCard() {
     setCount(count + 1);
-    setStoreItems(storeItems.concat({id: `item-${count}`, data: {name: `New Exercise ${count}`, description: "Description"}}));
+    setStoreItems(storeItems.concat({id: `exercise-${count}`,
+      data: new ExerciseData(`exercise-${count}`, {
+        description: "Description",
+        type: ExerciseType.Pushup,
+      })}
+    ));
   }
 
   function onDragEnd(result: DropResult) {
@@ -155,26 +185,18 @@ const ManagePlans = () : JSX.Element => {
     const {join, leave} = reorder(
       DropToState(result.source.droppableId).get,
       DropToState(result.destination.droppableId).get,
-      result.source.index,
-      result.destination.index
+      result.source,
+      result.destination,
+      count,
+      setCount
     );
-    if (result.source.droppableId === result.destination.droppableId) {
-      DropToState(result.source.droppableId).set(leave);
-    }
-    else {
-      DropToState(result.source.droppableId).set(leave);
-      DropToState(result.destination.droppableId).set(join);
-      const dat = join[result.destination.index].data;
-      if (result.source.droppableId === "store") {
-        setCount(count + 1);
-        setStoreItems(leave.concat({id: `item-${count}`, data: dat}));
-      }
-    }
+    DropToState(result.source.droppableId).set(leave);
+    DropToState(result.destination.droppableId).set(join);
   }
 
   return (
     <Container
-      currentPage="leaderboard"
+      currentPage="manage"
       color="blue"
     >
       <Layout style={{height: "100%", position: "absolute", maxHeight: "100%", width: "100%"}}>
