@@ -1,10 +1,12 @@
 import React from "react";
-import { Button, Card, Col, Layout, Row } from "antd";
+import { Button, Card, Col, Input, InputNumber, Layout, Row, Select, Space } from "antd";
 import { DragDropContext, Droppable, Draggable, DropResult, DraggableLocation } from "react-beautiful-dnd";
 import PlusOutlined from "@ant-design/icons/lib/icons/PlusOutlined";
 import Container from "../../shared/container";
+import { SelectValue } from "antd/lib/select";
 
 const { Sider, Content } = Layout;
+const { Option } = Select;
 
 // get from API later
 enum ExerciseType {
@@ -16,6 +18,8 @@ class ExerciseData {
   id: string;
   type: ExerciseType;
   description: string;
+  sets = 1;
+  repeats = 1;
 
   constructor(id: string, {type=ExerciseType.Squat, description=""}={}) {
     this.id = id;
@@ -40,8 +44,8 @@ const reorder = (
 
   const leaveArr = Array.from(listLeave);
   const joinArr = Array.from(listJoin);
-  const fromStore = source.droppableId === "store";   // false
-  const toStore = dest.droppableId === "store";       // false
+  const fromStore = source.droppableId === "store";
+  const toStore = dest.droppableId === "store";
 
   // easy if in same list
   if (source.droppableId === dest.droppableId) {
@@ -70,6 +74,40 @@ const reorder = (
   return {leave: leaveArr, join: joinArr};
 };
 
+const VisibleExercise = ({card}: {card: ExerciseData}) => {
+  const changeType = (value: SelectValue) => {
+    card.type = value?.toString() === "Squat"? ExerciseType.Squat : ExerciseType.Pushup;
+    redraw({});
+  };
+  const changeSets = (value: number) => {
+    card.sets = value;
+    redraw({});
+    console.log(card);
+  };
+  const changeRepeats = (value: number) => {
+    card.repeats = value;
+    redraw({});
+    console.log(card);
+  };
+
+  return (
+    <Card title={
+      <Select placeholder="Select a type" style={{ width: 120 }} onChange={changeType} value={card.type}>
+        {Object.values(ExerciseType).map(type => (
+          <Option key={type} value={type}>
+            {type}
+          </Option>
+        ))}
+      </Select>
+    } bordered>
+      <Space direction="vertical">
+        <InputNumber value={card.repeats} onChange={changeRepeats} addonAfter={<span># / Set</span>} min={1} max={100}/>
+        <InputNumber type="number" value={card.sets} onChange={changeSets} addonAfter={<span>Sets</span>} min={1} max={100}/>
+      </Space>
+    </Card>
+  );
+};
+
 const Exercise = ({item, index}: {item: ExerciseCardData, index: number}) => {
   return (
     <Draggable key={item.id} draggableId={item.id} index={index}>
@@ -83,9 +121,7 @@ const Exercise = ({item, index}: {item: ExerciseCardData, index: number}) => {
             userSelect: "none",
             margin: "0 0 8px 0", }}
         >
-          <Card title={item.data?.type} bordered>
-            {item.data?.type}
-          </Card>
+          <VisibleExercise card={item.data}/>
         </div>
       )}
     </Draggable>
@@ -100,11 +136,11 @@ const Day = ({list, name}: {list: ExerciseCardData[], name: string}) => {
       </h1>
       <Row style={{position: "relative"}}>
         <Droppable droppableId={name}>
-          {(provided, snapshot) => (
+          {(provided) => (
             <div
               {...provided.droppableProps}
               ref={provided.innerRef}
-              style={{background: "#fff", width: "200px", minHeight: "200px", padding: "10px"}}
+              style={{background: "#fff", width: "200px", minHeight: "200px", padding: "10px", maxHeight: "500px", overflowY: "auto", overflowX: "hidden"}}
             >
               {list.map((item, index) => (
                 <Exercise key={item.id} item={{...item}} index={index} />
@@ -132,6 +168,8 @@ const Day = ({list, name}: {list: ExerciseCardData[], name: string}) => {
   );
 };
 
+let redraw: React.Dispatch<React.SetStateAction<Record<string, never>>>;
+
 const ManagePlans = () : JSX.Element => {
   const [storeItems, setStoreItems] = React.useState<ExerciseCardData[]>([]);
   const [monday, setMonday] = React.useState<ExerciseCardData[]>([]);
@@ -143,6 +181,8 @@ const ManagePlans = () : JSX.Element => {
   const [sunday, setSunday] = React.useState<ExerciseCardData[]>([]);
 
   const [count, setCount] = React.useState(0);
+
+  [, redraw] = React.useState({});
 
   function DropToState(drop: string) {
     switch (drop) {
@@ -165,14 +205,16 @@ const ManagePlans = () : JSX.Element => {
     }
   }
 
+  console.log(monday);
+
   function addCard() {
     setCount(count + 1);
-    setStoreItems(storeItems.concat({id: `exercise-${count}`,
-      data: new ExerciseData(`exercise-${count}`, {
+    setStoreItems([{id: `exercise-${count}`,
+      data: new ExerciseData(`${count}`, {
         description: "Description",
-        type: ExerciseType.Pushup,
-      })}
-    ));
+        // type: ExerciseType.Pushup,
+      })}].concat(...storeItems)
+    );
   }
 
   function onDragEnd(result: DropResult) {
@@ -219,7 +261,7 @@ const ManagePlans = () : JSX.Element => {
                 }
                 {storeItems.length !== 0 && 
                   <Droppable droppableId="store">
-                    {(provided, snapshot) => (
+                    {(provided) => (
                       <div
                         {...provided.droppableProps}
                         ref={provided.innerRef}
@@ -236,7 +278,6 @@ const ManagePlans = () : JSX.Element => {
               </div>
               <Row justify="center" style={{paddingTop: "10px"}}>
                 <Col>
-                  {/* TODO: make button do smthn */}
                   <Button type="primary" shape="circle" icon={<PlusOutlined />} onClick={addCard} />
                 </Col>
               </Row>
