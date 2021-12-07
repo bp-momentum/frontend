@@ -5,13 +5,16 @@ import api from "../util/api";
 import Routes from "../util/routes";
 import { useAppDispatch } from "../redux/hooks";
 import {setRefreshToken, setToken} from "../redux/token/tokenSlice";
+import { useTranslation } from "react-i18next";
+import Translations from "../localization/translations";
 
 const Login = () : JSX.Element  => {
   const dispatch = useAppDispatch();
   const [error, setError] = React.useState<null | string>();
   const [loading, setLoading] = React.useState(false);
+  const { t } = useTranslation();
 
-  const onFinish = async (values: any) => {
+  const onFinish = async (values: Record<string, never>) => {
     const username = values["username"];
     const password = values["password"];
     const remember = values["remember"];
@@ -22,7 +25,7 @@ const Login = () : JSX.Element  => {
       username: username,
       password: password
     })).catch(() => {
-      setError("Internal Server Error");
+      setError(t(Translations.errors.unknownError));
     });
     console.log(response);
 
@@ -32,7 +35,7 @@ const Login = () : JSX.Element  => {
     }
 
     if (!response.success) {
-      setError(response.description ?? "Something went wrong.");
+      setError(t(response.description ?? Translations.errors.unknownError));
       setLoading(false);
       return;
     }
@@ -66,10 +69,10 @@ const Login = () : JSX.Element  => {
     >
       <Col>
         <Row justify="center" style={{fontSize: "30px", fontWeight: "bold"}}>
-          Welcome!
+          {t(Translations.login.welcome)}
         </Row>
         <Row justify="center">
-          Please enter your credentials.
+          {t(Translations.login.enterCredentials)}
         </Row>
       </Col>
       <Row justify="center">
@@ -88,26 +91,26 @@ const Login = () : JSX.Element  => {
 
             <Form.Item
               name="username"
-              rules={[{ required: true, message: "Please enter your username!" }]}
+              rules={[{ required: true, message: t(Translations.login.enterUsername) }]}
             >
-              <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username"/>
+              <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder={t(Translations.user.username)}/>
             </Form.Item>
 
             <Form.Item
               name="password"
-              rules={[{ required: true, message: "Please enter your password!" }]}
+              rules={[{ required: true, message: t(Translations.login.enterPassword) }]}
             >
-              <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Password"/>
+              <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} placeholder={t(Translations.user.password)}/>
             </Form.Item>
 
             <Form.Item name="remember" valuePropName="checked" wrapperCol={{ offset: 8, span: 16 }}>
-              <Checkbox>Remember me</Checkbox>
+              <Checkbox>{t(Translations.login.rememberMe)}</Checkbox>
             </Form.Item>
 
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
               <Button type="primary" htmlType="submit" disabled={loading} style={{ display: "flex"}}>
                 {loading && <Spin indicator={<LoadingOutlined style={{ fontSize: 12, marginRight: "10px" }} spin />} />}
-                Login
+                {t(Translations.login.login)}
               </Button>
             </Form.Item>
           </Form>
