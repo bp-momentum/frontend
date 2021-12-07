@@ -15,6 +15,9 @@ const Translations = {
     enterUsername: "login.enter-username",
     enterPassword: "login.enter-password",
   },
+  autoLogin: {
+    signingIn: "auto-login.signing-in"
+  }
 };
 
 export default Translations;
