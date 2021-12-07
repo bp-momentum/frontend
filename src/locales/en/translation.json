@@ -32,5 +32,14 @@
     "enter-last-name": "Please enter their last name!",
     "enter-email": "Please enter their email address!",
     "create": "Create"
+  },
+  "register": {
+    "passwords-dont-match": "The passwords do not match.",
+    "title": "Register your account",
+    "subtitle": "Please choose a new username and password.",
+    "choose-username": "Please choose a username!",
+    "enter-password": "Please enter your password!",
+    "repeat-password": "Please enter your password again!",
+    "register": "Register"
   }
 }

@@ -32,6 +32,15 @@ const Translations = {
     enterFirstName: "create-user.enter-first-name",
     enterLastName: "create-user.enter-last-name",
     enterEmail: "create-user.enter-email",
+  },
+  register: {
+    title: "register.title",
+    subtitle: "register.subtitle",
+    passwordsDontMatch: "register.passwords-dont-match",
+    chooseUsername: "register.choose-username",
+    enterPassword: "register.enter-password",
+    repeatPassword: "register.repeat-password",
+    register: "register.register",
   }
 };
 
