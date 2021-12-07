@@ -24,9 +24,7 @@ const Login = () : JSX.Element  => {
     const response = await api.execute(Routes.login({
       username: username,
       password: password
-    })).catch(() => {
-      setError(t(Translations.errors.unknownError));
-    });
+    }));
     console.log(response);
 
     if (!response) {
