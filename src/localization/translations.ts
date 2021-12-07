@@ -6,6 +6,12 @@ const Translations = {
   user: {
     username: "user.username",
     password: "user.password",
+    firstName: "user.first-name",
+    lastName: "user.last-name",
+    email: "user.email",
+    user: "user.user",
+    trainer: "user.trainer",
+    admin: "user.admin",
   },
   login: {
     welcome: "login.welcome",
@@ -17,6 +23,15 @@ const Translations = {
   },
   autoLogin: {
     signingIn: "auto-login.signing-in"
+  },
+  createUser: {
+    create: "create-user.create",
+    title: "create-user.title",
+    subtitle: "create-user.subtitle",
+    successfullyCreatedUser : "create-user.successfully-created-user",
+    enterFirstName: "create-user.enter-first-name",
+    enterLastName: "create-user.enter-last-name",
+    enterEmail: "create-user.enter-email",
   }
 };
 

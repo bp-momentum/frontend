@@ -5,7 +5,13 @@
   },
   "user": {
     "username": "Username",
-    "password": "Password"
+    "password": "Password",
+    "first-name": "First Name",
+    "last-name": "Last Name",
+    "email": "Email",
+    "admin": "Admin",
+    "trainer": "Trainer",
+    "user": "User"
   },
   "login": {
     "welcome": "Welcome!",
@@ -17,5 +23,14 @@
   },
   "auto-login": {
     "signing-in": "Signing you in..."
+  },
+  "create-user": {
+    "successfully-created-user": "Successfully created user!",
+    "title": "Create a new User",
+    "subtitle": "Please enter their data.",
+    "enter-first-name": "Please enter their first name!",
+    "enter-last-name": "Please enter their last name!",
+    "enter-email": "Please enter their email address!",
+    "create": "Create"
   }
 }
