@@ -41,6 +41,19 @@ const Translations = {
     enterPassword: "register.enter-password",
     repeatPassword: "register.repeat-password",
     register: "register.register",
+  },
+  home: {
+    youAre: "home.you-are",
+    logout: "home.logout",
+    createUser: "home.create-user",
+  },
+  tabBar: {
+    home: "tab-bar.home",
+    settings: "tab-bar.settings",
+    overview: "tab-bar.overview",
+    statistics: "tab-bar.statistics",
+    leaderboard: "tab-bar.leaderboard",
+    profile: "tab-bar.profile",
   }
 };
 

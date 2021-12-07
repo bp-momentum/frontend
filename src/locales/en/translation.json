@@ -41,5 +41,18 @@
     "enter-password": "Please enter your password!",
     "repeat-password": "Please enter your password again!",
     "register": "Register"
+  },
+  "home": {
+    "you-are": "You are a {{type}}!",
+    "logout": "Logout",
+    "create-user": "Create User"
+  },
+  "tab-bar": {
+    "home": "Home",
+    "leaderboard": "Leaderboard",
+    "settings": "Settings",
+    "profile": "Profile",
+    "overview": "Overview",
+    "statistics": "Stats"
   }
 }

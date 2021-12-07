@@ -5,13 +5,16 @@ import helper from "../util/helper";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
 import {unsetRefreshToken, unsetToken} from "../redux/token/tokenSlice";
+import {useTranslation} from "react-i18next";
+import Translations from "../localization/translations";
 
 const Home = () : JSX.Element => {
 
   // const [token, setToken] = useContext(TokenContext)!;
 
   const dispatch = useAppDispatch();
-  const token = useAppSelector(state => state.token.token)!;
+  const token = useAppSelector((state) => state.token.token);
+  const { t } = useTranslation();
 
   const logout = () => {
     dispatch(unsetRefreshToken());
@@ -24,12 +27,12 @@ const Home = () : JSX.Element => {
       color="blue"
     >
       <p>
-        Du bist ein {helper.getAccountType(token)}!
+        {token && t(Translations.home.youAre, {type: t("user." + helper.getAccountType(token))})}
       </p>
-      <Button onClick={logout}>Logout</Button>
-      { helper.getAccountType(token) !== "user" &&
+      <Button onClick={logout}>{t(Translations.home.logout)}</Button>
+      { token && helper.getAccountType(token) !== "user" &&
         <Link to={"/createuser"}>
-          <Button>Create User</Button>
+          <Button>{t(Translations.home.createUser)}</Button>
         </Link>
       }
     </Container>
