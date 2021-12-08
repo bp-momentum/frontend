@@ -57,7 +57,6 @@ const Translations = {
   },
   settings: {
     changeLanguage: "settings.change-language",
-    selectLanguage: "settings.select-language",
     logout: "settings.logout",
   }
 };
