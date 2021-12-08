@@ -54,5 +54,9 @@
     "profile": "Profile",
     "overview": "Overview",
     "statistics": "Stats"
+  },
+  "settings": {
+    "logout": "Logout",
+    "change-language": "Change your language!"
   }
 }

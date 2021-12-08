@@ -54,6 +54,10 @@ const Translations = {
     statistics: "tab-bar.statistics",
     leaderboard: "tab-bar.leaderboard",
     profile: "tab-bar.profile",
+  },
+  settings: {
+    changeLanguage: "settings.change-language",
+    logout: "settings.logout",
   }
 };
 

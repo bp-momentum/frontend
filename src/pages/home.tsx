@@ -9,9 +9,6 @@ import {useTranslation} from "react-i18next";
 import Translations from "../localization/translations";
 
 const Home = () : JSX.Element => {
-
-  // const [token, setToken] = useContext(TokenContext)!;
-
   const dispatch = useAppDispatch();
   const token = useAppSelector((state) => state.token.token);
   const { t } = useTranslation();
