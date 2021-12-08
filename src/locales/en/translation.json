@@ -43,7 +43,7 @@
     "register": "Register"
   },
   "home": {
-    "you-are": "You are a {{type}}!",
+    "you-are": "You are {{type, en-handle-an}}!",
     "logout": "Logout",
     "create-user": "Create User"
   },
