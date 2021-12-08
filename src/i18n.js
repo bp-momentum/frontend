@@ -14,16 +14,69 @@ const resources = {
   }
 };
 
-const getEnglishArticle = function (value, capitalize) {
-  const vowels = ["a", "e", "i", "o", "u", "h"];
-  let firstLetter = value.substring(0, 1).toLowerCase();
-  let article;
-  if (vowels.includes(firstLetter)) {
-    article = capitalize ? "An" : "an";
-  } else {
-    article = capitalize ? "A" : "a";
+const indefiniteArticle = function(phrase) {
+  // Getting the first word
+  const match = /\w+/.exec(phrase);
+  if (!match)
+    return "an";
+  const word = match[0];
+  const l_word = word.toLowerCase();
+
+  // Specific start of words that should be preceded by 'an'
+  const alt_cases = ["honest", "hour", "hono"];
+  for (let i in alt_cases) {
+    if (l_word.indexOf(alt_cases[i]) === 0)
+      return "an";
   }
-  return article;
+
+  // Single letter word which should be preceded by 'an'
+  if (l_word.length === 1) {
+    if ("aedhilmnorsx".indexOf(l_word) >= 0)
+      return "an";
+    else
+      return "a";
+  }
+
+  // Capital words which should likely be preceded by 'an'
+  if (word.match(/(?!FJO|[HLMNS]Y.|RY[EO]|SQU|(F[LR]?|[HL]|MN?|N|RH?|S[CHKLMNPTVW]?|X(YL)?)[AEIOU])[FHLMNRSX][A-Z]/)) {
+    return "an";
+  }
+
+  // Special cases where a word that begins with a vowel should be preceded by 'a'
+  const regexes = [/^e[uw]/, /^onc?e\b/, /^uni([^nmd]|mo)/, /^u[bcfhjkqrst][aeiou]/];
+  for (let i in regexes) {
+    if (l_word.match(regexes[i]))
+      return "a";
+  }
+
+  // Special capital words (UK, UN)
+  if (word.match(/^U[NK][AIEO]/)) {
+    return "a";
+  }
+  else if (word === word.toUpperCase()) {
+    if ("aedhilmnorsx".indexOf(l_word[0]) >= 0)
+      return "an";
+    else
+      return "a";
+  }
+
+  // Basic method of words that begin with a vowel being preceded by 'an'
+  if ("aeiou".indexOf(l_word[0]) >= 0)
+    return "an";
+
+  // Instances where y followed by specific letters is preceded by 'an'
+  if (l_word.match(/^y(b[lor]|cl[ea]|fere|gg|p[ios]|rou|tt)/))
+    return "an";
+
+  return "a";
+};
+
+const getEnglishArticle = function (value, capitalize) {
+  const article = indefiniteArticle(value);
+  if (article.length === 1) {
+    return capitalize ? article.toUpperCase() : article;
+  }
+  return capitalize ? article.substring(0, 1).toUpperCase() + article.substring(1) : article;
 };
 
 i18n
