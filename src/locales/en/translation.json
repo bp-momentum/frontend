@@ -57,6 +57,7 @@
   },
   "settings": {
     "logout": "Logout",
-    "change-language": "Change your language!"
+    "change-language": "Change your language!",
+    "select-language": "Select a language"
   }
 }
