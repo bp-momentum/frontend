@@ -80,7 +80,19 @@ const Routes = {
         refresh_token: props.refreshToken,
       }
     };
-  }
+  },
+
+  /**
+   * Delete the user's account.
+   */
+  deleteAccount: () : Route => {
+    return {
+      route: "/api/deleteuser",
+      needsAuth: true,
+      method: "POST",
+      body: { }
+    };
+  },
 };
 
 export default Routes;
