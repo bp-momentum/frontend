@@ -1,0 +1,62 @@
+{
+  "errors": {
+    "internal-server-error": "Interner Server Error!",
+    "unknown-error": "Ein unbekannter Fehler ist aufgetreten!"
+  },
+  "user": {
+    "username": "Benutzername",
+    "password": "Passwort",
+    "first-name": "Vorname",
+    "last-name": "Nachname",
+    "email": "Email",
+    "admin": "Administrator*in",
+    "trainer": "Trainer*in",
+    "user": "Benutzer*in"
+  },
+  "login": {
+    "welcome": "Willkommen!",
+    "enter-credentials": "Bitte gib deine Anmeldedaten ein.",
+    "remember-me": "Angemeldet bleiben",
+    "login": "Anmelden",
+    "enter-password": "Bitte gib dein Passwort ein!",
+    "enter-username": "Bitte gib deinen Benutzernamen ein!"
+  },
+  "auto-login": {
+    "signing-in": "Du wirst angemeldet..."
+  },
+  "create-user": {
+    "successfully-created-user": "Benutzer*in wurde erfolgreich erstellt!",
+    "title": "Erstelle einen neuen Benutzer",
+    "subtitle": "Bitte gib die Benutzerdaten ein.",
+    "enter-first-name": "Bitte gib den Vornamen ein.",
+    "enter-last-name": "Bitte gib den Nachnamen ein.",
+    "enter-email": "Bitte gib die Email ein.",
+    "create": "Erstellen"
+  },
+  "register": {
+    "passwords-dont-match": "Die Passwörter stimmen nicht überein.",
+    "title": "Erstelle deinen Account",
+    "subtitle": "Wähle einen Benutzernamen und dein Passwort.",
+    "choose-username": "Bitte wähle einen Benutzernamen!",
+    "enter-password": "Bitte wähle ein Passwort!",
+    "repeat-password": "Bitte gib dein Passwort erneut ein!",
+    "register": "Registrieren"
+  },
+  "home": {
+    "you-are": "Du bist ein/e {{type}}!",
+    "logout": "Logout",
+    "create-user": "Benutzer erstellen"
+  },
+  "tab-bar": {
+    "home": "Home",
+    "leaderboard": "Leaderboard",
+    "settings": "Einstellungen",
+    "profile": "Profil",
+    "overview": "Übersicht",
+    "statistics": "Statistiken"
+  },
+  "settings": {
+    "logout": "Logout",
+    "change-language": "Ändere deine Sprache!"
+  }
+}

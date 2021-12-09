@@ -9,6 +9,7 @@ import api from "./util/api";
 import Register from "./pages/register";
 import Helper from "./util/helper";
 import AutoLogin from "./pages/autoLogin";
+import Settings from "./pages/settings";
 
 // Basic App that is just used to Route to different pages
 function App() : JSX.Element {
@@ -48,6 +49,7 @@ function App() : JSX.Element {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/createuser" element={<CreateUser />} />
+      <Route path="/settings" element={<Settings/>}/>
       <Route path="*" element={<div style={{fontSize: 180, textAlign: "center"}}> 404 </div>} />
     </Routes>
   );

@@ -1,0 +1,62 @@
+{
+  "errors": {
+    "internal-server-error": "Internal Server Error!",
+    "unknown-error": "An unknown Error occurred!"
+  },
+  "user": {
+    "username": "Username",
+    "password": "Password",
+    "first-name": "First Name",
+    "last-name": "Last Name",
+    "email": "Email",
+    "admin": "Admin",
+    "trainer": "Trainer",
+    "user": "User"
+  },
+  "login": {
+    "welcome": "Welcome!",
+    "enter-credentials": "Please enter your credentials.",
+    "remember-me": "Remember me",
+    "login": "Login",
+    "enter-password": "Please enter your password!",
+    "enter-username": "Please enter your username!"
+  },
+  "auto-login": {
+    "signing-in": "Signing you in..."
+  },
+  "create-user": {
+    "successfully-created-user": "Successfully created user!",
+    "title": "Create a new User",
+    "subtitle": "Please enter their data.",
+    "enter-first-name": "Please enter their first name!",
+    "enter-last-name": "Please enter their last name!",
+    "enter-email": "Please enter their email address!",
+    "create": "Create"
+  },
+  "register": {
+    "passwords-dont-match": "The passwords do not match.",
+    "title": "Register your account",
+    "subtitle": "Please choose a new username and password.",
+    "choose-username": "Please choose a username!",
+    "enter-password": "Please enter your password!",
+    "repeat-password": "Please enter your password again!",
+    "register": "Register"
+  },
+  "home": {
+    "you-are": "You are {{type, en-handle-an}}!",
+    "logout": "Logout",
+    "create-user": "Create User"
+  },
+  "tab-bar": {
+    "home": "Home",
+    "leaderboard": "Leaderboard",
+    "settings": "Settings",
+    "profile": "Profile",
+    "overview": "Overview",
+    "statistics": "Stats"
+  },
+  "settings": {
+    "logout": "Logout",
+    "change-language": "Change your language!"
+  }
+}

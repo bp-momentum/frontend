@@ -4,13 +4,16 @@ import React from "react";
 import Api from "../util/api";
 import Routes from "../util/routes";
 import Container from "../shared/container";
+import {useTranslation} from "react-i18next";
+import Translations from "../localization/translations";
 
 const CreateUser = () : JSX.Element => {
   const [error, setError] = React.useState<null | string>();
   const [success, setSuccess] = React.useState<null | string>();
   const formRef = React.createRef<FormInstance>();
+  const { t } = useTranslation();
 
-  const onFinish = async (values: any) => {
+  const onFinish = async (values: Record<string, never>) => {
     const firstName = values["first_name"];
     const lastName = values["last_name"];
     const email = values["email_address"];
@@ -26,12 +29,12 @@ const CreateUser = () : JSX.Element => {
     if (!response) return;
 
     if (!response.success) {
-      setError(response.description ?? "Something went wrong.");
+      setError(t(response.description ?? Translations.errors.unknownError));
       return;
     }
 
     formRef.current?.resetFields();
-    setSuccess(response.description ?? "Successfully created user!");
+    setSuccess(t(Translations.createUser.successfullyCreatedUser));
     setTimeout(() => setSuccess(null), 5000);
   };
 
@@ -56,10 +59,10 @@ const CreateUser = () : JSX.Element => {
       >
         <Col>
           <Row justify="center" style={{fontSize: "30px", fontWeight: "bold"}}>
-            Create a new User
+            {t(Translations.createUser.title)}
           </Row>
           <Row justify="center">
-            Please enter their data
+            {t(Translations.createUser.subtitle)}
           </Row>
         </Col>
         <Row justify="center">
@@ -80,28 +83,28 @@ const CreateUser = () : JSX.Element => {
 
               <Form.Item
                 name="first_name"
-                rules={[{ required: true, message: "Please enter their first name!" }]}
+                rules={[{ required: true, message: t(Translations.createUser.enterFirstName) }]}
               >
-                <Input placeholder="First Name"/>
+                <Input placeholder={t(Translations.user.firstName)}/>
               </Form.Item>
 
               <Form.Item
                 name="last_name"
-                rules={[{ required: true, message: "Please enter their last name!" }]}
+                rules={[{ required: true, message: t(Translations.createUser.enterLastName) }]}
               >
-                <Input placeholder="Last Name"/>
+                <Input placeholder={t(Translations.user.lastName)}/>
               </Form.Item>
 
               <Form.Item
                 name="email_address"
-                rules={[{ required: true, message: "Please enter their email address!" }]}
+                rules={[{ required: true, message: t(Translations.createUser.enterEmail) }]}
               >
-                <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="Email"/>
+                <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder={t(Translations.user.email)}/>
               </Form.Item>
 
               <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                 <Button type="primary" htmlType="submit">
-                  Create
+                  {t(Translations.createUser.create)}
                 </Button>
               </Form.Item>
             </Form>
