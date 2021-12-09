@@ -62,7 +62,7 @@ export default function Container (props: ContainerProps) : JSX.Element {
           }
           {!(isTrainer || isAdmin) &&
             <Menu.Item key="leaderboard" icon={<CrownTwoTone twoToneColor={color} />}>
-            {t(Translations.tabBar.leaderboard)}
+              {t(Translations.tabBar.leaderboard)}
             </Menu.Item>
           }
           <SubMenu style={{marginLeft: "auto"}} key="profile" icon={<UserOutlined style={{color: color}} />} title="Profil">
