@@ -4,6 +4,9 @@ import { HomeTwoTone, SettingTwoTone, StockOutlined, UserOutlined, CrownTwoTone,
 import React from "react";
 import SubMenu from "antd/lib/menu/SubMenu";
 import { useNavigate } from "react-router";
+import {useTranslation} from "react-i18next";
+import Translations from "../localization/translations";
+import {MenuInfo} from "rc-menu/lib/interface";
 import { useAppSelector } from "../redux/hooks";
 import helper from "../util/helper";
 
@@ -32,8 +35,9 @@ const pageToRoute: pagesToRouteType = {
 export default function Container (props: ContainerProps) : JSX.Element {
   const color = props.color || "blue";
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
-  const handleClick = (e : any) => {
+  const handleClick = (e: MenuInfo) => {
     if (e?.key !== props.currentPage) {
       navigate(pageToRoute[e.key as pages]);
     }
@@ -48,7 +52,7 @@ export default function Container (props: ContainerProps) : JSX.Element {
       <Header style={{backgroundColor: "#fff"}}>
         <Menu mode="horizontal" selectedKeys={[props.currentPage]} onClick={handleClick}>
           <Menu.Item key="home" icon={<HomeTwoTone twoToneColor={props.color}/>}>
-            Home
+            {t(Translations.tabBar.home)}
           </Menu.Item>
           {(isTrainer || isAdmin) && 
             <SubMenu key="manage" title="Manage" icon={<SettingTwoTone twoToneColor={props.color}/>}>
@@ -58,15 +62,15 @@ export default function Container (props: ContainerProps) : JSX.Element {
           }
           {!(isTrainer || isAdmin) &&
             <Menu.Item key="leaderboard" icon={<CrownTwoTone twoToneColor={color} />}>
-              Leaderboard
+            {t(Translations.tabBar.leaderboard)}
             </Menu.Item>
           }
           <SubMenu style={{marginLeft: "auto"}} key="profile" icon={<UserOutlined style={{color: color}} />} title="Profil">
-            <Menu.Item key="profile_overview" icon={<BarsOutlined style={{color: color}} />}>Overview</Menu.Item>
-            <Menu.Item key="profile_stats" icon={<StockOutlined style={{color: color}} />}>Stats</Menu.Item>
+            <Menu.Item key="profile_overview" icon={<BarsOutlined style={{color: props.color}} />}>{t(Translations.tabBar.overview)}</Menu.Item>
+            <Menu.Item key="profile_stats" icon={<StockOutlined style={{color: props.color}} />}>{t(Translations.tabBar.statistics)}</Menu.Item>
           </SubMenu>
-          <Menu.Item key="settings" icon={<SettingTwoTone twoToneColor={color} />}>
-            Settings
+          <Menu.Item key="settings" icon={<SettingTwoTone twoToneColor={props.color} />}>
+            {t(Translations.tabBar.settings)}
           </Menu.Item>
         </Menu>
       </Header>
