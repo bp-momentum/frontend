@@ -53,10 +53,38 @@
     "settings": "Einstellungen",
     "profile": "Profil",
     "overview": "Übersicht",
-    "statistics": "Statistiken"
+    "statistics": "Statistiken",
+    "user": "Benutzer",
+    "plans": "Pläne",
+    "manage": "Verwalten"
   },
   "settings": {
     "logout": "Logout",
     "change-language": "Ändere deine Sprache!"
+  },
+  "plan-editor": {
+    "unnamed": "Unbenannt",
+    "exercises": "Übungen",
+    "add-exercise": "Ziehe eine Übung hier her, um sie dem Plan hinzuzufügen.",
+    "delete-exercise": "Ziehe eine Übung hier her, um sie vom Plan zu entfernen.",
+    "delete-plan-confirm": "Bist du sicher, dass du diesen Plan löschen möchtest?",
+    "delete-plan-description": "Dieser Vorgang kann nicht rückgängig gemacht werden.",
+    "save-plan-missing-name": "Bitte gib einen Namen für deinen Plan ein.",
+    "save-success": "Plan wurde erfolgreich gespeichert!"
+  },
+  "weekdays": {
+    "monday": "Montag",
+    "tuesday": "Dienstag",
+    "wednesday": "Mittwoch",
+    "thursday": "Donnerstag",
+    "friday": "Freitag",
+    "saturday": "Samstag",
+    "sunday": "Sonntag"
+  },
+  "confirm": {
+    "yes": "Ja",
+    "no": "Nein",
+    "save": "Speichern",
+    "cancel": "Abbrechen"
   }
 }

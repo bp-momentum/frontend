@@ -54,10 +54,38 @@ const Translations = {
     statistics: "tab-bar.statistics",
     leaderboard: "tab-bar.leaderboard",
     profile: "tab-bar.profile",
+    user: "tab-bar.user",
+    plans: "tab-bar.plans",
+    manage: "tab-bar.manage"
   },
   settings: {
     changeLanguage: "settings.change-language",
     logout: "settings.logout",
+  },
+  planEditor: {
+    unnamed: "plan-editor.unnamed",
+    exercises: "plan-editor.exercises",
+    addExercise: "plan-editor.add-exercise",
+    deleteExercise: "plan-editor.delete-exercise",
+    deletePlanConfirm: "plan-editor.delete-plan-confirm",
+    deletePlanDescription: "plan-editor.delete-plan-description",
+    savePlanMissingName: "plan-editor.save-plan-missing-name",
+    saveSuccess: "plan-editor.save-success",
+  },
+  weekdays: {
+    monday: "weekdays.monday",
+    tuesday: "weekdays.tuesday",
+    wednesday: "weekdays.wednesday",
+    thursday: "weekdays.thursday",
+    friday: "weekdays.friday",
+    saturday: "weekdays.saturday",
+    sunday: "weekdays.sunday",
+  },
+  confirm: {
+    yes: "confirm.yes",
+    no: "confirm.no",
+    save: "confirm.save",
+    cancel: "confirm.cancel",
   }
 };
 

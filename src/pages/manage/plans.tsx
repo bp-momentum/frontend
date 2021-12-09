@@ -1,10 +1,14 @@
 import React, { createRef } from "react";
-import { Card, Col, InputNumber, Layout, Row, Space } from "antd";
+import { Card, Col, InputNumber, Layout, Row, Space, Button, Modal, Input, message } from "antd";
 import { DragDropContext, Droppable, Draggable, DropResult, DraggableLocation } from "react-beautiful-dnd";
 import Container from "../../shared/container";
 import DeleteOutlined from "@ant-design/icons/lib/icons/DeleteOutlined";
+import { t } from "i18next";
+import Translations from "../../localization/translations";
+import { Header } from "antd/lib/layout/layout";
 
 const { Sider, Content } = Layout;
+const { confirm, info } = Modal;
 
 // get from API later
 enum ExerciseType {
@@ -75,12 +79,10 @@ const VisibleExercise = ({card, details}: {card: ExerciseData, details: boolean}
   const changeSets = (value: number) => {
     card.sets = value;
     redraw({});
-    console.log(card);
   };
   const changeRepeats = (value: number) => {
     card.repeats = value;
     redraw({});
-    console.log(card);
   };
 
   return (
@@ -149,7 +151,7 @@ const Day = ({list, name}: {list: ExerciseCardData[], name: string}) => {
             border: "2px dashed gray",
             borderRadius: "20px",
             userSelect: "none"}}>
-            Add exercises to this day by dragging them from the left list
+            {t(Translations.planEditor.addExercise)}
           </div>
         }
       </Row>
@@ -160,11 +162,12 @@ const Day = ({list, name}: {list: ExerciseCardData[], name: string}) => {
 let redraw: React.Dispatch<React.SetStateAction<Record<string, never>>>;
 
 const ManagePlans = () : JSX.Element => {
+  const [name, setName] = React.useState("");
   const [count, setCount] = React.useState(0);
+  [, redraw] = React.useState({});
 
   const [storeItems, setStoreItems] = React.useState<ExerciseCardData[]>(
     Object.values(ExerciseType).map(e => {
-      console.log(e);
       return {
         id: e,
         data: {
@@ -180,7 +183,7 @@ const ManagePlans = () : JSX.Element => {
   const [saturday, setSaturday] = React.useState<ExerciseCardData[]>([]);
   const [sunday, setSunday] = React.useState<ExerciseCardData[]>([]);
 
-  [, redraw] = React.useState({});
+  const [saveModalVisible, setSaveModalVisible] = React.useState(false);
 
   function DropToState(drop: string) {
     switch (drop) {
@@ -208,11 +211,9 @@ const ManagePlans = () : JSX.Element => {
   const StoreSider = createRef<HTMLDivElement>();
   const GarbageSider = createRef<HTMLDivElement>();
 
-  function onDragEnd(result: DropResult) {
+  const onDragEnd = (result: DropResult) => {
     if (GarbageSider.current)
       GarbageSider.current.style.display = "none";
-
-    console.log(result);
 
     if (!result.destination) {
       return;
@@ -228,7 +229,35 @@ const ManagePlans = () : JSX.Element => {
     );
     DropToState(result.source.droppableId).set(leave);
     DropToState(result.destination.droppableId).set(join);
-  }
+  };
+
+  const save = () => {
+    // TODO save plan
+    message.success(t(Translations.planEditor.saveSuccess));
+  };
+
+  const savePlan = () => {
+    if (!name) {
+      setSaveModalVisible(true);
+    }
+    else {
+      save();
+    }
+  };
+
+  const deletePlan = () => {
+    confirm({
+      title: t(Translations.planEditor.deletePlanConfirm),
+      content: t(Translations.planEditor.deletePlanDescription),
+      okText: t(Translations.confirm.yes),
+      okType: "danger",
+      cancelText: t(Translations.confirm.no),
+      onOk() {
+        console.log("OK");
+        // TODO delete plan
+      },
+    });
+  };
 
   return (
     <Container
@@ -245,7 +274,7 @@ const ManagePlans = () : JSX.Element => {
             style={{background: "#e0e0e0", padding: "20px 0"}} width="220px">
             <div
               style={{height: "100%", display: "flex", flexDirection: "column"}}>
-              <h1 style={{padding: "0 10px"}}>Exercises</h1>
+              <h1 style={{padding: "0 10px"}}>{t(Translations.planEditor.exercises)}</h1>
               <div style={{overflow: "auto", padding: "0 10px", flexGrow: 1}} >
                 <Droppable droppableId="store">
                   {(provided) => (
@@ -278,24 +307,63 @@ const ManagePlans = () : JSX.Element => {
                 userSelect: "none"}}>
                 <DeleteOutlined style={{fontSize: 50}} />
                 <br />
-                Delete Exercises by moving them here!
+                {t(Translations.planEditor.deleteExercise)}
               </div>
             </div>
           </Sider>
-          <Content style={{display: "flex", width: "100%", padding: "10px", paddingTop: "20px", overflow: "auto"}}>
-            <Row
-              style={{width: "100%"}}
-              justify="center"
-              gutter={16}
-            >
-              <Day list={monday} name="monday"></Day>
-              <Day list={tuesday} name="tuesday"></Day>
-              <Day list={wednesday} name="wednesday"></Day>
-              <Day list={thursday} name="thursday"></Day>
-              <Day list={friday} name="friday"></Day>
-              <Day list={saturday} name="saturday"></Day>
-              <Day list={sunday} name="sunday"></Day>
-            </Row>
+          <Content style={{display: "flex", width: "100%"}}>
+            <Layout>
+              <Header style={{backgroundColor: "#fff", display: "flex", padding: "0px 20px", alignItems: "center"}}>
+                <Input 
+                  placeholder={t(Translations.planEditor.unnamed)}
+                  defaultValue={name}
+                  bordered={false}
+                  onChange={change => {
+                    setName(change.target.value);
+                  }} />
+                <Space style={{marginLeft: "auto"}} >
+                  <Button type="primary" onClick={savePlan}>Save</Button>
+                  <Modal
+                    visible={saveModalVisible}
+                    title={t(Translations.planEditor.savePlanMissingName)}
+                    okText={t(Translations.confirm.save)}
+                    okType="primary"
+                    okButtonProps={{
+                      disabled: name === "",
+                    }}
+                    cancelText={t(Translations.confirm.cancel)}
+                    onOk={() => {
+                      setSaveModalVisible(false);
+                      savePlan();
+                    }}
+                    onCancel={() => {
+                      setSaveModalVisible(false);
+                    }}
+                  >
+                    <Input placeholder="Name" key="a" onChange={(change) => {
+                      console.log(change);
+                      setName(change.target.value);
+                    }}/>
+                  </Modal>
+                  <Button danger onClick={deletePlan}>Delete</Button>
+                </Space>
+              </Header>
+              <Content style={{display: "flex", width: "100%", padding: "10px", paddingTop: "20px", overflow: "auto"}}>
+                <Row
+                  style={{width: "100%"}}
+                  justify="center"
+                  gutter={16}
+                >
+                  <Day list={monday} name="monday"></Day>
+                  <Day list={tuesday} name="tuesday"></Day>
+                  <Day list={wednesday} name="wednesday"></Day>
+                  <Day list={thursday} name="thursday"></Day>
+                  <Day list={friday} name="friday"></Day>
+                  <Day list={saturday} name="saturday"></Day>
+                  <Day list={sunday} name="sunday"></Day>
+                </Row>
+              </Content>
+            </Layout>
           </Content>
         </DragDropContext>
       </Layout>

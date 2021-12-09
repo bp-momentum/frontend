@@ -43,9 +43,9 @@ export default function Container (props: ContainerProps) : JSX.Element {
     }
   };
   
-  const token = useAppSelector(state => state.token.token)!;
-  const isAdmin = helper.getAccountType(token) === "admin";
-  const isTrainer = helper.getAccountType(token) === "trainer";
+  const token = useAppSelector(state => state.token.token);
+  const isAdmin = token && helper.getAccountType(token) === "admin";
+  const isTrainer = token && helper.getAccountType(token) === "trainer";
 
   return (
     <Layout style={{height: "100%", position: "absolute", width: "100%"}}>
@@ -55,9 +55,9 @@ export default function Container (props: ContainerProps) : JSX.Element {
             {t(Translations.tabBar.home)}
           </Menu.Item>
           {(isTrainer || isAdmin) && 
-            <SubMenu key="manage" title="Manage" icon={<SettingTwoTone twoToneColor={props.color}/>}>
-              <Menu.Item key="manage_user" icon={<TeamOutlined style={{color: color}} />}>User</Menu.Item>
-              <Menu.Item key="manage_plans" icon={<CalendarOutlined style={{color: color}} />}>Plans</Menu.Item>
+            <SubMenu key="manage" title={t(Translations.tabBar.manage)} icon={<SettingTwoTone twoToneColor={props.color}/>}>
+              <Menu.Item key="manage_user" icon={<TeamOutlined style={{color: color}} />}>{t(Translations.tabBar.user)}</Menu.Item>
+              <Menu.Item key="manage_plans" icon={<CalendarOutlined style={{color: color}} />}>{t(Translations.tabBar.plans)}</Menu.Item>
             </SubMenu>
           }
           {!(isTrainer || isAdmin) &&
