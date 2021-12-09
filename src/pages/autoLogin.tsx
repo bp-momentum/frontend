@@ -6,11 +6,14 @@ import Routes from "../util/routes";
 import {useAppDispatch, useAppSelector} from "../redux/hooks";
 import {setToken} from "../redux/token/tokenSlice";
 import {useNavigate} from "react-router";
+import {useTranslation} from "react-i18next";
+import Translations from "../localization/translations";
 
 const AutoLogin = () : JSX.Element  => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const refreshToken = useAppSelector(state => state.token.refreshToken);
+  const { t } = useTranslation();
 
   const checkLogin = async () => {
     if (!refreshToken) {
@@ -32,7 +35,7 @@ const AutoLogin = () : JSX.Element  => {
     <Space size="large" style={{width: "100%", height: "100%", position: "absolute", display: "flex", flexDirection: "column", justifyContent: "center"}}>
       <Col>
         <Row justify="center" style={{fontSize: "30px", fontWeight: "bold"}}>
-          Signing you in...
+          {t(Translations.autoLogin.signingIn)}
         </Row>
         <Row justify="center" style={{fontSize: "30px", fontWeight: "bold"}}>
           <Spin indicator={<LoadingOutlined style={{ fontSize: 30, marginTop: "10px"}} spin />}/>
