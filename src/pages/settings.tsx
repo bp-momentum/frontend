@@ -27,12 +27,12 @@ const Settings = () : JSX.Element => {
 
   function showDeleteConfirm() {
     Modal.confirm({
-      title: Translations.settings.deleteModalTitel,
+      title: t(Translations.settings.deleteModalTitel),
       icon: <ExclamationCircleOutlined />,
-      content: Translations.settings.deleteModalMSG,
-      okText: Translations.settings.deleteModalConfirm,
+      content: t(Translations.settings.deleteModalMSG),
+      okText: t(Translations.settings.deleteModalConfirm),
       okType: "danger",
-      cancelText: Translations.settings.deleteModalCancel,
+      cancelText: t(Translations.settings.deleteModalCancel),
       onOk() {
         onConfirmDeleteAccount();
       },
@@ -51,10 +51,10 @@ const Settings = () : JSX.Element => {
     if (!response) return;
 
     if (!response.success) {
-      setError(response.description ?? Translations.errors.unknownError);
+      setError(t(response.description ?? response.description ?? Translations.errors.unknownError));
       return;
     }
-    setSuccess(Translations.settings.successfullyDeletedAccount);
+    setSuccess(t(Translations.settings.successfullyDeletedAccount));
 
     setTimeout(() => setSuccess(null), 5000);
 
