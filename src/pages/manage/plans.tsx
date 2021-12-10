@@ -1,5 +1,5 @@
 import React, { createRef } from "react";
-import { Card, Col, InputNumber, Layout, Row, Space, Button, Modal, Input, message } from "antd";
+import { Card, Col, InputNumber, Layout, Row, Space, Button, Modal, Input, message, Tooltip } from "antd";
 import { DragDropContext, Droppable, Draggable, DropResult, DraggableLocation } from "react-beautiful-dnd";
 import Container from "../../shared/container";
 import DeleteOutlined from "@ant-design/icons/lib/icons/DeleteOutlined";
@@ -8,7 +8,7 @@ import Translations from "../../localization/translations";
 import { Header } from "antd/lib/layout/layout";
 
 const { Sider, Content } = Layout;
-const { confirm, info } = Modal;
+const { confirm } = Modal;
 
 // get from API later
 enum ExerciseType {
@@ -24,8 +24,8 @@ enum ExerciseType {
 interface ExerciseData {
   type: ExerciseType;
   description?: string;
-  sets?: number;
-  repeats?: number;
+  sets: number;
+  repeats: number;
 }
 
 interface ExerciseCardData {
@@ -75,7 +75,7 @@ const reorder = (
   return {leave: leaveArr, join: joinArr};
 };
 
-const VisibleExercise = ({card, details}: {card: ExerciseData, details: boolean}) => {
+const VisibleExercise = ({card, details, collapsed}: {card: ExerciseData, details: boolean, collapsed: boolean}) => {
   const changeSets = (value: number) => {
     card.sets = value;
     redraw({});
@@ -87,12 +87,19 @@ const VisibleExercise = ({card, details}: {card: ExerciseData, details: boolean}
 
   return (
     <Card title={
-      card.type
+      <div style={{display: "flex", alignItems: "center"}}>
+        <h1 style={{margin: "0"}}>{card.type}</h1>
+        {details && collapsed && 
+          <Tooltip title={<><span>{t(Translations.planEditor.cardTooltipRepeats, {count: card.repeats}) + t(Translations.planEditor.cardTooltipSets, {count: card.sets})}</span></>}>
+            <span style={{margin: "0", marginLeft: "auto", fontWeight: 400, fontSize: "14px"}}>{card.repeats} / {card.sets}</span>
+          </Tooltip>
+        }
+      </div>
     } bordered bodyStyle={{padding: "0px", }}>
-      {details &&
+      {details && !collapsed &&
         <Space direction="vertical" style={{margin: "20px"}}>
-          <InputNumber value={card.repeats ?? 1} onChange={changeRepeats} addonAfter={<span># / Set</span>} min={1} max={100}/>
-          <InputNumber value={card.sets ?? 1} onChange={changeSets} addonAfter={<span>Sets</span>} min={1} max={100}/>
+          <InputNumber value={card.repeats} onChange={changeRepeats} addonAfter={<span># / Set</span>} min={1} max={100}/>
+          <InputNumber value={card.sets} onChange={changeSets} addonAfter={<span>Sets</span>} min={1} max={100}/>
         </Space>
       }
     </Card>
@@ -104,6 +111,10 @@ const Exercise = ({item, index, details}: {item: ExerciseCardData, index: number
     <Draggable key={item.id} draggableId={item.id} index={index}>
       {(provided) => (
         <div
+          onClick={() => {
+            //
+            setOpenState(item.id);
+          }}
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
@@ -112,7 +123,7 @@ const Exercise = ({item, index, details}: {item: ExerciseCardData, index: number
             userSelect: "none",
             margin: "0 0 8px 0", }}
         >
-          <VisibleExercise card={item.data} details={details}/>
+          <VisibleExercise card={item.data} details={details} collapsed={openState !== item.id}/>
         </div>
       )}
     </Draggable>
@@ -125,13 +136,13 @@ const Day = ({list, name}: {list: ExerciseCardData[], name: string}) => {
       <h1>
         {name[0].toUpperCase() + name.substr(1)}
       </h1>
-      <Row style={{position: "relative"}}>
+      <Row style={{background: "#fff", display: "grid", borderRadius: "10px", marginBottom: "20px", minWidth: "200px"}}>
         <Droppable droppableId={name}>
           {(provided) => (
             <div
               {...provided.droppableProps}
               ref={provided.innerRef}
-              style={{background: "#fff", width: "200px", minHeight: "200px", padding: "10px", maxHeight: "500px", overflowY: "auto", overflowX: "hidden"}}
+              style={{ gridRowStart: 1, gridColumnStart: 1, width: "200px", minHeight: "20px", padding: "10px", maxHeight: "400px", overflowY: "auto", overflowX: "hidden"}}
             >
               {list.map((item, index) => (
                 <Exercise key={item.id} item={{...item}} index={index} details={true}/>
@@ -142,9 +153,9 @@ const Day = ({list, name}: {list: ExerciseCardData[], name: string}) => {
         </Droppable>
         {list.length === 0 &&
           <div style={{
-            position: "absolute",
-            top: "10px",
-            left: "10px",
+            gridRowStart: 1,
+            gridColumnStart: 1,
+            margin: "10px",
             width: "180px",
             padding: "20px",
             textAlign: "center",
@@ -160,11 +171,14 @@ const Day = ({list, name}: {list: ExerciseCardData[], name: string}) => {
 };
 
 let redraw: React.Dispatch<React.SetStateAction<Record<string, never>>>;
+let openState: string;
+let setOpenState: React.Dispatch<React.SetStateAction<string>>;
 
 const ManagePlans = () : JSX.Element => {
   const [name, setName] = React.useState("");
   const [count, setCount] = React.useState(0);
   [, redraw] = React.useState({});
+  [openState, setOpenState] = React.useState("");
 
   const [storeItems, setStoreItems] = React.useState<ExerciseCardData[]>(
     Object.values(ExerciseType).map(e => {
@@ -173,6 +187,8 @@ const ManagePlans = () : JSX.Element => {
         data: {
           type: e,
           description: "string",
+          sets: 1,
+          repeats: 1,
         }};
     }));
   const [monday, setMonday] = React.useState<ExerciseCardData[]>([]);
@@ -253,8 +269,10 @@ const ManagePlans = () : JSX.Element => {
       okType: "danger",
       cancelText: t(Translations.confirm.no),
       onOk() {
-        console.log("OK");
         // TODO delete plan
+        // If on server, send request to delete plan
+        // If deleted successfully, redirect to home
+        // If not on server, just redirect to home
       },
     });
   };
@@ -271,7 +289,7 @@ const ManagePlans = () : JSX.Element => {
         }}>
           <Sider 
             ref={StoreSider}
-            style={{background: "#e0e0e0", padding: "20px 0"}} width="220px">
+            style={{background: "#e0e0e0", padding: "0", paddingTop: "20px"}} width="220px">
             <div
               style={{height: "100%", display: "flex", flexDirection: "column"}}>
               <h1 style={{padding: "0 10px"}}>{t(Translations.planEditor.exercises)}</h1>
@@ -316,13 +334,13 @@ const ManagePlans = () : JSX.Element => {
               <Header style={{backgroundColor: "#fff", display: "flex", padding: "0px 20px", alignItems: "center"}}>
                 <Input 
                   placeholder={t(Translations.planEditor.unnamed)}
-                  defaultValue={name}
+                  value={name}
                   bordered={false}
                   onChange={change => {
                     setName(change.target.value);
                   }} />
                 <Space style={{marginLeft: "auto"}} >
-                  <Button type="primary" onClick={savePlan}>Save</Button>
+                  <Button type="primary" onClick={savePlan}>{t(Translations.confirm.save)}</Button>
                   <Modal
                     visible={saveModalVisible}
                     title={t(Translations.planEditor.savePlanMissingName)}
@@ -340,17 +358,16 @@ const ManagePlans = () : JSX.Element => {
                       setSaveModalVisible(false);
                     }}
                   >
-                    <Input placeholder="Name" key="a" onChange={(change) => {
-                      console.log(change);
+                    <Input placeholder="Name" value={name} onChange={(change) => {
                       setName(change.target.value);
                     }}/>
                   </Modal>
-                  <Button danger onClick={deletePlan}>Delete</Button>
+                  <Button danger onClick={deletePlan}>{t(Translations.confirm.delete)}</Button>
                 </Space>
               </Header>
               <Content style={{display: "flex", width: "100%", padding: "10px", paddingTop: "20px", overflow: "auto"}}>
                 <Row
-                  style={{width: "100%"}}
+                  style={{width: "100%", alignContent: "flex-start"}}
                   justify="center"
                   gutter={16}
                 >

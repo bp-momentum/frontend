@@ -71,6 +71,8 @@ const Translations = {
     deletePlanDescription: "plan-editor.delete-plan-description",
     savePlanMissingName: "plan-editor.save-plan-missing-name",
     saveSuccess: "plan-editor.save-success",
+    cardTooltipRepeats: "plan-editor.card-tooltip-repeats",
+    cardTooltipSets: "plan-editor.card-tooltip-sets",
   },
   weekdays: {
     monday: "weekdays.monday",
@@ -86,6 +88,7 @@ const Translations = {
     no: "confirm.no",
     save: "confirm.save",
     cancel: "confirm.cancel",
+    delete: "confirm.delete",
   }
 };
 
