@@ -54,7 +54,7 @@ const Settings = () : JSX.Element => {
       setError(response.description ?? Translations.errors.unknownError);
       return;
     }
-    setSuccess(response.description ?? Translations.settings.successfullyDeletedAccount);
+    setSuccess(Translations.settings.successfullyDeletedAccount);
 
     setTimeout(() => setSuccess(null), 5000);
 
