@@ -105,7 +105,7 @@ class Api {
 
   parseRoute = (route: string): string => {
     if (route.startsWith("/")) {
-      route = route.substr(1);
+      route = route.substring(1);
     }
     if (this.serverUrl.endsWith("/")) {
       return this.serverUrl + route;
