@@ -7,10 +7,11 @@ import { useAppSelector } from "./redux/hooks";
 import CreateUser from "./pages/createUser";
 import api from "./util/api";
 import Register from "./pages/register";
-import ManagePlans from "./pages/manage/plans";
 import Helper from "./util/helper";
 import AutoLogin from "./pages/autoLogin";
 import Settings from "./pages/settings";
+import EditPlan from "./pages/manage/editPlan";
+import ManagePlans from "./pages/manage/plans";
 
 // Basic App that is just used to Route to different pages
 function App() : JSX.Element {
@@ -53,7 +54,8 @@ function App() : JSX.Element {
       <Route path="/settings" element={<Settings/>}/>
       <Route path="/manage" >  {/* TODO: route to 404 maybe? */}
         <Route path="plans" element={<ManagePlans />} />
-        <Route path="users" element={<>not yet implemented</>} />
+        <Route path="plans/:planId" element={<EditPlan />} />  
+        <Route path="user" element={<>not yet implemented</>} />
       </Route>
       <Route path="*" element={<div style={{fontSize: 180, textAlign: "center"}}> 404 </div>} />
     </Routes>
