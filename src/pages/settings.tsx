@@ -6,7 +6,7 @@ import { Alert, Button, Col, Divider, Modal, Row, Select, Space } from "antd";
 import Api from "../util/api";
 import Routes from "../util/routes";
 import {unsetRefreshToken, unsetToken} from "../redux/token/tokenSlice";
-import ExclamationCircleOutlined from "@ant-design/icons/lib/icons/ExclamationCircleOutlined";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 import Translations from "../localization/translations";
 import { useTranslation } from "react-i18next";
 
@@ -16,7 +16,7 @@ const Settings = () : JSX.Element => {
 
   const dispatch = useAppDispatch();
   const { t, i18n } = useTranslation();
-  const token = useAppSelector(state => state.token.token)!;
+  const token = useAppSelector((state) => state.token.token);
 
   const logout = () => {
     dispatch(unsetRefreshToken());
@@ -51,7 +51,7 @@ const Settings = () : JSX.Element => {
     if (!response) return;
 
     if (!response.success) {
-      setError(t(response.description ?? response.description ?? Translations.errors.unknownError));
+      setError(t(response.description ?? Translations.errors.unknownError));
       return;
     }
     setSuccess(t(Translations.settings.successfullyDeletedAccount));
@@ -119,7 +119,7 @@ const Settings = () : JSX.Element => {
               {error && <Alert message={error} type="error" showIcon style={{marginBottom: "20px"}}/>}
             </Row>
             <Row justify="center">
-              <Button onClick={showDeleteConfirm} danger disabled={helper.getAccountType(token) == "admin"}>{t(Translations.settings.deleteAccount)}</Button>
+              <Button onClick={showDeleteConfirm} danger disabled={token != null && (helper.getAccountType(token) === "admin")}>{t(Translations.settings.deleteAccount)}</Button>
             </Row>
         
           </Col>
