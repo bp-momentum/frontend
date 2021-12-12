@@ -80,6 +80,46 @@ const Routes = {
         refresh_token: props.refreshToken,
       }
     };
+  },
+
+  /**
+   * Fetch all training plans.
+   */
+  getTrainingPlans: (props: {
+  }) : Route => {
+    return {
+      route: "/api/getlistofplans",
+      needsAuth: true,
+      method: "GET"
+    };
+  },
+
+  /**
+   * Fetch a training plan by its id.
+   */
+  getTrainingPlan: (props: {
+    planId: string,
+  }) : Route => {
+    return {
+      route: "/api/getplan",
+      needsAuth: true,
+      method: "POST",
+      body: {
+        plan: props.planId,
+      }
+    };
+  },
+
+  /**
+   * Fetches a list of all exercises.
+   */
+  getExercises: (props: {
+  }) : Route => {
+    return {
+      route: "/api/getexerciselist",
+      needsAuth: true,
+      method: "GET"
+    };
   }
 };
 

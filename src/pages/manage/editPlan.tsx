@@ -1,4 +1,4 @@
-import React, { createRef } from "react";
+import React, { createRef, Key, useEffect } from "react";
 import { Card, Col, InputNumber, Layout, Row, Space, Button, Modal, Input, message, Tooltip } from "antd";
 import { DragDropContext, Droppable, Draggable, DropResult, DraggableLocation } from "react-beautiful-dnd";
 import Container from "../../shared/container";
@@ -6,19 +6,16 @@ import DeleteOutlined from "@ant-design/icons/lib/icons/DeleteOutlined";
 import { t } from "i18next";
 import Translations from "../../localization/translations";
 import { Header } from "antd/lib/layout/layout";
+import api from "../../util/api";
+import Routes from "../../util/routes";
+import { Params, RouteProps, useParams } from "react-router-dom";
 
 const { Sider, Content } = Layout;
 const { confirm } = Modal;
 
-// get from API later
-enum ExerciseType {
-  Squat = "Squat",
-  Pushup = "Pushup",
-  Bench = "Bench",
-  Deadlift = "Deadlift",
-  Row = "Row",
-  Pullup = "Pullup",
-  Situp = "Situp",
+interface ExerciseType {
+  id: number;
+  name: string;
 }
 
 interface ExerciseData {
@@ -33,62 +30,18 @@ interface ExerciseCardData {
   data: ExerciseData;
 }
 
-// reorder all lists after drag and drop
-const reorder = (
-  listLeave: ExerciseCardData[],
-  listJoin: ExerciseCardData[],
-  source: DraggableLocation,
-  dest: DraggableLocation,
-  count: number, 
-  setCount: React.Dispatch<React.SetStateAction<number>>) => {
-
-  const leaveArr = Array.from(listLeave);
-  const joinArr = Array.from(listJoin);
-  const fromStore = source.droppableId === "store";
-  const toStore = dest.droppableId === "store";
-
-  // easy if in same list
-  if (source.droppableId === dest.droppableId) {
-    const item = leaveArr.splice(source.index, 1)[0];
-    leaveArr.splice(dest.index, 0, item);
-    return {leave: leaveArr, join: leaveArr};
-  }
-  
-  // remove from source when moving to store
-  if (toStore) {
-    leaveArr.splice(source.index, 1);
-    return {leave: leaveArr, join: joinArr};
-  }
-
-  // duplicate item when leaving store
-  if (fromStore) {
-    setCount(count + 1);
-    const data = leaveArr[source.index].data;
-    const item = {id: `exercise-${count}`, data: {...data}};
-    joinArr.splice(dest.index, 0, item);
-    return {leave: leaveArr, join: joinArr};
-  }
-
-  // move from list to list (not store)
-  const item = leaveArr.splice(source.index, 1)[0];
-  joinArr.splice(dest.index, 0, item);
-  return {leave: leaveArr, join: joinArr};
-};
-
 const VisibleExercise = ({card, details, collapsed}: {card: ExerciseData, details: boolean, collapsed: boolean}) => {
   const changeSets = (value: number) => {
     card.sets = value;
-    redraw({});
   };
   const changeRepeats = (value: number) => {
     card.repeats = value;
-    redraw({});
   };
 
   return (
     <Card title={
       <div style={{display: "flex", alignItems: "center"}}>
-        <h1 style={{margin: "0"}}>{card.type}</h1>
+        <h1 style={{margin: "0"}}>{card.type.name}</h1>
         {details && collapsed && 
           <Tooltip title={<><span>{t(Translations.planEditor.cardTooltipRepeats, {count: card.repeats}) + t(Translations.planEditor.cardTooltipSets, {count: card.sets})}</span></>}>
             <span style={{margin: "0", marginLeft: "auto", fontWeight: 400, fontSize: "14px"}}>{card.repeats} / {card.sets}</span>
@@ -170,98 +123,192 @@ const Day = ({list, name, displayName}: {list: ExerciseCardData[], name: string,
   );
 };
 
-let redraw: React.Dispatch<React.SetStateAction<Record<string, never>>>;
 let openState: string;
-let setOpenState: React.Dispatch<React.SetStateAction<string>>;
+let setOpenState: (id: string) => void;
 
-const EditPlan = () : JSX.Element => {
-  const [name, setName] = React.useState("");
-  const [count, setCount] = React.useState(0);
-  [, redraw] = React.useState({});
-  [openState, setOpenState] = React.useState("");
+type EditPlanProps = {
+  params: Readonly<Params<string>>;
+};
+type EditPlanState = {
+  name: string;
+  count: number;
+  loaded: boolean;
+  storeItems: ExerciseCardData[];
+  monday: ExerciseCardData[];
+  tuesday: ExerciseCardData[];
+  wednesday: ExerciseCardData[];
+  thursday: ExerciseCardData[];
+  friday: ExerciseCardData[];
+  saturday: ExerciseCardData[];
+  sunday: ExerciseCardData[];
+  saveModalVisible: boolean;
+  openState: string;
+};
 
-  const [storeItems, setStoreItems] = React.useState<ExerciseCardData[]>(
-    Object.values(ExerciseType).map(e => {
-      return {
-        id: e,
-        data: {
-          type: e,
-          description: "string",
-          sets: 1,
-          repeats: 1,
-        }};
-    }));
-  const [monday, setMonday] = React.useState<ExerciseCardData[]>([]);
-  const [tuesday, setTuesday] = React.useState<ExerciseCardData[]>([]);
-  const [wednesday, setWednesday] = React.useState<ExerciseCardData[]>([]);
-  const [thursday, setThursday] = React.useState<ExerciseCardData[]>([]);
-  const [friday, setFriday] = React.useState<ExerciseCardData[]>([]);
-  const [saturday, setSaturday] = React.useState<ExerciseCardData[]>([]);
-  const [sunday, setSunday] = React.useState<ExerciseCardData[]>([]);
+class EditPlan extends React.Component<EditPlanProps, EditPlanState> {
+  StoreSider: React.RefObject<HTMLDivElement>;
+  GarbageSider: React.RefObject<HTMLDivElement>;
 
-  const [saveModalVisible, setSaveModalVisible] = React.useState(false);
+  constructor(props: EditPlanProps) {
+    super(props);
+    this.state = {
+      name: "",
+      count: 0,
+      loaded: false,
+      storeItems: [],
+      monday: [],
+      tuesday: [],
+      wednesday: [],
+      thursday: [],
+      friday: [],
+      saturday: [],
+      sunday: [],
+      saveModalVisible: false,
+      openState: "",
+    };
+ 
+    setOpenState = (id: string) => {
+      console.log(id);
+      this.setState({openState: id});
+    };
+    
+    this.StoreSider = React.createRef<HTMLDivElement>();
+    this.GarbageSider =  React.createRef<HTMLDivElement>();
+  }
 
-  function DropToState(drop: string) {
+  DropToState(drop: string): {get: ExerciseCardData[], set: (data: ExerciseCardData[]) => void} {
     switch (drop) {
     case "monday":
-      return {get: monday, set: setMonday};
+      return {get: this.state.monday, set: (data: ExerciseCardData[]) => this.setState({monday: data})};
     case "tuesday":
-      return {get: tuesday, set: setTuesday};
+      return {get: this.state.tuesday, set: (data: ExerciseCardData[]) => this.setState({tuesday: data})};
     case "wednesday":
-      return {get: wednesday, set: setWednesday};
+      return {get: this.state.wednesday, set: (data: ExerciseCardData[]) => this.setState({wednesday: data})};
     case "thursday":
-      return {get: thursday, set: setThursday};
+      return {get: this.state.thursday, set: (data: ExerciseCardData[]) => this.setState({thursday: data})};
     case "friday":
-      return {get: friday, set: setFriday};
+      return {get: this.state.friday, set: (data: ExerciseCardData[]) => this.setState({friday: data})};
     case "saturday":
-      return {get: saturday, set: setSaturday};
+      return {get: this.state.saturday, set: (data: ExerciseCardData[]) => this.setState({saturday: data})};
     case "sunday":
-      return {get: sunday, set: setSunday};
-    case "garbage":
-      return {get: sunday, set: setSunday};
+      return {get: this.state.sunday, set: (data: ExerciseCardData[]) => this.setState({sunday: data})};
     case "store": default:
-      return {get: storeItems, set: setStoreItems};
+      return {get: this.state.storeItems, set: (data: ExerciseCardData[]) => this.setState({storeItems: data})};
     }
   }
 
-  const StoreSider = createRef<HTMLDivElement>();
-  const GarbageSider = createRef<HTMLDivElement>();
+  // reorder all lists after drag and drop
+  reorder(
+    listLeave: ExerciseCardData[],
+    listJoin: ExerciseCardData[],
+    source: DraggableLocation,
+    dest: DraggableLocation): {leave: ExerciseCardData[], join: ExerciseCardData[]} {
 
-  const onDragEnd = (result: DropResult) => {
-    if (GarbageSider.current)
-      GarbageSider.current.style.display = "none";
+    const leaveArr = Array.from(listLeave);
+    const joinArr = Array.from(listJoin);
+    const fromStore = source.droppableId === "store";
+    const toStore = dest.droppableId === "store";
+
+    // easy if in same list
+    if (source.droppableId === dest.droppableId) {
+      const item = leaveArr.splice(source.index, 1)[0];
+      leaveArr.splice(dest.index, 0, item);
+      return {leave: leaveArr, join: leaveArr};
+    }
+  
+    // remove from source when moving to store
+    if (toStore) {
+      leaveArr.splice(source.index, 1);
+      return {leave: leaveArr, join: joinArr};
+    }
+
+    // duplicate item when leaving store
+    if (fromStore) {
+      this.setState({count: this.state.count + 1});
+      const data = leaveArr[source.index].data;
+      const item = {id: `exercise-${this.state.count}`, data: {...data}};
+      joinArr.splice(dest.index, 0, item);
+      return {leave: leaveArr, join: joinArr};
+    }
+
+    // move from list to list (not store)
+    const item = leaveArr.splice(source.index, 1)[0];
+    joinArr.splice(dest.index, 0, item);
+    return {leave: leaveArr, join: joinArr};
+  }
+
+  componentDidMount(): void {
+    setTimeout(() => {
+      // load exercises from server
+
+      api.execute(Routes.getExercises({})).then((response) => {
+        console.log(response);
+        if (!response.success) return;
+        const storeItems = response.data.exercise_list.map((item: any) => (
+          {id: `store-${item.id}`, data: {
+            type: {id: item.id, name: item.title},
+            description: "string",
+            sets: 1,
+            repeats: 1,
+          }}
+        ));
+        this.setState({storeItems: storeItems});
+      });
+
+      const { planId } = this.props.params;
+
+      if (!this.state.loaded && planId && planId !== "new") {
+        this.setState({loaded: true});
+        console.log("Loading plan", planId);
+        api.execute(Routes.getTrainingPlan({planId: planId})).then(response => {
+          if (!response.success) return;
+          this.setState({name: response.data.name});
+          response.data.exercises.forEach((element: any, i: number) => {
+            const item = {id: `restored-${i}`, data: {
+              type: {id: 1, name: "Squat"},
+              sets: element.sets,
+              repeats: element.repeats_per_set}};
+            this.DropToState(element.date).set(this.DropToState(element.date).get.concat(item));
+          });
+        });
+      }
+    }, 500);  // wait for token to load
+  }
+
+  onDragEnd(result: DropResult): void {
+    console.log(this);
+    if (this.GarbageSider?.current)
+      this.GarbageSider.current.style.display = "none";
 
     if (!result.destination) {
       return;
     }
 
-    const {join, leave} = reorder(
-      DropToState(result.source.droppableId).get,
-      DropToState(result.destination.droppableId).get,
+    const {join, leave} = this.reorder(
+      this.DropToState(result.source.droppableId).get,
+      this.DropToState(result.destination.droppableId).get,
       result.source,
-      result.destination,
-      count,
-      setCount
+      result.destination
     );
-    DropToState(result.source.droppableId).set(leave);
-    DropToState(result.destination.droppableId).set(join);
-  };
+    this.DropToState(result.source.droppableId).set(leave);
+    this.DropToState(result.destination.droppableId).set(join);
+  }
 
-  const save = () => {
+  save(): void {
     // TODO save plan
     message.success(t(Translations.planEditor.saveSuccess));
-  };
+  }
 
-  const savePlan = () => {
-    if (!name) {
-      setSaveModalVisible(true);
+  savePlan(): void {
+    if (!this.state.name) {
+      this.setState({saveModalVisible: true});
     }
     else {
-      save();
+      this.save();
     }
-  };
+  }
 
-  const deletePlan = () => {
+  deletePlan(): void {
     confirm({
       title: t(Translations.planEditor.deletePlanConfirm),
       content: t(Translations.planEditor.deletePlanDescription),
@@ -275,117 +322,129 @@ const EditPlan = () : JSX.Element => {
         // If not on server, just redirect to home
       },
     });
-  };
+  }
+
+  render(): React.ReactElement {
+    return (
+      <Container
+        currentPage="manage"
+        color="blue"
+      >
+        <Layout style={{height: "100%", position: "absolute", maxHeight: "100%", width: "100%"}}>
+          <DragDropContext onDragEnd={(result) => this.onDragEnd(result)} onDragStart={()=> {
+            if (this.GarbageSider.current)
+              this.GarbageSider.current.style.display = "block";
+          }}>
+            <Sider 
+              ref={this.StoreSider}
+              style={{background: "#e0e0e0", padding: "0", paddingTop: "20px"}} width="220px">
+              <div
+                style={{height: "100%", display: "flex", flexDirection: "column"}}>
+                <h1 style={{padding: "0 10px"}}>{t(Translations.planEditor.exercises)}</h1>
+                <div style={{overflow: "auto", padding: "0 10px", flexGrow: 1, display: "flex"}} >
+                  <Droppable droppableId="store">
+                    {(provided) => (
+                      <div
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                        style={{flexGrow: 1}}
+                      >
+                        {this.state.storeItems.map((item, index) => (
+                          <Exercise key={item.id} item={{...item}} index={index} details={false} />
+                        ))}
+                        {provided.placeholder}
+                      </div>
+                    )}
+                  </Droppable>
+                </div>
+              </div>
+            </Sider>
+            <Sider 
+              ref={this.GarbageSider}
+              style={{background: "#e0e0e0", padding: "20px 0", position: "absolute", height: "100%", display: "none"}} width="220px">
+              <div
+                style={{height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
+                <div style={{
+                  width: "180px",
+                  padding: "20px",
+                  textAlign: "center",
+                  border: "2px dashed gray",
+                  borderRadius: "20px",
+                  userSelect: "none"}}>
+                  <DeleteOutlined style={{fontSize: 50}} />
+                  <br />
+                  {t(Translations.planEditor.deleteExercise)}
+                </div>
+              </div>
+            </Sider>
+            <Content style={{display: "flex", width: "100%"}}>
+              <Layout>
+                <Header style={{backgroundColor: "#fff", display: "flex", padding: "0px 20px", alignItems: "center"}}>
+                  <Input 
+                    placeholder={t(Translations.planEditor.unnamed)}
+                    value={this.state.name}
+                    bordered={false}
+                    onChange={change => {
+                      this.setState({name: change.target.value});
+                    }} />
+                  <Space style={{marginLeft: "auto"}} >
+                    <Button type="primary" onClick={this.savePlan}>{t(Translations.confirm.save)}</Button>
+                    <Modal
+                      visible={this.state.saveModalVisible}
+                      title={t(Translations.planEditor.savePlanMissingName)}
+                      okText={t(Translations.confirm.save)}
+                      okType="primary"
+                      okButtonProps={{
+                        disabled: this.state.name === "",
+                      }}
+                      cancelText={t(Translations.confirm.cancel)}
+                      onOk={() => {
+                        this.setState({saveModalVisible: false});
+                        this.savePlan();
+                      }}
+                      onCancel={() => {
+                        this.setState({saveModalVisible: false});
+                      }}
+                    >
+                      <Input placeholder="Name" value={this.state.name} onChange={(change) => {
+                        this.setState({name: change.target.value});
+                      }}/>
+                    </Modal>
+                    <Button danger onClick={this.deletePlan}>{t(Translations.confirm.delete)}</Button>
+                  </Space>
+                </Header>
+                <Content style={{display: "flex", width: "100%", padding: "10px", paddingTop: "20px", overflow: "auto"}}>
+                  <Row
+                    style={{width: "100%", alignContent: "flex-start"}}
+                    justify="center"
+                    gutter={16}
+                  >
+                    <Day list={this.state.monday} name="monday" displayName={t(Translations.weekdays.monday)}></Day>
+                    <Day list={this.state.tuesday} name="tuesday" displayName={t(Translations.weekdays.tuesday)}></Day>
+                    <Day list={this.state.wednesday} name="wednesday" displayName={t(Translations.weekdays.wednesday)}></Day>
+                    <Day list={this.state.thursday} name="thursday" displayName={t(Translations.weekdays.thursday)}></Day>
+                    <Day list={this.state.friday} name="friday" displayName={t(Translations.weekdays.friday)}></Day>
+                    <Day list={this.state.saturday} name="saturday" displayName={t(Translations.weekdays.saturday)}></Day>
+                    <Day list={this.state.sunday} name="sunday" displayName={t(Translations.weekdays.sunday)}></Day>
+                  </Row>
+                </Content>
+              </Layout>
+            </Content>
+          </DragDropContext>
+        </Layout>
+      </Container>
+    );
+  }
+}
+
+// This is required to use the params hook.
+// (It only works in functional components)
+const EditPlanWrapper = (): JSX.Element => {
+  const params = useParams();
 
   return (
-    <Container
-      currentPage="manage"
-      color="blue"
-    >
-      <Layout style={{height: "100%", position: "absolute", maxHeight: "100%", width: "100%"}}>
-        <DragDropContext onDragEnd={onDragEnd} onDragStart={()=> {
-          if (GarbageSider.current)
-            GarbageSider.current.style.display = "block";
-        }}>
-          <Sider 
-            ref={StoreSider}
-            style={{background: "#e0e0e0", padding: "0", paddingTop: "20px"}} width="220px">
-            <div
-              style={{height: "100%", display: "flex", flexDirection: "column"}}>
-              <h1 style={{padding: "0 10px"}}>{t(Translations.planEditor.exercises)}</h1>
-              <div style={{overflow: "auto", padding: "0 10px", flexGrow: 1}} >
-                <Droppable droppableId="store">
-                  {(provided) => (
-                    <div
-                      {...provided.droppableProps}
-                      ref={provided.innerRef}
-                      style={{}}
-                    >
-                      {storeItems.map((item, index) => (
-                        <Exercise key={item.id} item={{...item}} index={index} details={false} />
-                      ))}
-                      {provided.placeholder}
-                    </div>
-                  )}
-                </Droppable>
-              </div>
-            </div>
-          </Sider>
-          <Sider 
-            ref={GarbageSider}
-            style={{background: "#e0e0e0", padding: "20px 0", position: "absolute", height: "100%", display: "none"}} width="220px">
-            <div
-              style={{height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
-              <div style={{
-                width: "180px",
-                padding: "20px",
-                textAlign: "center",
-                border: "2px dashed gray",
-                borderRadius: "20px",
-                userSelect: "none"}}>
-                <DeleteOutlined style={{fontSize: 50}} />
-                <br />
-                {t(Translations.planEditor.deleteExercise)}
-              </div>
-            </div>
-          </Sider>
-          <Content style={{display: "flex", width: "100%"}}>
-            <Layout>
-              <Header style={{backgroundColor: "#fff", display: "flex", padding: "0px 20px", alignItems: "center"}}>
-                <Input 
-                  placeholder={t(Translations.planEditor.unnamed)}
-                  value={name}
-                  bordered={false}
-                  onChange={change => {
-                    setName(change.target.value);
-                  }} />
-                <Space style={{marginLeft: "auto"}} >
-                  <Button type="primary" onClick={savePlan}>{t(Translations.confirm.save)}</Button>
-                  <Modal
-                    visible={saveModalVisible}
-                    title={t(Translations.planEditor.savePlanMissingName)}
-                    okText={t(Translations.confirm.save)}
-                    okType="primary"
-                    okButtonProps={{
-                      disabled: name === "",
-                    }}
-                    cancelText={t(Translations.confirm.cancel)}
-                    onOk={() => {
-                      setSaveModalVisible(false);
-                      savePlan();
-                    }}
-                    onCancel={() => {
-                      setSaveModalVisible(false);
-                    }}
-                  >
-                    <Input placeholder="Name" value={name} onChange={(change) => {
-                      setName(change.target.value);
-                    }}/>
-                  </Modal>
-                  <Button danger onClick={deletePlan}>{t(Translations.confirm.delete)}</Button>
-                </Space>
-              </Header>
-              <Content style={{display: "flex", width: "100%", padding: "10px", paddingTop: "20px", overflow: "auto"}}>
-                <Row
-                  style={{width: "100%", alignContent: "flex-start"}}
-                  justify="center"
-                  gutter={16}
-                >
-                  <Day list={monday} name="monday" displayName={t(Translations.weekdays.monday)}></Day>
-                  <Day list={tuesday} name="tuesday" displayName={t(Translations.weekdays.tuesday)}></Day>
-                  <Day list={wednesday} name="wednesday" displayName={t(Translations.weekdays.wednesday)}></Day>
-                  <Day list={thursday} name="thursday" displayName={t(Translations.weekdays.thursday)}></Day>
-                  <Day list={friday} name="friday" displayName={t(Translations.weekdays.friday)}></Day>
-                  <Day list={saturday} name="saturday" displayName={t(Translations.weekdays.saturday)}></Day>
-                  <Day list={sunday} name="sunday" displayName={t(Translations.weekdays.sunday)}></Day>
-                </Row>
-              </Content>
-            </Layout>
-          </Content>
-        </DragDropContext>
-      </Layout>
-    </Container>
+    <EditPlan params={params} />
   );
 };
 
-export default EditPlan;
+export default EditPlanWrapper;

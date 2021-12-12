@@ -57,7 +57,7 @@ export default function Container (props: ContainerProps) : JSX.Element {
           {(isTrainer || isAdmin) && 
             <SubMenu key="manage" title={t(Translations.tabBar.manage)} icon={<SettingTwoTone twoToneColor={props.color}/>}>
               <Menu.Item key="manage_user" icon={<TeamOutlined style={{color: color}} />}>{t(Translations.tabBar.user)}</Menu.Item>
-              <Menu.Item key="manage_plans" icon={<CalendarOutlined style={{color: color}} />}>{t(Translations.tabBar.plans)}</Menu.Item>
+              {isTrainer && <Menu.Item key="manage_plans" icon={<CalendarOutlined style={{color: color}} />}>{t(Translations.tabBar.plans)}</Menu.Item>}
             </SubMenu>
           }
           {!(isTrainer || isAdmin) &&
