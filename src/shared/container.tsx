@@ -38,9 +38,7 @@ export default function Container (props: ContainerProps) : JSX.Element {
   const { t } = useTranslation();
 
   const handleClick = (e: MenuInfo) => {
-    if (e?.key !== props.currentPage) {
-      navigate(pageToRoute[e.key as pages]);
-    }
+    navigate(pageToRoute[e.key as pages]);
   };
   
   const token = useAppSelector(state => state.token.token);

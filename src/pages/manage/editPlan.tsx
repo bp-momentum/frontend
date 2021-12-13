@@ -1,5 +1,5 @@
-import React, { createRef, Key, useEffect } from "react";
-import { Card, Col, InputNumber, Layout, Row, Space, Button, Modal, Input, message, Tooltip } from "antd";
+import React, { useEffect } from "react";
+import { Card, Col, InputNumber, Layout, Row, Space, Button, Modal, Input, message, Tooltip, Spin } from "antd";
 import { DragDropContext, Droppable, Draggable, DropResult, DraggableLocation } from "react-beautiful-dnd";
 import Container from "../../shared/container";
 import DeleteOutlined from "@ant-design/icons/lib/icons/DeleteOutlined";
@@ -8,19 +8,15 @@ import Translations from "../../localization/translations";
 import { Header } from "antd/lib/layout/layout";
 import api from "../../util/api";
 import Routes from "../../util/routes";
-import { Params, RouteProps, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const { Sider, Content } = Layout;
 const { confirm } = Modal;
 
-interface ExerciseType {
-  id: number;
-  name: string;
-}
 
 interface ExerciseData {
-  type: ExerciseType;
-  description?: string;
+  type: number;
   sets: number;
   repeats: number;
 }
@@ -29,6 +25,14 @@ interface ExerciseCardData {
   id: string;
   data: ExerciseData;
 }
+
+const truncate = (str: string, n : number) => {
+  return str?.length > n ? str.substr(0, n - 1) + "..." : str;
+};
+
+const ExerciseIdToName = (id: number) => (
+  truncate(exercises.filter(exercise => exercise.id === id).map(exercise => exercise.title)[0], 15) ?? <i>Unknown</i>
+);
 
 const VisibleExercise = ({card, details, collapsed}: {card: ExerciseData, details: boolean, collapsed: boolean}) => {
   const changeSets = (value: number) => {
@@ -41,7 +45,7 @@ const VisibleExercise = ({card, details, collapsed}: {card: ExerciseData, detail
   return (
     <Card title={
       <div style={{display: "flex", alignItems: "center"}}>
-        <h1 style={{margin: "0"}}>{card.type.name}</h1>
+        <h1 style={{margin: "0"}}>{ExerciseIdToName(card.type)}</h1>
         {details && collapsed && 
           <Tooltip title={<><span>{t(Translations.planEditor.cardTooltipRepeats, {count: card.repeats}) + t(Translations.planEditor.cardTooltipSets, {count: card.sets})}</span></>}>
             <span style={{margin: "0", marginLeft: "auto", fontWeight: 400, fontSize: "14px"}}>{card.repeats} / {card.sets}</span>
@@ -125,84 +129,61 @@ const Day = ({list, name, displayName}: {list: ExerciseCardData[], name: string,
 
 let openState: string;
 let setOpenState: (id: string) => void;
+let exercises: {id: number, title: string}[];
 
-type EditPlanProps = {
-  params: Readonly<Params<string>>;
-};
-type EditPlanState = {
-  name: string;
-  count: number;
-  loaded: boolean;
-  storeItems: ExerciseCardData[];
-  monday: ExerciseCardData[];
-  tuesday: ExerciseCardData[];
-  wednesday: ExerciseCardData[];
-  thursday: ExerciseCardData[];
-  friday: ExerciseCardData[];
-  saturday: ExerciseCardData[];
-  sunday: ExerciseCardData[];
-  saveModalVisible: boolean;
-  openState: string;
-};
+const EditPlan = (): JSX.Element => {
+  const [name, setName] = React.useState("");
+  const [count, setCount] = React.useState(0);
+  const [storeItems, setStoreItems] = React.useState<ExerciseCardData[]>([]);
+  const [monday, setMonday] = React.useState<ExerciseCardData[]>([]);
+  const [tuesday, setTuesday] = React.useState<ExerciseCardData[]>([]);
+  const [wednesday, setWednesday] = React.useState<ExerciseCardData[]>([]);
+  const [thursday, setThursday] = React.useState<ExerciseCardData[]>([]);
+  const [friday, setFriday] = React.useState<ExerciseCardData[]>([]);
+  const [saturday, setSaturday] = React.useState<ExerciseCardData[]>([]);
+  const [sunday, setSunday] = React.useState<ExerciseCardData[]>([]);
+  const [saveModalVisible, setSaveModalVisible] = React.useState(false);
+  [openState, setOpenState] = React.useState("");
+  const [planLoaded, setPlanLoaded] = React.useState(false);
+  const [exercisesLoaded, setExercisesLoaded] = React.useState(false);
 
-class EditPlan extends React.Component<EditPlanProps, EditPlanState> {
-  StoreSider: React.RefObject<HTMLDivElement>;
-  GarbageSider: React.RefObject<HTMLDivElement>;
+  let setExercises: (exercises: {id: number, title: string}[]) => void;
+  [exercises, setExercises] = React.useState<{id: number, title: string}[]>([]);
 
-  constructor(props: EditPlanProps) {
-    super(props);
-    this.state = {
-      name: "",
-      count: 0,
-      loaded: false,
-      storeItems: [],
-      monday: [],
-      tuesday: [],
-      wednesday: [],
-      thursday: [],
-      friday: [],
-      saturday: [],
-      sunday: [],
-      saveModalVisible: false,
-      openState: "",
-    };
- 
-    setOpenState = (id: string) => {
-      console.log(id);
-      this.setState({openState: id});
-    };
-    
-    this.StoreSider = React.createRef<HTMLDivElement>();
-    this.GarbageSider =  React.createRef<HTMLDivElement>();
-  }
+  const StoreSider = React.createRef<HTMLDivElement>();
+  const GarbageSider = React.createRef<HTMLDivElement>();
 
-  DropToState(drop: string): {get: ExerciseCardData[], set: (data: ExerciseCardData[]) => void} {
+  const { planId } = useParams();
+
+  const navigate = useNavigate();
+
+  const DropToState = (drop: string): {get: ExerciseCardData[], set: (data: ExerciseCardData[]) => void} => {
     switch (drop) {
     case "monday":
-      return {get: this.state.monday, set: (data: ExerciseCardData[]) => this.setState({monday: data})};
+      return {get: monday, set: setMonday};
     case "tuesday":
-      return {get: this.state.tuesday, set: (data: ExerciseCardData[]) => this.setState({tuesday: data})};
+      return {get: tuesday, set: setTuesday};
     case "wednesday":
-      return {get: this.state.wednesday, set: (data: ExerciseCardData[]) => this.setState({wednesday: data})};
+      return {get: wednesday, set: setWednesday};
     case "thursday":
-      return {get: this.state.thursday, set: (data: ExerciseCardData[]) => this.setState({thursday: data})};
+      return {get: thursday, set: setThursday};
     case "friday":
-      return {get: this.state.friday, set: (data: ExerciseCardData[]) => this.setState({friday: data})};
+      return {get: friday, set: setFriday};
     case "saturday":
-      return {get: this.state.saturday, set: (data: ExerciseCardData[]) => this.setState({saturday: data})};
+      return {get: saturday, set: setSaturday};
     case "sunday":
-      return {get: this.state.sunday, set: (data: ExerciseCardData[]) => this.setState({sunday: data})};
+      return {get: sunday, set: setSunday};
     case "store": default:
-      return {get: this.state.storeItems, set: (data: ExerciseCardData[]) => this.setState({storeItems: data})};
+      return {get: storeItems, set: setStoreItems};
     }
-  }
+  };
 
   // reorder all lists after drag and drop
-  reorder(
+  const reorder = (
     listLeave: ExerciseCardData[],
     listJoin: ExerciseCardData[],
     source: DraggableLocation,
-    dest: DraggableLocation): {leave: ExerciseCardData[], join: ExerciseCardData[]} {
+    dest: DraggableLocation): {leave: ExerciseCardData[], join: ExerciseCardData[]} => {
 
     const leaveArr = Array.from(listLeave);
     const joinArr = Array.from(listJoin);
@@ -224,9 +205,9 @@ class EditPlan extends React.Component<EditPlanProps, EditPlanState> {
 
     // duplicate item when leaving store
     if (fromStore) {
-      this.setState({count: this.state.count + 1});
+      setCount(count + 1);
       const data = leaveArr[source.index].data;
-      const item = {id: `exercise-${this.state.count}`, data: {...data}};
+      const item = {id: `exercise-${count}`, data: {...data}};
       joinArr.splice(dest.index, 0, item);
       return {leave: leaveArr, join: joinArr};
     }
@@ -235,80 +216,109 @@ class EditPlan extends React.Component<EditPlanProps, EditPlanState> {
     const item = leaveArr.splice(source.index, 1)[0];
     joinArr.splice(dest.index, 0, item);
     return {leave: leaveArr, join: joinArr};
-  }
+  };
 
-  componentDidMount(): void {
-    setTimeout(() => {
-      // load exercises from server
-
+  useEffect(() => {
+    // load exercises from server
+    if (!exercisesLoaded) {
       api.execute(Routes.getExercises({})).then((response) => {
-        console.log(response);
         if (!response.success) return;
-        const storeItems = response.data.exercise_list.map((item: any) => (
+        const storeItems = response.data.exercises.map((item: {id: number, title: string}) => (
           {id: `store-${item.id}`, data: {
-            type: {id: item.id, name: item.title},
+            type: item.id,
             description: "string",
             sets: 1,
             repeats: 1,
           }}
         ));
-        this.setState({storeItems: storeItems});
+        setStoreItems(storeItems);
+        setExercises(response.data.exercises);
+        setExercisesLoaded(true);
       });
+    }
 
-      const { planId } = this.props.params;
+    if (!planLoaded && planId && planId !== "new") {
+      api.execute(Routes.getTrainingPlan({planId: planId})).then(response => {
+        if (!response.success) return;
+        setName(response.data.name);
+        for (const day of ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]) {
+          const list1 = response.data.exercises.filter((item: {id: number, sets: number, repeats_per_set: number, date: string}) => item.date === day);
+          const list2 = list1.map((item: {id: number, sets: number, repeats_per_set: number, date: string}, index: number) => (
+            {id: `restored-${day}-${index}`, 
+              data: {
+                type: item.id,
+                sets: item.sets,
+                repeats: item.repeats_per_set}
+            }));
+          DropToState(day).set(list2);
+        }
+        setPlanLoaded(true);
+      });
+    }
 
-      if (!this.state.loaded && planId && planId !== "new") {
-        this.setState({loaded: true});
-        console.log("Loading plan", planId);
-        api.execute(Routes.getTrainingPlan({planId: planId})).then(response => {
-          if (!response.success) return;
-          this.setState({name: response.data.name});
-          response.data.exercises.forEach((element: any, i: number) => {
-            const item = {id: `restored-${i}`, data: {
-              type: {id: 1, name: "Squat"},
-              sets: element.sets,
-              repeats: element.repeats_per_set}};
-            this.DropToState(element.date).set(this.DropToState(element.date).get.concat(item));
-          });
-        });
-      }
-    }, 500);  // wait for token to load
-  }
+    if (planId === "new") {
+      setPlanLoaded(true);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [planId]);
 
-  onDragEnd(result: DropResult): void {
-    console.log(this);
-    if (this.GarbageSider?.current)
-      this.GarbageSider.current.style.display = "none";
+  const onDragEnd = (result: DropResult) => {
+    if (GarbageSider?.current)
+      GarbageSider.current.style.display = "none";
 
     if (!result.destination) {
       return;
     }
 
-    const {join, leave} = this.reorder(
-      this.DropToState(result.source.droppableId).get,
-      this.DropToState(result.destination.droppableId).get,
+    const {join, leave} = reorder(
+      DropToState(result.source.droppableId).get,
+      DropToState(result.destination.droppableId).get,
       result.source,
       result.destination
     );
-    this.DropToState(result.source.droppableId).set(leave);
-    this.DropToState(result.destination.droppableId).set(join);
-  }
+    DropToState(result.source.droppableId).set(leave);
+    DropToState(result.destination.droppableId).set(join);
+  };
 
-  save(): void {
-    // TODO save plan
-    message.success(t(Translations.planEditor.saveSuccess));
-  }
+  const save = () => {
+    const data: any = {};
+    if (planId !== "new") data.id = planId;
+    data.name = name;
+    data.exercise = [];
+    for (const date of ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]) {
+      const list = DropToState(date).get;
+      const items = list.map((item: ExerciseCardData) => ({
+        date: date,
+        id: item.data.type,
+        sets: item.data.sets,
+        repeats_per_set: item.data.repeats
+      }));
+      data.exercise = data.exercise.concat(items);
+    }
 
-  savePlan(): void {
-    if (!this.state.name) {
-      this.setState({saveModalVisible: true});
+    api.execute(Routes.saveTrainingPlan(data)).then(response => {
+      if (!response.success) {
+        message.error(t(Translations.planEditor.saveError));
+        return;
+      }
+      if (response.data.plan_id !== planId) {
+        navigate(`../plans/${response.data.plan_id}`, {replace: true});
+      }
+      message.success(t(Translations.planEditor.saveSuccess));
+    });
+
+  };
+
+  const savePlan = () => {
+    if (!name) {
+      setSaveModalVisible(true);
     }
     else {
-      this.save();
+      save();
     }
-  }
+  };
 
-  deletePlan(): void {
+  const deletePlan = () => {
     confirm({
       title: t(Translations.planEditor.deletePlanConfirm),
       content: t(Translations.planEditor.deletePlanDescription),
@@ -316,28 +326,46 @@ class EditPlan extends React.Component<EditPlanProps, EditPlanState> {
       okType: "danger",
       cancelText: t(Translations.confirm.no),
       onOk() {
-        // TODO delete plan
-        // If on server, send request to delete plan
-        // If deleted successfully, redirect to home
-        // If not on server, just redirect to home
+        if (planId && planId !== "new") {
+          api.execute(Routes.deleteTrainingPlan({planId: planId})).then(response => {
+            if (!response.success) {
+              message.error(t(Translations.planEditor.deleteError));
+              return;
+            }
+            else {
+              message.success(t(Translations.planEditor.deleteSuccess));
+              navigate("../plans", {replace: true});
+            }
+          });
+        }
+        else {
+          message.success(t(Translations.planEditor.deleteSuccess));
+          navigate("../plans", {replace: true});
+        }
       },
     });
-  }
+  };
 
-  render(): React.ReactElement {
-    return (
-      <Container
-        currentPage="manage"
-        color="blue"
-      >
-        <Layout style={{height: "100%", position: "absolute", maxHeight: "100%", width: "100%"}}>
-          <DragDropContext onDragEnd={(result) => this.onDragEnd(result)} onDragStart={()=> {
-            if (this.GarbageSider.current)
-              this.GarbageSider.current.style.display = "block";
-          }}>
-            <Sider 
-              ref={this.StoreSider}
-              style={{background: "#e0e0e0", padding: "0", paddingTop: "20px"}} width="220px">
+  
+  return (
+    <Container
+      currentPage="manage"
+      color="blue"
+    >
+      <Layout style={{height: "100%", position: "absolute", maxHeight: "100%", width: "100%"}}>
+        <DragDropContext onDragEnd={(result) => onDragEnd(result)} onDragStart={()=> {
+          if (GarbageSider.current)
+            GarbageSider.current.style.display = "block";
+        }}>
+          <Sider 
+            ref={StoreSider}
+            style={{background: "#e0e0e0", padding: "0", paddingTop: "20px"}} width="220px">
+            {!exercisesLoaded ? (
+              <div style={{height: "100%", width: "100%", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
+                <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
+                <div>{t(Translations.planManager.loading)}</div>
+              </div>
+            ) :(
               <div
                 style={{height: "100%", display: "flex", flexDirection: "column"}}>
                 <h1 style={{padding: "0 10px"}}>{t(Translations.planEditor.exercises)}</h1>
@@ -349,7 +377,7 @@ class EditPlan extends React.Component<EditPlanProps, EditPlanState> {
                         ref={provided.innerRef}
                         style={{flexGrow: 1}}
                       >
-                        {this.state.storeItems.map((item, index) => (
+                        {storeItems.map((item, index) => (
                           <Exercise key={item.id} item={{...item}} index={index} details={false} />
                         ))}
                         {provided.placeholder}
@@ -358,59 +386,66 @@ class EditPlan extends React.Component<EditPlanProps, EditPlanState> {
                   </Droppable>
                 </div>
               </div>
-            </Sider>
-            <Sider 
-              ref={this.GarbageSider}
-              style={{background: "#e0e0e0", padding: "20px 0", position: "absolute", height: "100%", display: "none"}} width="220px">
-              <div
-                style={{height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
-                <div style={{
-                  width: "180px",
-                  padding: "20px",
-                  textAlign: "center",
-                  border: "2px dashed gray",
-                  borderRadius: "20px",
-                  userSelect: "none"}}>
-                  <DeleteOutlined style={{fontSize: 50}} />
-                  <br />
-                  {t(Translations.planEditor.deleteExercise)}
-                </div>
+            )}
+          </Sider>
+          <Sider 
+            ref={GarbageSider}
+            style={{background: "#e0e0e0", padding: "20px 0", position: "absolute", height: "100%", display: "none"}} width="220px">
+            <div
+              style={{height: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}>
+              <div style={{
+                width: "180px",
+                padding: "20px",
+                textAlign: "center",
+                border: "2px dashed gray",
+                borderRadius: "20px",
+                userSelect: "none"}}>
+                <DeleteOutlined style={{fontSize: 50}} />
+                <br />
+                {t(Translations.planEditor.deleteExercise)}
               </div>
-            </Sider>
-            <Content style={{display: "flex", width: "100%"}}>
+            </div>
+          </Sider>
+          <Content style={{display: "flex", width: "100%"}}>
+            {!planLoaded ? (
+              <div style={{height: "100%", width: "100%", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
+                <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
+                <div>{t(Translations.planManager.loading)}</div>
+              </div>
+            ) : (
               <Layout>
                 <Header style={{backgroundColor: "#fff", display: "flex", padding: "0px 20px", alignItems: "center"}}>
                   <Input 
                     placeholder={t(Translations.planEditor.unnamed)}
-                    value={this.state.name}
+                    value={name}
                     bordered={false}
                     onChange={change => {
-                      this.setState({name: change.target.value});
+                      setName(change.target.value);
                     }} />
                   <Space style={{marginLeft: "auto"}} >
-                    <Button type="primary" onClick={this.savePlan}>{t(Translations.confirm.save)}</Button>
+                    <Button type="primary" onClick={savePlan}>{t(Translations.confirm.save)}</Button>
                     <Modal
-                      visible={this.state.saveModalVisible}
+                      visible={saveModalVisible}
                       title={t(Translations.planEditor.savePlanMissingName)}
                       okText={t(Translations.confirm.save)}
                       okType="primary"
                       okButtonProps={{
-                        disabled: this.state.name === "",
+                        disabled: name === "",
                       }}
                       cancelText={t(Translations.confirm.cancel)}
                       onOk={() => {
-                        this.setState({saveModalVisible: false});
-                        this.savePlan();
+                        setSaveModalVisible(false);
+                        savePlan();
                       }}
                       onCancel={() => {
-                        this.setState({saveModalVisible: false});
+                        setSaveModalVisible(false);
                       }}
                     >
-                      <Input placeholder="Name" value={this.state.name} onChange={(change) => {
-                        this.setState({name: change.target.value});
+                      <Input placeholder={t(Translations.planEditor.unnamed)} value={name} onChange={(change) => {
+                        setName(change.target.value);
                       }}/>
                     </Modal>
-                    <Button danger onClick={this.deletePlan}>{t(Translations.confirm.delete)}</Button>
+                    <Button danger onClick={deletePlan}>{t(Translations.confirm.delete)}</Button>
                   </Space>
                 </Header>
                 <Content style={{display: "flex", width: "100%", padding: "10px", paddingTop: "20px", overflow: "auto"}}>
@@ -419,32 +454,22 @@ class EditPlan extends React.Component<EditPlanProps, EditPlanState> {
                     justify="center"
                     gutter={16}
                   >
-                    <Day list={this.state.monday} name="monday" displayName={t(Translations.weekdays.monday)}></Day>
-                    <Day list={this.state.tuesday} name="tuesday" displayName={t(Translations.weekdays.tuesday)}></Day>
-                    <Day list={this.state.wednesday} name="wednesday" displayName={t(Translations.weekdays.wednesday)}></Day>
-                    <Day list={this.state.thursday} name="thursday" displayName={t(Translations.weekdays.thursday)}></Day>
-                    <Day list={this.state.friday} name="friday" displayName={t(Translations.weekdays.friday)}></Day>
-                    <Day list={this.state.saturday} name="saturday" displayName={t(Translations.weekdays.saturday)}></Day>
-                    <Day list={this.state.sunday} name="sunday" displayName={t(Translations.weekdays.sunday)}></Day>
+                    <Day list={monday} name="monday" displayName={t(Translations.weekdays.monday)}></Day>
+                    <Day list={tuesday} name="tuesday" displayName={t(Translations.weekdays.tuesday)}></Day>
+                    <Day list={wednesday} name="wednesday" displayName={t(Translations.weekdays.wednesday)}></Day>
+                    <Day list={thursday} name="thursday" displayName={t(Translations.weekdays.thursday)}></Day>
+                    <Day list={friday} name="friday" displayName={t(Translations.weekdays.friday)}></Day>
+                    <Day list={saturday} name="saturday" displayName={t(Translations.weekdays.saturday)}></Day>
+                    <Day list={sunday} name="sunday" displayName={t(Translations.weekdays.sunday)}></Day>
                   </Row>
                 </Content>
               </Layout>
-            </Content>
-          </DragDropContext>
-        </Layout>
-      </Container>
-    );
-  }
-}
-
-// This is required to use the params hook.
-// (It only works in functional components)
-const EditPlanWrapper = (): JSX.Element => {
-  const params = useParams();
-
-  return (
-    <EditPlan params={params} />
+            )}
+          </Content>
+        </DragDropContext>
+      </Layout>
+    </Container>
   );
 };
 
-export default EditPlanWrapper;
+export default EditPlan;

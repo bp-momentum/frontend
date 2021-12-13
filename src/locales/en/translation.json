@@ -62,6 +62,11 @@
     "logout": "Logout",
     "change-language": "Change your language!"
   },
+  "plan-manager": {
+    "new-plan": "New Plan",
+    "loading": "Loading...",
+    "error": "An error occurred!"
+  },
   "plan-editor": {
     "unnamed": "Unnamed Plan",
     "exercises": "Exercises",
@@ -71,6 +76,9 @@
     "delete-plan-description": "This will delete the plan and all of its exercises.",
     "save-plan-missing-name": "Please enter a name for your plan!",
     "save-success": "Successfully saved plan!",
+    "save-error": "An error occurred while saving your plan!",
+    "delete-success": "Successfully deleted plan!",
+    "delete-error": "An error occurred while deleting the plan!",
     "card-tooltip-repeats_one": "{{count}} repeat",
     "card-tooltip-repeats_other": "{{count}} repeats",
     "card-tooltip-sets_one": " per {{count}} set",

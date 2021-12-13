@@ -1,62 +1,61 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PlusOutlined from "@ant-design/icons/lib/icons/PlusOutlined";
-import { Button, Col, Layout, Row } from "antd";
+import { Button, Col, Layout, Row, Spin } from "antd";
 import { Content } from "antd/lib/layout/layout";
-import { NavigateFunction, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import Container from "../../shared/container";
 import { Shapes } from "../../shared/shapes";
 import api from "../../util/api";
 import Routes from "../../util/routes";
+import { LoadingOutlined } from "@ant-design/icons";
+import Translations from "../../localization/translations";
+import { t } from "i18next";
 
 interface Plan {
   id: number;
   name: string;
 }
 
-type ManagePlansProps = {
-  navigate: NavigateFunction;
-};
-type ManagePlansState = {
-  plans: Plan[];
-  loading: boolean;
-};
+const ManagePlans = (): JSX.Element => {
+  const navigate = useNavigate();
+  const [plans, setPlans] = React.useState<Plan[]>([]);
+  const [loading, setLoading] = React.useState<boolean>(true);
+  const [error, setError] = React.useState<boolean>(false);
 
-class ManagePlans extends React.Component<ManagePlansProps, ManagePlansState> {
-  constructor(props: ManagePlansProps) {
-    super(props);
-    this.state = {plans: [], loading: true};
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
+  useEffect(() => {
+    if (loading)
       api.execute(Routes.getTrainingPlans({})).then(response => {
         if (!response.success) {
-          console.error(response);
+          setError(true);
           return;
         }
         const planList: Plan[] = [];
         response.data.plans.forEach((plan: Record<string, any>) => {
           planList.push({id: plan.id, name: plan.name});
         });
-        this.setState({plans: planList, loading: false});
+        setPlans(planList);
+        setLoading(false);
       });
-    }, 500);
-  }
+  });
 
-  render() {
-    return (
-      <Container
-        color="blue"
-        currentPage="manage"
-      >
-        <Layout style={{height: "100%", position: "absolute", maxHeight: "100%", width: "100%"}}>
+  return (
+    <Container
+      color="blue"
+      currentPage="manage"
+    >
+      <Layout style={{height: "100%", position: "absolute", maxHeight: "100%", width: "100%"}}>
+        {loading ? (
+          <div style={{height: "100%", width: "100%", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>
+            {error ? <div>{t(Translations.planManager.error)}</div> : <><Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} /><div>{t(Translations.planManager.loading)}</div></>}
+          </div>
+        ) : (
           <Content style={{padding: "70px 100px", display: "flex"}}>
             <Row gutter={20} >
-              {this.state.plans.map(plan => 
+              {plans.map(plan => 
                 <Col key={plan.id} style={{display: "flex", flexDirection: "column"}}>
                   <Button
                     style={{width: "150px", height: "100px", position: "relative", padding: "0"}}
-                    onClick={() => this.props.navigate(`/manage/plans/${plan.id}`)}
+                    onClick={() => navigate(`/manage/plans/${plan.id}`)}
                   >
                     <Shapes />
                   </Button>
@@ -64,27 +63,18 @@ class ManagePlans extends React.Component<ManagePlansProps, ManagePlansState> {
                 </Col>
               )}
               <Col style={{display: "flex", flexDirection: "column"}}>
-                <Button onClick={() => {this.props.navigate("new");}} style={{width: "150px", minWidth: "150px", height: "100px"}}>
+                <Button onClick={() => {navigate("new");}} style={{width: "150px", minWidth: "150px", height: "100px"}}>
                   <PlusOutlined />
                 </Button>
-                <span style={{fontWeight: 200, fontStyle: "italic"}}>New Plan</span>
+                <span style={{fontWeight: 200, fontStyle: "italic"}}>{t(Translations.planManager.newPlan)}</span>
               </Col>
             </Row>
           </Content>
-        </Layout>
-      </Container>
-    );
-  }
-}
-
-// This is required to use the params hook.
-// (It only works in functional components)
-const EditPlanWrapper = (): JSX.Element => {
-  const navigate = useNavigate();
-
-  return (
-    <ManagePlans navigate={navigate} />
+        )}
+      </Layout>
+    </Container>
   );
 };
 
-export default EditPlanWrapper;
+
+export default ManagePlans;

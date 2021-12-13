@@ -62,6 +62,11 @@ const Translations = {
     changeLanguage: "settings.change-language",
     logout: "settings.logout",
   },
+  planManager: {
+    newPlan: "plan-manager.new-plan",
+    loading: "plan-manager.loading",
+    error: "plan-manager.error",
+  },
   planEditor: {
     unnamed: "plan-editor.unnamed",
     exercises: "plan-editor.exercises",
@@ -71,6 +76,9 @@ const Translations = {
     deletePlanDescription: "plan-editor.delete-plan-description",
     savePlanMissingName: "plan-editor.save-plan-missing-name",
     saveSuccess: "plan-editor.save-success",
+    saveError: "plan-editor.save-error",
+    deleteSuccess: "plan-editor.delete-success",
+    deleteError: "plan-editor.delete-error",
     cardTooltipRepeats: "plan-editor.card-tooltip-repeats",
     cardTooltipSets: "plan-editor.card-tooltip-sets",
   },

@@ -120,6 +120,42 @@ const Routes = {
       needsAuth: true,
       method: "GET"
     };
+  },
+
+  /**
+   * Save a new training plan.
+   */
+  saveTrainingPlan: (props: {
+    id?: number,
+    name: string,
+    exercise: {id: number, sets: number, repeats_per_set: number, date: string}[],
+  }) : Route => {
+    return {
+      route: "/api/createplan",
+      needsAuth: true,
+      method: "POST",
+      body: {
+        id: props.id,
+        name: props.name,
+        exercise: props.exercise,
+      }
+    };
+  },
+
+  /**
+   * Delete a training plan.
+   */
+  deleteTrainingPlan: (props: {
+    planId: string,
+  }) : Route => {
+    return {
+      route: "/api/deleteplan",
+      needsAuth: true,
+      method: "POST",
+      body: {
+        id: props.planId,
+      }
+    };
   }
 };
 

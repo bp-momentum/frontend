@@ -62,6 +62,11 @@
     "logout": "Logout",
     "change-language": "Ändere deine Sprache!"
   },
+  "plan-manager": {
+    "new-plan": "Neuer Plan",
+    "loading": "Lade...",
+    "error": "Ein Fehler ist aufgetreten!"
+  },
   "plan-editor": {
     "unnamed": "Unbenannter Plan",
     "exercises": "Übungen",
@@ -71,6 +76,9 @@
     "delete-plan-description": "Dieser Vorgang kann nicht rückgängig gemacht werden.",
     "save-plan-missing-name": "Bitte gib einen Namen für deinen Plan ein.",
     "save-success": "Plan wurde erfolgreich gespeichert!",
+    "save-error": "Ein Fehler ist aufgetreten!",
+    "delete-success": "Plan wurde erfolgreich gelöscht!",
+    "delete-error": "Ein Fehler ist aufgetreten!",
     "card-tooltip-repeats_one": "{{count}} Wiederholung",
     "card-tooltip-repeats_other": "{{count}} Wiederholungen",
     "card-tooltip-sets_one": " pro {{count}} Set",
