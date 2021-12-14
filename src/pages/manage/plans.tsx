@@ -11,11 +11,18 @@ import { LoadingOutlined } from "@ant-design/icons";
 import Translations from "../../localization/translations";
 import { t } from "i18next";
 
+/**
+ * All the properties of a single plan.
+ */
 interface Plan {
   id: number;
   name: string;
 }
 
+/**
+ * Consists of a list of all the plans the user has access to.
+ * @returns The page for managing plans.
+ */
 const ManagePlans = (): JSX.Element => {
   const navigate = useNavigate();
   const [plans, setPlans] = React.useState<Plan[]>([]);
@@ -23,6 +30,7 @@ const ManagePlans = (): JSX.Element => {
   const [error, setError] = React.useState<boolean>(false);
 
   useEffect(() => {
+    // load all the plans the user has access to from the API
     if (loading)
       api.execute(Routes.getTrainingPlans({})).then(response => {
         if (!response.success) {
@@ -30,6 +38,7 @@ const ManagePlans = (): JSX.Element => {
           return;
         }
         const planList: Plan[] = [];
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         response.data.plans.forEach((plan: Record<string, any>) => {
           planList.push({id: plan.id, name: plan.name});
         });

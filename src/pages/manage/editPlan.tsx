@@ -14,31 +14,61 @@ import { LoadingOutlined } from "@ant-design/icons";
 const { Sider, Content } = Layout;
 const { confirm } = Modal;
 
-
+/**
+ * All data a single exercise instance can have
+ */
 interface ExerciseData {
   type: number;
   sets: number;
   repeats: number;
 }
 
+// All data a single exercise card instance can have
 interface ExerciseCardData {
   id: string;
   data: ExerciseData;
 }
 
+/**
+ * Truncate a string with ellipsis if it is too long 
+ * @param str
+ * @param num
+ * @returns truncated string
+ */
 const truncate = (str: string, n : number) => {
   return str?.length > n ? str.substr(0, n - 1) + "..." : str;
 };
 
+/**
+ * Maps a given exercise id to its corresponding name
+ * @param id 
+ * @returns the name of the exercise
+ */
 const ExerciseIdToName = (id: number) => (
   truncate(exercises.filter(exercise => exercise.id === id).map(exercise => exercise.title)[0], 15) ?? <i>Unknown</i>
 );
 
+/**
+ * The actual exercise card component
+ * If details is set it will show the data of the exercise instance
+ * If collapsed is set it will show a collapsed version of the card
+ * @param {card: ExerciseData, details: boolean, collapsed: boolean} props
+ * @returns a card with the given data
+ */
 const VisibleExercise = ({card, details, collapsed}: {card: ExerciseData, details: boolean, collapsed: boolean}) => {
+  const [,redraw] = React.useState({});
+  /**
+   * Change the number of sets of this exercise instance and redraw the card
+   * @param value new number of sets
+   */
   const changeSets = (value: number) => {
     card.sets = value;
     redraw({});
   };
+  /**
+   * Change the number of repeats per set of this exercise instance and redraw the card
+   * @param value new number of repeats per set
+   */
   const changeRepeats = (value: number) => {
     card.repeats = value;
     redraw({});
@@ -65,6 +95,11 @@ const VisibleExercise = ({card, details, collapsed}: {card: ExerciseData, detail
   );
 };
 
+/**
+ * Draggable wrapper for the VisibleExercise component
+ * @param {item: ExerciseCardData, index: number, details: boolean} props 
+ * @returns draggable visible exercise card
+ */
 const Exercise = ({item, index, details}: {item: ExerciseCardData, index: number, details: boolean}) => {
   return (
     <Draggable key={item.id} draggableId={item.id} index={index}>
@@ -89,6 +124,11 @@ const Exercise = ({item, index, details}: {item: ExerciseCardData, index: number
   );
 };
 
+/**
+ * A droppable context for the exercise cards that shows all exercises given
+ * @param {list: ExerciseCardData[], name: string, displayName: string} props
+ * @returns a droppable context for the exercise cards
+ */
 const Day = ({list, name, displayName}: {list: ExerciseCardData[], name: string, displayName: string}) => {
   return (
     <Col>
@@ -129,14 +169,22 @@ const Day = ({list, name, displayName}: {list: ExerciseCardData[], name: string,
   );
 };
 
+// The uncollapsed id of the exercise card
 let openState: string;
+// Change the uncollapsed id of the exercise card
 let setOpenState: (id: string) => void;
+// A list of all exercises
 let exercises: {id: number, title: string}[];
-let redraw: (_: Record<string, never>) => void;
 
+/**
+ * @returns the plan editor component
+ */
 const EditPlan = (): JSX.Element => {
+  // the plans name
   const [name, setName] = React.useState("");
+  // internal counter for unique ids
   const [count, setCount] = React.useState(0);
+  // lists of exercise instances for each day
   const [storeItems, setStoreItems] = React.useState<ExerciseCardData[]>([]);
   const [monday, setMonday] = React.useState<ExerciseCardData[]>([]);
   const [tuesday, setTuesday] = React.useState<ExerciseCardData[]>([]);
@@ -145,22 +193,34 @@ const EditPlan = (): JSX.Element => {
   const [friday, setFriday] = React.useState<ExerciseCardData[]>([]);
   const [saturday, setSaturday] = React.useState<ExerciseCardData[]>([]);
   const [sunday, setSunday] = React.useState<ExerciseCardData[]>([]);
+  // whether the save modal is visible
   const [saveModalVisible, setSaveModalVisible] = React.useState(false);
-  [openState, setOpenState] = React.useState("");
+  // whether the plan content was loaded from the api
   const [planLoaded, setPlanLoaded] = React.useState(false);
+  // whether the list of exercises was loaded from the api
   const [exercisesLoaded, setExercisesLoaded] = React.useState(false);
-  [,redraw] = React.useState({});
 
+  // initialize the uncollapsed id of the exercise card
+  [openState, setOpenState] = React.useState("");
+
+  // the list of all available exercises
   let setExercises: (exercises: {id: number, title: string}[]) => void;
   [exercises, setExercises] = React.useState<{id: number, title: string}[]>([]);
 
-  const StoreSider = React.createRef<HTMLDivElement>();
+  // reference to the garbage overlay component
   const GarbageSider = React.createRef<HTMLDivElement>();
 
+  // planId from the url (either a numberlike string or "new")
   const { planId } = useParams();
 
+  // WARN: Watch out React Router DOM v6 had breaking changes.
   const navigate = useNavigate();
 
+  /**
+   * Resolve a string in the form of either a weekday or "store" to the correct getter and setter of the state
+   * @param drop 
+   * @returns {get: ExerciseCardData[], set: (data: ExerciseCardData[]) => void}
+   */
   const DropToState = (drop: string): {get: ExerciseCardData[], set: (data: ExerciseCardData[]) => void} => {
     switch (drop) {
     case "monday":
@@ -182,7 +242,25 @@ const EditPlan = (): JSX.Element => {
     }
   };
 
-  // reorder all lists after drag and drop
+  /**
+   * Reorders the two given lists based on the given indexes
+   * 
+   * If source and destination are the same, the list is reordered
+   * 
+   * If the source is the store, the item is duplicated from the store and added to the destination
+   * 
+   * If the destination is the store, the item is removed from the source and destroyed
+   * 
+   * If neither the source nor the destination is the store, the item is moved from the source to the destination
+   * 
+   * It always returns the source list and the destination list after the reordering
+   * 
+   * @param listLeave the list from which the item is moved
+   * @param listJoin the list to which the item is moved
+   * @param source the source location and index of the item
+   * @param dest the destination location and index of the item
+   * @returns {leave: ExerciseCardData[], join: ExerciseCardData[]}
+   */
   const reorder = (
     listLeave: ExerciseCardData[],
     listJoin: ExerciseCardData[],
@@ -194,7 +272,7 @@ const EditPlan = (): JSX.Element => {
     const fromStore = source.droppableId === "store";
     const toStore = dest.droppableId === "store";
 
-    // easy if in same list
+    // easy if in same list (just reorder)
     if (source.droppableId === dest.droppableId) {
       const item = leaveArr.splice(source.index, 1)[0];
       leaveArr.splice(dest.index, 0, item);
@@ -266,26 +344,42 @@ const EditPlan = (): JSX.Element => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [planId]);
 
+  /**
+   * Initiate reordering after dropping an item
+   * @param result 
+   * @returns 
+   */
   const onDragEnd = (result: DropResult) => {
+    // hide garbage sider
     if (GarbageSider?.current)
       GarbageSider.current.style.display = "none";
 
+    // no destination == no reordering
     if (!result.destination) {
       return;
     }
 
+    // reorder the lists
     const {join, leave} = reorder(
       DropToState(result.source.droppableId).get,
       DropToState(result.destination.droppableId).get,
       result.source,
       result.destination
     );
+    // update the lists
     DropToState(result.source.droppableId).set(leave);
     DropToState(result.destination.droppableId).set(join);
   };
 
+  /**
+   * Save the plan to the server
+   */
   const save = () => {
+    // Data is the object that is sent to the server
+    // Needs to be any for dynamic typing
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const data: any = {};
+    // If the plan is new, the id is not set
     if (planId !== "new") data.id = planId;
     data.name = name;
     data.exercise = [];
@@ -310,9 +404,12 @@ const EditPlan = (): JSX.Element => {
       }
       message.success(t(Translations.planEditor.saveSuccess));
     });
-
   };
 
+  /**
+   * Wrapper for the save function
+   * Shows a modal for naming if the plan has no name before saving
+   */
   const savePlan = () => {
     if (!name) {
       setSaveModalVisible(true);
@@ -322,6 +419,9 @@ const EditPlan = (): JSX.Element => {
     }
   };
 
+  /**
+   * Delete the plan from the server
+   */
   const deletePlan = () => {
     confirm({
       title: t(Translations.planEditor.deletePlanConfirm),
@@ -330,11 +430,11 @@ const EditPlan = (): JSX.Element => {
       okType: "danger",
       cancelText: t(Translations.confirm.no),
       onOk() {
+        // if the plan is not new it needs to be deleted from the server
         if (planId && planId !== "new") {
           api.execute(Routes.deleteTrainingPlan({planId: planId})).then(response => {
             if (!response.success) {
               message.error(t(Translations.planEditor.deleteError));
-              return;
             }
             else {
               message.success(t(Translations.planEditor.deleteSuccess));
@@ -342,6 +442,7 @@ const EditPlan = (): JSX.Element => {
             }
           });
         }
+        // if the plan is new, the component will be unmounted and the user will be redirected to the plans page
         else {
           message.success(t(Translations.planEditor.deleteSuccess));
           navigate("../plans", {replace: true});
@@ -350,7 +451,6 @@ const EditPlan = (): JSX.Element => {
     });
   };
 
-  
   return (
     <Container
       currentPage="manage"
@@ -362,7 +462,6 @@ const EditPlan = (): JSX.Element => {
             GarbageSider.current.style.display = "block";
         }}>
           <Sider 
-            ref={StoreSider}
             style={{background: "#e0e0e0", padding: "0", paddingTop: "20px"}} width="220px">
             {!exercisesLoaded ? (
               <div style={{height: "100%", width: "100%", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>

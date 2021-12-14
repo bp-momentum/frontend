@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { RandomHLine } from "react-random-shapes";
 
 const getSeed = () => {
@@ -44,15 +44,13 @@ const Shapes = (): JSX.Element => {
         <RandomHLine width={150} height={100} options={{numLines:3, posWindowSize: 40, numControls: 3, seed: seed, styleMid: [
           {stroke: "rgb(102, 111, 255)", ...style},
           {stroke: "rgb(141, 255, 102)", ...style},
-          {stroke: "rgb( 88,   0, 153)", ...style},
-          {stroke: "rgb(102, 255, 247)", ...style}
+          {stroke: "rgb( 88,   0, 153)", ...style}
         ]}}/>
       </div>
       <RandomHLine width={150} height={100} options={{numLines:3, posWindowSize: 40, numControls: 3, seed: seed2, styleMid: [
         {stroke: "rgb(250, 200,   0)", ...style2},
         {stroke: "rgb(180, 102, 255)", ...style2},
-        {stroke: "rgb(255, 102, 215)", ...style2},
-        {stroke: "rgb(  0, 153, 153)", ...style2}
+        {stroke: "rgb(255, 102, 215)", ...style2}
       ]}}/>
     </div>
   );

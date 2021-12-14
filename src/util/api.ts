@@ -14,10 +14,13 @@ class Api {
   }
 
   execute = async (route: Route) : Promise<ApiResponse> => {
-    if (route.needsAuth) {
-      if (this.token === "") {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-      }
+    /**
+     * Wait for a token on authorized requests
+     * Wait a max of 5 seconds
+     */
+    let i = 0;
+    while (route.needsAuth && this.token === "" && ++i < 50) {
+      await new Promise(resolve => setTimeout(resolve, 100));
     }
 
     let response;
