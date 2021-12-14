@@ -37,9 +37,11 @@ const ExerciseIdToName = (id: number) => (
 const VisibleExercise = ({card, details, collapsed}: {card: ExerciseData, details: boolean, collapsed: boolean}) => {
   const changeSets = (value: number) => {
     card.sets = value;
+    redraw({});
   };
   const changeRepeats = (value: number) => {
     card.repeats = value;
+    redraw({});
   };
 
   return (
@@ -130,6 +132,7 @@ const Day = ({list, name, displayName}: {list: ExerciseCardData[], name: string,
 let openState: string;
 let setOpenState: (id: string) => void;
 let exercises: {id: number, title: string}[];
+let redraw: (_: Record<string, never>) => void;
 
 const EditPlan = (): JSX.Element => {
   const [name, setName] = React.useState("");
@@ -146,6 +149,7 @@ const EditPlan = (): JSX.Element => {
   [openState, setOpenState] = React.useState("");
   const [planLoaded, setPlanLoaded] = React.useState(false);
   const [exercisesLoaded, setExercisesLoaded] = React.useState(false);
+  [,redraw] = React.useState({});
 
   let setExercises: (exercises: {id: number, title: string}[]) => void;
   [exercises, setExercises] = React.useState<{id: number, title: string}[]>([]);

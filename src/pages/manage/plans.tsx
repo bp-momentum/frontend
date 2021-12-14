@@ -54,7 +54,7 @@ const ManagePlans = (): JSX.Element => {
               {plans.map(plan => 
                 <Col key={plan.id} style={{display: "flex", flexDirection: "column"}}>
                   <Button
-                    style={{width: "150px", height: "100px", position: "relative", padding: "0"}}
+                    style={{width: "150px", height: "100px", position: "relative", padding: "0", overflow: "hidden"}}
                     onClick={() => navigate(`/manage/plans/${plan.id}`)}
                   >
                     <Shapes />
