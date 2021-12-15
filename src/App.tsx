@@ -1,13 +1,14 @@
 import "./App.css";
 import React, { useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
+import { useAppSelector } from "./redux/hooks";
+import api from "./util/api";
+import Helper from "./util/helper";
+
 import Home from "./pages/home";
 import Login from "./pages/login";
-import { useAppSelector } from "./redux/hooks";
-import CreateUser from "./pages/createUser";
-import api from "./util/api";
 import Register from "./pages/register";
-import Helper from "./util/helper";
+import CreateUser from "./pages/createUser";
 import AutoLogin from "./pages/autoLogin";
 import Settings from "./pages/settings";
 import EditPlan from "./pages/manage/editPlan";

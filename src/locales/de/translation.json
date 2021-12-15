@@ -59,8 +59,16 @@
     "manage": "Verwalten"
   },
   "settings": {
+    "account-settings": "Account Einstellungen",
     "logout": "Logout",
-    "change-language": "Ändere deine Sprache!"
+    "change-language": "Ändere deine Sprache!",
+    "danger-zone": "Gefahrenzone",
+    "delete-account": "Account Löschen",
+    "delete-modal-title": "Account Löschen",
+    "delete-modal-msg": "Bist du sicher, dass du deinen Account löschen möchtest? Dies kann nicht rückgängig gemacht werden.",
+    "delete-modal-confirm": "Account Löschen",
+    "delete-modal-cancel": "Abbrechen",
+    "successfully-deleted-account": "Der Account wurde erfolgreich gelöscht! Du wirst in Kürze abgemeldet."
   },
   "plan-manager": {
     "new-plan": "Neuer Plan",

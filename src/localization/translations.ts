@@ -59,8 +59,16 @@ const Translations = {
     manage: "tab-bar.manage"
   },
   settings: {
+    accountSettings: "settings.account-settings",
     changeLanguage: "settings.change-language",
     logout: "settings.logout",
+    dangerZone: "settings.danger-zone",
+    deleteAccount: "settings.delete-account",
+    deleteModalTitel: "settings.delete-modal-title",
+    deleteModalMSG: "settings.delete-modal-msg",
+    deleteModalConfirm: "settings.delete-modal-confirm",
+    deleteModalCancel: "settings.delete-modal-cancel",
+    successfullyDeletedAccount: "settings.successfully-deleted-account"
   },
   planManager: {
     newPlan: "plan-manager.new-plan",

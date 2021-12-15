@@ -83,6 +83,18 @@ const Routes = {
   },
 
   /**
+   * Delete the user's account.
+   */
+  deleteAccount: () : Route => {
+    return {
+      route: "/api/deleteuser",
+      needsAuth: true,
+      method: "POST",
+      body: { }
+    };
+  },
+
+  /**
    * Fetch all training plans.
    */
   getTrainingPlans: (props: {
