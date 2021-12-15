@@ -53,7 +53,10 @@
     "settings": "Einstellungen",
     "profile": "Profil",
     "overview": "Übersicht",
-    "statistics": "Statistiken"
+    "statistics": "Statistiken",
+    "user": "Benutzer",
+    "plans": "Pläne",
+    "manage": "Verwalten"
   },
   "settings": {
     "account-settings": "Account Einstellungen",
@@ -66,5 +69,43 @@
     "delete-modal-confirm": "Account Löschen",
     "delete-modal-cancel": "Abbrechen",
     "successfully-deleted-account": "Der Account wurde erfolgreich gelöscht! Du wirst in Kürze abgemeldet."
+  },
+  "plan-manager": {
+    "new-plan": "Neuer Plan",
+    "loading": "Lade...",
+    "error": "Ein Fehler ist aufgetreten!"
+  },
+  "plan-editor": {
+    "unnamed": "Unbenannter Plan",
+    "exercises": "Übungen",
+    "add-exercise": "Ziehe eine Übung hier her, um sie dem Plan hinzuzufügen.",
+    "delete-exercise": "Ziehe eine Übung hier her, um sie vom Plan zu entfernen.",
+    "delete-plan-confirm": "Bist du sicher, dass du diesen Plan löschen möchtest?",
+    "delete-plan-description": "Dieser Vorgang kann nicht rückgängig gemacht werden.",
+    "save-plan-missing-name": "Bitte gib einen Namen für deinen Plan ein.",
+    "save-success": "Plan wurde erfolgreich gespeichert!",
+    "save-error": "Beim Speichern ist ein Fehler ist aufgetreten!",
+    "delete-success": "Plan wurde erfolgreich gelöscht!",
+    "delete-error": "Beim Löschen ist ein Fehler ist aufgetreten!",
+    "card-tooltip-repeats_one": "{{count}} Wiederholung",
+    "card-tooltip-repeats_other": "{{count}} Wiederholungen",
+    "card-tooltip-sets_one": " pro {{count}} Set",
+    "card-tooltip-sets_other": " pro {{count}} Sets"
+  },
+  "weekdays": {
+    "monday": "Montag",
+    "tuesday": "Dienstag",
+    "wednesday": "Mittwoch",
+    "thursday": "Donnerstag",
+    "friday": "Freitag",
+    "saturday": "Samstag",
+    "sunday": "Sonntag"
+  },
+  "confirm": {
+    "yes": "Ja",
+    "no": "Nein",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen"
   }
 }

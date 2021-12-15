@@ -13,7 +13,16 @@ class Api {
     this.refreshToken = refreshToken;
   }
 
-  execute = (route: Route) : Promise<ApiResponse> => {
+  execute = async (route: Route) : Promise<ApiResponse> => {
+    /**
+     * Wait for a token on authorized requests
+     * Wait a max of 5 seconds
+     */
+    let i = 0;
+    while (route.needsAuth && this.token === "" && ++i < 50) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+
     let response;
     switch (route.method) {
     case "GET":

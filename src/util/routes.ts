@@ -93,6 +93,82 @@ const Routes = {
       body: { }
     };
   },
+
+  /**
+   * Fetch all training plans.
+   */
+  getTrainingPlans: (props: {
+  }) : Route => {
+    return {
+      route: "/api/getlistofplans",
+      needsAuth: true,
+      method: "GET"
+    };
+  },
+
+  /**
+   * Fetch a training plan by its id.
+   */
+  getTrainingPlan: (props: {
+    planId: string,
+  }) : Route => {
+    return {
+      route: "/api/getplan",
+      needsAuth: true,
+      method: "POST",
+      body: {
+        plan: props.planId,
+      }
+    };
+  },
+
+  /**
+   * Fetches a list of all exercises.
+   */
+  getExercises: (props: {
+  }) : Route => {
+    return {
+      route: "/api/getexerciselist",
+      needsAuth: true,
+      method: "GET"
+    };
+  },
+
+  /**
+   * Save a new training plan.
+   */
+  saveTrainingPlan: (props: {
+    id?: number,
+    name: string,
+    exercise: {id: number, sets: number, repeats_per_set: number, date: string}[],
+  }) : Route => {
+    return {
+      route: "/api/createplan",
+      needsAuth: true,
+      method: "POST",
+      body: {
+        id: props.id,
+        name: props.name,
+        exercise: props.exercise,
+      }
+    };
+  },
+
+  /**
+   * Delete a training plan.
+   */
+  deleteTrainingPlan: (props: {
+    planId: string,
+  }) : Route => {
+    return {
+      route: "/api/deleteplan",
+      needsAuth: true,
+      method: "POST",
+      body: {
+        id: props.planId,
+      }
+    };
+  }
 };
 
 export default Routes;
