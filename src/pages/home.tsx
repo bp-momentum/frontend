@@ -2,7 +2,7 @@ import React from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import Container from "../shared/container";
 import helper from "../util/helper";
-import { Button } from "antd";
+import { Button, Col, Row, Space } from "antd";
 import { Link } from "react-router-dom";
 import {unsetRefreshToken, unsetToken} from "../redux/token/tokenSlice";
 import {useTranslation} from "react-i18next";
@@ -23,15 +23,33 @@ const Home = () : JSX.Element => {
       currentPage="home"
       color="blue"
     >
-      <p>
-        {token && t(Translations.home.youAre, {type: t("user." + helper.getAccountType(token))})}
-      </p>
-      <Button onClick={logout}>{t(Translations.home.logout)}</Button>
-      { token && helper.getAccountType(token) !== "user" &&
-        <Link to={"/createuser"}>
-          <Button>{t(Translations.home.createUser)}</Button>
-        </Link>
-      }
+      <Space
+        size="large"
+        style={{
+          width: "100%",
+          height: "100%",
+          position: "absolute",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center"
+        }}
+      >
+        <Col>
+          <Row justify="center" style={{fontSize: "30px", fontWeight: "bold"}}>
+            {token && t(Translations.home.youAre, {type: t("user." + helper.getAccountType(token))})}
+          </Row>
+        </Col>
+        <Row justify="center">
+          <Col>
+            <Button onClick={logout}>{t(Translations.home.logout)}</Button>
+            { token && helper.getAccountType(token) !== "user" &&
+              <Link to={"/createuser"}>
+                <Button>{t(Translations.home.createUser)}</Button>
+              </Link>
+            }
+          </Col>
+        </Row>
+      </Space>
     </Container>
   );
 };

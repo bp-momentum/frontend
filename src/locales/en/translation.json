@@ -56,7 +56,15 @@
     "statistics": "Stats"
   },
   "settings": {
+    "account-settings": "Account Settings",
     "logout": "Logout",
-    "change-language": "Change your language!"
+    "change-language": "Change your language!",
+    "danger-zone": "Danger Zone",
+    "delete-account": "Delete Account",
+    "delete-modal-title": "Account Deletion",
+    "delete-modal-msg": "Are you sure you want to delete your account? This action is irreversible.",
+    "delete-modal-confirm": "Delete Account",
+    "delete-modal-cancel": "Cancel",
+    "successfully-deleted-account": "Account Deletion was successful! You will be logged out shortly."
   }
 }
