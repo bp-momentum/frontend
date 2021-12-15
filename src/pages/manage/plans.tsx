@@ -72,7 +72,7 @@ const ManagePlans = (): JSX.Element => {
                 </Col>
               )}
               <Col style={{display: "flex", flexDirection: "column"}}>
-                <Button onClick={() => {navigate("new");}} style={{width: "150px", minWidth: "150px", height: "100px"}}>
+                <Button aria-label="planAddingButton" onClick={() => {navigate("new");}} style={{width: "150px", minWidth: "150px", height: "100px"}}>
                   <PlusOutlined />
                 </Button>
                 <span style={{fontWeight: 200, fontStyle: "italic"}}>{t(Translations.planManager.newPlan)}</span>
