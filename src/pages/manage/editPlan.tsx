@@ -338,7 +338,7 @@ const EditPlan = (): JSX.Element => {
       });
     }
 
-    if (planId === "new") {
+    if (!planId || planId === "new") {
       setPlanLoaded(true);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps

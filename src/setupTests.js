@@ -1,9 +1,6 @@
-// jest-dom adds custom jest matchers for asserting on DOM nodes.
-// allows you to do things like:
-// expect(element).toHaveTextContent(/react/i)
-// learn more: https://github.com/testing-library/jest-dom
 import "@testing-library/jest-dom";
 import nock from "nock";
+import api from "./util/api";
 
 jest.setTimeout(20000);
 
@@ -15,7 +12,7 @@ global.matchMedia = global.matchMedia || function () {
 };
 
 // Test API responses
-nock("http://78.46.150.116:8000")
+nock(api.serverUrl)
   .persist()
   .defaultReplyHeaders({
     "access-control-allow-origin": "*",

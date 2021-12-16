@@ -30,9 +30,11 @@ const ManagePlans = (): JSX.Element => {
   const [error, setError] = React.useState<boolean>(false);
 
   useEffect(() => {
+    let isMounted = true;
     // load all the plans the user has access to from the API
     if (loading)
       api.execute(Routes.getTrainingPlans({})).then(response => {
+        if (!isMounted) return;
         if (!response.success) {
           setError(true);
           return;
@@ -45,6 +47,10 @@ const ManagePlans = (): JSX.Element => {
         setPlans(planList);
         setLoading(false);
       });
+    return () => {
+      // clean up
+      isMounted = false;
+    };
   });
 
   return (

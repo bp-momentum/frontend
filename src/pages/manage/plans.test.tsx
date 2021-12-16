@@ -1,5 +1,5 @@
 import React from "react";
-import { render, waitFor, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import "../../i18n";
 import { store } from "../../redux/store";
 import ManagePlans from "./plans";
