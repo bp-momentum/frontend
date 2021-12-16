@@ -1,3 +1,5 @@
+import plans from "../pages/manage/plans";
+
 export interface Route {
   route: string,
   method: "GET" | "POST";
@@ -167,6 +169,37 @@ const Routes = {
       body: {
         id: props.planId,
       }
+    };
+  },
+
+  /**
+   * Assign a training plan to a user.
+   */
+  assignPlanToUser: (props: {
+    planId: string,
+    username: string,
+  }) : Route => {
+    return {
+      route: "api/addplantouser",
+      method: "POST",
+      needsAuth: true,
+      body: {
+        plan: props.planId,
+        user: props.username,
+      }
+    };
+  },
+
+  /**
+   * Get assigned training plans.
+   */
+  getAssignedPlans: (props: {
+  }) : Route => {
+    return {
+      route: "/api/requestplanofuser",
+      needsAuth: true,
+      method: "POST",
+      body: {},
     };
   }
 };

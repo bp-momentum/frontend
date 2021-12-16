@@ -10,14 +10,7 @@ import Routes from "../../util/routes";
 import { LoadingOutlined } from "@ant-design/icons";
 import Translations from "../../localization/translations";
 import { t } from "i18next";
-
-/**
- * All the properties of a single plan.
- */
-interface Plan {
-  id: number;
-  name: string;
-}
+import {Plan} from "../../api/plan";
 
 /**
  * Consists of a list of all the plans the user has access to.
@@ -60,7 +53,7 @@ const ManagePlans = (): JSX.Element => {
         ) : (
           <Content style={{padding: "70px 100px", display: "flex"}}>
             <Row gutter={20} >
-              {plans.map(plan => 
+              {plans.map(plan =>
                 <Col key={plan.id} style={{display: "flex", flexDirection: "column"}}>
                   <Button
                     style={{width: "150px", height: "100px", position: "relative", padding: "0", overflow: "hidden"}}

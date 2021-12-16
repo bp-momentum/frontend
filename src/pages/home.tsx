@@ -38,6 +38,11 @@ const Home = () : JSX.Element => {
           <Row justify="center" style={{fontSize: "30px", fontWeight: "bold"}}>
             {token && t(Translations.home.youAre, {type: t("user." + helper.getAccountType(token))})}
           </Row>
+          <Row justify="center">
+            <Link to={"/exercises"}>
+              <Button>{t(Translations.home.exercises)}</Button>
+            </Link>
+          </Row>
         </Col>
         <Row justify="center">
           <Col>

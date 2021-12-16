@@ -3,6 +3,10 @@ const Helper = {
     return Helper.getJWTPayload(token)["account_type"];
   },
 
+  getUserName: (token: string) : string => {
+    return Helper.getJWTPayload(token)["username"];
+  },
+
   isSessionTokenValid: (token?: string | null) : boolean => Helper.checkTokenTime(86400000, token),
   isRefreshTokenValid: (token?: string | null) : boolean => Helper.checkTokenTime(2592000000, token),
 
