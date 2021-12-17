@@ -121,7 +121,7 @@ class Api {
     } else {
       return this.serverUrl + "/" + route;
     }
-  }
+  };
 }
 
 interface ApiResponse {
