@@ -1,10 +1,10 @@
 import {Row, Col, Space, Spin} from "antd";
 import {LoadingOutlined } from "@ant-design/icons";
-import React from "react";
+import React, { useEffect } from "react";
 import api from "../util/api";
 import Routes from "../util/routes";
 import {useAppDispatch, useAppSelector} from "../redux/hooks";
-import {setToken} from "../redux/token/tokenSlice";
+import {setToken, unsetRefreshToken, unsetToken} from "../redux/token/tokenSlice";
 import {useNavigate} from "react-router";
 import {useTranslation} from "react-i18next";
 import Translations from "../localization/translations";
@@ -15,21 +15,31 @@ const AutoLogin = () : JSX.Element  => {
   const refreshToken = useAppSelector(state => state.token.refreshToken);
   const { t } = useTranslation();
 
+  const removeToken = () => {
+    dispatch(unsetRefreshToken());
+    dispatch(unsetToken());
+    api.setToken("");
+    api.setRefreshToken("");
+    return navigate("");
+  };
+
   const checkLogin = async () => {
     if (!refreshToken) {
-      return setTimeout(() => navigate(""), 1000);
+      return removeToken();
     }
 
     const response = await api.execute(Routes.auth({refreshToken: refreshToken}));
     if (!response.success) {
-      return setTimeout(() => navigate(""), 1000);
+      return removeToken();
     }
 
     const token = response.data["session_token"];
     setTimeout(() => dispatch(setToken(token)), 1000);
   };
 
-  checkLogin().catch(() => navigate(""));
+  useEffect(() => {
+    checkLogin().catch(() => removeToken());
+  });
 
   return (
     <Space size="large" style={{width: "100%", height: "100%", position: "absolute", display: "flex", flexDirection: "column", justifyContent: "center"}}>
