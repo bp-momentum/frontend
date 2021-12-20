@@ -6,4 +6,8 @@ export interface Exercise {
   sets: number,
   repeats_per_set: number,
   date: string,
+  activated: boolean,
+  description: string,
+  title: string,
+  video: string,
 }

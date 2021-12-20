@@ -123,6 +123,22 @@ const Routes = {
   },
 
   /**
+   * Fetch more information about an exercise with a given id.
+   */
+  getExercise: (props: {
+    id: string,
+  }) : Route => {
+    return {
+      route: "/api/getexercise",
+      method: "POST",
+      needsAuth: true,
+      body: {
+        id: props.id,
+      }
+    };
+  },
+
+  /**
    * Fetches a list of all exercises.
    */
   getExercises: () : Route => {
