@@ -1,3 +1,5 @@
+import { Buffer } from "buffer";
+
 const Helper = {
   getAccountType: (token: string) : "user" | "trainer" | "admin" => {
     return Helper.getJWTPayload(token)["account_type"];
