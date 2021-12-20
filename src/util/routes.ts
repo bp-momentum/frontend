@@ -166,7 +166,19 @@ const Routes = {
         id: props.planId,
       }
     };
-  }
+  },
+
+  /**
+   * Fetch user-specific Leaderboard
+   */
+  getLeaderboard: () : Route => {
+    return {
+      route: "/api/listleaderboard",
+      needsAuth: true,
+      method: "GET",
+      body: { }
+    };
+  },
 };
 
 export default Routes;

@@ -32,8 +32,18 @@ const Leaderboard = (): JSX.Element => {
   useEffect(() => {
     // load all the plans the user has access to from the API
     if (loading){
-      new Promise((resolve) => setTimeout(resolve, 5000)).then( () => {
-        setEntries(entriesFromApiNicelyOrderedTYVM);
+      //setEntries(entriesFromApiNicelyOrderedTYVM);
+      api.execute(Routes.getLeaderboard()).then(response => {
+        if (!response.success) {
+          setError(true);
+          return;
+        }
+        const entries: LeaderboardEntry[] = [];
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        response.data.leaderboard.forEach((entry: Record<string, any>) => {
+          entries.push({username: entry.username, totalScore: entry.score, stat1: -1, stat2: -1, stat3: -1});
+        });
+        setEntries(entries);
         setLoading(false);
       });
     }
