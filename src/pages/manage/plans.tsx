@@ -25,7 +25,7 @@ const ManagePlans = (): JSX.Element => {
   useEffect(() => {
     // load all the plans the user has access to from the API
     if (loading)
-      api.execute(Routes.getTrainingPlans({})).then(response => {
+      api.execute(Routes.getTrainingPlans()).then(response => {
         if (!response.success) {
           setError(true);
           return;

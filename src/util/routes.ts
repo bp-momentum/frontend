@@ -99,7 +99,7 @@ const Routes = {
   /**
    * Fetch all training plans.
    */
-  getTrainingPlans: (props: Record<string, never>) : Route => {
+  getTrainingPlans: () : Route => {
     return {
       route: "/api/getlistofplans",
       needsAuth: true,
@@ -126,7 +126,7 @@ const Routes = {
   /**
    * Fetches a list of all exercises.
    */
-  getExercises: (props: Record<string, never>) : Route => {
+  getExercises: () : Route => {
     return {
       route: "/api/getexerciselist",
       needsAuth: true,
@@ -191,13 +191,11 @@ const Routes = {
   /**
    * Get assigned training plans.
    */
-  getAssignedPlans: (props: {
-  }) : Route => {
+  getAssignedPlans: () : Route => {
     return {
       route: "/api/requestplanofuser",
       needsAuth: true,
       method: "POST",
-      body: {},
     };
   }
 };
