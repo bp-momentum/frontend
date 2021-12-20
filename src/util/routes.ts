@@ -1,4 +1,3 @@
-import plans from "../pages/manage/plans";
 
 export interface Route {
   route: string,
