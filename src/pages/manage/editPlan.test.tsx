@@ -26,7 +26,7 @@ describe("<EditPlan />", () => {
     expect(addButton).toBeInTheDocument();
   });
 
-  test("The Test Exercise should be drag and droppable.", async () => {
+  test("The garbage Sider should be visible while dragging.", async () => {
     renderPlanEditor();
 
     const addButton = await screen.findByText("Test Exercise", undefined, { timeout: 10000 });
