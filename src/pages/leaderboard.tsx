@@ -1,10 +1,6 @@
 import React, { useEffect } from "react";
-import PlusOutlined from "@ant-design/icons/lib/icons/PlusOutlined";
-import { Button, Col, Layout, Row, Spin, Table } from "antd";
-import { Content } from "antd/lib/layout/layout";
-import { useNavigate } from "react-router";
+import { Layout, Spin, Table } from "antd";
 import Container from "../shared/container";
-import { Shapes } from "../shared/shapes";
 import api from "../util/api";
 import Routes from "../util/routes";
 import { LoadingOutlined } from "@ant-design/icons";
@@ -22,7 +18,6 @@ interface LeaderboardEntry {
  * @returns The page for the leaderboard
  */
 const Leaderboard = (): JSX.Element => {
-  const navigate = useNavigate();
   const [entries, setEntries] = React.useState<LeaderboardEntry[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
   const [error, setError] = React.useState<boolean>(false);
