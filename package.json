@@ -4,13 +4,14 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
-    "@reduxjs/toolkit": "^1.7.0",
+    "@reduxjs/toolkit": "^1.7.1",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "@types/react": "^17.0.37",
     "@types/react-beautiful-dnd": "^13.1.2",
     "antd": "^4.17.3",
+    "buffer": "^6.0.3",
     "i18next": "^21.6.0",
     "i18next-browser-languagedetector": "^6.1.2",
     "nock": "^13.2.1",
@@ -21,15 +22,15 @@
     "react-random-shapes": "^0.6.0",
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.1.1",
-    "react-scripts": "4.0.3",
+    "react-scripts": "5.0.0",
     "redux-persist": "^6.0.0",
     "typescript": "^4.5.4",
     "web-vitals": "^2.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "build": "react-scripts --max_old_space_size=512 build",
+    "test": "react-scripts --max_old_space_size=512 test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

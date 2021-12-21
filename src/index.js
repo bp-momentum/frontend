@@ -7,16 +7,16 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { store, persistor } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import "./i18n";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <BrowserRouter>
+        <HashRouter>
           <App />
-        </BrowserRouter>
+        </HashRouter>
       </PersistGate>
     </Provider>
   </React.StrictMode>,
