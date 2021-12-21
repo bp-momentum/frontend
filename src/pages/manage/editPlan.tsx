@@ -338,7 +338,7 @@ const EditPlan = (): JSX.Element => {
       });
     }
 
-    if (planId === "new") {
+    if (!planId || planId === "new") {
       setPlanLoaded(true);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -491,7 +491,8 @@ const EditPlan = (): JSX.Element => {
               </div>
             )}
           </Sider>
-          <Sider
+          <Sider 
+            data-testid="garbage"
             ref={GarbageSider}
             style={{background: "#e0e0e0", padding: "20px 0", position: "absolute", height: "100%", display: "none"}} width="220px">
             <div
