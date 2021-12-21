@@ -30,9 +30,11 @@ const ManagePlans = (): JSX.Element => {
   const [error, setError] = React.useState<boolean>(false);
 
   useEffect(() => {
+    let isMounted = true;
     // load all the plans the user has access to from the API
     if (loading)
       api.execute(Routes.getTrainingPlans({})).then(response => {
+        if (!isMounted) return;
         if (!response.success) {
           setError(true);
           return;
@@ -45,6 +47,10 @@ const ManagePlans = (): JSX.Element => {
         setPlans(planList);
         setLoading(false);
       });
+    return () => {
+      // clean up
+      isMounted = false;
+    };
   });
 
   return (
@@ -72,7 +78,7 @@ const ManagePlans = (): JSX.Element => {
                 </Col>
               )}
               <Col style={{display: "flex", flexDirection: "column"}}>
-                <Button onClick={() => {navigate("new");}} style={{width: "150px", minWidth: "150px", height: "100px"}}>
+                <Button aria-label="planAddingButton" onClick={() => {navigate("new");}} style={{width: "150px", minWidth: "150px", height: "100px"}}>
                   <PlusOutlined />
                 </Button>
                 <span style={{fontWeight: 200, fontStyle: "italic"}}>{t(Translations.planManager.newPlan)}</span>
