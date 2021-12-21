@@ -19,5 +19,6 @@ jobs:
       - run: yarn
       - run: eslint ./src/
         name: Run eslint
+      - run: yarn test --clearCache
       - run: yarn test
 
