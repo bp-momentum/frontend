@@ -45,7 +45,7 @@ const Leaderboard = (): JSX.Element => {
     {
       title:  t(Translations.leaderboard.rank),
       dataIndex: "rank",
-      key: "rank,"
+      key: "rank",
     },
     {
       title: t(Translations.leaderboard.name),
@@ -55,7 +55,7 @@ const Leaderboard = (): JSX.Element => {
     {
       title: t(Translations.leaderboard.score),
       dataIndex: "score",
-      key: "score"
+      key: "score",
     },
   ];
 
