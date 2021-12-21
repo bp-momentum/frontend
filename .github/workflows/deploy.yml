@@ -29,7 +29,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - run: yarn
-      - run: CI=false yarn build
+      - run: GENERATE_SOURCEMAP=false DISABLE_ESLINT_PLUGIN=true CI=false yarn build
         name: Build static page
       - run: rm -rf /var/www/vhosts/bp/*
         name: Delete old files
