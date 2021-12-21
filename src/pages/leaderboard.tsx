@@ -12,11 +12,9 @@ import Translations from "../localization/translations";
 import { t } from "i18next";
 
 interface LeaderboardEntry {
+  rank: number,
   username: string,
-  stat1: number,
-  stat2: number,
-  stat3: number,
-  totalScore: number,
+  score: number,
 }
 
 /**
@@ -30,10 +28,9 @@ const Leaderboard = (): JSX.Element => {
   const [error, setError] = React.useState<boolean>(false);
 
   useEffect(() => {
-    // load all the plans the user has access to from the API
+    // load user specific leaderboard
     if (loading){
-      //setEntries(entriesFromApiNicelyOrderedTYVM);
-      api.execute(Routes.getLeaderboard()).then(response => {
+      api.execute(Routes.getLeaderboard({count: 10})).then(response => {
         if (!response.success) {
           setError(true);
           return;
@@ -41,7 +38,7 @@ const Leaderboard = (): JSX.Element => {
         const entries: LeaderboardEntry[] = [];
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         response.data.leaderboard.forEach((entry: Record<string, any>) => {
-          entries.push({username: entry.username, totalScore: entry.score, stat1: -1, stat2: -1, stat3: -1});
+          entries.push({rank: entry.rank, username: entry.username, score: entry.score});
         });
         setEntries(entries);
         setLoading(false);
@@ -51,39 +48,20 @@ const Leaderboard = (): JSX.Element => {
 
   const tableColumns = [
     {
-      title: "Name",
+      title:  t(Translations.leaderboard.rank),
+      dataIndex: "rank",
+      key: "rank,"
+    },
+    {
+      title: t(Translations.leaderboard.name),
       dataIndex: "username",
-      // defaultSortOrder: "descend",
-      // sorter: (a: string, b: string) => a.localeCompare(b),
+      key: "username",
     },
     {
-      title: "Total Score",
-      dataIndex: "totalScore",
-      key: "totalScore"
+      title: t(Translations.leaderboard.score),
+      dataIndex: "score",
+      key: "score"
     },
-    {
-      title: "Stat 1",
-      dataIndex: "stat1",
-      key: "stat1"
-    },
-    {
-      title: "Stat 2",
-      dataIndex: "stat2",
-      key: "stat2"
-    },
-    {
-      title: "Stat 3",
-      dataIndex: "stat3",
-      key: "stat3"
-    },
-  ];
-
-  const entriesFromApiNicelyOrderedTYVM : LeaderboardEntry[] = [
-    {username: "User1", stat1: 99, stat2: 2, stat3: 51, totalScore: 152},
-    {username: "User5", stat1: 25, stat2:99, stat3:27, totalScore: 151},
-    {username: "User4", stat1: 71, stat2:54, stat3:3, totalScore: 128},
-    {username: "User2", stat1: 33, stat2:61, stat3:22, totalScore: 116},
-    {username: "User3", stat1: 26, stat2:17, stat3:8, totalScore: 51},
   ];
 
   return (

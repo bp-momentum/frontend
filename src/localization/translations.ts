@@ -105,7 +105,12 @@ const Translations = {
     save: "confirm.save",
     cancel: "confirm.cancel",
     delete: "confirm.delete",
-  }
+  },
+  leaderboard: {
+    rank: "leaderboard.rank",
+    name: "leaderboard.name",
+    score: "leaderboard.score",
+  },
 };
 
 export default Translations;

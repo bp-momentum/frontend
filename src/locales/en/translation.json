@@ -107,5 +107,10 @@
     "save": "Save",
     "cancel": "Cancel",
     "delete": "Delete"
+  },
+  "leaderboard": {
+    "rank": "Rank",
+    "name": "Name",
+    "score": "Score"
   }
 }

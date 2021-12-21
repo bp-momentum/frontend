@@ -171,12 +171,16 @@ const Routes = {
   /**
    * Fetch user-specific Leaderboard
    */
-  getLeaderboard: () : Route => {
+  getLeaderboard: (props: {
+    count: number,
+  }) : Route => {
     return {
       route: "/api/listleaderboard",
       needsAuth: true,
-      method: "GET",
-      body: { }
+      method: "POST",
+      body: { 
+        count: props.count,
+      }
     };
   },
 };
