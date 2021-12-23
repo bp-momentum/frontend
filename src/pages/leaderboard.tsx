@@ -23,9 +23,11 @@ const Leaderboard = (): JSX.Element => {
   const [error, setError] = React.useState<boolean>(false);
 
   useEffect(() => {
+    let isMounted = true;
     // load user specific leaderboard
     if (loading){
       api.execute(Routes.getLeaderboard({count: 10})).then(response => {
+        if (!isMounted) return;
         if (!response.success) {
           setError(true);
           return;
@@ -38,6 +40,10 @@ const Leaderboard = (): JSX.Element => {
         setEntries(entries);
         setLoading(false);
       });
+      return () => {
+        // clean up
+        isMounted = false;
+      };
     }
   });
 
@@ -70,7 +76,7 @@ const Leaderboard = (): JSX.Element => {
             {error ? <div>{t(Translations.planManager.error)}</div> : <><Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} /><div>{t(Translations.planManager.loading)}</div></>}
           </div>
         ) : (
-          <Table style={{margin: "5%"}} dataSource={entries} columns={tableColumns} />
+          <Table data-testid="leaderboard" style={{margin: "5%"}} dataSource={entries} columns={tableColumns} rowKey={(entry) => entry.username} />
         )}
       </Layout>
     </Container>
