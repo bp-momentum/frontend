@@ -38,7 +38,9 @@ describe("<Leaderboard />", () => {
   test("The leaderboard entries fetched from the db should be correctly displayed inside the leaderboard", async () => {
     renderLeaderboard();
 
-    var leaderboard = await screen.findByTestId("leaderboard", undefined, { timeout: 10000 });
+    const leaderboard = await screen.findByTestId("leaderboard", undefined, { timeout: 10000 });
+
+    // eslint-disable-next-line testing-library/no-node-access
     const leaderboardRows = leaderboard.querySelectorAll("tr");
     expect(leaderboardRows[1]).toHaveTextContent("1");
     expect(leaderboardRows[1]).toHaveTextContent("UserA");
