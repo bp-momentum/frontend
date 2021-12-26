@@ -1,13 +1,22 @@
-import {Alert, Button, Col, Form, FormInstance, Input, Row, Space} from "antd";
-import {MailOutlined} from "@ant-design/icons";
+import {
+  Alert,
+  Button,
+  Col,
+  Form,
+  FormInstance,
+  Input,
+  Row,
+  Space,
+} from "antd";
+import { MailOutlined } from "@ant-design/icons";
 import React from "react";
 import Api from "../util/api";
 import Routes from "../util/routes";
 import Container from "../shared/container";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 import Translations from "../localization/translations";
 
-const CreateUser = () : JSX.Element => {
+const CreateUser = (): JSX.Element => {
   const [error, setError] = React.useState<null | string>();
   const [success, setSuccess] = React.useState<null | string>();
   const formRef = React.createRef<FormInstance>();
@@ -19,11 +28,13 @@ const CreateUser = () : JSX.Element => {
     const email = values["email_address"];
 
     setError(null);
-    const response = await Api.execute(Routes.createUser({
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-    }));
+    const response = await Api.execute(
+      Routes.createUser({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+      })
+    );
     console.log(response);
 
     if (!response) return;
@@ -43,9 +54,7 @@ const CreateUser = () : JSX.Element => {
   };
 
   return (
-    <Container
-      currentPage="home"
-      color="blue">
+    <Container currentPage="home" color="blue">
       <Space
         size="large"
         style={{
@@ -54,16 +63,17 @@ const CreateUser = () : JSX.Element => {
           position: "absolute",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center"
+          justifyContent: "center",
         }}
       >
         <Col>
-          <Row justify="center" style={{fontSize: "30px", fontWeight: "bold"}}>
+          <Row
+            justify="center"
+            style={{ fontSize: "30px", fontWeight: "bold" }}
+          >
             {t(Translations.createUser.title)}
           </Row>
-          <Row justify="center">
-            {t(Translations.createUser.subtitle)}
-          </Row>
+          <Row justify="center">{t(Translations.createUser.subtitle)}</Row>
         </Col>
         <Row justify="center">
           <Col>
@@ -71,35 +81,66 @@ const CreateUser = () : JSX.Element => {
               ref={formRef}
               name="login"
               labelCol={{ span: 16 }}
-              wrapperCol={{ span: 24  }}
+              wrapperCol={{ span: 24 }}
               initialValues={{ remember: true }}
               onFinish={onFinish}
               onFinishFailed={onFinishFailed}
               autoComplete="off"
             >
-
-              {success && <Alert message={success} type="success" showIcon style={{marginBottom: "20px"}}/>}
-              {error && <Alert message={error} type="error" showIcon style={{marginBottom: "20px"}}/>}
+              {success && (
+                <Alert
+                  message={success}
+                  type="success"
+                  showIcon
+                  style={{ marginBottom: "20px" }}
+                />
+              )}
+              {error && (
+                <Alert
+                  message={error}
+                  type="error"
+                  showIcon
+                  style={{ marginBottom: "20px" }}
+                />
+              )}
 
               <Form.Item
                 name="first_name"
-                rules={[{ required: true, message: t(Translations.createUser.enterFirstName) }]}
+                rules={[
+                  {
+                    required: true,
+                    message: t(Translations.createUser.enterFirstName),
+                  },
+                ]}
               >
-                <Input placeholder={t(Translations.user.firstName)}/>
+                <Input placeholder={t(Translations.user.firstName)} />
               </Form.Item>
 
               <Form.Item
                 name="last_name"
-                rules={[{ required: true, message: t(Translations.createUser.enterLastName) }]}
+                rules={[
+                  {
+                    required: true,
+                    message: t(Translations.createUser.enterLastName),
+                  },
+                ]}
               >
-                <Input placeholder={t(Translations.user.lastName)}/>
+                <Input placeholder={t(Translations.user.lastName)} />
               </Form.Item>
 
               <Form.Item
                 name="email_address"
-                rules={[{ required: true, message: t(Translations.createUser.enterEmail) }]}
+                rules={[
+                  {
+                    required: true,
+                    message: t(Translations.createUser.enterEmail),
+                  },
+                ]}
               >
-                <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder={t(Translations.user.email)}/>
+                <Input
+                  prefix={<MailOutlined className="site-form-item-icon" />}
+                  placeholder={t(Translations.user.email)}
+                />
               </Form.Item>
 
               <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
