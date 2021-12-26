@@ -1,23 +1,23 @@
-
 class User implements IUser {
-  name : string;
-  constructor(u : IUser) {
+  name: string;
+  constructor(u: IUser) {
     this.name = u.name;
   }
-  getName() : string {
+  getName(): string {
     return this.name;
   }
 }
 
-const getUser = () : User => {
-  const userObj = {
-    name: "Yannik",
-  };
-  return new User(userObj);
-};
+// TODO(Laennart): Remove if unused
+//const getUser = () : User => {
+//  const userObj = {
+//    name: "Yannik",
+//  };
+//  return new User(userObj);
+//};
 
 export interface IUser {
-  name : string;
+  name: string;
 }
 
 export default User;
