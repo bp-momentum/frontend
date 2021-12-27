@@ -13,14 +13,14 @@ class Api {
     this.refreshToken = refreshToken;
   }
 
-  execute = async (route: Route) : Promise<ApiResponse> => {
+  execute = async (route: Route): Promise<ApiResponse> => {
     /**
      * Wait for a token on authorized requests
      * Wait a max of 5 seconds
      */
     let i = 0;
     while (route.needsAuth && this.token === "" && ++i < 50) {
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
     }
 
     let response;
@@ -38,12 +38,12 @@ class Api {
       return {
         success: false,
         data: {},
-        description: "Unable to connect to server."
+        description: "Unable to connect to server.",
       };
     });
   };
 
-  executeGet = (route: Route) : Promise<ApiResponse> => {
+  executeGet = (route: Route): Promise<ApiResponse> => {
     if (route.needsAuth) {
       return this.getWithAuth(route.route);
     } else {
@@ -60,7 +60,7 @@ class Api {
   getWithAuth = (route: string): Promise<ApiResponse> => {
     return fetch(this.parseRoute(route), {
       method: "GET",
-      headers: {"Session-Token": this.token}
+      headers: { "Session-Token": this.token },
     }).then((r) => r.json());
   };
 
@@ -86,29 +86,35 @@ class Api {
     }).then((r) => r.json());
   };
 
-  postWithBody = (route: string, body: Record<string, unknown>): Promise<ApiResponse> => {
+  postWithBody = (
+    route: string,
+    body: Record<string, unknown>
+  ): Promise<ApiResponse> => {
     return fetch(this.parseRoute(route), {
       method: "POST",
       body: JSON.stringify(body),
-      headers: {"Content-Type": "application/json"}
+      headers: { "Content-Type": "application/json" },
     }).then((r) => r.json());
   };
 
   postWithAuth = (route: string): Promise<ApiResponse> => {
     return fetch(this.parseRoute(route), {
       method: "POST",
-      headers: {"Session-Token": this.token}
+      headers: { "Session-Token": this.token },
     }).then((r) => r.json());
   };
 
-  postWithAuthAndBody = (route: string, body: Record<string, unknown>): Promise<ApiResponse> => {
+  postWithAuthAndBody = (
+    route: string,
+    body: Record<string, unknown>
+  ): Promise<ApiResponse> => {
     return fetch(this.parseRoute(route), {
       method: "POST",
       body: JSON.stringify(body),
       headers: {
         "Session-Token": this.token,
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     }).then((r) => r.json());
   };
 
@@ -127,6 +133,7 @@ class Api {
 interface ApiResponse {
   success: boolean;
   description: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: Record<string, any>;
 }
 

@@ -105,9 +105,13 @@ const Exercise = ({item, index, details}: {item: ExerciseCardData, index: number
     <Draggable key={item.id} draggableId={item.id} index={index}>
       {(provided) => (
         <div
-          onClick={() => {
-            //
-            setOpenState(item.id);
+          onClick={(event) => {
+            let target = event.target as HTMLElement;
+            while (!target.classList.contains("ant-card-body") && !target.classList.contains("ant-card-head") && target.parentElement) {
+              target = target.parentElement;
+            }
+            if (target.classList.contains("ant-card-head"))
+              setOpenState(item.id === openState ? "" : item.id);
           }}
           ref={provided.innerRef}
           {...provided.draggableProps}
