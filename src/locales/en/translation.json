@@ -108,5 +108,8 @@
     "save": "Save",
     "cancel": "Cancel",
     "delete": "Delete"
+  },
+  "exercises": {
+    "no-exercises": "Keine Übungen"
   }
 }

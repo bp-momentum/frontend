@@ -106,6 +106,9 @@ const Translations = {
     save: "confirm.save",
     cancel: "confirm.cancel",
     delete: "confirm.delete",
+  },
+  exercises: {
+    noExercises: "exercises.no-exercises"
   }
 };
 
