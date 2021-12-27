@@ -106,8 +106,7 @@ const Exercise = ({item, index, details}: {item: ExerciseCardData, index: number
       {(provided) => (
         <div
           onClick={() => {
-            //
-            setOpenState(item.id);
+            setOpenState(item.id === openState ? "" : item.id);
           }}
           ref={provided.innerRef}
           {...provided.draggableProps}
