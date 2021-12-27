@@ -108,7 +108,8 @@ const Translations = {
     delete: "confirm.delete",
   },
   exercises: {
-    noExercises: "exercises.no-exercises"
+    noExercises: "exercises.no-exercises",
+    nextExercise: "exercises.next-exercise",
   }
 };
 

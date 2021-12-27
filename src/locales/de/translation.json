@@ -110,6 +110,7 @@
     "delete": "Löschen"
   },
   "exercises": {
-    "no-exercises": "Keine Übungen"
+    "no-exercises": "Keine Übungen",
+    "next-exercise": "Gehe zur nächsten Übung"
   }
 }

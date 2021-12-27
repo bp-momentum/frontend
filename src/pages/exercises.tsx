@@ -5,10 +5,11 @@ import {Exercise} from "../api/exercise";
 import api from "../util/api";
 import Routes from "../util/routes";
 import Container from "../shared/container";
-import {Col, Row, Layout, Progress, Card, Tooltip} from "antd";
+import {Col, Row, Layout, Progress, Card, Tooltip, Button} from "antd";
 import Translations from "../localization/translations";
 import {Content} from "antd/es/layout/layout";
 import {t} from "i18next";
+import { PlayCircleOutlined } from "@ant-design/icons";
 
 const dayOrder = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 
@@ -22,6 +23,10 @@ const isFuture = (dayName: string) : boolean => {
   const now = new Date();
   const nowDayName = now.toLocaleDateString("en-GB", {weekday: "long"}).toLowerCase();
   return dayOrder.indexOf(dayName) > dayOrder.indexOf(nowDayName);
+};
+
+const openNextExercise = () : void => {
+  // TODO
 };
 
 const Day = ({list, name, displayName}: {list: Exercise[], name: string, displayName: string}) => {
@@ -40,9 +45,23 @@ const Day = ({list, name, displayName}: {list: Exercise[], name: string, display
         style={{minWidth: "230px", background: today ? "#fff" : past ? "#aaa" : "#ccc"}}
         title={
           <>
-            <h1>
-              {displayName}
-            </h1>
+            <div style={{display: "flex", alignItems: "flex-start"}}>
+              <h1 style={{verticalAlign: "middle"}}>
+                {displayName}
+              </h1>
+              {today &&
+                <Tooltip title={<><span>{t(Translations.exercises.nextExercise)}</span></>}>
+                  <span style={{margin: "0", marginLeft: "10px", fontSize: "20px" }}>
+                    <Button
+                      style={{border: "0px"}}
+                      shape={"circle"}
+                      icon={<PlayCircleOutlined style={{fontSize: "20px"}} />}
+                      onClick={openNextExercise}
+                    />
+                  </span>
+                </Tooltip>
+              }
+            </div>
             <Progress
               style={{paddingRight: "5px"}}
               percent={future ? 0 : progress}
