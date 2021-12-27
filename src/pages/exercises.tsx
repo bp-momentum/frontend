@@ -27,6 +27,12 @@ const isFuture = (dayName: string) : boolean => {
 
 const openNextExercise = () : void => {
   // TODO
+  console.log("open next exercise");
+};
+
+const openExercise = (exercise: Exercise): void => {
+  // TODO
+  console.log("open " + exercise.title);
 };
 
 const Day = ({list, name, displayName}: {list: Exercise[], name: string, displayName: string}) => {
@@ -85,10 +91,12 @@ const Day = ({list, name, displayName}: {list: Exercise[], name: string, display
 
 const ExerciseCard = ({exercise}: {exercise : Exercise}) => {
   return (
-    <div style={{display: "flex", alignItems: "center"}}>
+    <div style={{display: "flex", alignItems: "center"}} onClick={() => openExercise(exercise)}>
       <h4 style={{margin: "0"}}>{exercise.title}</h4>
       <Tooltip title={<><span>{t(Translations.planEditor.cardTooltipRepeats, {count: exercise.repeats_per_set}) + t(Translations.planEditor.cardTooltipSets, {count: exercise.sets})}</span></>}>
-        <span style={{margin: "0", marginLeft: "auto", fontWeight: 400, fontSize: "14px"}}>{exercise.repeats_per_set} × {exercise.sets}</span>
+        <span style={{margin: "0", marginLeft: "auto", fontWeight: 400, fontSize: "14px"}}>
+          {exercise.repeats_per_set} × {exercise.sets}
+        </span>
       </Tooltip>
     </div>
   );
