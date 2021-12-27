@@ -16,7 +16,7 @@ nock(api.serverUrl)
   .persist()
   .defaultReplyHeaders({
     "access-control-allow-origin": "*",
-    "access-control-allow-credentials": "true" 
+    "access-control-allow-credentials": "true"
   })
   .options(/.*/)
   .reply(200, undefined, {
@@ -33,4 +33,15 @@ nock(api.serverUrl)
   .reply(200, {
     success: true,
     data: { exercises: [{id: 1, title: "Test Exercise"}] }
-  });
+  })
+  .post("/api/requestplanofuser")
+  .reply(200, {
+    success: true,
+    data: { exercises: [{id: 1, sets: 2, repeats_per_set: 3, date: "monday"}] }
+  })
+  .post("/api/getexercise")
+  .reply(200, {
+    success: true,
+    data: { description: "This description", title: "Test Exercise", activated: true, video: "Test Video" }
+  })
+;

@@ -5,10 +5,10 @@ import Routes from "../util/routes";
 import Container from "../shared/container";
 import {Col, Row, Layout, Progress, Card, Tooltip, Button, message} from "antd";
 import Translations from "../localization/translations";
-import {Content} from "antd/es/layout/layout";
 import {t} from "i18next";
 import { PlayCircleOutlined } from "@ant-design/icons";
 
+const { Content } = Layout;
 const dayOrder = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 
 const isPast = (dayName: string) : boolean => {
@@ -49,7 +49,7 @@ const Day = ({list, name, displayName}: {list: Exercise[], name: string, display
         style={{minWidth: "230px", background: today ? "#fff" : past ? "#aaa" : "#ccc"}}
         title={
           <>
-            <div style={{display: "flex", alignItems: "flex-start"}}>
+            <div data-testid={name} style={{display: "flex", alignItems: "flex-start"}}>
               <h1 style={{verticalAlign: "middle"}}>
                 {displayName}
               </h1>
@@ -61,6 +61,7 @@ const Day = ({list, name, displayName}: {list: Exercise[], name: string, display
                       shape={"circle"}
                       icon={<PlayCircleOutlined style={{fontSize: "20px"}} />}
                       onClick={openNextExercise}
+                      aria-label="nextExerciseButton"
                     />
                   </span>
                 </Tooltip>
