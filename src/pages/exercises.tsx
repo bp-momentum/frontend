@@ -1,11 +1,9 @@
 import React, {useEffect} from "react";
-import {useAppSelector} from "../redux/hooks";
-import {useTranslation} from "react-i18next";
 import {Exercise} from "../api/exercise";
 import api from "../util/api";
 import Routes from "../util/routes";
 import Container from "../shared/container";
-import {Col, Row, Layout, Progress, Card, Tooltip, Button} from "antd";
+import {Col, Row, Layout, Progress, Card, Tooltip, Button, message} from "antd";
 import Translations from "../localization/translations";
 import {Content} from "antd/es/layout/layout";
 import {t} from "i18next";
@@ -103,18 +101,14 @@ const ExerciseCard = ({exercise}: {exercise : Exercise}) => {
 };
 
 const Exercises = () : JSX.Element => {
-  const token = useAppSelector((state) => state.token.token);
-  const { t } = useTranslation();
-
   const [exercises, setExercises] = React.useState<Exercise[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
-  const [error, setError] = React.useState<null | string>();
 
   const loadAssignedPlan = async () => {
     const response = await api.execute(Routes.getAssignedPlans());
     if (!response) return;
     if (!response.success) {
-      setError(t(response.description ?? Translations.errors.unknownError));
+      message.error(t(response.description ?? Translations.errors.unknownError));
       setLoading(false);
       return;
     }
