@@ -14,8 +14,10 @@ const Helper = {
     return jwt["account_type"];
   },
 
+  // Session Token is valid for 1 day
   isSessionTokenValid: (token?: string | null): boolean =>
     Helper.checkTokenTime(86400000, token),
+  // Refresh Token is valid for 30 days
   isRefreshTokenValid: (token?: string | null): boolean =>
     Helper.checkTokenTime(2592000000, token),
 
