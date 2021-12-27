@@ -76,7 +76,7 @@ const Leaderboard = (): JSX.Element => {
             {error ? <div>{t(Translations.planManager.error)}</div> : <><Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} /><div>{t(Translations.planManager.loading)}</div></>}
           </div>
         ) : (
-          <Table data-testid="leaderboard" style={{margin: "5%"}} dataSource={entries} columns={tableColumns} rowKey={(entry) => entry.username} />
+          <Table data-testid="leaderboard" style={{margin: "5%"}} dataSource={entries} columns={tableColumns} rowKey={(entry) => entry.username} pagination={false} />
         )}
       </Layout>
     </Container>
