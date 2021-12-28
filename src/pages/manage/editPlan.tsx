@@ -30,7 +30,7 @@ interface ExerciseCardData {
 }
 
 /**
- * Truncate a string with ellipsis if it is too long 
+ * Truncate a string with ellipsis if it is too long
  * @param str
  * @param num
  * @returns truncated string
@@ -41,7 +41,7 @@ const truncate = (str: string, n : number) => {
 
 /**
  * Maps a given exercise id to its corresponding name
- * @param id 
+ * @param id
  * @returns the name of the exercise
  */
 const ExerciseIdToName = (id: number) => (
@@ -78,7 +78,7 @@ const VisibleExercise = ({card, details, collapsed}: {card: ExerciseData, detail
     <Card title={
       <div style={{display: "flex", alignItems: "center"}}>
         <h1 style={{margin: "0"}}>{ExerciseIdToName(card.type)}</h1>
-        {details && collapsed && 
+        {details && collapsed &&
           <Tooltip title={<><span>{t(Translations.planEditor.cardTooltipRepeats, {count: card.repeats}) + t(Translations.planEditor.cardTooltipSets, {count: card.sets})}</span></>}>
             <span style={{margin: "0", marginLeft: "auto", fontWeight: 400, fontSize: "14px"}}>{card.repeats} / {card.sets}</span>
           </Tooltip>
@@ -97,7 +97,7 @@ const VisibleExercise = ({card, details, collapsed}: {card: ExerciseData, detail
 
 /**
  * Draggable wrapper for the VisibleExercise component
- * @param {item: ExerciseCardData, index: number, details: boolean} props 
+ * @param {item: ExerciseCardData, index: number, details: boolean} props
  * @returns draggable visible exercise card
  */
 const Exercise = ({item, index, details}: {item: ExerciseCardData, index: number, details: boolean}) => {
@@ -117,7 +117,7 @@ const Exercise = ({item, index, details}: {item: ExerciseCardData, index: number
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           style={{
-            ...provided.draggableProps.style, 
+            ...provided.draggableProps.style,
             userSelect: "none",
             margin: "0 0 8px 0", }}
         >
@@ -222,7 +222,7 @@ const EditPlan = (): JSX.Element => {
 
   /**
    * Resolve a string in the form of either a weekday or "store" to the correct getter and setter of the state
-   * @param drop 
+   * @param drop
    * @returns {get: ExerciseCardData[], set: (data: ExerciseCardData[]) => void}
    */
   const DropToState = (drop: string): {get: ExerciseCardData[], set: (data: ExerciseCardData[]) => void} => {
@@ -248,17 +248,17 @@ const EditPlan = (): JSX.Element => {
 
   /**
    * Reorders the two given lists based on the given indexes
-   * 
+   *
    * If source and destination are the same, the list is reordered
-   * 
+   *
    * If the source is the store, the item is duplicated from the store and added to the destination
-   * 
+   *
    * If the destination is the store, the item is removed from the source and destroyed
-   * 
+   *
    * If neither the source nor the destination is the store, the item is moved from the source to the destination
-   * 
+   *
    * It always returns the source list and the destination list after the reordering
-   * 
+   *
    * @param listLeave the list from which the item is moved
    * @param listJoin the list to which the item is moved
    * @param source the source location and index of the item
@@ -282,7 +282,7 @@ const EditPlan = (): JSX.Element => {
       leaveArr.splice(dest.index, 0, item);
       return {leave: leaveArr, join: leaveArr};
     }
-  
+
     // remove from source when moving to store
     if (toStore) {
       leaveArr.splice(source.index, 1);
@@ -307,7 +307,7 @@ const EditPlan = (): JSX.Element => {
   useEffect(() => {
     // load exercises from server
     if (!exercisesLoaded) {
-      api.execute(Routes.getExercises({})).then((response) => {
+      api.execute(Routes.getExercises()).then((response) => {
         if (!response.success) return;
         const storeItems = response.data.exercises.map((item: {id: number, title: string}) => (
           {id: `store-${item.id}`, data: {
@@ -330,7 +330,7 @@ const EditPlan = (): JSX.Element => {
         for (const day of ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]) {
           const list1 = response.data.exercises.filter((item: {id: number, sets: number, repeats_per_set: number, date: string}) => item.date === day);
           const list2 = list1.map((item: {id: number, sets: number, repeats_per_set: number, date: string}, index: number) => (
-            {id: `restored-${day}-${index}`, 
+            {id: `restored-${day}-${index}`,
               data: {
                 type: item.id,
                 sets: item.sets,
@@ -350,8 +350,8 @@ const EditPlan = (): JSX.Element => {
 
   /**
    * Initiate reordering after dropping an item
-   * @param result 
-   * @returns 
+   * @param result
+   * @returns
    */
   const onDragEnd = (result: DropResult) => {
     // hide garbage sider
@@ -465,7 +465,7 @@ const EditPlan = (): JSX.Element => {
           if (GarbageSider.current)
             GarbageSider.current.style.display = "block";
         }}>
-          <Sider 
+          <Sider
             style={{background: "#e0e0e0", padding: "0", paddingTop: "20px"}} width="220px">
             {!exercisesLoaded ? (
               <div style={{height: "100%", width: "100%", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column"}}>

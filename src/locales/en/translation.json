@@ -45,7 +45,8 @@
   "home": {
     "you-are": "You are {{type, en-handle-an}}!",
     "logout": "Logout",
-    "create-user": "Create User"
+    "create-user": "Create User",
+    "exercises": "Show today's exercises"
   },
   "tab-bar": {
     "home": "Home",
@@ -107,5 +108,9 @@
     "save": "Save",
     "cancel": "Cancel",
     "delete": "Delete"
+  },
+  "exercises": {
+    "no-exercises": "No Exercises",
+    "next-exercise": "Go to the next exercise"
   }
 }

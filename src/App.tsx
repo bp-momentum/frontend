@@ -13,6 +13,7 @@ import AutoLogin from "./pages/autoLogin";
 import Settings from "./pages/settings";
 import EditPlan from "./pages/manage/editPlan";
 import ManagePlans from "./pages/manage/plans";
+import Exercises from "./pages/exercises";
 
 // Basic App that is just used to Route to different pages
 function App() : JSX.Element {
@@ -51,11 +52,12 @@ function App() : JSX.Element {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/exercises" element={<Exercises/>}/>
       <Route path="/createuser" element={<CreateUser />} />
       <Route path="/settings" element={<Settings/>}/>
       <Route path="/manage" >  {/* TODO: route to 404 maybe? */}
         <Route path="plans" element={<ManagePlans />} />
-        <Route path="plans/:planId" element={<EditPlan />} />  
+        <Route path="plans/:planId" element={<EditPlan />} />
         <Route path="user" element={<>not yet implemented</>} />
       </Route>
       <Route path="*" element={<div style={{fontSize: 180, textAlign: "center"}}> 404 </div>} />

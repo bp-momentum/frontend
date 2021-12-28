@@ -14,6 +14,10 @@ const Helper = {
     return jwt["account_type"];
   },
 
+  getUserName: (token: string) : string => {
+    return Helper.getJWTPayload(token)["username"];
+  },
+
   // Session Token is valid for 1 day
   isSessionTokenValid: (token?: string | null): boolean =>
     Helper.checkTokenTime(86400000, token),
