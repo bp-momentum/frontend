@@ -15,7 +15,11 @@ const Helper = {
   },
 
   getUserName: (token: string) : string => {
-    return Helper.getJWTPayload(token)["username"];
+    const payload = Helper.getJWTPayload(token);
+    if (!payload["username"] || typeof payload["username"] !== "string") {
+      return "";
+    }
+    return payload["username"];
   },
 
   // Session Token is valid for 1 day
