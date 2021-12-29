@@ -46,6 +46,7 @@ const Translations = {
     youAre: "home.you-are",
     logout: "home.logout",
     createUser: "home.create-user",
+    exercises: "home.exercises",
   },
   tabBar: {
     home: "tab-bar.home",
@@ -105,6 +106,10 @@ const Translations = {
     save: "confirm.save",
     cancel: "confirm.cancel",
     delete: "confirm.delete",
+  },
+  exercises: {
+    noExercises: "exercises.no-exercises",
+    nextExercise: "exercises.next-exercise",
   },
   leaderboard: {
     rank: "leaderboard.rank",

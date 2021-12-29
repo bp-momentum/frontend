@@ -1,3 +1,4 @@
+
 export interface Route {
   route: string,
   method: "GET" | "POST";
@@ -97,7 +98,7 @@ const Routes = {
   /**
    * Fetch all training plans.
    */
-  getTrainingPlans: (props: Record<string, never>) : Route => {
+  getTrainingPlans: () : Route => {
     return {
       route: "/api/getlistofplans",
       needsAuth: true,
@@ -122,9 +123,25 @@ const Routes = {
   },
 
   /**
+   * Fetch more information about an exercise with a given id.
+   */
+  getExercise: (props: {
+    id: string,
+  }) : Route => {
+    return {
+      route: "/api/getexercise",
+      method: "POST",
+      needsAuth: true,
+      body: {
+        id: props.id,
+      }
+    };
+  },
+
+  /**
    * Fetches a list of all exercises.
    */
-  getExercises: (props: Record<string, never>) : Route => {
+  getExercises: () : Route => {
     return {
       route: "/api/getexerciselist",
       needsAuth: true,
@@ -165,6 +182,35 @@ const Routes = {
       body: {
         id: props.planId,
       }
+    };
+  },
+
+  /**
+   * Assign a training plan to a user.
+   */
+  assignPlanToUser: (props: {
+    planId: string,
+    username: string,
+  }) : Route => {
+    return {
+      route: "api/addplantouser",
+      method: "POST",
+      needsAuth: true,
+      body: {
+        plan: props.planId,
+        user: props.username,
+      }
+    };
+  },
+
+  /**
+   * Get assigned training plans.
+   */
+  getAssignedPlans: () : Route => {
+    return {
+      route: "/api/requestplanofuser",
+      needsAuth: true,
+      method: "POST",
     };
   },
 
