@@ -45,7 +45,8 @@
   "home": {
     "you-are": "Du bist ein/e {{type}}!",
     "logout": "Logout",
-    "create-user": "Benutzer erstellen"
+    "create-user": "Benutzer erstellen",
+    "exercises": "Heutige Übungen ansehen"
   },
   "tab-bar": {
     "home": "Home",
@@ -107,5 +108,9 @@
     "save": "Speichern",
     "cancel": "Abbrechen",
     "delete": "Löschen"
+  },
+  "exercises": {
+    "no-exercises": "Keine Übungen",
+    "next-exercise": "Gehe zur nächsten Übung"
   }
 }
