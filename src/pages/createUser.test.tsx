@@ -17,28 +17,21 @@ const createUserWrapper = () => (
 );
 
 describe("CreateUser", () => {
-  it("should render", async () => {
+  test("should render the form", async () => {
     render(createUserWrapper());
 
-    const t = await screen.findByRole("input", { name: "first_name" });
-    //const t = await screen.findByText("Create a new User", undefined, {
-    //  timeout: 10000,
-    //});
-    expect(t).toBeInTheDocument();
-  });
-
-  it("should render the form", async () => {
-    render(createUserWrapper());
-
-    const first = await screen.findByPlaceholderText("First Name");
-    const last = await screen.findByPlaceholderText("Last Name");
-    const mail = await screen.findByPlaceholderText("Email");
+    const first = await screen.findByTestId("first_name");
+    const last = await screen.findByTestId("last_name");
+    const email = await screen.findByTestId("email_address");
+    const submit = await screen.findByTestId("create_submit");
 
     expect(first).toBeInTheDocument();
     expect(last).toBeInTheDocument();
-    expect(mail).toBeInTheDocument();
+    expect(email).toBeInTheDocument();
+    expect(submit).toBeInTheDocument();
     expect(first).toBeVisible();
     expect(last).toBeVisible();
-    expect(mail).toBeVisible();
+    expect(email).toBeVisible();
+    expect(submit).toBeVisible();
   });
 });
