@@ -16,8 +16,7 @@ import ManagePlans from "./pages/manage/plans";
 import Exercises from "./pages/exercises";
 
 // Basic App that is just used to Route to different pages
-function App() : JSX.Element {
-
+function App(): JSX.Element {
   const token = useAppSelector((state) => state.token.token);
   const refreshToken = useAppSelector((state) => state.token.refreshToken);
 
@@ -32,35 +31,39 @@ function App() : JSX.Element {
   // It is probably enough to just pass the token to Register directly as a prop
 
   if (new_user_token) {
-    return (
-      <Register registerToken={new_user_token} />
-    );
+    return <Register registerToken={new_user_token} />;
   }
 
-  if (!Helper.isRefreshTokenValid(refreshToken) && !Helper.isSessionTokenValid(token)) {
-    return (
-      <Login />
-    );
+  if (
+    !Helper.isRefreshTokenValid(refreshToken) &&
+    !Helper.isSessionTokenValid(token)
+  ) {
+    return <Login />;
   }
 
   if (!Helper.isSessionTokenValid(token)) {
-    return(
-      <AutoLogin />
-    );
+    return <AutoLogin />;
   }
 
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/exercises" element={<Exercises/>}/>
+      <Route path="/exercises" element={<Exercises />} />
       <Route path="/createuser" element={<CreateUser />} />
-      <Route path="/settings" element={<Settings/>}/>
-      <Route path="/manage" >  {/* TODO: route to 404 maybe? */}
+      <Route path="/settings" element={<Settings />} />
+      <Route path="/manage">
+        {" "}
+        {/* TODO: route to 404 maybe? */}
         <Route path="plans" element={<ManagePlans />} />
         <Route path="plans/:planId" element={<EditPlan />} />
         <Route path="user" element={<>not yet implemented</>} />
       </Route>
-      <Route path="*" element={<div style={{fontSize: 180, textAlign: "center"}}> 404 </div>} />
+      <Route
+        path="*"
+        element={
+          <div style={{ fontSize: 180, textAlign: "center" }}> 404 </div>
+        }
+      />
     </Routes>
   );
 }
