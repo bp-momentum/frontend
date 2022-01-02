@@ -205,12 +205,30 @@ const Routes = {
 
   /**
    * Get assigned training plans.
+   * This can only be called by a user.
    */
   getAssignedPlans: () : Route => {
     return {
       route: "/api/requestplanofuser",
       needsAuth: true,
       method: "POST",
+    };
+  },
+
+  /**
+   * Get the assigned plan of a user.
+   * This can only be called by a trainer.
+   */
+  getAssignedPlanOfUser: (props: {
+    username: string,
+  }) : Route => {
+    return {
+      route: "/api/requestplanofuser",
+      needsAuth: true,
+      method: "POST",
+      body: {
+        username: props.username,
+      }
     };
   }
 };
