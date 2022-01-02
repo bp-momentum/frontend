@@ -1,6 +1,7 @@
 # BP Frontend
 
 ---
+[![codecov](https://codecov.io/gh/BP-WiSe21-22-Gruppe-52/BP-frontend/branch/main/graph/badge.svg?token=DIL69LWAG7)](https://codecov.io/gh/BP-WiSe21-22-Gruppe-52/BP-frontend)
 
 # Getting Started with Create React App
 
