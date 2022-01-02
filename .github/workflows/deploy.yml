@@ -20,10 +20,21 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - run: yarn
+        name: Collect dependencies
       - run: eslint ./src/
-        name: Run eslint
+        name: Check formatting
       - run: yarn test --clearCache
-      - run: yarn test
+        name: Clear test cache
+      - name: Generate coverage report
+        run: yarn test --coverage
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./coverage/
+          fail_ci_if_error: true
+          files: ./coverage/clover.xml
+          flags: unittests
 
   deploy:
     runs-on: self-hosted
@@ -40,4 +51,3 @@ jobs:
         name: Delete old files
       - run: cp -r build/* /var/www/vhosts/bp/
         name: Copy new files
-

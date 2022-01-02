@@ -17,12 +17,13 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - run: yarn
+        name: Collect dependencies
       - run: eslint ./src/
-        name: Run eslint
+        name: Check formatting
       - run: yarn test --clearCache
+        name: Clear test cache
       - name: Generate coverage report
-        run: |
-          yarn test --coverage
+        run: yarn test --coverage
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
         with:
@@ -31,5 +32,3 @@ jobs:
           fail_ci_if_error: true
           files: ./coverage/clover.xml
           flags: unittests
-          verbose: true
-
