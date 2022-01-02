@@ -24,12 +24,6 @@ jobs:
         name: Run eslint
       - run: yarn test --clearCache
       - run: yarn test
-      - name: Cache dependencies folder
-        uses: actions/cache@v2
-        with:
-          key: ${{ github.sha }}
-          path: |
-            node_modules
 
   deploy:
     runs-on: self-hosted
@@ -39,12 +33,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - name: Restore dependencies folder
-        uses: actions/cache@v2
-        with:
-          key: ${{ github.sha }}
-          path: |
-            node_modules
+      - run: yarn
       - run: GENERATE_SOURCEMAP=false DISABLE_ESLINT_PLUGIN=true CI=false yarn build
         name: Build static page
       - run: rm -rf /var/www/vhosts/bp/*
