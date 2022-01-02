@@ -1,30 +1,30 @@
 import Helper from "./helper";
 
-test("extract account type from an access token", () => {
-  const token = "abc.eyJhY2NvdW50X3R5cGUiOiJhZG1pbiIsInRva2VudGltZSI6MTYzODAzMjQyOSwidXNlcm5hbWUiOiJhZG1pbiJ9.def";
-  expect(Helper.getAccountType(token)).toBe("admin");
+const constructToken = (payload: Record<string, unknown>) => {
+  const json = JSON.stringify(payload);
+  return "abc." + btoa(json) + ".def";
+};
+
+test("extract payload from token", () => {
+  expect(Helper.getJWTPayload(constructToken({}))).toStrictEqual({});
+  expect(Helper.getJWTPayload("abc.def")).toStrictEqual({});
+  expect(Helper.getJWTPayload("abc.def.ghi.jkl")).toStrictEqual({});
+  expect(Helper.getJWTPayload(constructToken({test: true}))).toStrictEqual({test: true});
+});
+
+test("extract account type from token", () => {
+  expect(Helper.getAccountType(constructToken({account_type: "admin"}))).toBe("admin");
+  expect(() => Helper.getAccountType(constructToken({type: "admin"}))).toThrow("Invalid token");
+  expect(() => Helper.getAccountType(constructToken({account_type: "owner"}))).toThrow("Invalid token");
+});
+
+test("extract username from token", () => {
+  expect(Helper.getUserName(constructToken({username: "user"}))).toBe("user");
+  expect(Helper.getUserName(constructToken({name: "user"}))).toBe("");
+  expect(Helper.getUserName(constructToken({username: 0}))).toBe("");
 });
 
 test("check token validity", () => {
-  const token = "abc.eyJhY2NvdW50X3R5cGUiOiJhZG1pbiIsInRva2VudGltZSI6MTYzODAzMjQyOSwidXNlcm5hbWUiOiJhZG1pbiJ9.def";
-  const invalidToken = "abc.eyJhY2NvdW50dHlwZSI6ImFkbWluIiwidG9rZW5fdGltZSI6MTYzODAzMjQyOSwidXNlcl9uYW1lIjoiYWRtaW4ifQ.def";
-  const invalidTypesToken = "abc.eyJhY2NvdW50dHlwZSI6MSwidG9rZW5fdGltZSI6IjE2MzgwMzI0MjkiLCJ1c2VyX25hbWUiOjB9.def";
-  const invalidJwtToken = "abc.def";
-  expect(Helper.getJWTPayload(invalidJwtToken)).toStrictEqual({});
-  expect(Helper.isSessionTokenValid(token)).toBe(false);
-  expect(Helper.isSessionTokenValid()).toBe(false);
-  expect(Helper.isSessionTokenValid(null)).toBe(false);
-  expect(Helper.isSessionTokenValid(undefined)).toBe(false);
-  expect(Helper.isRefreshTokenValid(null)).toBe(false);
-  expect(Helper.isRefreshTokenValid(undefined)).toBe(false);
-  expect(() => Helper.getAccountType(invalidToken)).toThrow("Invalid token");
-  expect(Helper.getUserName(token)).toBe("admin");
-  expect(Helper.getUserName(invalidToken)).toBe("");
-  expect(Helper.isSessionTokenValid(invalidToken)).toBe(false);
-  expect(Helper.isRefreshTokenValid(invalidToken)).toBe(false);
-  expect(Helper.isSessionTokenValid(invalidTypesToken)).toBe(false);
-  expect(Helper.isRefreshTokenValid(invalidTypesToken)).toBe(false);
-
   const tests = [
     {
       minus: 2572000000,
@@ -53,12 +53,18 @@ test("check token validity", () => {
     const now = Date.now();
     const time = (now - test.minus) / 1000;
 
-    const json = JSON.stringify({
-      tokentime: time,
-    });
-
-    const t = "abc." + btoa(json) + ".def";
-    expect(Helper.isSessionTokenValid(t)).toBe(test.expect && test.session);
-    expect(Helper.isRefreshTokenValid(t)).toBe(test.expect || test.session);
+    const validToken = constructToken({tokentime: time});
+    const invalidToken = constructToken({token_time: time});
+    const invalidTokenType = constructToken({token_time: time.toString()});
+    expect(Helper.isSessionTokenValid(validToken)).toBe(test.expect && test.session);
+    expect(Helper.isRefreshTokenValid(validToken)).toBe(test.expect || test.session);
+    expect(Helper.isSessionTokenValid(invalidToken)).toBe(false);
+    expect(Helper.isSessionTokenValid(invalidToken)).toBe(false);
+    expect(Helper.isRefreshTokenValid(invalidTokenType)).toBe(false);
+    expect(Helper.isRefreshTokenValid(invalidTokenType)).toBe(false);
+    expect(Helper.isSessionTokenValid(null)).toBe(false);
+    expect(Helper.isRefreshTokenValid(null)).toBe(false);
+    expect(Helper.isSessionTokenValid(undefined)).toBe(false);
+    expect(Helper.isRefreshTokenValid(undefined)).toBe(false);
   }
 });
