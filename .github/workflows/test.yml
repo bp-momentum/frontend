@@ -22,13 +22,5 @@ jobs:
         name: Check formatting
       - run: yarn test --clearCache
         name: Clear test cache
-      - name: Run tests & generate coverage report
-        run: yarn test --coverage
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./coverage/
-          fail_ci_if_error: true
-          files: ./coverage/clover.xml
-          flags: unittests
+      - name: Run tests
+        run: yarn test
