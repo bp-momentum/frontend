@@ -7,10 +7,16 @@ test("extract account type from an access token", () => {
 
 test("check token validity", () => {
   const token = "abc.eyJhY2NvdW50X3R5cGUiOiJhZG1pbiIsInRva2VudGltZSI6MTYzODAzMjQyOSwidXNlcm5hbWUiOiJhZG1pbiJ9.def";
+  const invalidToken = "abc.eyJhY2NvdW50dHlwZSI6ImFkbWluIiwidG9rZW5fdGltZSI6MTYzODAzMjQyOSwidXNlcl9uYW1lIjoiYWRtaW4ifQ.def";
   expect(Helper.isSessionTokenValid(token)).toBe(false);
   expect(Helper.isSessionTokenValid()).toBe(false);
   expect(Helper.isSessionTokenValid(null)).toBe(false);
   expect(Helper.isSessionTokenValid(undefined)).toBe(false);
+  expect(() => Helper.getAccountType(invalidToken)).toThrow("Invalid token");
+  expect(Helper.getUserName(token)).toBe("admin");
+  expect(Helper.getUserName(invalidToken)).toBe("");
+  expect(Helper.isSessionTokenValid(invalidToken)).toBe(false);
+  expect(Helper.isRefreshTokenValid(invalidToken)).toBe(false);
 
   const tests = [
     {
