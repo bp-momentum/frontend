@@ -1,5 +1,9 @@
 name: Deploy
 
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     branches:
@@ -16,10 +20,13 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - run: yarn
+        name: Collect dependencies
       - run: eslint ./src/
-        name: Run eslint
+        name: Check formatting
       - run: yarn test --clearCache
-      - run: yarn test
+        name: Clear test cache
+      - name: Run tests
+        run: yarn test
 
   deploy:
     runs-on: self-hosted
@@ -36,4 +43,3 @@ jobs:
         name: Delete old files
       - run: cp -r build/* /var/www/vhosts/bp/
         name: Copy new files
-
