@@ -1,0 +1,31 @@
+name: Coverage
+
+on: push
+
+env:
+  NODE_VERSION: 16
+jobs:
+  test:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - run: yarn
+      - run: eslint ./src/
+        name: Run eslint
+      - run: yarn test --clearCache
+      - name: Generate coverage report
+        run: |
+          yarn test --coverage
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./coverage/
+          fail_ci_if_error: true
+          files: ./coverage/clover.xml
+          flags: unittests
+          verbose: true
+
