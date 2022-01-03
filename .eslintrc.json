@@ -19,6 +19,7 @@
         "sourceType": "module"
     },
     "plugins": [
+        "prettier",
         "react",
         "@typescript-eslint"
     ],
@@ -38,6 +39,7 @@
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "prettier/prettier": "warn"
     }
 }

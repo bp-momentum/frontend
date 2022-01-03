@@ -44,4 +44,12 @@ nock(api.serverUrl)
     success: true,
     data: { description: "This description", title: "Test Exercise", activated: true, video: "Test Video" }
   })
-;
+  .post("/api/listleaderboard")
+  .reply(200, {
+    success: true,
+    data: { leaderboard: [
+      {rank: 1, username: "UserA", score: 1000},
+      {rank: 2, username: "UserB", score: 100},
+      {rank: 3, username: "UserC", score: 10},
+    ] }
+  });

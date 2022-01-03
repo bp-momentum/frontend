@@ -230,7 +230,23 @@ const Routes = {
         username: props.username,
       }
     };
-  }
+  },
+
+  /**
+   * Fetch user-specific Leaderboard
+   */
+  getLeaderboard: (props: {
+    count: number,
+  }) : Route => {
+    return {
+      route: "/api/listleaderboard",
+      needsAuth: true,
+      method: "POST",
+      body: { 
+        count: props.count,
+      }
+    };
+  },
 };
 
 export default Routes;

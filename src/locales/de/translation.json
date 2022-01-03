@@ -50,7 +50,7 @@
   },
   "tab-bar": {
     "home": "Home",
-    "leaderboard": "Leaderboard",
+    "leaderboard": "Rangliste",
     "settings": "Einstellungen",
     "profile": "Profil",
     "overview": "Übersicht",
@@ -112,5 +112,10 @@
   "exercises": {
     "no-exercises": "Keine Übungen",
     "next-exercise": "Gehe zur nächsten Übung"
+  },
+  "leaderboard": {
+    "rank": "Rang",
+    "name": "Name",
+    "score": "Punktzahl"
   }
 }

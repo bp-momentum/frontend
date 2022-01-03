@@ -110,7 +110,12 @@ const Translations = {
   exercises: {
     noExercises: "exercises.no-exercises",
     nextExercise: "exercises.next-exercise",
-  }
+  },
+  leaderboard: {
+    rank: "leaderboard.rank",
+    name: "leaderboard.name",
+    score: "leaderboard.score",
+  },
 };
 
 export default Translations;
