@@ -22,14 +22,20 @@ describe("<ManagePlans />", () => {
   test("An add plan button should be visible.", async () => {
     renderPlanManager();
 
-    const addButton = await screen.findByRole("button", { name: "planAddingButton" }, { timeout: 10000 });
+    const addButton = await screen.findByRole(
+      "button",
+      { name: "planAddingButton" },
+      { timeout: 10000 }
+    );
     expect(addButton).toBeInTheDocument();
   });
 
   test("A plan should be visible.", async () => {
     renderPlanManager();
-    
-    const plan = await screen.findByText("Test Plan", undefined, { timeout: 10000 });
+
+    const plan = await screen.findByText("Test Plan", undefined, {
+      timeout: 10000,
+    });
     expect(plan).toBeInTheDocument();
   });
 });

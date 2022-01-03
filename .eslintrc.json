@@ -25,7 +25,7 @@
     ],
     "rules": {
         "indent": [
-            "error",
+            "off",
             2
         ],
         "linebreak-style": [
@@ -40,6 +40,11 @@
             "error",
             "always"
         ],
-        "prettier/prettier": "warn"
+        "prettier/prettier": [
+            "warn",
+            {
+                "endOfLine": "auto"
+            }
+        ]
     }
 }

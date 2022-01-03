@@ -22,15 +22,21 @@ describe("<EditPlan />", () => {
   test("The Test Exercise should be in the store.", async () => {
     renderPlanEditor();
 
-    const addButton = await screen.findByText("Test Exercise", undefined, { timeout: 10000 });
+    const addButton = await screen.findByText("Test Exercise", undefined, {
+      timeout: 10000,
+    });
     expect(addButton).toBeInTheDocument();
   });
 
   test("The garbage Sider should be visible while dragging.", async () => {
     renderPlanEditor();
 
-    const addButton = await screen.findByText("Test Exercise", undefined, { timeout: 10000 });
-    const garbage = await screen.findByTestId("garbage", undefined, { timeout: 10000 });
+    const addButton = await screen.findByText("Test Exercise", undefined, {
+      timeout: 10000,
+    });
+    const garbage = await screen.findByTestId("garbage", undefined, {
+      timeout: 10000,
+    });
 
     expect(garbage).not.toBeVisible();
 

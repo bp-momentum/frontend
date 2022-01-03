@@ -25,12 +25,12 @@ class Api {
 
     let response;
     switch (route.method) {
-    case "GET":
-      response = this.executeGet(route);
-      break;
-    case "POST":
-      response = this.executePost(route);
-      break;
+      case "GET":
+        response = this.executeGet(route);
+        break;
+      case "POST":
+        response = this.executePost(route);
+        break;
     }
 
     return response.catch((error) => {
