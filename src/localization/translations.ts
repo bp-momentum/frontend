@@ -22,13 +22,13 @@ const Translations = {
     enterPassword: "login.enter-password",
   },
   autoLogin: {
-    signingIn: "auto-login.signing-in"
+    signingIn: "auto-login.signing-in",
   },
   createUser: {
     create: "create-user.create",
     title: "create-user.title",
     subtitle: "create-user.subtitle",
-    successfullyCreatedUser : "create-user.successfully-created-user",
+    successfullyCreatedUser: "create-user.successfully-created-user",
     enterFirstName: "create-user.enter-first-name",
     enterLastName: "create-user.enter-last-name",
     enterEmail: "create-user.enter-email",
@@ -57,7 +57,7 @@ const Translations = {
     profile: "tab-bar.profile",
     user: "tab-bar.user",
     plans: "tab-bar.plans",
-    manage: "tab-bar.manage"
+    manage: "tab-bar.manage",
   },
   settings: {
     accountSettings: "settings.account-settings",
@@ -69,7 +69,7 @@ const Translations = {
     deleteModalMSG: "settings.delete-modal-msg",
     deleteModalConfirm: "settings.delete-modal-confirm",
     deleteModalCancel: "settings.delete-modal-cancel",
-    successfullyDeletedAccount: "settings.successfully-deleted-account"
+    successfullyDeletedAccount: "settings.successfully-deleted-account",
   },
   planManager: {
     newPlan: "plan-manager.new-plan",
@@ -110,7 +110,12 @@ const Translations = {
   exercises: {
     noExercises: "exercises.no-exercises",
     nextExercise: "exercises.next-exercise",
-  }
+  },
+  leaderboard: {
+    rank: "leaderboard.rank",
+    name: "leaderboard.name",
+    score: "leaderboard.score",
+  },
 };
 
 export default Translations;

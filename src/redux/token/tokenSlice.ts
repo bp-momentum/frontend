@@ -25,10 +25,11 @@ export const tokenSlice = createSlice({
     },
     unsetRefreshToken: (state) => {
       state.refreshToken = null;
-    }
-  }
+    },
+  },
 });
 
-export const { setToken, unsetToken, setRefreshToken, unsetRefreshToken } = tokenSlice.actions;
+export const { setToken, unsetToken, setRefreshToken, unsetRefreshToken } =
+  tokenSlice.actions;
 
 export default tokenSlice.reducer;

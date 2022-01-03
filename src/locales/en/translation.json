@@ -112,5 +112,10 @@
   "exercises": {
     "no-exercises": "No Exercises",
     "next-exercise": "Go to the next exercise"
+  },
+  "leaderboard": {
+    "rank": "Rank",
+    "name": "Name",
+    "score": "Score"
   }
 }
