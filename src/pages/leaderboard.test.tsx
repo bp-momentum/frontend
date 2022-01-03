@@ -22,23 +22,33 @@ describe("<Leaderboard />", () => {
   test("The leaderboard (table) should be visible with rows 'rank', 'name' and 'score'", async () => {
     renderLeaderboard();
 
-    const table = await screen.findByTestId("leaderboard", undefined, { timeout: 10000 });
+    const table = await screen.findByTestId("leaderboard", undefined, {
+      timeout: 10000,
+    });
     expect(table).toBeInTheDocument();
 
-    const rankCol = await screen.findByText("Rank", undefined, { timeout: 10000 });
+    const rankCol = await screen.findByText("Rank", undefined, {
+      timeout: 10000,
+    });
     expect(rankCol).toBeInTheDocument();
 
-    const nameCol = await screen.findByText("Name", undefined, { timeout: 10000 });
+    const nameCol = await screen.findByText("Name", undefined, {
+      timeout: 10000,
+    });
     expect(nameCol).toBeInTheDocument();
 
-    const scoreCol = await screen.findByText("Score", undefined, { timeout: 10000 });
+    const scoreCol = await screen.findByText("Score", undefined, {
+      timeout: 10000,
+    });
     expect(scoreCol).toBeInTheDocument();
   });
 
   test("The leaderboard entries fetched from the db should be correctly displayed inside the leaderboard", async () => {
     renderLeaderboard();
 
-    const leaderboard = await screen.findByTestId("leaderboard", undefined, { timeout: 10000 });
+    const leaderboard = await screen.findByTestId("leaderboard", undefined, {
+      timeout: 10000,
+    });
 
     // eslint-disable-next-line testing-library/no-node-access
     const leaderboardRows = leaderboard.querySelectorAll("tr");

@@ -14,7 +14,7 @@ const Helper = {
     return jwt["account_type"];
   },
 
-  getUserName: (token: string) : string => {
+  getUserName: (token: string): string => {
     const payload = Helper.getJWTPayload(token);
     if (!payload["username"] || typeof payload["username"] !== "string") {
       return "";

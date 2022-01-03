@@ -111,6 +111,4 @@ describe("Sanity", () => {
   test("Array Not Equal Length", () => {
     expect([1, 2, 3]).not.toHaveLength(4);
   });
-
 });
-
