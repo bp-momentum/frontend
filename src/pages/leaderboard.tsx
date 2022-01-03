@@ -14,7 +14,8 @@ interface LeaderboardEntry {
 }
 
 /**
- *
+ * The leaderboard contains 10 entries (or less, if there are only < 10 users)
+ * Shown are the player themselves and 9 surrounding players with their rank and score
  * @returns The page for the leaderboard
  */
 const Leaderboard = (): JSX.Element => {
