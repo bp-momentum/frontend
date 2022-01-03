@@ -1,4 +1,4 @@
-import "./App.css";
+import "./styles/App.css";
 import React, { useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { useAppSelector } from "./redux/hooks";
@@ -15,6 +15,7 @@ import EditPlan from "./pages/manage/editPlan";
 import ManagePlans from "./pages/manage/plans";
 import Exercises from "./pages/exercises";
 import Leaderboard from "./pages/leaderboard";
+import Train from "./pages/train";
 
 // Basic App that is just used to Route to different pages
 function App(): JSX.Element {
@@ -48,13 +49,14 @@ function App(): JSX.Element {
 
   return (
     <Routes>
+      {/* TODO(JUL14N): set propper routing */}
+      <Route path="/" element={<Train />} />
       <Route path="/" element={<Home />} />
       <Route path="/exercises" element={<Exercises />} />
       <Route path="/createuser" element={<CreateUser />} />
       <Route path="/leaderboard" element={<Leaderboard />} />
       <Route path="/settings" element={<Settings />} />
       <Route path="/manage">
-        {" "}
         {/* TODO: route to 404 maybe? */}
         <Route path="plans" element={<ManagePlans />} />
         <Route path="plans/:planId" element={<EditPlan />} />

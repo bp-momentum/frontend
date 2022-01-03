@@ -21,7 +21,7 @@ import helper from "../util/helper";
 
 export interface ContainerProps {
   children: React.ReactNode;
-  currentPage: "home" | "settings" | "leaderboard" | "profile" | "manage"; // highlightable menu items
+  currentPage?: "home" | "settings" | "leaderboard" | "profile" | "manage"; // highlightable menu items
   color?: "red" | "gold" | "blue";
 }
 
@@ -68,20 +68,17 @@ export default function Container(props: ContainerProps): JSX.Element {
       <Header style={{ backgroundColor: "#fff" }}>
         <Menu
           mode="horizontal"
-          selectedKeys={[props.currentPage]}
+          selectedKeys={props.currentPage ? [props.currentPage] : []}
           onClick={handleClick}
         >
-          <Menu.Item
-            key="home"
-            icon={<HomeTwoTone twoToneColor={props.color} />}
-          >
+          <Menu.Item key="home" icon={<HomeTwoTone twoToneColor={color} />}>
             {t(Translations.tabBar.home)}
           </Menu.Item>
           {(isTrainer || isAdmin) && (
             <SubMenu
               key="manage"
               title={t(Translations.tabBar.manage)}
-              icon={<SettingTwoTone twoToneColor={props.color} />}
+              icon={<SettingTwoTone twoToneColor={color} />}
             >
               <Menu.Item
                 key="manage_user"
@@ -115,20 +112,20 @@ export default function Container(props: ContainerProps): JSX.Element {
           >
             <Menu.Item
               key="profile_overview"
-              icon={<BarsOutlined style={{ color: props.color }} />}
+              icon={<BarsOutlined style={{ color: color }} />}
             >
               {t(Translations.tabBar.overview)}
             </Menu.Item>
             <Menu.Item
               key="profile_stats"
-              icon={<StockOutlined style={{ color: props.color }} />}
+              icon={<StockOutlined style={{ color: color }} />}
             >
               {t(Translations.tabBar.statistics)}
             </Menu.Item>
           </SubMenu>
           <Menu.Item
             key="settings"
-            icon={<SettingTwoTone twoToneColor={props.color} />}
+            icon={<SettingTwoTone twoToneColor={color} />}
           >
             {t(Translations.tabBar.settings)}
           </Menu.Item>

@@ -1,0 +1,17 @@
+.shadow {
+  position: relative;
+}
+
+.shadow::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: -60px;
+  bottom: 20px;
+  width: 100px;
+  background: radial-gradient(#222a, transparent 75%);
+  opacity: .3;
+  z-index: 10;
+  border-radius: 50%;
+  pointer-events: none;
+}
