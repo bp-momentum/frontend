@@ -16,6 +16,7 @@ import ManagePlans from "./pages/manage/plans";
 import Exercises from "./pages/exercises";
 import Leaderboard from "./pages/leaderboard";
 import Train from "./pages/train";
+import Error404 from "./pages/error/404";
 
 // Basic App that is just used to Route to different pages
 function App(): JSX.Element {
@@ -62,12 +63,7 @@ function App(): JSX.Element {
         <Route path="plans/:planId" element={<EditPlan />} />
         <Route path="user" element={<>not yet implemented</>} />
       </Route>
-      <Route
-        path="*"
-        element={
-          <div style={{ fontSize: 180, textAlign: "center" }}> 404 </div>
-        }
-      />
+      <Route path="*" element={<Error404 />} />
     </Routes>
   );
 }
