@@ -54,7 +54,6 @@ function App(): JSX.Element {
       <Route path="/leaderboard" element={<Leaderboard />} />
       <Route path="/settings" element={<Settings />} />
       <Route path="/manage">
-        {" "}
         {/* TODO: route to 404 maybe? */}
         <Route path="plans" element={<ManagePlans />} />
         <Route path="plans/:planId" element={<EditPlan />} />
