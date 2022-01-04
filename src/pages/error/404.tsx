@@ -1,6 +1,7 @@
 import Layout, { Content } from "antd/lib/layout/layout";
 import React from "react";
 import Container from "../../shared/container";
+import Error from "../../static/_(.svg";
 
 const Error404 = () => {
   return (
@@ -17,8 +18,13 @@ const Error404 = () => {
             fontSize: "30px",
           }}
         >
-          <h1 style={{ fontSize: "60px" }}>404</h1>
+          <h1 style={{ fontSize: "60px", marginBottom: "-10px" }}>404</h1>
           <span>Des hamma net!</span>
+          <img
+            src={Error}
+            style={{ marginTop: "80px", width: "600px" }}
+            alt="Sad Error Face"
+          ></img>
         </Content>
       </Layout>
     </Container>
