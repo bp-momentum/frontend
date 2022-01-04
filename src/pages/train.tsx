@@ -1,4 +1,4 @@
-import { Layout } from "antd";
+import { Layout, Progress } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import React, { useEffect, useState } from "react";
 import Container from "../shared/container";
@@ -12,6 +12,7 @@ const Train = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [loading, setLoading] = useState(0);
   const [error, setError] = useState(false);
+  const [progress, setProgress] = useState(10);
 
   useEffect(() => {
     let isMounted = true;
@@ -24,6 +25,22 @@ const Train = () => {
     //     setError(true);
     //   }
     //   setLoading(2);
+    // });
+
+    // api.openStream().then((stream) => {
+    //   while (isMounted) {
+    //     const data = stream.write();
+    //     if (data) {
+    //       console.log(data);
+    //     }
+    //   }
+    // });
+
+    // api.openSocket().then((socket) => {
+    //   socket.on("data", (data) => {
+    //     console.log(data);
+    //     setProgress(data.progress);
+    //   });
     // });
 
     return () => {
@@ -133,10 +150,23 @@ const Train = () => {
             <h1 style={{ color: "white", fontSize: "20px" }}>Squat Exercise</h1>
             <div
               style={{
+                width: "200px",
+              }}
+            >
+              <Progress
+                percent={progress}
+                status="active"
+                showInfo={false}
+                strokeColor={"#0ff"}
+              />
+            </div>
+            <div style={{ color: "white", marginTop: "10px" }}>10/10</div>
+            <div
+              style={{
                 background: "white",
                 width: "640px",
                 height: "360px",
-                marginTop: "60px",
+                marginTop: "40px",
               }}
             ></div>
           </div>
