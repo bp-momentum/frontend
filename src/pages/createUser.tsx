@@ -113,7 +113,10 @@ const CreateUser = (): JSX.Element => {
                   },
                 ]}
               >
-                <Input placeholder={t(Translations.user.firstName)} data-testid="first_name" />
+                <Input
+                  placeholder={t(Translations.user.firstName)}
+                  data-testid="first_name"
+                />
               </Form.Item>
 
               <Form.Item
@@ -125,7 +128,10 @@ const CreateUser = (): JSX.Element => {
                   },
                 ]}
               >
-                <Input placeholder={t(Translations.user.lastName)} data-testid="last_name" />
+                <Input
+                  placeholder={t(Translations.user.lastName)}
+                  data-testid="last_name"
+                />
               </Form.Item>
 
               <Form.Item
@@ -145,7 +151,11 @@ const CreateUser = (): JSX.Element => {
               </Form.Item>
 
               <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <Button type="primary" htmlType="submit" data-testid="create_submit">
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  data-testid="create_submit"
+                >
                   {t(Translations.createUser.create)}
                 </Button>
               </Form.Item>
