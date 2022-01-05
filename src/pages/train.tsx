@@ -147,7 +147,7 @@ const Train = () => {
               alignItems: "center",
             }}
           >
-            <h1 style={{ color: "white", fontSize: "20px" }}>Squat Exercise</h1>
+            <h1 style={{ color: "white", fontSize: "40px" }}>Squat Exercise</h1>
             <div
               style={{
                 width: "200px",
