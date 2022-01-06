@@ -15,6 +15,7 @@ import EditPlan from "./pages/manage/editPlan";
 import ManagePlans from "./pages/manage/plans";
 import Exercises from "./pages/exercises";
 import Leaderboard from "./pages/leaderboard";
+import Profile from "./pages/profile";
 
 // Basic App that is just used to Route to different pages
 function App(): JSX.Element {
@@ -52,6 +53,7 @@ function App(): JSX.Element {
       <Route path="/exercises" element={<Exercises />} />
       <Route path="/createuser" element={<CreateUser />} />
       <Route path="/leaderboard" element={<Leaderboard />} />
+      <Route path="/profile" element={<Profile />} />
       <Route path="/settings" element={<Settings />} />
       <Route path="/manage">
         {/* TODO: route to 404 maybe? */}
