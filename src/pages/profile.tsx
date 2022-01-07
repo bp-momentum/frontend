@@ -1,17 +1,19 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import Container from "../shared/container";
-import { Avatar, Card, Col, Layout, Row } from "antd";
+import { Avatar, Calendar, Card, Col, Layout, Row } from "antd";
 import { Content } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import { useAppSelector } from "../redux/hooks";
 import Helper from "../util/helper";
 import ReactCardFlip from "react-card-flip";
+import Text from "antd/es/typography/Text";
+import { EditOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 
 const Profile = (): JSX.Element => {
   const { t, i18n } = useTranslation();
   const token = useAppSelector((state) => state.token.token);
-  const [flipped, setFlipped] = React.useState<boolean>(false);
+  const [userFlipped, setUserFlipped] = React.useState<boolean>(false);
 
   return (
     <Container currentPage="profile" color="blue">
@@ -37,37 +39,62 @@ const Profile = (): JSX.Element => {
             <Row gutter={16} justify="space-around">
               <Col className="gutter-row" span={10}>
                 <ReactCardFlip
-                  isFlipped={flipped}
+                  isFlipped={userFlipped}
                   flipDirection="horizontal"
                   flipSpeedBackToFront={1.0}
                   flipSpeedFrontToBack={1.0}
                 >
                   <Card
-                    onClick={() => setFlipped(true)}
                     style={{
                       borderRadius: "5px",
                       borderColor: "black",
                       backgroundColor: "#EDEDF4",
+                      marginTop: "30px",
                     }}
                   >
-                    <Row>
-                      <Avatar
-                        shape="circle"
-                        style={{ backgroundColor: "#626FE5" }}
-                        src="https://cdn.geoscribble.de/avatars/boy_1.png"
-                        size={100}
-                      />
-                      <Col style={{ justifyContent: "center" }}>
-                        <p style={{ fontSize: 24 }}>
-                          {Helper.getUserName(token ?? "")}
-                        </p>
-                        <p>Fleißig seit 2 Monaten</p>
-                      </Col>
-                    </Row>
+                    <Col>
+                      <Text
+                        style={{
+                          float: "right",
+                          marginTop: "-20px",
+                          marginRight: "-20px",
+                        }}
+                        onClick={() => setUserFlipped(true)}
+                        underline
+                      >
+                        Bearbeiten 🖋
+                      </Text>
+                      <Row>
+                        <Avatar
+                          shape="circle"
+                          style={{
+                            backgroundColor: "#626FE5",
+                            marginRight: "30px",
+                            marginBottom: "30px",
+                          }}
+                          src="https://cdn.geoscribble.de/avatars/avatar_2.png"
+                          size={100}
+                        />
+                        <Col>
+                          <Text style={{ fontSize: 24 }}>
+                            {Helper.getUserName(token ?? "")}
+                          </Text>
+                          <br />
+                          <Text style={{ fontSize: 15 }}>
+                            Fleißig seit 2 Monaten
+                          </Text>
+                        </Col>
+                      </Row>
+                      <Text style={{ fontSize: 16 }}>
+                        Das treibt mich täglich an:
+                      </Text>
+                      <br />
+                      <Text style={{ fontSize: 20 }}>Meine Gesundheit!</Text>
+                    </Col>
                   </Card>
 
                   <Card
-                    onClick={() => setFlipped(false)}
+                    onClick={() => setUserFlipped(false)}
                     style={{
                       borderRadius: "5px",
                       borderColor: "black",
@@ -95,7 +122,48 @@ const Profile = (): JSX.Element => {
                 <div style={{ backgroundColor: "red" }}>col-6</div>
               </Col>
               <Col className="gutter-row" span={10}>
-                <div style={{ backgroundColor: "red" }}>col-6</div>
+                <Card
+                  style={{
+                    marginTop: "40px",
+                    borderRadius: "5px",
+                    borderColor: "black",
+                    backgroundColor: "#EDEDF4",
+                  }}
+                >
+                  <Text>Wähle einen Tag aus um deine Aktivität zu sehen</Text>
+                  <Calendar
+                    mode="month"
+                    style={{
+                      height: "300px",
+                      backgroundColor: "#EDEDF4",
+                      color: "transparent",
+                    }}
+                    fullscreen={false}
+                    headerRender={({ value, type, onChange, onTypeChange }) => {
+                      const localeData = value.localeData();
+                      return (
+                        <div style={{ padding: 8, color: "black" }}>
+                          <Row justify="space-between">
+                            <LeftOutlined
+                              onClick={() =>
+                                onChange(value.subtract(1, "month"))
+                              }
+                            />
+                            <Text style={{ fontSize: 20, marginTop: -8 }}>
+                              {localeData.months(value)}
+                            </Text>
+                            <RightOutlined
+                              onClick={() => onChange(value.add(1, "month"))}
+                            />
+                          </Row>
+                        </div>
+                      );
+                    }}
+                    dateFullCellRender={(date) => {
+                      return <Text>{date.date()}</Text>;
+                    }}
+                  />
+                </Card>
               </Col>
               <Col className="gutter-row" span={10}>
                 <div style={{ backgroundColor: "red" }}>col-6</div>
