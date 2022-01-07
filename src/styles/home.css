@@ -1,0 +1,69 @@
+.ant-progress {
+  display: block;
+  width: calc(100% - 10px);
+}
+
+.ant-progress-inner {
+  border: 1px solid black;
+  display: block;
+}
+
+.ant-progress-small.ant-progress-line {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.ant-progress-show-info .ant-progress-outer {
+  margin-right: initial;
+  padding-right: initial;
+  flex-grow: 1;
+  width: initial;
+  margin-right: 10px;
+}
+
+.ant-progress-text {
+  text-align: right;
+  width: initial;
+}
+
+.past{
+  animation: knickOuter 1s ease-in-out forwards;
+}
+
+.past::after {
+  animation: knickInner 1s ease-in-out forwards;
+  content: '';
+  position: absolute;
+  display: block;
+  background-color: #b7b7b7;
+  top: 0;
+  right: 0;
+  border-bottom-left-radius: 25px;
+  transform-origin: bottom right;
+  transform: rotate(10deg);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes knickOuter {
+  0% {
+    clip-path: polygon(-20px 0px, calc(100% - 16.5px) 0px, 100% 20px, 100% 120%, -20px 120%);
+  }
+  
+  100% {
+    clip-path: polygon(-20px 0px, calc(100% - 41.2px) 0px, 100% 50px, 100% 120%, -20px 120%);
+  }
+}
+
+@keyframes knickInner {
+  0% {
+    width: 20px;
+    height: 20px;
+  }
+  100% {
+    width: 50px;
+    height: 50px;
+  }
+}
