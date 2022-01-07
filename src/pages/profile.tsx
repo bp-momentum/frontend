@@ -74,7 +74,20 @@ const Profile = (): JSX.Element => {
                       backgroundColor: "#EDEDF4",
                     }}
                   >
-                    Rückseite
+                    <Row>
+                      <Avatar
+                        shape="circle"
+                        style={{ backgroundColor: "#626FE5" }}
+                        src="https://cdn.geoscribble.de/avatars/boy_1.png"
+                        size={100}
+                      />
+                      <Col style={{ justifyContent: "center" }}>
+                        <p style={{ fontSize: 24 }}>
+                          {Helper.getUserName(token ?? "")}
+                        </p>
+                        <p>Fleißig seit 2 Monaten</p>
+                      </Col>
+                    </Row>
                   </Card>
                 </ReactCardFlip>
               </Col>
