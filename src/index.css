@@ -14,7 +14,7 @@ code {
     monospace;
 }
 
-* {
+*:not(svg) {
   font-family: 'Patrick Hand', serif;
   font-size: 1.1rem;
 }
