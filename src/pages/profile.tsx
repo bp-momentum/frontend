@@ -8,8 +8,51 @@ import { useAppSelector } from "../redux/hooks";
 import Helper from "../util/helper";
 import ReactCardFlip from "react-card-flip";
 import Text from "antd/es/typography/Text";
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import {
+  LeftOutlined,
+  RightOutlined,
+  PhoneFilled,
+  StarFilled,
+  ShareAltOutlined,
+} from "@ant-design/icons";
 import "../styles/profile.css";
+
+const RatingStars = (props: { rating: number }): JSX.Element => {
+  return (
+    <Row style={{ alignItems: "end" }} justify="space-around">
+      <StarFilled
+        style={{
+          fontSize: 65,
+          color: props.rating > 0 ? "#FFCC33" : "#C4C4C4",
+        }}
+      />
+      <StarFilled
+        style={{
+          fontSize: 75,
+          color: props.rating > 1 ? "#FFCC33" : "#C4C4C4",
+        }}
+      />
+      <StarFilled
+        style={{
+          fontSize: 80,
+          color: props.rating > 2 ? "#FFCC33" : "#C4C4C4",
+        }}
+      />
+      <StarFilled
+        style={{
+          fontSize: 75,
+          color: props.rating > 3 ? "#FFCC33" : "#C4C4C4",
+        }}
+      />
+      <StarFilled
+        style={{
+          fontSize: 65,
+          color: props.rating > 4 ? "#FFCC33" : "#C4C4C4",
+        }}
+      />
+    </Row>
+  );
+};
 
 const Profile = (): JSX.Element => {
   const { t, i18n } = useTranslation();
@@ -60,6 +103,7 @@ const Profile = (): JSX.Element => {
                     borderColor: "black",
                     backgroundColor: "#EDEDF4",
                     marginTop: "30px",
+                    boxShadow: "2px 4px 4px 0 rgba(0, 0, 0, 0.25)",
                   }}
                 >
                   <Col>
@@ -112,6 +156,7 @@ const Profile = (): JSX.Element => {
                     borderColor: "black",
                     backgroundColor: "#EDEDF4",
                     marginTop: "30px",
+                    boxShadow: "2px 4px 4px 0 rgba(0, 0, 0, 0.25)",
                   }}
                 >
                   <Col>
@@ -196,7 +241,29 @@ const Profile = (): JSX.Element => {
               </ReactCardFlip>
             </Col>
             <Col className="gutter-row" span={10}>
-              <div style={{ backgroundColor: "red" }}>col-6</div>
+              <Card
+                style={{
+                  marginTop: "30px",
+                  borderRadius: "5px",
+                  borderColor: "black",
+                  backgroundColor: "#EDEDF4",
+                  boxShadow: "2px 4px 4px 0 rgba(0, 0, 0, 0.25)",
+                }}
+              >
+                <Row justify="space-around">
+                  <Text>Trainer*in</Text>
+                  <Row>
+                    <Text style={{ marginRight: "5px" }}>
+                      Dr. med-habil. Julian Imhof
+                      <br />
+                      Einbahnstr. 187
+                      <br />
+                      12345 Berlin
+                    </Text>
+                    <PhoneFilled style={{ marginTop: "5px" }} />
+                  </Row>
+                </Row>
+              </Card>
             </Col>
             <Col className="gutter-row" span={10}>
               <Card
@@ -205,6 +272,7 @@ const Profile = (): JSX.Element => {
                   borderRadius: "5px",
                   borderColor: "black",
                   backgroundColor: "#EDEDF4",
+                  boxShadow: "2px 4px 4px 0 rgba(0, 0, 0, 0.25)",
                 }}
               >
                 <Text>Wähle einen Tag aus um deine Aktivität zu sehen</Text>
@@ -241,7 +309,44 @@ const Profile = (): JSX.Element => {
               </Card>
             </Col>
             <Col className="gutter-row" span={10}>
-              <div style={{ backgroundColor: "red" }}>col-6</div>
+              <Card
+                style={{
+                  marginTop: "40px",
+                  borderRadius: "5px",
+                  backgroundColor: "#E6E7EA",
+                  boxShadow: "2px 4px 4px 0 rgba(0, 0, 0, 0.25)",
+                }}
+              >
+                <Col>
+                  <Row justify="center" style={{ fontSize: 30 }}>
+                    8. Januar 2022
+                  </Row>
+                  <RatingStars rating={4} />
+                  <Row justify="center" style={{ marginTop: "15px" }}>
+                    30 min von 45 min
+                  </Row>
+                  <Col style={{ marginTop: "15px", marginLeft: "15px" }}>
+                    <Row>
+                      <Text>Liegestütze</Text>
+                      <Text style={{ paddingLeft: "100px" }}>17 min</Text>
+                    </Row>
+                    <Row>
+                      <Text>Kniebeugen</Text>
+                      <Text style={{ paddingLeft: "100px" }}>13 min</Text>
+                    </Row>
+                  </Col>
+                  <Row justify="end">
+                    <ShareAltOutlined
+                      style={{
+                        marginTop: "-15px",
+                        backgroundColor: "white",
+                        borderRadius: "50%",
+                        padding: "6px 7px 5px 5px",
+                      }}
+                    />
+                  </Row>
+                </Col>
+              </Card>
             </Col>
           </Row>
         </Content>
