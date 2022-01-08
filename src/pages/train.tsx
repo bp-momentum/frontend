@@ -1,31 +1,56 @@
-import { Layout, Progress } from "antd";
+import { Layout, Progress, Spin } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import React, { useEffect, useState } from "react";
 import Container from "../shared/container";
 import api from "../util/api";
 import Routes from "../util/routes";
 import "../styles/train.css";
+import { useParams } from "react-router-dom";
+import Translations from "../localization/translations";
+import { t } from "i18next";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const { Sider } = Layout;
 
+interface ExerciseData {
+  title: string;
+  description: string;
+  videoPath: string | null;
+  activated: boolean;
+}
+
 const Train = () => {
+  const [exercise, setExercise] = React.useState<ExerciseData>();
   const [collapsed, setCollapsed] = useState(false);
-  const [loading, setLoading] = useState(0);
+  // 0: not yet loading, 1: currently fetching data from api, 2: finished loading
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [progress, setProgress] = useState(10);
+
+  // exerciseId from the url
+  const { exerciseId } = useParams();
 
   useEffect(() => {
     let isMounted = true;
 
-    if (loading) return;
-    setLoading(1);
-    // api.execute(Routes.getStuff()).then((response) => {
-    //   if (!isMounted) return;
-    //   if (!response.success) {
-    //     setError(true);
-    //   }
-    //   setLoading(2);
-    // });
+    if (!loading) return;
+    api
+      .execute(Routes.getExercise({ id: exerciseId ?? "" }))
+      .then((response) => {
+        if (!isMounted) return;
+        if (!response.success) {
+          setError(true);
+        }
+        setExercise({
+          title: response.data.title,
+          description: response.data.description,
+          videoPath:
+            response.data.videoPath ??
+            "https://vid.pr0gramm.com/2021/12/28/130aaef3ab9c207a.mp4",
+          activated: response.data.title,
+        });
+        setLoading(false);
+      });
 
     // api.openStream().then((stream) => {
     //   while (isMounted) {
@@ -47,7 +72,7 @@ const Train = () => {
       // clean up
       isMounted = false;
     };
-  });
+  }, [loading, exerciseId]);
 
   return (
     <Container>
@@ -60,13 +85,14 @@ const Train = () => {
           style={{
             height: "calc(100% - 48px)",
             background: "#466995",
-            overflow: collapsed ? "hidden" : "auto",
+            overflow: "hidden",
           }}
         >
           <div
             style={{
               paddingTop: "90px",
               height: "100%",
+              overflow: "hidden",
             }}
           >
             <div
@@ -80,6 +106,7 @@ const Train = () => {
                 fontSize: "30px",
                 color: "white",
                 transition: "all 0.2s ease-in-out",
+                overflow: "hidden",
               }}
             >
               Instructions
@@ -95,43 +122,53 @@ const Train = () => {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
+                overflow: "hidden",
               }}
             >
-              <ul>
-                <li>
-                  1. Click on the &quot;Start&quot; button to begin the training
-                  session.
-                </li>
-                <li>
-                  2. Click on the &quot;Stop&quot; button to stop the training
-                  session.
-                </li>
-                <li>
-                  3. Click on the &quot;Reset&quot; button to reset the training
-                  session.
-                </li>
-                <li>
-                  4. Click on the &quot;Save&quot; button to save the training
-                  session.
-                </li>
-                <li>
-                  5. Click on the &quot;Load&quot; button to load the training
-                  session.
-                </li>
-              </ul>
+              {loading ? (
+                <div
+                  style={{
+                    height: "100%",
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexDirection: "column",
+                  }}
+                >
+                  {error ? (
+                    <div>{t(Translations.planManager.error)}</div>
+                  ) : (
+                    <>
+                      <Spin
+                        indicator={
+                          <LoadingOutlined
+                            style={{ fontSize: 24, color: "white" }}
+                            spin
+                          />
+                        }
+                      />
+                      <div>{t(Translations.planManager.loading)}</div>
+                    </>
+                  )}
+                </div>
+              ) : (
+                exercise && exercise.description
+              )}
 
-              <div
-                style={{
-                  marginTop: "80px",
-                  height: "200px",
-                  fontSize: "20px",
-                  fontWeight: "bold",
-                  width: "80%",
-                  background: "white",
-                }}
-              >
-                Video
-              </div>
+              {exercise?.videoPath && (
+                <video
+                  src={exercise.videoPath}
+                  controls
+                  style={{
+                    marginTop: "80px",
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                    width: "80%",
+                    background: "white",
+                  }}
+                />
+              )}
             </div>
           </div>
         </Sider>
@@ -147,7 +184,40 @@ const Train = () => {
               alignItems: "center",
             }}
           >
-            <h1 style={{ color: "white", fontSize: "40px" }}>Squat Exercise</h1>
+            {loading ? (
+              <div
+                style={{
+                  height: "100%",
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
+                {error ? (
+                  <div>{t(Translations.planManager.error)}</div>
+                ) : (
+                  <>
+                    <Spin
+                      indicator={
+                        <LoadingOutlined
+                          style={{ fontSize: 24, color: "white" }}
+                          spin
+                        />
+                      }
+                    />
+                    <div style={{ color: "white" }}>
+                      {t(Translations.planManager.loading)}
+                    </div>
+                  </>
+                )}
+              </div>
+            ) : (
+              <h1 style={{ color: "white", fontSize: "40px" }}>
+                Squat Exercise
+              </h1>
+            )}
             <div
               style={{
                 width: "200px",

@@ -51,9 +51,9 @@ function App(): JSX.Element {
   return (
     <Routes>
       {/* TODO(JUL14N): set propper routing */}
-      <Route path="/" element={<Train />} />
       <Route path="/" element={<Home />} />
       <Route path="/exercises" element={<Exercises />} />
+      <Route path="/train/:exerciseId" element={<Train />} />
       <Route path="/createuser" element={<CreateUser />} />
       <Route path="/leaderboard" element={<Leaderboard />} />
       <Route path="/settings" element={<Settings />} />
