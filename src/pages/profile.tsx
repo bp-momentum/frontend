@@ -16,7 +16,7 @@ import {
   ShareAltOutlined,
 } from "@ant-design/icons";
 import "../styles/profile.css";
-import { Exercise } from "../api/exercise";
+import Translations from "../localization/translations";
 
 const RatingStars = (props: { rating: number }): JSX.Element => {
   return (
@@ -153,7 +153,7 @@ const Profile = (): JSX.Element => {
                       onClick={() => setUserFlipped(true)}
                       underline
                     >
-                      Bearbeiten 🖋
+                      {t(Translations.profile.edit)}
                     </Text>
                     <Row>
                       <img
@@ -175,15 +175,17 @@ const Profile = (): JSX.Element => {
                         </Text>
                         <br />
                         <Text style={{ fontSize: 15 }}>
-                          Fleißig seit
-                          {accountCreatedMonths > 0
-                            ? ` ${accountCreatedMonths} Monaten`
-                            : " Kurzem"}
+                          {t(Translations.profile.activeSince, {
+                            duration:
+                              accountCreatedMonths > 0
+                                ? ` ${accountCreatedMonths} Monaten`
+                                : " Kurzem",
+                          })}
                         </Text>
                       </Col>
                     </Row>
                     <Text style={{ fontSize: 16 }}>
-                      Das treibt mich täglich an:
+                      {t(Translations.profile.motivation)}
                     </Text>
                     <br />
                     <Text style={{ fontSize: 20 }}>{motivation}</Text>
@@ -209,14 +211,14 @@ const Profile = (): JSX.Element => {
                       onClick={() => setUserFlipped(false)}
                       underline
                     >
-                      Speichern
+                      {t(Translations.profile.save)}
                     </Text>
                     <Row>
                       <Popover
                         visible={popoverVisible}
                         overlayStyle={{ width: "370px" }}
                         placement="right"
-                        title="Wähle deinen neuen Avatar"
+                        title={t(Translations.profile.selectNewAvatar)}
                         content={
                           <Row gutter={16}>
                             {avatarUrls.map((url) => {
@@ -265,12 +267,17 @@ const Profile = (): JSX.Element => {
                           {Helper.getUserName(token ?? "")}
                         </Text>
                         <Text style={{ fontSize: 15 }}>
-                          Fleißig seit {accountCreatedMonths} Monaten
+                          {t(Translations.profile.activeSince, {
+                            duration:
+                              accountCreatedMonths > 0
+                                ? ` ${accountCreatedMonths} Monaten`
+                                : " Kurzem",
+                          })}
                         </Text>
                       </Col>
                     </Row>
                     <Text style={{ fontSize: 16 }}>
-                      Das treibt mich täglich an:
+                      {t(Translations.profile.motivation)}
                     </Text>
                     <br />
                     <Text editable style={{ fontSize: 20 }}>
@@ -291,7 +298,7 @@ const Profile = (): JSX.Element => {
                 }}
               >
                 <Row justify="space-around">
-                  <Text>Trainer*in</Text>
+                  <Text>{t(Translations.user.trainer)}</Text>
                   <Row>
                     <Text style={{ marginRight: "5px" }}>
                       {trainerName}
@@ -315,7 +322,7 @@ const Profile = (): JSX.Element => {
                   boxShadow: "2px 4px 4px 0 rgba(0, 0, 0, 0.25)",
                 }}
               >
-                <Text>Wähle einen Tag aus um deine Aktivität zu sehen</Text>
+                <Text>{t(Translations.profile.chooseDate)}</Text>
                 <Calendar
                   mode="month"
                   style={{
@@ -367,7 +374,10 @@ const Profile = (): JSX.Element => {
                   </Row>
                   <RatingStars rating={dailyRating} />
                   <Row justify="center" style={{ marginTop: "15px" }}>
-                    {minutesTrained} min von {minutesTrainedGoal} min
+                    {t(Translations.profile.activeMinutes, {
+                      active: minutesTrained,
+                      goal: minutesTrainedGoal,
+                    })}
                   </Row>
                   <Col style={{ marginTop: "15px", marginLeft: "15px" }}>
                     {doneExercises.map((e) => {

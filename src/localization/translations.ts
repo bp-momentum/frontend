@@ -116,6 +116,15 @@ const Translations = {
     name: "leaderboard.name",
     score: "leaderboard.score",
   },
+  profile: {
+    activeSince: "profile.activeSince",
+    edit: "profile.edit",
+    save: "profile.save",
+    motivation: "profile.motivation",
+    chooseDate: "profile.chooseDate",
+    activeMinutes: "profile.activeMinutes",
+    selectNewAvatar: "profile.selectNewAvatar",
+  },
 };
 
 export default Translations;

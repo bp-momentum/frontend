@@ -117,5 +117,14 @@
     "rank": "Rank",
     "name": "Name",
     "score": "Score"
+  },
+  "profile": {
+    "activeSince": "Active since {{duration}}",
+    "edit": "Edit \uD83D\uDD8B",
+    "save": "Save",
+    "motivation": "This motivates me every day:",
+    "chooseDate": "Select a day to see your activity",
+    "activeMinutes": "{{active}} min of {{goal}} min",
+    "selectNewAvatar": "Select your new avatar"
   }
 }
