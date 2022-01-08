@@ -180,9 +180,10 @@ const Day = forwardRef(
             </h4>
           )}
 
-          {exercises.map((e) => (
-            <ExerciseCard key={e.date + e.sets} exercise={e} />
-          ))}
+          {exercises.map((e) => {
+            e.completed = true;
+            return <ExerciseCard key={e.date + e.sets} exercise={e} />;
+          })}
         </Card>
       </Col>
     );
@@ -200,6 +201,7 @@ const ExerciseCard = ({ exercise }: { exercise: Exercise }) => {
         padding: "10px 20px",
         borderRadius: "50px",
         width: "100%",
+        background: exercise.completed ? "#5ec77b" : "initial",
       }}
       onClick={() => openExercise(exercise)}
     >
@@ -351,10 +353,26 @@ const Exercises = (): JSX.Element => {
                   fontSize: "50px",
                   color: "#FF8A00",
                   WebkitTextStroke: "1px black",
+                  display: "flex",
+                  flexWrap: "nowrap",
                 }}
               >
                 1337
-                <Emoji name="fire" width={60} />
+                <span
+                  style={{
+                    background:
+                      "radial-gradient(#FF8A0060 15%, #ffbe3a00 70% )",
+                    fontSize: "60px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    borderRadius: "50%",
+                    padding: "8px 15px",
+                    margin: "-15px",
+                  }}
+                >
+                  <Emoji style={{}} name="fire" width={60} />
+                </span>
               </span>
             </div>
           </Row>
@@ -367,62 +385,67 @@ const Exercises = (): JSX.Element => {
               overflow: "auto",
             }}
           >
-            <Row
-              style={{
-                padding: "10px 50px",
-                width: "100%",
-                alignContent: "flex-start",
-                overflow: "auto",
-                flexFlow: height > width ? "column" : "row",
-                margin: "0px",
-                flexDirection: height > width ? "column" : "row",
-              }}
-              gutter={[16, 16]}
-              ref={wrapper}
-            >
-              <Day
-                list={exercises}
-                name="monday"
-                displayName={t(Translations.weekdays.monday)}
-                ref={monday}
-              />
-              <Day
-                list={exercises}
-                name="tuesday"
-                displayName={t(Translations.weekdays.tuesday)}
-                ref={tuesday}
-              />
-              <Day
-                list={exercises}
-                name="wednesday"
-                displayName={t(Translations.weekdays.wednesday)}
-                ref={wednesday}
-              />
-              <Day
-                list={exercises}
-                name="thursday"
-                displayName={t(Translations.weekdays.thursday)}
-                ref={thursday}
-              />
-              <Day
-                list={exercises}
-                name="friday"
-                displayName={t(Translations.weekdays.friday)}
-                ref={friday}
-              />
-              <Day
-                list={exercises}
-                name="saturday"
-                displayName={t(Translations.weekdays.saturday)}
-                ref={saturday}
-              />
-              <Day
-                list={exercises}
-                name="sunday"
-                displayName={t(Translations.weekdays.sunday)}
-                ref={sunday}
-              />
-            </Row>
+            <div className="day-wrapper">
+              <Row
+                style={{
+                  padding: "10px 50px",
+                  width: "100%",
+                  height: "100%",
+                  alignContent: "flex-start",
+                  overflow: "auto",
+                  flexFlow: height > width ? "column" : "row",
+                  margin: "0px",
+                  flexDirection: height > width ? "column" : "row",
+                }}
+                gutter={[16, 16]}
+                ref={wrapper}
+              >
+                <Day
+                  list={exercises}
+                  name="monday"
+                  displayName={t(Translations.weekdays.monday)}
+                  ref={monday}
+                />
+                <Day
+                  list={exercises}
+                  name="tuesday"
+                  displayName={t(Translations.weekdays.tuesday)}
+                  ref={tuesday}
+                />
+                <Day
+                  list={exercises}
+                  name="wednesday"
+                  displayName={t(Translations.weekdays.wednesday)}
+                  ref={wednesday}
+                />
+                <Day
+                  list={exercises}
+                  name="thursday"
+                  displayName={t(Translations.weekdays.thursday)}
+                  ref={thursday}
+                />
+                <Day
+                  list={exercises}
+                  name="friday"
+                  displayName={t(Translations.weekdays.friday)}
+                  ref={friday}
+                />
+                <Day
+                  list={exercises}
+                  name="saturday"
+                  displayName={t(Translations.weekdays.saturday)}
+                  ref={saturday}
+                />
+                <Day
+                  list={exercises}
+                  name="sunday"
+                  displayName={t(Translations.weekdays.sunday)}
+                  ref={sunday}
+                />
+              </Row>
+              <div className="leftOverlay" />
+              <div className="rightOverlay" />
+            </div>
           </Content>
         </Content>
       </Layout>

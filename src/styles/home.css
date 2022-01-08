@@ -47,6 +47,34 @@
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+.day-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.leftOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: calc(100% - 20px);
+  backdrop-filter: blur(100px);
+  mask: linear-gradient(to right, black, transparent);
+  background: #f0f2f5;
+}
+
+.rightOverlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 80px;
+  height: calc(100% - 20px);
+  backdrop-filter: blur(100px);
+  mask: linear-gradient(to left, black, transparent);
+  background: #f0f2f5;
+}
+
 @keyframes knickOuter {
   0% {
     clip-path: polygon(-20px 0px, calc(100% - 16.5px) 0px, 100% 20px, 100% 120%, -20px 120%);
