@@ -16,6 +16,7 @@ import {
   ShareAltOutlined,
 } from "@ant-design/icons";
 import "../styles/profile.css";
+import { Exercise } from "../api/exercise";
 
 const RatingStars = (props: { rating: number }): JSX.Element => {
   return (
@@ -54,6 +55,12 @@ const RatingStars = (props: { rating: number }): JSX.Element => {
   );
 };
 
+interface DoneExercise {
+  id: string;
+  name: string;
+  duration: number;
+}
+
 const Profile = (): JSX.Element => {
   const { t, i18n } = useTranslation();
   const token = useAppSelector((state) => state.token.token);
@@ -63,6 +70,36 @@ const Profile = (): JSX.Element => {
     "https://cdn.geoscribble.de/avatars/avatar_1.png"
   );
   const avatarUrls = [];
+  const dailyRating = 4;
+
+  const minutesTrainedGoal = 45;
+  const doneExercises: DoneExercise[] = [
+    {
+      id: "1",
+      name: "Liegestütze",
+      duration: 17 * 60 * 1000,
+    },
+    {
+      id: "2",
+      name: "Kniebeuge",
+      duration: 13 * 60 * 1000,
+    },
+  ];
+
+  const minutesTrained =
+    doneExercises.map((e) => e.duration).reduce((e1, e2) => e1 + e2) /
+    1000 /
+    60;
+
+  const accountCreated = 1640991600000;
+  const accountCreatedDiff = Date.now() - accountCreated;
+  const accountCreatedMonths = Math.floor(
+    accountCreatedDiff / 30 / 24 / 60 / 60 / 1000
+  );
+  const motivation = "Meine Gesundheit!";
+  const trainerName = "Dr. med-habil. Julian Imhof";
+  const trainerAddress1 = "Einbahnstr. 187";
+  const trainerAddress2 = "12345 Berlin";
 
   for (let i = 1; i <= 50; i++) {
     avatarUrls.push(`https://cdn.geoscribble.de/avatars/avatar_${i}.png`);
@@ -138,7 +175,10 @@ const Profile = (): JSX.Element => {
                         </Text>
                         <br />
                         <Text style={{ fontSize: 15 }}>
-                          Fleißig seit 2 Monaten
+                          Fleißig seit
+                          {accountCreatedMonths > 0
+                            ? ` ${accountCreatedMonths} Monaten`
+                            : " Kurzem"}
                         </Text>
                       </Col>
                     </Row>
@@ -146,7 +186,7 @@ const Profile = (): JSX.Element => {
                       Das treibt mich täglich an:
                     </Text>
                     <br />
-                    <Text style={{ fontSize: 20 }}>Meine Gesundheit!</Text>
+                    <Text style={{ fontSize: 20 }}>{motivation}</Text>
                   </Col>
                 </Card>
 
@@ -225,7 +265,7 @@ const Profile = (): JSX.Element => {
                           {Helper.getUserName(token ?? "")}
                         </Text>
                         <Text style={{ fontSize: 15 }}>
-                          Fleißig seit 2 Monaten
+                          Fleißig seit {accountCreatedMonths} Monaten
                         </Text>
                       </Col>
                     </Row>
@@ -234,7 +274,7 @@ const Profile = (): JSX.Element => {
                     </Text>
                     <br />
                     <Text editable style={{ fontSize: 20 }}>
-                      Meine Gesundheit!
+                      {motivation}
                     </Text>
                   </Col>
                 </Card>
@@ -254,11 +294,11 @@ const Profile = (): JSX.Element => {
                   <Text>Trainer*in</Text>
                   <Row>
                     <Text style={{ marginRight: "5px" }}>
-                      Dr. med-habil. Julian Imhof
+                      {trainerName}
                       <br />
-                      Einbahnstr. 187
+                      {trainerAddress1}
                       <br />
-                      12345 Berlin
+                      {trainerAddress2}
                     </Text>
                     <PhoneFilled style={{ marginTop: "5px" }} />
                   </Row>
@@ -319,21 +359,27 @@ const Profile = (): JSX.Element => {
               >
                 <Col>
                   <Row justify="center" style={{ fontSize: 30 }}>
-                    8. Januar 2022
+                    {new Date().toLocaleDateString(i18n.language, {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })}
                   </Row>
-                  <RatingStars rating={4} />
+                  <RatingStars rating={dailyRating} />
                   <Row justify="center" style={{ marginTop: "15px" }}>
-                    30 min von 45 min
+                    {minutesTrained} min von {minutesTrainedGoal} min
                   </Row>
                   <Col style={{ marginTop: "15px", marginLeft: "15px" }}>
-                    <Row>
-                      <Text>Liegestütze</Text>
-                      <Text style={{ paddingLeft: "100px" }}>17 min</Text>
-                    </Row>
-                    <Row>
-                      <Text>Kniebeugen</Text>
-                      <Text style={{ paddingLeft: "100px" }}>13 min</Text>
-                    </Row>
+                    {doneExercises.map((e) => {
+                      return (
+                        <Row key={e.id}>
+                          <Text>{e.name}</Text>
+                          <Text style={{ paddingLeft: "100px" }}>
+                            {e.duration / 1000 / 60} min
+                          </Text>
+                        </Row>
+                      );
+                    })}
                   </Col>
                   <Row justify="end">
                     <ShareAltOutlined
