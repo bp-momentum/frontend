@@ -339,7 +339,7 @@ const Profile = (): JSX.Element => {
                     <ShareAltOutlined
                       style={{
                         marginTop: "-15px",
-                        backgroundColor: "white",
+                        backgroundColor: "#EDEDF4",
                         borderRadius: "50%",
                         padding: "6px 7px 5px 5px",
                       }}
