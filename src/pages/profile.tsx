@@ -1,19 +1,29 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import Container from "../shared/container";
-import { Avatar, Calendar, Card, Col, Layout, Row } from "antd";
+import { Calendar, Card, Col, Layout, Popover, Row } from "antd";
 import { Content } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import { useAppSelector } from "../redux/hooks";
 import Helper from "../util/helper";
 import ReactCardFlip from "react-card-flip";
 import Text from "antd/es/typography/Text";
-import { EditOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import "../styles/profile.css";
 
 const Profile = (): JSX.Element => {
   const { t, i18n } = useTranslation();
   const token = useAppSelector((state) => state.token.token);
   const [userFlipped, setUserFlipped] = React.useState<boolean>(false);
+  const [popoverVisible, setPopoverVisible] = React.useState<boolean>(false);
+  const [avatarUrl, setAvatarUrl] = React.useState<string>(
+    "https://cdn.geoscribble.de/avatars/avatar_1.png"
+  );
+  const avatarUrls = [];
+
+  for (let i = 1; i <= 50; i++) {
+    avatarUrls.push(`https://cdn.geoscribble.de/avatars/avatar_${i}.png`);
+  }
 
   return (
     <Container currentPage="profile" color="blue">
@@ -65,15 +75,18 @@ const Profile = (): JSX.Element => {
                         Bearbeiten 🖋
                       </Text>
                       <Row>
-                        <Avatar
-                          shape="circle"
+                        <img
+                          alt="Avatar"
+                          key={avatarUrl}
+                          src={avatarUrl}
                           style={{
-                            backgroundColor: "#626FE5",
-                            marginRight: "30px",
+                            height: "100px",
+                            padding: "20px 10px 0 10px",
                             marginBottom: "30px",
+                            marginRight: "30px",
+                            clipPath: "circle(50px at center)",
+                            backgroundColor: "#626FE5",
                           }}
-                          src="https://cdn.geoscribble.de/avatars/avatar_2.png"
-                          size={100}
                         />
                         <Col>
                           <Text style={{ fontSize: 24 }}>
@@ -94,27 +107,93 @@ const Profile = (): JSX.Element => {
                   </Card>
 
                   <Card
-                    onClick={() => setUserFlipped(false)}
                     style={{
                       borderRadius: "5px",
                       borderColor: "black",
                       backgroundColor: "#EDEDF4",
+                      marginTop: "30px",
                     }}
                   >
-                    <Row>
-                      <Avatar
-                        shape="circle"
-                        style={{ backgroundColor: "#626FE5" }}
-                        src="https://cdn.geoscribble.de/avatars/boy_1.png"
-                        size={100}
-                      />
-                      <Col style={{ justifyContent: "center" }}>
-                        <p style={{ fontSize: 24 }}>
-                          {Helper.getUserName(token ?? "")}
-                        </p>
-                        <p>Fleißig seit 2 Monaten</p>
-                      </Col>
-                    </Row>
+                    <Col>
+                      <Text
+                        style={{
+                          float: "right",
+                          marginTop: "-20px",
+                          marginRight: "-20px",
+                        }}
+                        onClick={() => setUserFlipped(false)}
+                        underline
+                      >
+                        Speichern
+                      </Text>
+                      <Row>
+                        <Popover
+                          visible={popoverVisible}
+                          overlayStyle={{ width: "370px" }}
+                          placement="bottom"
+                          title="Wähle deinen neuen Avatar"
+                          content={
+                            <Row gutter={16}>
+                              {avatarUrls.map((url) => {
+                                return (
+                                  <img
+                                    alt="Avatar"
+                                    onClick={() => {
+                                      setAvatarUrl(url);
+                                      setPopoverVisible(false);
+                                    }}
+                                    key={url}
+                                    src={url}
+                                    style={{
+                                      height: "60px",
+                                      padding: "10px 5px 0 5px",
+                                      margin: "5px",
+                                      clipPath: "circle(30px at center)",
+                                      backgroundColor: "#626FE5",
+                                    }}
+                                  />
+                                );
+                              })}
+                            </Row>
+                          }
+                          trigger="click"
+                        >
+                          <img
+                            alt="Avatar"
+                            onClick={() => {
+                              setPopoverVisible(true);
+                            }}
+                            key={avatarUrl}
+                            src={avatarUrl}
+                            style={{
+                              height: "100px",
+                              padding: "20px 10px 0 10px",
+                              marginBottom: "30px",
+                              marginRight: "30px",
+                              clipPath: "circle(50px at center)",
+                              backgroundColor: "#626FE5",
+                            }}
+                          />
+                        </Popover>
+                        <Col
+                          style={{ flexDirection: "column", display: "flex" }}
+                        >
+                          <Text style={{ fontSize: 24 }} editable>
+                            {Helper.getUserName(token ?? "")}
+                          </Text>
+                          <Text style={{ fontSize: 15 }}>
+                            Fleißig seit 2 Monaten
+                          </Text>
+                        </Col>
+                      </Row>
+                      <Text style={{ fontSize: 16 }}>
+                        Das treibt mich täglich an:
+                      </Text>
+                      <br />
+                      <Text editable style={{ fontSize: 20 }}>
+                        Meine Gesundheit!
+                      </Text>
+                    </Col>
                   </Card>
                 </ReactCardFlip>
               </Col>
