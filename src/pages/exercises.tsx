@@ -194,6 +194,7 @@ Day.displayName = "Day";
 const ExerciseCard = ({ exercise }: { exercise: Exercise }) => {
   return (
     <div
+      className={`ExerciseCard ${exercise.completed ? "completed" : ""}`}
       style={{
         display: "flex",
         alignItems: "center",
@@ -202,6 +203,8 @@ const ExerciseCard = ({ exercise }: { exercise: Exercise }) => {
         borderRadius: "50px",
         width: "100%",
         background: exercise.completed ? "#5ec77b" : "initial",
+        cursor: exercise.completed ? "default" : "pointer",
+        margin: "5px",
       }}
       onClick={() => openExercise(exercise)}
     >
@@ -393,9 +396,9 @@ const Exercises = (): JSX.Element => {
                   height: "100%",
                   alignContent: "flex-start",
                   overflow: "auto",
-                  flexFlow: height > width ? "column" : "row",
+                  flexFlow: "row",
                   margin: "0px",
-                  flexDirection: height > width ? "column" : "row",
+                  flexDirection: "row",
                 }}
                 gutter={[16, 16]}
                 ref={wrapper}

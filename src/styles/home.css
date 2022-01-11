@@ -75,6 +75,14 @@
   background: #f0f2f5;
 }
 
+.ExerciseCard {
+  transition: .15s ease-in-out;
+}
+
+.ExerciseCard:not(.completed):hover {
+  transform: scale(1.05);
+}
+
 @keyframes knickOuter {
   0% {
     clip-path: polygon(-20px 0px, calc(100% - 16.5px) 0px, 100% 20px, 100% 120%, -20px 120%);
