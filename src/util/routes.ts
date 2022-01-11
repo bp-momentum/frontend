@@ -233,6 +233,17 @@ const Routes = {
       },
     };
   },
+
+  /**
+   * Fetch users
+   */
+  getUsers: (): Route => {
+    return {
+      route: "/api/getusers",
+      needsAuth: true,
+      method: "GET",
+    };
+  },
 };
 
 export default Routes;
