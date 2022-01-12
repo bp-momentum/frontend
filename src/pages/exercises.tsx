@@ -409,11 +409,18 @@ const Exercises = (): JSX.Element => {
               overflow: "auto",
             }}
           >
-            <div className="day-wrapper">
+            <div
+              className="day-wrapper"
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+              }}
+            >
               <Row
                 style={{
                   padding: "10px 50px",
-                  width: "100%",
+                  // width: "100%",
                   height: "100%",
                   alignContent: "flex-start",
                   overflow: "auto",
