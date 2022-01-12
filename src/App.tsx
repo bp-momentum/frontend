@@ -17,6 +17,7 @@ import Exercises from "./pages/exercises";
 import Leaderboard from "./pages/leaderboard";
 import Train from "./pages/train";
 import Error404 from "./pages/error/404";
+import helper from "./util/helper";
 
 // Basic App that is just used to Route to different pages
 function App(): JSX.Element {
@@ -48,11 +49,12 @@ function App(): JSX.Element {
     return <AutoLogin />;
   }
 
+  const isUser = token && helper.getAccountType(token) === "user";
+
   return (
     <Routes>
       {/* TODO(JUL14N): set propper routing */}
-      <Route path="/" element={<Home />} />
-      <Route path="/exercises" element={<Exercises />} />
+      <Route path="/" element={isUser ? <Exercises /> : <Home />} />
       <Route path="/train/:exerciseId" element={<Train />} />
       <Route path="/createuser" element={<CreateUser />} />
       <Route path="/leaderboard" element={<Leaderboard />} />

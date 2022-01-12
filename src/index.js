@@ -8,6 +8,8 @@ import { Provider } from "react-redux";
 import { store, persistor } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { HashRouter } from "react-router-dom";
+import { EmojiProvider } from "react-apple-emojis";
+import emojiData from "react-apple-emojis/lib/data.json";
 import "./i18n";
 
 ReactDOM.render(
@@ -15,7 +17,9 @@ ReactDOM.render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <HashRouter>
-          <App />
+          <EmojiProvider data={emojiData}>
+            <App />
+          </EmojiProvider>
         </HashRouter>
       </PersistGate>
     </Provider>

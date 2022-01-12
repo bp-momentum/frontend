@@ -41,13 +41,6 @@ const Home = (): JSX.Element => {
                 type: t("user." + helper.getAccountType(token)),
               })}
           </Row>
-          <Row justify="center">
-            {token && helper.getAccountType(token) === "user" && (
-              <Link to={"/exercises"}>
-                <Button>{t(Translations.home.exercises)}</Button>
-              </Link>
-            )}
-          </Row>
         </Col>
         <Row justify="center">
           <Col>

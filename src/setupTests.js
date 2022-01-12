@@ -36,11 +36,19 @@ nock(api.serverUrl)
     success: true,
     data: { exercises: [{ id: 1, title: "Test Exercise" }] },
   })
-  .post("/api/requestplanofuser")
+  .get("/api/getdoneexercises")
   .reply(200, {
     success: true,
     data: {
-      exercises: [{ id: 1, sets: 2, repeats_per_set: 3, date: "monday" }],
+      exercises: [
+        { id: 1, sets: 2, repeats_per_set: 3, date: "monday", done: false },
+        { id: 1, sets: 2, repeats_per_set: 3, date: "tuesday", done: false },
+        { id: 1, sets: 2, repeats_per_set: 3, date: "wednesday", done: false },
+        { id: 1, sets: 2, repeats_per_set: 3, date: "thursday", done: false },
+        { id: 1, sets: 2, repeats_per_set: 3, date: "friday", done: false },
+        { id: 1, sets: 2, repeats_per_set: 3, date: "saturday", done: false },
+        { id: 1, sets: 2, repeats_per_set: 3, date: "sunday", done: false },
+      ],
     },
   })
   .post("/api/getexercise")
