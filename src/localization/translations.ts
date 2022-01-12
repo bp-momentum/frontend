@@ -109,6 +109,9 @@ const Translations = {
   exercises: {
     noExercises: "exercises.no-exercises",
     nextExercise: "exercises.next-exercise",
+    dayOff: "exercises.day-off",
+    motivation: "exercises.motivation",
+    medalMotivation: "exercises.medal-motivation",
   },
   leaderboard: {
     rank: "leaderboard.rank",

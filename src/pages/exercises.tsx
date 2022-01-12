@@ -22,6 +22,7 @@ import { Emoji } from "react-apple-emojis";
 import "../styles/home.css";
 import useWindowDimensions from "../hooks/windowDimension";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
 
 const { Content } = Layout;
 const dayOrder = [
@@ -152,7 +153,7 @@ const Day = forwardRef(
                     display: "block",
                   }}
                 >
-                  Nimm dir einen Tag Pause
+                  {t(Translations.exercises.dayOff)}
                 </span>
               ) : (
                 <Progress
@@ -358,9 +359,14 @@ const Exercises = (): JSX.Element => {
                 alignItems: "center",
               }}
             >
-              <h1 style={{ fontSize: "48px" }}>You go, {username}!</h1>
+              <h1 style={{ fontSize: "48px" }}>
+                {t(Translations.exercises.motivation)}
+                {username}!
+              </h1>
               <h2 style={{ fontSize: "24px" }}>
-                Only 6 more days for your next medal!
+                {t(Translations.exercises.medalMotivation, {
+                  count: 7 - moment().day(),
+                })}
               </h2>
             </div>
             <div
@@ -392,7 +398,6 @@ const Exercises = (): JSX.Element => {
                     justifyContent: "center",
                     borderRadius: "50%",
                     padding: "8px 15px",
-                    margin: "-15px",
                   }}
                 >
                   <Emoji style={{}} name="fire" width={60} />
