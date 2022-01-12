@@ -21,6 +21,7 @@ import { useAppSelector } from "../redux/hooks";
 import { Emoji } from "react-apple-emojis";
 import "../styles/home.css";
 import useWindowDimensions from "../hooks/windowDimension";
+import { useNavigate } from "react-router-dom";
 
 const { Content } = Layout;
 const dayOrder = [
@@ -49,16 +50,6 @@ const isFuture = (dayName: string): boolean => {
   return dayOrder.indexOf(dayName) > dayOrder.indexOf(nowDayName);
 };
 
-const openNextExercise = (): void => {
-  // TODO
-  console.log("open next exercise");
-};
-
-const openExercise = (exercise: Exercise): void => {
-  // TODO
-  console.log("open " + exercise.title);
-};
-
 const Day = forwardRef(
   (
     {
@@ -73,16 +64,25 @@ const Day = forwardRef(
     ref
   ) => {
     const exercises = list.filter((e) => e.date === name);
+    const navigate = useNavigate();
+
+    const openNextExercise = (): void => {
+      navigate(`/train/${exercises.filter((e) => !e.completed)[0]?.id}`);
+    };
 
     const past = isPast(name);
     const future = isFuture(name);
     const today = !past && !future;
 
-    const doneExercises = future ? 0.0 : Math.random() * exercises.length;
+    const doneExercises = future
+      ? 0.0
+      : exercises.filter((e) => e.completed).length;
     const progress =
       doneExercises === 0
         ? 0
         : Math.floor((doneExercises / exercises.length) * 100);
+
+    const hasExercisesToDo = exercises.filter((e) => !e.completed).length > 0;
 
     return (
       <Col {...(ref && today ? { ref: ref as RefObject<HTMLDivElement> } : {})}>
@@ -117,7 +117,7 @@ const Day = forwardRef(
               <h1 style={{ verticalAlign: "middle", fontSize: "35px" }}>
                 {displayName}
               </h1>
-              {today && (
+              {today && hasExercisesToDo && (
                 <Tooltip
                   title={
                     <>
@@ -167,7 +167,11 @@ const Day = forwardRef(
                       ? "success"
                       : "normal"
                   }
-                  format={(percent, success) => "5 / 1"}
+                  format={(percent, success) =>
+                    `${((percent || 0) / 100) * exercises.length} / ${
+                      exercises.length
+                    }`
+                  }
                 />
               )}
             </div>
@@ -181,8 +185,9 @@ const Day = forwardRef(
           )}
 
           {exercises.map((e) => {
-            e.completed = true;
-            return <ExerciseCard key={e.date + e.sets} exercise={e} />;
+            return (
+              <ExerciseCard key={e.date + e.sets} exercise={e} today={today} />
+            );
           })}
         </Card>
       </Col>
@@ -191,10 +196,24 @@ const Day = forwardRef(
 );
 Day.displayName = "Day";
 
-const ExerciseCard = ({ exercise }: { exercise: Exercise }) => {
+const ExerciseCard = ({
+  exercise,
+  today,
+}: {
+  exercise: Exercise;
+  today: boolean;
+}) => {
+  const navigate = useNavigate();
+
+  const openExercise = (exercise: Exercise): void => {
+    navigate(`/train/${exercise.id}`);
+  };
+
   return (
     <div
-      className={`ExerciseCard ${exercise.completed ? "completed" : ""}`}
+      className={`ExerciseCard ${
+        exercise.completed || !today ? "completed" : ""
+      }`}
       style={{
         display: "flex",
         alignItems: "center",
@@ -203,10 +222,12 @@ const ExerciseCard = ({ exercise }: { exercise: Exercise }) => {
         borderRadius: "50px",
         width: "100%",
         background: exercise.completed ? "#5ec77b" : "initial",
-        cursor: exercise.completed ? "default" : "pointer",
+        cursor: exercise.completed || !today ? "default" : "pointer",
         margin: "5px",
       }}
-      onClick={() => openExercise(exercise)}
+      onClick={() => {
+        if (today && !exercise.completed) openExercise(exercise);
+      }}
     >
       <h4 style={{ margin: "0" }}>{exercise.title}</h4>
       <Tooltip
@@ -243,7 +264,7 @@ const Exercises = (): JSX.Element => {
   const [loading, setLoading] = React.useState<boolean>(true);
 
   const loadAssignedPlan = async () => {
-    const response = await api.execute(Routes.getAssignedPlans());
+    const response = await api.execute(Routes.getDoneExercises());
     if (!response) return;
     if (!response.success) {
       message.error(
@@ -255,8 +276,7 @@ const Exercises = (): JSX.Element => {
 
     const exerciseList = response.data.exercises;
     const exercises: Exercise[] = [];
-    for (const i in exerciseList) {
-      const exercise = exerciseList[i];
+    for (const exercise of exerciseList) {
       const id = exercise.id;
       const res = await api.execute(Routes.getExercise({ id: id }));
       exercises.push({
@@ -268,6 +288,7 @@ const Exercises = (): JSX.Element => {
         title: res.data.title,
         activated: res.data.activated,
         video: res.data.video,
+        completed: exercise.done,
       });
     }
 
@@ -280,7 +301,7 @@ const Exercises = (): JSX.Element => {
     loadAssignedPlan().then(() => setLoading(false));
   });
 
-  const { height, width } = useWindowDimensions();
+  const { width } = useWindowDimensions();
 
   const token = useAppSelector((state) => state.token.token);
   const username = token && Helper.getUserName(token);

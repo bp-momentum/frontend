@@ -22,15 +22,6 @@ const renderExercises = () => {
 };
 
 describe("<Exercises/>", () => {
-  test("Button to go to next exercise is visible", async () => {
-    renderExercises();
-
-    const button = await screen.findByRole("button", {
-      name: "nextExerciseButton",
-    });
-    expect(button).toBeInTheDocument();
-  });
-
   test("Monday is visible", async () => {
     renderExercises();
 
