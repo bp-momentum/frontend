@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import Translations from "../localization/translations";
 import { t } from "i18next";
 import { LoadingOutlined } from "@ant-design/icons";
+import Webcam from "react-webcam";
 
 const { Sider } = Layout;
 
@@ -231,14 +232,14 @@ const Train = () => {
               />
             </div>
             <div style={{ color: "white", marginTop: "10px" }}>10/10</div>
-            <div
-              style={{
-                background: "white",
-                width: "640px",
-                height: "360px",
-                marginTop: "40px",
-              }}
-            ></div>
+            <Webcam
+              audio={false}
+              height={720}
+              // ref={webcamRef}
+              screenshotFormat="image/jpeg"
+              width={1280}
+              // videoConstraints={videoConstraints}
+            />
           </div>
         </Content>
       </Layout>
