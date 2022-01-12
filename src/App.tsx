@@ -15,6 +15,7 @@ import EditPlan from "./pages/manage/editPlan";
 import ManagePlans from "./pages/manage/plans";
 import Exercises from "./pages/exercises";
 import Leaderboard from "./pages/leaderboard";
+import helper from "./util/helper";
 
 // Basic App that is just used to Route to different pages
 function App(): JSX.Element {
@@ -46,10 +47,11 @@ function App(): JSX.Element {
     return <AutoLogin />;
   }
 
+  const isUser = token && helper.getAccountType(token) === "user";
+
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/exercises" element={<Exercises />} />
+      <Route path="/" element={isUser ? <Exercises /> : <Home />} />
       <Route path="/createuser" element={<CreateUser />} />
       <Route path="/leaderboard" element={<Leaderboard />} />
       <Route path="/settings" element={<Settings />} />

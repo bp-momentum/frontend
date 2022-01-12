@@ -45,8 +45,7 @@
   "home": {
     "you-are": "You are {{type, en-handle-an}}!",
     "logout": "Logout",
-    "create-user": "Create User",
-    "exercises": "Show today's exercises"
+    "create-user": "Create User"
   },
   "tab-bar": {
     "home": "Home",

@@ -46,7 +46,6 @@ const Translations = {
     youAre: "home.you-are",
     logout: "home.logout",
     createUser: "home.create-user",
-    exercises: "home.exercises",
   },
   tabBar: {
     home: "tab-bar.home",
