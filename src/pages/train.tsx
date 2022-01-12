@@ -229,6 +229,7 @@ const Train = () => {
                 status="active"
                 showInfo={false}
                 strokeColor={"#0ff"}
+                className="training-progress"
               />
             </div>
             <div style={{ color: "white", marginTop: "10px" }}>10/10</div>

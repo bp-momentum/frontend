@@ -16,11 +16,11 @@
   pointer-events: none;
 }
 
-.ant-progress-inner {
+.training-progress .ant-progress-inner {
   overflow: initial;
 }
 
-.ant-progress-bg {
+.training-progress .ant-progress-bg {
   box-shadow: 0px 0px 15px 3px #0ffa;
   overflow: hidden;
   animation: ant-progress-pulse 1s linear 0s infinite;
