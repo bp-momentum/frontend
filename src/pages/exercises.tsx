@@ -185,7 +185,7 @@ const Exercises = (): JSX.Element => {
   const [loading, setLoading] = React.useState<boolean>(true);
 
   const loadAssignedPlan = async () => {
-    const response = await api.execute(Routes.getAssignedPlans());
+    const response = await api.execute(Routes.getAssignedPlan());
     if (!response) return;
     if (!response.success) {
       message.error(

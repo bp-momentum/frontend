@@ -197,7 +197,7 @@ const Routes = {
    * Get assigned training plans.
    * This can only be called by a user.
    */
-  getAssignedPlans: (): Route => {
+  getAssignedPlan: (): Route => {
     return {
       route: "/api/requestplanofuser",
       needsAuth: true,
