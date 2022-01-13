@@ -187,7 +187,11 @@ const Day = forwardRef(
 
           {exercises.map((e) => {
             return (
-              <ExerciseCard key={e.date + e.sets} exercise={e} today={today} />
+              <ExerciseCard
+                key={"exercise" + e.exercise_plan_id}
+                exercise={e}
+                today={today}
+              />
             );
           })}
         </Card>
@@ -282,6 +286,7 @@ const Exercises = (): JSX.Element => {
       const res = await api.execute(Routes.getExercise({ id: id }));
       exercises.push({
         id: id,
+        exercise_plan_id: exercise.exercise_plan_id,
         sets: exercise.sets,
         repeats_per_set: exercise.repeats_per_set,
         date: exercise.date,
