@@ -20,6 +20,79 @@ interface ExerciseData {
   activated: boolean;
 }
 
+const WebcamStreamCapture = () => {
+  const webcamRef = React.useRef<Webcam>(null);
+  const mediaRecorderRef = React.useRef<MediaRecorder | null>(null);
+  const [capturing, setCapturing] = React.useState(false);
+  const [recordedChunks, setRecordedChunks] = React.useState([]);
+
+  const handleStartCaptureClick = React.useCallback(() => {
+    setCapturing(true);
+    if (!webcamRef.current) return;
+    mediaRecorderRef.current = new MediaRecorder(
+      webcamRef.current.stream as MediaStream,
+      {
+        mimeType: "video/webm",
+      }
+    );
+    mediaRecorderRef.current.addEventListener(
+      "dataavailable",
+      handleDataAvailable
+    );
+    mediaRecorderRef.current.start();
+  }, [webcamRef, setCapturing, mediaRecorderRef]);
+
+  const handleDataAvailable = React.useCallback(
+    ({ data }) => {
+      if (data.size > 0) {
+        setRecordedChunks((prev) => prev.concat(data));
+        sendChunks(data);
+      }
+    },
+    [setRecordedChunks]
+  );
+
+  const sendChunks = (data: Blob): void => {
+    // send to api
+  };
+
+  const handleStopCaptureClick = React.useCallback(() => {
+    mediaRecorderRef.current?.stop();
+    setCapturing(false);
+  }, [mediaRecorderRef, webcamRef, setCapturing]);
+
+  const handleDownload = React.useCallback(() => {
+    if (recordedChunks.length) {
+      const blob = new Blob(recordedChunks, {
+        type: "video/webm",
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      document.body.appendChild(a);
+      // a.style = "display: none";
+      a.href = url;
+      a.download = "react-webcam-stream-capture.webm";
+      a.click();
+      window.URL.revokeObjectURL(url);
+      setRecordedChunks([]);
+    }
+  }, [recordedChunks]);
+
+  return (
+    <>
+      <Webcam audio={false} ref={webcamRef} mirrored />
+      {capturing ? (
+        <button onClick={handleStopCaptureClick}>Stop Capture</button>
+      ) : (
+        <button onClick={handleStartCaptureClick}>Start Capture</button>
+      )}
+      {recordedChunks.length > 0 && (
+        <button onClick={handleDownload}>Download</button>
+      )}
+    </>
+  );
+};
+
 const Train = () => {
   const [exercise, setExercise] = React.useState<ExerciseData>();
   const [collapsed, setCollapsed] = useState(false);
@@ -233,14 +306,7 @@ const Train = () => {
               />
             </div>
             <div style={{ color: "white", marginTop: "10px" }}>10/10</div>
-            <Webcam
-              audio={false}
-              height={720}
-              // ref={webcamRef}
-              screenshotFormat="image/jpeg"
-              width={1280}
-              // videoConstraints={videoConstraints}
-            />
+            <WebcamStreamCapture />
           </div>
         </Content>
       </Layout>
