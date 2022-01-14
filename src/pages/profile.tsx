@@ -145,6 +145,16 @@ const Profile = (): JSX.Element => {
     avatarUrls.push(`https://cdn.geoscribble.de/avatars/avatar_${i}.png`);
   }
 
+  let newUsername = Helper.getUserName(token ?? "");
+  let newMotivation = motivation;
+  const saveUsername = () => {
+    console.log("Saving new username: " + newUsername);
+  };
+
+  const saveMotivation = () => {
+    console.log("Saving new motivation: " + newMotivation);
+  };
+
   const onClickShare = () => {
     console.log("Share");
   };
@@ -287,7 +297,11 @@ const Profile = (): JSX.Element => {
                         marginTop: "-20px",
                         marginRight: "-20px",
                       }}
-                      onClick={() => setUserFlipped(false)}
+                      onClick={() => {
+                        saveUsername();
+                        saveMotivation();
+                        setUserFlipped(false);
+                      }}
                       underline
                     >
                       {t(Translations.profile.save)}
@@ -342,16 +356,20 @@ const Profile = (): JSX.Element => {
                         />
                       </Popover>
                       <Col style={{ flexDirection: "column", display: "flex" }}>
-                        <Text style={{ fontSize: 24 }} editable>
+                        <Text
+                          style={{ fontSize: 24 }}
+                          editable={{
+                            onChange: (v) => (newUsername = v),
+                          }}
+                        >
                           {Helper.getUserName(token ?? "")}
                         </Text>
                         <Text style={{ fontSize: 15 }}>
-                          {t(Translations.profile.activeSince, {
-                            duration:
-                              accountCreatedMonths > 0
-                                ? ` ${accountCreatedMonths} Monaten`
-                                : " Kurzem",
-                          })}
+                          {accountCreatedMonths > 0
+                            ? t(Translations.profile.activeSince, {
+                                duration: accountCreatedMonths,
+                              })
+                            : t(Translations.profile.activeShortly)}
                         </Text>
                       </Col>
                     </Row>
@@ -359,7 +377,10 @@ const Profile = (): JSX.Element => {
                       {t(Translations.profile.motivation)}
                     </Text>
                     <br />
-                    <Text editable style={{ fontSize: 20 }}>
+                    <Text
+                      editable={{ onChange: (v) => (newMotivation = v) }}
+                      style={{ fontSize: 20 }}
+                    >
                       {motivation}
                     </Text>
                   </Col>
