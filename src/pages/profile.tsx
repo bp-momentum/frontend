@@ -113,6 +113,10 @@ const Profile = (): JSX.Element => {
     console.log("Share");
   };
 
+  const onClickFriends = () => {
+    console.log("Friends");
+  };
+
   return (
     <Container currentPage="profile" color="blue">
       <Layout style={{ height: "100%" }}>
@@ -144,7 +148,30 @@ const Profile = (): JSX.Element => {
               </h5>
             </Row>
 
-            <Row justify="center">Freunde</Row>
+            <Row justify="center">
+              <div
+                onClick={() => onClickFriends()}
+                style={{
+                  cursor: "pointer",
+                  backgroundColor: "#FFE14D",
+                  width: "140px",
+                  height: "140px",
+                  borderRadius: "20px",
+                  color: "black",
+                  transform: "rotate(-5deg)",
+                  justifyContent: "center",
+                }}
+              >
+                <Col style={{ paddingTop: "10px" }}>
+                  <Row justify="center">
+                    <img src="friends_image.png" width={100} />
+                  </Row>
+                  <Row justify="center">
+                    <Text style={{ fontSize: 26 }}>Freunde</Text>
+                  </Row>
+                </Col>
+              </div>
+            </Row>
           </Col>
         </Sider>
         <Content>
