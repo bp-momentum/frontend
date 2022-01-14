@@ -82,7 +82,7 @@ const Routes = {
    */
   deleteAccount: (): Route => {
     return {
-      route: "/api/deleteuser",
+      route: "/api/deleteaccount",
       needsAuth: true,
       method: "POST",
       body: {},
