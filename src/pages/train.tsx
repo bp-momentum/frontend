@@ -49,11 +49,12 @@ const WebcamStreamCapture = () => {
       "dataavailable",
       handleDataAvailable
     );
-    mediaRecorderRef.current.start();
+    // data available every 100 milliseconds
+    mediaRecorderRef.current.start(100);
   }, [webcamRef, setCapturing, mediaRecorderRef, handleDataAvailable]);
 
   const sendChunks = (data: Blob): void => {
-    // send to api
+    console.log(data);
   };
 
   const handleStopCaptureClick = React.useCallback(() => {
