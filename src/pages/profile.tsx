@@ -109,6 +109,10 @@ const Profile = (): JSX.Element => {
     avatarUrls.push(`https://cdn.geoscribble.de/avatars/avatar_${i}.png`);
   }
 
+  const onClickShare = () => {
+    console.log("Share");
+  };
+
   return (
     <Container currentPage="profile" color="blue">
       <Layout style={{ height: "100%" }}>
@@ -421,6 +425,7 @@ const Profile = (): JSX.Element => {
                   </Row>
                   <Row justify="end">
                     <ShareAltOutlined
+                      onClick={() => onClickShare()}
                       style={{
                         marginTop: "-15px",
                         backgroundColor: "#EDEDF4",
