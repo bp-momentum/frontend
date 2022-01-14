@@ -128,6 +128,14 @@ class Api {
       return this.serverUrl + "/" + route;
     }
   };
+
+  openStream = (): WritableStream => {
+    return new WritableStream();
+  };
+
+  openSocket = (): WebSocket => {
+    return new WebSocket("ws://78.46.150.116:9001/ws/socket");
+  };
 }
 
 interface ApiResponse {

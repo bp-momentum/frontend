@@ -20,6 +20,8 @@ interface ExerciseData {
   activated: boolean;
 }
 
+const webSocket = api.openSocket();
+
 const WebcamStreamCapture = () => {
   const webcamRef = React.useRef<Webcam>(null);
   const mediaRecorderRef = React.useRef<MediaRecorder | null>(null);
@@ -37,8 +39,11 @@ const WebcamStreamCapture = () => {
   );
 
   const handleStartCaptureClick = React.useCallback(() => {
-    setCapturing(true);
     if (!webcamRef.current) return;
+    setCapturing(true);
+
+    webSocket.send(JSON.stringify({ message_type: "start_set", data: {} }));
+
     mediaRecorderRef.current = new MediaRecorder(
       webcamRef.current.stream as MediaStream,
       {
@@ -54,10 +59,18 @@ const WebcamStreamCapture = () => {
   }, [webcamRef, setCapturing, mediaRecorderRef, handleDataAvailable]);
 
   const sendChunks = (data: Blob): void => {
-    console.log(data);
+    // webSocket.send(
+    //   JSON.stringify({
+    //     message_type: "video_stream",
+    //     data: { exercise: 1, video: blobToUint8Array(data) },
+    //   })
+    // );
+    webSocket.send(data);
+    // console.log("Sent BLOB to webSocket");
   };
 
   const handleStopCaptureClick = React.useCallback(() => {
+    webSocket.send(JSON.stringify({ message_type: "end_set", data: {} }));
     mediaRecorderRef.current?.stop();
     setCapturing(false);
   }, [mediaRecorderRef, setCapturing]);
@@ -81,7 +94,6 @@ const WebcamStreamCapture = () => {
 
   return (
     <>
-      <Webcam audio={false} ref={webcamRef} mirrored />
       {capturing ? (
         <button onClick={handleStopCaptureClick}>Stop Capture</button>
       ) : (
@@ -90,6 +102,7 @@ const WebcamStreamCapture = () => {
       {recordedChunks.length > 0 && (
         <button onClick={handleDownload}>Download</button>
       )}
+      <Webcam audio={false} ref={webcamRef} mirrored />
     </>
   );
 };
@@ -109,6 +122,7 @@ const Train = () => {
     let isMounted = true;
 
     if (!loading) return;
+
     api
       .execute(Routes.getExercise({ id: exerciseId ?? "" }))
       .then((response) => {
@@ -126,6 +140,15 @@ const Train = () => {
         });
         setLoading(false);
       });
+
+    // webSocket.send(JSON.stringify({ message_type: "start_set", data: {} }));
+    webSocket.onmessage = function (event) {
+      console.log(event.data);
+    };
+
+    // webSocket.onclose = function (closeEvent) {
+    //   webSocket = api.openSocket();
+    // };
 
     // api.openStream().then((stream) => {
     //   while (isMounted) {
