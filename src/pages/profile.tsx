@@ -57,6 +57,42 @@ const RatingStars = (props: { rating: number }): JSX.Element => {
   );
 };
 
+const SiderButton = (props: {
+  onClick: VoidFunction;
+  image: string;
+  title: string;
+  rotation: number;
+  color: string;
+}) => {
+  return (
+    <Row justify="center">
+      <div
+        onClick={props.onClick}
+        style={{
+          marginBottom: "40px",
+          cursor: "pointer",
+          backgroundColor: props.color,
+          width: "140px",
+          height: "140px",
+          borderRadius: "20px",
+          color: "black",
+          transform: `rotate(${props.rotation}deg)`,
+          justifyContent: "center",
+        }}
+      >
+        <Col style={{ paddingTop: "10px" }}>
+          <Row justify="center">
+            <img src={props.image} height={82} alt={`${props.title} Icon`} />
+          </Row>
+          <Row justify="center">
+            <Text style={{ fontSize: "26" }}>{props.title}</Text>
+          </Row>
+        </Col>
+      </div>
+    </Row>
+  );
+};
+
 interface DoneExercise {
   id: string;
   name: string;
@@ -117,6 +153,10 @@ const Profile = (): JSX.Element => {
     console.log("Friends");
   };
 
+  const onClickAchievements = () => {
+    console.log("Achievements");
+  };
+
   return (
     <Container currentPage="profile" color="blue">
       <Layout style={{ height: "100%" }}>
@@ -148,34 +188,21 @@ const Profile = (): JSX.Element => {
               </h5>
             </Row>
 
-            <Row justify="center">
-              <div
-                onClick={() => onClickFriends()}
-                style={{
-                  cursor: "pointer",
-                  backgroundColor: "#FFE14D",
-                  width: "140px",
-                  height: "140px",
-                  borderRadius: "20px",
-                  color: "black",
-                  transform: "rotate(-5deg)",
-                  justifyContent: "center",
-                }}
-              >
-                <Col style={{ paddingTop: "10px" }}>
-                  <Row justify="center">
-                    <img
-                      src="friends_image.png"
-                      width={100}
-                      alt="Friends Icon"
-                    />
-                  </Row>
-                  <Row justify="center">
-                    <Text style={{ fontSize: 26 }}>Freunde</Text>
-                  </Row>
-                </Col>
-              </div>
-            </Row>
+            <SiderButton
+              onClick={() => onClickFriends()}
+              image="friends_image.png"
+              title="Freunde"
+              rotation={-5.5}
+              color="#FFE14D"
+            />
+
+            <SiderButton
+              onClick={() => onClickAchievements()}
+              image="achievements_image.png"
+              title="Errungenschaften"
+              rotation={3}
+              color="#9713FF"
+            />
           </Col>
         </Sider>
         <Content>
