@@ -107,10 +107,9 @@ const Profile = (): JSX.Element => {
   const [avatarUrl, setAvatarUrl] = React.useState<string>(
     "https://cdn.geoscribble.de/avatars/avatar_1.png"
   );
-  const avatarUrls = [];
-  const dailyRating = 4;
+  const dailyRating = 4; // TODO
 
-  const minutesTrainedGoal = 45;
+  const minutesTrainedGoal = 45; // TODO
   const doneExercises: DoneExercise[] = [
     {
       id: "1",
@@ -122,25 +121,26 @@ const Profile = (): JSX.Element => {
       name: "Kniebeuge",
       duration: 13 * 60 * 1000,
     },
-  ];
+  ]; // TODO
 
   const minutesTrained =
     doneExercises.map((e) => e.duration).reduce((e1, e2) => e1 + e2) /
     1000 /
     60;
 
-  const accountCreated = 1640991600000;
+  const accountCreated = 1640991600000; // TODO
   const accountCreatedDiff = Date.now() - accountCreated;
   const accountCreatedMonths = Math.floor(
     accountCreatedDiff / 30 / 24 / 60 / 60 / 1000
   );
-  const motivation = "Meine Gesundheit!";
-  const trainerName = "Dr. med-habil. Julian Imhof";
-  const trainerAddress1 = "Einbahnstr. 187";
-  const trainerAddress2 = "12345 Berlin";
-  const trainerEmail = "julian@hilfmir.de";
-  const trainerPhone = "0123456789";
+  const motivation = "Meine Gesundheit!"; // TODO
+  const trainerName = "Dr. med-habil. Julian Imhof"; // TODO
+  const trainerAddress1 = "Einbahnstr. 187"; // TODO
+  const trainerAddress2 = "12345 Berlin"; // TODO
+  const trainerEmail = "julian@hilfmir.de"; // TODO
+  const trainerPhone = "0123456789"; // TODO
 
+  const avatarUrls = [];
   for (let i = 1; i <= 50; i++) {
     avatarUrls.push(`https://cdn.geoscribble.de/avatars/avatar_${i}.png`);
   }
@@ -148,18 +148,22 @@ const Profile = (): JSX.Element => {
   let newUsername = Helper.getUserName(token ?? "");
   let newMotivation = motivation;
   const saveUsername = () => {
+    // TODO
     console.log("Saving new username: " + newUsername);
   };
 
   const saveMotivation = () => {
+    // TODO
     console.log("Saving new motivation: " + newMotivation);
   };
 
   const onClickShare = () => {
+    // TODO
     console.log("Share");
   };
 
   const onClickFriends = () => {
+    // TODO
     console.log("Friends");
   };
 
