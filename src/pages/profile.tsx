@@ -125,6 +125,20 @@ const Profile = (): JSX.Element => {
         >
           <Col>
             <Row justify="center">
+              <img
+                alt="Avatar"
+                key={avatarUrl}
+                src={avatarUrl}
+                style={{
+                  height: "160px",
+                  padding: "20px 10px 0 10px",
+                  marginTop: "20px",
+                  clipPath: "circle(80px at center)",
+                  backgroundColor: "#626FE5",
+                }}
+              />
+            </Row>
+            <Row justify="center">
               <h5 style={{ fontSize: 48, color: "white" }}>
                 {Helper.getUserName(token ?? "")}
               </h5>
