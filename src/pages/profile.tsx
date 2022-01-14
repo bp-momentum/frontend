@@ -397,18 +397,28 @@ const Profile = (): JSX.Element => {
                       goal: minutesTrainedGoal,
                     })}
                   </Row>
-                  <Col style={{ marginTop: "15px", marginLeft: "15px" }}>
-                    {doneExercises.map((e) => {
-                      return (
-                        <Row key={e.id}>
-                          <Text>{e.name}</Text>
-                          <Text style={{ paddingLeft: "100px" }}>
-                            {e.duration / 1000 / 60} min
+                  <Row>
+                    <Col style={{ marginTop: "15px", marginLeft: "15px" }}>
+                      {doneExercises.map((e) => {
+                        return (
+                          <Text key={e.id}>
+                            {e.name}
+                            <br />
                           </Text>
-                        </Row>
-                      );
-                    })}
-                  </Col>
+                        );
+                      })}
+                    </Col>
+                    <Col style={{ marginTop: "15px", marginLeft: "80px" }}>
+                      {doneExercises.map((e) => {
+                        return (
+                          <Text key={e.id}>
+                            {e.duration / 1000 / 60} min
+                            <br />
+                          </Text>
+                        );
+                      })}
+                    </Col>
+                  </Row>
                   <Row justify="end">
                     <ShareAltOutlined
                       style={{
