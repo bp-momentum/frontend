@@ -164,7 +164,11 @@ const Profile = (): JSX.Element => {
               >
                 <Col style={{ paddingTop: "10px" }}>
                   <Row justify="center">
-                    <img src="friends_image.png" width={100} />
+                    <img
+                      src="friends_image.png"
+                      width={100}
+                      alt="Friends Icon"
+                    />
                   </Row>
                   <Row justify="center">
                     <Text style={{ fontSize: 26 }}>Freunde</Text>
