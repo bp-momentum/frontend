@@ -129,12 +129,22 @@ class Api {
     }
   };
 
-  openStream = (): WritableStream => {
-    return new WritableStream();
-  };
-
   openSocket = (): WebSocket => {
-    return new WebSocket("ws://78.46.150.116:9001/ws/socket");
+    const ws = new WebSocket("ws://78.46.150.116:9000/ws/socket");
+    console.log(ws);
+
+    ws.onopen = () =>
+      ws.send(
+        JSON.stringify({
+          message_type: "authenticate",
+          data: { session_token: this.token },
+        })
+      );
+
+    ws.onerror = (event) =>
+      console.error("WebSocket closed due to an error! Error: " + event);
+
+    return ws;
   };
 }
 

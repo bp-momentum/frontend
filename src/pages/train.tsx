@@ -10,6 +10,7 @@ import Translations from "../localization/translations";
 import { t } from "i18next";
 import { LoadingOutlined } from "@ant-design/icons";
 import Webcam from "react-webcam";
+import { waitFor } from "@testing-library/react";
 
 const { Sider } = Layout;
 
@@ -20,13 +21,21 @@ interface ExerciseData {
   activated: boolean;
 }
 
-const webSocket = api.openSocket();
-
-const WebcamStreamCapture = () => {
+const WebcamStreamCapture = (props: { ws: React.RefObject<WebSocket> }) => {
   const webcamRef = React.useRef<Webcam>(null);
   const mediaRecorderRef = React.useRef<MediaRecorder | null>(null);
   const [capturing, setCapturing] = React.useState(false);
   const [recordedChunks, setRecordedChunks] = React.useState([]);
+
+  const webSocketRef = props.ws;
+
+  const sendChunks = React.useCallback(
+    (data: Blob): void => {
+      webSocketRef.current?.send(data);
+      // console.log("Sent BLOB to webSocket");
+    },
+    [webSocketRef]
+  );
 
   const handleDataAvailable = React.useCallback(
     ({ data }) => {
@@ -35,14 +44,19 @@ const WebcamStreamCapture = () => {
         sendChunks(data);
       }
     },
-    [setRecordedChunks]
+    [sendChunks]
   );
 
   const handleStartCaptureClick = React.useCallback(() => {
-    if (!webcamRef.current) return;
+    if (!webcamRef.current?.stream?.active || !webSocketRef.current) return;
     setCapturing(true);
 
-    webSocket.send(JSON.stringify({ message_type: "start_set", data: {} }));
+    webSocketRef.current?.send(
+      JSON.stringify({
+        message_type: "start_set",
+        data: { user_token: "", exercise_id: 1 },
+      })
+    );
 
     mediaRecorderRef.current = new MediaRecorder(
       webcamRef.current.stream as MediaStream,
@@ -56,24 +70,17 @@ const WebcamStreamCapture = () => {
     );
     // data available every 100 milliseconds
     mediaRecorderRef.current.start(100);
-  }, [webcamRef, setCapturing, mediaRecorderRef, handleDataAvailable]);
-
-  const sendChunks = (data: Blob): void => {
-    // webSocket.send(
-    //   JSON.stringify({
-    //     message_type: "video_stream",
-    //     data: { exercise: 1, video: blobToUint8Array(data) },
-    //   })
-    // );
-    webSocket.send(data);
-    // console.log("Sent BLOB to webSocket");
-  };
+  }, [webSocketRef, handleDataAvailable]);
 
   const handleStopCaptureClick = React.useCallback(() => {
-    webSocket.send(JSON.stringify({ message_type: "end_set", data: {} }));
     mediaRecorderRef.current?.stop();
     setCapturing(false);
-  }, [mediaRecorderRef, setCapturing]);
+    const mediaRecorder = mediaRecorderRef.current as MediaRecorder;
+    mediaRecorder.onstop = () =>
+      webSocketRef.current?.send(
+        JSON.stringify({ message_type: "end_set", data: {} })
+      );
+  }, [webSocketRef]);
 
   const handleDownload = React.useCallback(() => {
     if (recordedChunks.length) {
@@ -113,10 +120,12 @@ const Train = () => {
   // 0: not yet loading, 1: currently fetching data from api, 2: finished loading
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [progress, setProgress] = useState(10);
+  const [progress /*, setProgress*/] = useState(10);
 
   // exerciseId from the url
   const { exerciseId } = useParams();
+
+  const webSocketRef = React.useRef<WebSocket | null>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -141,30 +150,24 @@ const Train = () => {
         setLoading(false);
       });
 
-    // webSocket.send(JSON.stringify({ message_type: "start_set", data: {} }));
-    webSocket.onmessage = function (event) {
-      console.log(event.data);
-    };
+    connectToWS();
 
-    // webSocket.onclose = function (closeEvent) {
-    //   webSocket = api.openSocket();
-    // };
+    function connectToWS() {
+      webSocketRef.current = api.openSocket();
 
-    // api.openStream().then((stream) => {
-    //   while (isMounted) {
-    //     const data = stream.write();
-    //     if (data) {
-    //       console.log(data);
-    //     }
-    //   }
-    // });
+      const webSocket = webSocketRef.current as WebSocket;
 
-    // api.openSocket().then((socket) => {
-    //   socket.on("data", (data) => {
-    //     console.log(data);
-    //     setProgress(data.progress);
-    //   });
-    // });
+      webSocket.onmessage = function (event) {
+        console.log(event.data);
+      };
+
+      webSocket.onclose = function (closeEvent) {
+        setTimeout(function () {
+          console.warn("WebSocket closed! Trying to reconnect...");
+          connectToWS();
+        }, 1000);
+      };
+    }
 
     return () => {
       // clean up
@@ -330,7 +333,7 @@ const Train = () => {
               />
             </div>
             <div style={{ color: "white", marginTop: "10px" }}>10/10</div>
-            <WebcamStreamCapture />
+            <WebcamStreamCapture ws={webSocketRef} />
           </div>
         </Content>
       </Layout>
