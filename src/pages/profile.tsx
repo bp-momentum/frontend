@@ -348,6 +348,7 @@ const Profile = (): JSX.Element => {
                 <Calendar
                   mode="month"
                   style={{
+                    marginTop: "5px",
                     height: "300px",
                     backgroundColor: "#EDEDF4",
                     color: "transparent",
@@ -359,20 +360,41 @@ const Profile = (): JSX.Element => {
                       <div style={{ padding: 8, color: "black" }}>
                         <Row justify="space-between">
                           <LeftOutlined
-                            onClick={() => onChange(value.subtract(1, "month"))}
+                            onClick={() => {
+                              const newDate = value.clone();
+                              newDate.subtract(1, "month");
+                              onChange(newDate);
+                            }}
                           />
                           <Text style={{ fontSize: 20, marginTop: -8 }}>
-                            {localeData.months(value)}
+                            {localeData.months(value) + " " + value.year()}
                           </Text>
                           <RightOutlined
-                            onClick={() => onChange(value.add(1, "month"))}
+                            onClick={() => {
+                              const newDate = value.clone();
+                              newDate.add(1, "month");
+                              onChange(newDate);
+                            }}
                           />
                         </Row>
                       </div>
                     );
                   }}
                   dateFullCellRender={(date) => {
-                    return <Text>{date.date()}</Text>;
+                    return (
+                      <Text
+                        style={{
+                          color:
+                            date.toDate().toDateString() ===
+                            new Date().toDateString()
+                              ? "#466995"
+                              : "black",
+                          borderRadius: "50%",
+                        }}
+                      >
+                        {date.date()}
+                      </Text>
+                    );
                   }}
                 />
               </Card>
