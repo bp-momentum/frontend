@@ -118,6 +118,7 @@ const Translations = {
   },
   profile: {
     activeSince: "profile.activeSince",
+    activeShortly: "profile.activeShortly",
     edit: "profile.edit",
     save: "profile.save",
     motivation: "profile.motivation",

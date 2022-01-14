@@ -10,13 +10,15 @@ import ReactCardFlip from "react-card-flip";
 import Text from "antd/es/typography/Text";
 import {
   LeftOutlined,
-  RightOutlined,
   PhoneFilled,
-  StarFilled,
+  RightOutlined,
   ShareAltOutlined,
+  StarFilled,
+  MailOutlined,
 } from "@ant-design/icons";
 import "../styles/profile.css";
 import Translations from "../localization/translations";
+import ButtonContact, { ContactType } from "../shared/button_contact";
 
 const RatingStars = (props: { rating: number }): JSX.Element => {
   return (
@@ -100,6 +102,8 @@ const Profile = (): JSX.Element => {
   const trainerName = "Dr. med-habil. Julian Imhof";
   const trainerAddress1 = "Einbahnstr. 187";
   const trainerAddress2 = "12345 Berlin";
+  const trainerEmail = "julian@hilfmir.de";
+  const trainerPhone = "0123456789";
 
   for (let i = 1; i <= 50; i++) {
     avatarUrls.push(`https://cdn.geoscribble.de/avatars/avatar_${i}.png`);
@@ -175,12 +179,11 @@ const Profile = (): JSX.Element => {
                         </Text>
                         <br />
                         <Text style={{ fontSize: 15 }}>
-                          {t(Translations.profile.activeSince, {
-                            duration:
-                              accountCreatedMonths > 0
-                                ? ` ${accountCreatedMonths} Monaten`
-                                : " Kurzem",
-                          })}
+                          {accountCreatedMonths > 0
+                            ? t(Translations.profile.activeSince, {
+                                duration: accountCreatedMonths,
+                              })
+                            : t(Translations.profile.activeShortly)}
                         </Text>
                       </Col>
                     </Row>
@@ -299,16 +302,27 @@ const Profile = (): JSX.Element => {
               >
                 <Row justify="space-around">
                   <Text>{t(Translations.user.trainer)}</Text>
-                  <Row>
-                    <Text style={{ marginRight: "5px" }}>
-                      {trainerName}
-                      <br />
-                      {trainerAddress1}
-                      <br />
-                      {trainerAddress2}
-                    </Text>
+                  <Text style={{ marginRight: "5px" }}>
+                    {trainerName}
+                    <br />
+                    {trainerAddress1}
+                    <br />
+                    {trainerAddress2}
+                    <br />
+                    <ButtonContact
+                      type={ContactType.phone}
+                      contact={trainerPhone}
+                      label={trainerPhone}
+                    />{" "}
                     <PhoneFilled style={{ marginTop: "5px" }} />
-                  </Row>
+                    <br />
+                    <ButtonContact
+                      type={ContactType.email}
+                      contact={trainerEmail}
+                      label={trainerEmail}
+                    />{" "}
+                    <MailOutlined style={{ marginTop: "5px" }} />
+                  </Text>
                 </Row>
               </Card>
             </Col>

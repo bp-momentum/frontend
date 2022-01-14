@@ -119,7 +119,8 @@
     "score": "Score"
   },
   "profile": {
-    "activeSince": "Active since {{duration}}",
+    "activeSince": "Active since {{duration}} months",
+    "activeShortly": "Active since recently",
     "edit": "Edit \uD83D\uDD8B",
     "save": "Save",
     "motivation": "This motivates me every day:",

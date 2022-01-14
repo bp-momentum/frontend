@@ -119,7 +119,8 @@
     "score": "Punktzahl"
   },
   "profile": {
-    "activeSince": "Fleißig seit {{duration}}",
+    "activeSince": "Fleißig seit {{duration}} Monaten",
+    "activeShortly": "Fleißig seit Kurzem",
     "edit": "Bearbeiten \uD83D\uDD8B",
     "save": "Speichern",
     "motivation": "Das treibt mich täglich an:",
