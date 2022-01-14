@@ -2,6 +2,8 @@ import {
   Button,
   Input,
   Layout,
+  message,
+  Popconfirm,
   Progress,
   Select,
   Space,
@@ -15,7 +17,7 @@ import "../../styles/users.css";
 import api from "../../util/api";
 import Routes from "../../util/routes";
 import { Plan } from "../../api/plan";
-import { SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
 
@@ -25,6 +27,14 @@ const Users = () => {
   const [plans, setPlans] = React.useState<Plan[]>([]);
 
   const searchInput = createRef<Input>();
+
+  const deleteUser = async (id: number) => {
+    setLoading(true);
+    // api.execute(Routes.deleteAccount(id)).then(() => {
+    //   message.success("User deleted");
+    //   setLoading(true);
+    // });
+  };
 
   const getColumnSearchProps = (dataIndex: string) => ({
     filterDropdown: ({
@@ -120,13 +130,12 @@ const Users = () => {
     {
       key: 1, // ID
       name: "John Brown",
-      trainingplan: 4,
       thisweeksactivity: 50,
     },
     {
       key: 2, // ID
       name: "John Brown 2nd",
-      trainingplan: 4,
+      trainingplan: 2,
       thisweeksactivity: 10,
     },
     {
@@ -196,11 +205,27 @@ const Users = () => {
       title: "Training Plan",
       dataIndex: "trainingplan",
       key: "trainingplan",
-      render: (text: string) => (
+      render: (text: string, record: any) => (
         <Select
           showSearch
           placeholder="Select a plan"
           optionFilterProp="children"
+          defaultValue={text}
+          onChange={async (value: string) => {
+            console.log(value);
+            api
+              .execute(
+                Routes.assignPlanToUser({
+                  planId: value,
+                  username: record.name,
+                })
+              )
+              .then((response) => {
+                if (!response.success) {
+                  message.error(response.description);
+                }
+              });
+          }}
           filterOption={(input, option) => {
             if (!option || !option.children) return false;
             return (
@@ -234,9 +259,17 @@ const Users = () => {
       title: "Manage",
       key: "manage",
       render: (_: unknown, record: any) => (
-        <Button danger value={record}>
-          Delete
-        </Button>
+        <Popconfirm
+          title="Are you sure to delete this user?"
+          onConfirm={() => deleteUser(record.name)}
+          okText="Yes"
+          cancelText="No"
+          icon={<QuestionCircleOutlined style={{ color: "red" }} />}
+        >
+          <Button danger value={record}>
+            Delete
+          </Button>
+        </Popconfirm>
       ),
     },
   ];
