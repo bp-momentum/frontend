@@ -26,6 +26,16 @@ const WebcamStreamCapture = () => {
   const [capturing, setCapturing] = React.useState(false);
   const [recordedChunks, setRecordedChunks] = React.useState([]);
 
+  const handleDataAvailable = React.useCallback(
+    ({ data }) => {
+      if (data.size > 0) {
+        setRecordedChunks((prev) => prev.concat(data));
+        sendChunks(data);
+      }
+    },
+    [setRecordedChunks]
+  );
+
   const handleStartCaptureClick = React.useCallback(() => {
     setCapturing(true);
     if (!webcamRef.current) return;
@@ -40,17 +50,7 @@ const WebcamStreamCapture = () => {
       handleDataAvailable
     );
     mediaRecorderRef.current.start();
-  }, [webcamRef, setCapturing, mediaRecorderRef]);
-
-  const handleDataAvailable = React.useCallback(
-    ({ data }) => {
-      if (data.size > 0) {
-        setRecordedChunks((prev) => prev.concat(data));
-        sendChunks(data);
-      }
-    },
-    [setRecordedChunks]
-  );
+  }, [webcamRef, setCapturing, mediaRecorderRef, handleDataAvailable]);
 
   const sendChunks = (data: Blob): void => {
     // send to api
@@ -59,7 +59,7 @@ const WebcamStreamCapture = () => {
   const handleStopCaptureClick = React.useCallback(() => {
     mediaRecorderRef.current?.stop();
     setCapturing(false);
-  }, [mediaRecorderRef, webcamRef, setCapturing]);
+  }, [mediaRecorderRef, setCapturing]);
 
   const handleDownload = React.useCallback(() => {
     if (recordedChunks.length) {
