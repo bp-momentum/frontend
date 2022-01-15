@@ -221,7 +221,7 @@ const Profile = (): JSX.Element => {
         </Sider>
         <Content>
           <Row gutter={16} justify="space-around" style={{ margin: 0 }}>
-            <Col className="gutter-row" span={10}>
+            <Col className="gutter-row" span={10} style={{ marginTop: "30px" }}>
               <ReactCardFlip
                 isFlipped={userFlipped}
                 flipDirection="horizontal"
@@ -233,7 +233,6 @@ const Profile = (): JSX.Element => {
                     borderRadius: "5px",
                     borderColor: "black",
                     backgroundColor: "#EDEDF4",
-                    marginTop: "30px",
                     boxShadow: "2px 4px 4px 0 rgba(0, 0, 0, 0.25)",
                   }}
                 >
@@ -290,7 +289,6 @@ const Profile = (): JSX.Element => {
                     borderRadius: "5px",
                     borderColor: "black",
                     backgroundColor: "#EDEDF4",
-                    marginTop: "30px",
                     boxShadow: "2px 4px 4px 0 rgba(0, 0, 0, 0.25)",
                   }}
                 >
