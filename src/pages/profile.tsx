@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import Container from "../shared/container";
 import { Calendar, Card, Col, Layout, Popover, Row } from "antd";
@@ -10,6 +10,7 @@ import ReactCardFlip from "react-card-flip";
 import Text from "antd/es/typography/Text";
 import {
   LeftOutlined,
+  LoadingOutlined,
   RightOutlined,
   ShareAltOutlined,
   StarFilled,
@@ -97,54 +98,73 @@ interface DoneExercise {
   duration: number;
 }
 
+interface ProfileData {
+  dailyRating: number;
+  minutesTrainedGoal: number;
+  doneExercises: DoneExercise[];
+  accountCreated: number;
+  motivation: string;
+  trainerName: string;
+  trainerAddress1: string;
+  trainerAddress2: string;
+  trainerPhone: string;
+  trainerEmail: string;
+  avatarUrl: string;
+}
+
 const Profile = (): JSX.Element => {
   const { t, i18n } = useTranslation();
   const token = useAppSelector((state) => state.token.token);
   const [userFlipped, setUserFlipped] = React.useState<boolean>(false);
   const [popoverVisible, setPopoverVisible] = React.useState<boolean>(false);
-  const [avatarUrl, setAvatarUrl] = React.useState<string>(
-    "https://cdn.geoscribble.de/avatars/avatar_1.png"
+  const [profileData, setProfileData] = React.useState<ProfileData | null>(
+    null
   );
-  const dailyRating = 4; // TODO
 
-  const minutesTrainedGoal = 45; // TODO
-  const doneExercises: DoneExercise[] = [
-    {
-      id: "1",
-      name: "Liegestütze",
-      duration: 17 * 60 * 1000,
-    },
-    {
-      id: "2",
-      name: "Kniebeuge",
-      duration: 13 * 60 * 1000,
-    },
-  ]; // TODO
-
-  const minutesTrained =
-    doneExercises.map((e) => e.duration).reduce((e1, e2) => e1 + e2) /
-    1000 /
-    60;
-
-  const accountCreated = 1640991600000; // TODO
-  const accountCreatedDiff = Date.now() - accountCreated;
-  const accountCreatedMonths = Math.floor(
-    accountCreatedDiff / 30 / 24 / 60 / 60 / 1000
-  );
-  const motivation = "Meine Gesundheit!"; // TODO
-  const trainerName = "Dr. med-habil. Julian Imhof"; // TODO
-  const trainerAddress1 = "Einbahnstr. 187"; // TODO
-  const trainerAddress2 = "12345 Berlin"; // TODO
-  const trainerEmail = "julian@hilfmir.de"; // TODO
-  const trainerPhone = "0123456789"; // TODO
-
-  const avatarUrls = [];
+  const avatarUrls: string[] = [];
   for (let i = 1; i <= 50; i++) {
     avatarUrls.push(`https://cdn.geoscribble.de/avatars/avatar_${i}.png`);
   }
 
+  useEffect(() => {
+    if (!profileData) {
+      loadProfile();
+    }
+  });
+
+  const loadProfile = () => {
+    setProfileData({
+      accountCreated: 1640991600000,
+      avatarUrl: avatarUrls[0],
+      dailyRating: 4,
+      doneExercises: [
+        {
+          id: "1",
+          name: "Liegestütze",
+          duration: 17 * 60 * 1000,
+        },
+        {
+          id: "2",
+          name: "Kniebeuge",
+          duration: 13 * 60 * 1000,
+        },
+      ],
+      minutesTrainedGoal: 45,
+      motivation: "Meine Gesundheit!",
+      trainerAddress1: "Einbahnstr. 187",
+      trainerAddress2: "12345 Berlin",
+      trainerEmail: "julian@hilfmir.de",
+      trainerName: "Dr. med-habil. Julian Imhof",
+      trainerPhone: "0123456789",
+    });
+  };
+
+  if (!profileData) {
+    return <LoadingOutlined />;
+  }
+
   let newUsername = Helper.getUserName(token ?? "");
-  let newMotivation = motivation;
+  let newMotivation = profileData?.motivation;
   const saveUsername = () => {
     // TODO
     console.log("Saving new username: " + newUsername);
@@ -166,8 +186,30 @@ const Profile = (): JSX.Element => {
   };
 
   const onClickAchievements = () => {
+    // TODO
     console.log("Achievements");
   };
+
+  const saveNewAvatar = (url: string) => {
+    // TODO
+    console.log("Save new avatar: " + url);
+  };
+
+  const dailyRating = profileData.dailyRating;
+
+  const minutesTrainedGoal = profileData.minutesTrainedGoal;
+  const doneExercises = profileData.doneExercises;
+
+  const minutesTrained =
+    doneExercises.map((e) => e.duration).reduce((e1, e2) => e1 + e2) /
+    1000 /
+    60;
+
+  const accountCreated = profileData.accountCreated;
+  const accountCreatedDiff = Date.now() - accountCreated;
+  const accountCreatedMonths = Math.floor(
+    accountCreatedDiff / 30 / 24 / 60 / 60 / 1000
+  );
 
   return (
     <Container currentPage="profile" color="blue">
@@ -183,8 +225,8 @@ const Profile = (): JSX.Element => {
             <Row justify="center">
               <img
                 alt="Avatar"
-                key={avatarUrl}
-                src={avatarUrl}
+                key={profileData.avatarUrl}
+                src={profileData.avatarUrl}
                 style={{
                   height: "160px",
                   padding: "20px 10px 0 10px",
@@ -249,8 +291,8 @@ const Profile = (): JSX.Element => {
                     <Row>
                       <img
                         alt="Avatar"
-                        key={avatarUrl}
-                        src={avatarUrl}
+                        key={profileData.avatarUrl}
+                        src={profileData.avatarUrl}
                         style={{
                           height: "100px",
                           padding: "20px 10px 0 10px",
@@ -278,7 +320,9 @@ const Profile = (): JSX.Element => {
                       {t(Translations.profile.motivation)}
                     </Text>
                     <br />
-                    <Text style={{ fontSize: 20 }}>{motivation}</Text>
+                    <Text style={{ fontSize: 20 }}>
+                      {profileData.motivation}
+                    </Text>
                   </Col>
                 </Card>
 
@@ -319,7 +363,7 @@ const Profile = (): JSX.Element => {
                                 <img
                                   alt="Avatar"
                                   onClick={() => {
-                                    setAvatarUrl(url);
+                                    saveNewAvatar(url);
                                     setPopoverVisible(false);
                                   }}
                                   key={url}
@@ -343,8 +387,8 @@ const Profile = (): JSX.Element => {
                           onClick={() => {
                             setPopoverVisible(!popoverVisible);
                           }}
-                          key={avatarUrl}
-                          src={avatarUrl}
+                          key={profileData.avatarUrl}
+                          src={profileData.avatarUrl}
                           style={{
                             height: "100px",
                             padding: "20px 10px 0 10px",
@@ -381,7 +425,7 @@ const Profile = (): JSX.Element => {
                       editable={{ onChange: (v) => (newMotivation = v) }}
                       style={{ fontSize: 20 }}
                     >
-                      {motivation}
+                      {profileData.motivation}
                     </Text>
                   </Col>
                 </Card>
@@ -400,22 +444,22 @@ const Profile = (): JSX.Element => {
                 <Row justify="space-around">
                   <Text>{t(Translations.user.trainer)}</Text>
                   <Text style={{ marginRight: "5px" }}>
-                    {trainerName}
+                    {profileData.trainerName}
                     <br />
-                    {trainerAddress1}
+                    {profileData.trainerAddress1}
                     <br />
-                    {trainerAddress2}
+                    {profileData.trainerAddress2}
                     <br />
                     <ButtonContact
                       type={ContactType.phone}
-                      contact={trainerPhone}
-                      label={trainerPhone}
+                      contact={profileData.trainerPhone}
+                      label={profileData.trainerPhone}
                     />
                     <br />
                     <ButtonContact
                       type={ContactType.email}
-                      contact={trainerEmail}
-                      label={trainerEmail}
+                      contact={profileData.trainerEmail}
+                      label={profileData.trainerEmail}
                     />
                   </Text>
                 </Row>
