@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { MailOutlined, PhoneFilled } from "@ant-design/icons";
 
 enum ContactType {
   email,
@@ -10,7 +11,6 @@ const ButtonContact = (props: {
   type: ContactType;
   contact: string;
   label: string;
-  children?: React.ReactNode;
 }): JSX.Element => {
   const getLink = () => {
     switch (props.type) {
@@ -22,6 +22,17 @@ const ButtonContact = (props: {
         return props.contact.startsWith("tel:")
           ? props.contact
           : `tel:${props.contact}`;
+    }
+  };
+
+  const getIcon = (): JSX.Element => {
+    switch (props.type) {
+      case ContactType.email:
+        return (
+          <MailOutlined style={{ marginTop: "5px", paddingLeft: "5px" }} />
+        );
+      case ContactType.phone:
+        return <PhoneFilled style={{ marginTop: "5px", paddingLeft: "5px" }} />;
     }
   };
 
@@ -37,7 +48,7 @@ const ButtonContact = (props: {
       }}
     >
       {props.label}
-      {props.children}
+      {getIcon()}
     </Link>
   );
 };
