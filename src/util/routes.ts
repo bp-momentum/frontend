@@ -237,11 +237,25 @@ const Routes = {
   /**
    * Fetch users
    */
-  getUsers: (): Route => {
+  getTrainerUsers: (): Route => {
     return {
-      route: "/api/getusers",
+      route: "/api/gettrainersuser",
       needsAuth: true,
       method: "GET",
+    };
+  },
+
+  /**
+   * delete user
+   */
+  deleteUser: (props: { userId: string }): Route => {
+    return {
+      route: "/api/deleteuser",
+      needsAuth: true,
+      method: "POST",
+      body: {
+        id: props.userId,
+      },
     };
   },
 };

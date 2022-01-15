@@ -22,18 +22,17 @@ import { SearchOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 const { Option } = Select;
 
 const Users = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(0);
   const [error, setError] = useState(false);
   const [plans, setPlans] = React.useState<Plan[]>([]);
 
   const searchInput = createRef<Input>();
 
-  const deleteUser = async (id: number) => {
-    setLoading(true);
-    // api.execute(Routes.deleteAccount(id)).then(() => {
-    //   message.success("User deleted");
-    //   setLoading(true);
-    // });
+  const deleteUser = async (id: string) => {
+    api.execute(Routes.deleteUser({ userId: id })).then(() => {
+      message.success("User deleted");
+      setLoading(1);
+    });
   };
 
   const getColumnSearchProps = (dataIndex: string) => ({
@@ -95,10 +94,12 @@ const Users = () => {
     render: (text: string) => text,
   });
 
+  const [data, setData] = useState<any[]>([]);
+
   useEffect(() => {
     let isMounted = true;
     // load all the plans the user has access to from the API
-    if (loading) {
+    if (loading === 0) {
       api.execute(Routes.getTrainingPlans()).then((response) => {
         if (!isMounted) return;
         if (!response.success) {
@@ -111,13 +112,8 @@ const Users = () => {
           planList.push({ id: plan.id, name: plan.name });
         });
         setPlans(planList);
-        setLoading(false);
-      });
-
-      // load all the users for a trainer
-      api.execute(Routes.getUsers()).then((response) => {
-        console.log(response);
-        return response;
+        console.log(planList);
+        setLoading(1);
       });
     }
     return () => {
@@ -126,73 +122,38 @@ const Users = () => {
     };
   });
 
-  const data = [
-    {
-      key: 1, // ID
-      name: "John Brown",
-      thisweeksactivity: 50,
-    },
-    {
-      key: 2, // ID
-      name: "John Brown 2nd",
-      trainingplan: 2,
-      thisweeksactivity: 10,
-    },
-    {
-      key: 3, // ID
-      name: "John Brown 3rd",
-      trainingplan: 4,
-      thisweeksactivity: 20,
-    },
-    {
-      key: 4, // ID
-      name: "John Brown 4th",
-      trainingplan: 4,
-      thisweeksactivity: 30,
-    },
-    {
-      key: 5, // ID
-      name: "John Brown 5th",
-      trainingplan: 4,
-      thisweeksactivity: 40,
-    },
-    {
-      key: 6, // ID
-      name: "John Brown 6th",
-      trainingplan: 4,
-      thisweeksactivity: 50,
-    },
-    {
-      key: 7, // ID
-      name: "John Brown 7th",
-      trainingplan: 4,
-      thisweeksactivity: 60,
-    },
-    {
-      key: 8, // ID
-      name: "John Brown 8th",
-      trainingplan: 4,
-      thisweeksactivity: 70,
-    },
-    {
-      key: 9, // ID
-      name: "John Brown 9th",
-      trainingplan: 4,
-      thisweeksactivity: 80,
-    },
-    {
-      key: 10, // ID
-      name: "John Brown 10th",
-      trainingplan: 4,
-      thisweeksactivity: 90,
-    },
-    {
-      key: 11, // ID
-      name: "John Brown 11th",
-      trainingplan: 4,
-      thisweeksactivity: 100,
-    },
-  ];
+  useEffect(() => {
+    let isMounted = true;
+    // load all the plans the user has access to from the API
+    if (loading === 1) {
+      // load all the users for a trainer
+      api.execute(Routes.getTrainerUsers()).then((response) => {
+        console.log(response);
+        if (!isMounted) return;
+        if (!response.success) {
+          setError(true);
+          return;
+        }
+        const userList: any[] = [];
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        response.data.users.forEach((user: Record<string, any>) => {
+          userList.push({
+            key: user.id,
+            name: user.username,
+            trainingplan: user.plan,
+            thisweeksactivity: user.done_exercises || 0,
+          });
+        });
+        console.log(userList);
+        setData(userList);
+        setLoading(2);
+      });
+    }
+    return () => {
+      // clean up
+      isMounted = false;
+    };
+  });
 
   const columns = [
     {
@@ -261,7 +222,7 @@ const Users = () => {
       render: (_: unknown, record: any) => (
         <Popconfirm
           title="Are you sure to delete this user?"
-          onConfirm={() => deleteUser(record.name)}
+          onConfirm={() => deleteUser(record.key)}
           okText="Yes"
           cancelText="No"
           icon={<QuestionCircleOutlined style={{ color: "red" }} />}
