@@ -412,19 +412,21 @@ const Profile = (): JSX.Element => {
                       type={ContactType.phone}
                       contact={trainerPhone}
                       label={trainerPhone}
-                    />
-                    <PhoneFilled
-                      style={{ marginTop: "5px", paddingLeft: "5px" }}
-                    />
+                    >
+                      <PhoneFilled
+                        style={{ marginTop: "5px", paddingLeft: "5px" }}
+                      />
+                    </ButtonContact>
                     <br />
                     <ButtonContact
                       type={ContactType.email}
                       contact={trainerEmail}
                       label={trainerEmail}
-                    />
-                    <MailOutlined
-                      style={{ marginTop: "5px", paddingLeft: "5px" }}
-                    />
+                    >
+                      <MailOutlined
+                        style={{ marginTop: "5px", paddingLeft: "5px" }}
+                      />
+                    </ButtonContact>
                   </Text>
                 </Row>
               </Card>

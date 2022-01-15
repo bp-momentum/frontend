@@ -10,6 +10,7 @@ const ButtonContact = (props: {
   type: ContactType;
   contact: string;
   label: string;
+  children?: React.ReactNode;
 }): JSX.Element => {
   const getLink = () => {
     switch (props.type) {
@@ -36,6 +37,7 @@ const ButtonContact = (props: {
       }}
     >
       {props.label}
+      {props.children}
     </Link>
   );
 };
