@@ -57,7 +57,7 @@ const ActiveTrainerTable = () => {
 
   useEffect(() => {
     let isMounted = true;
-    // load all the plans the user has access to from the API
+    // load a list of trainers
     if (loading) {
       Promise.all([fetchUsers()]).then(([users]) => {
         if (!isMounted) return;
