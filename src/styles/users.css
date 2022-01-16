@@ -28,3 +28,44 @@
   text-align: right;
   width: initial;
 }
+
+.ant-tabs-tab {
+  border-top: 1px solid darkgray !important;
+  border-bottom: 1px solid darkgray !important;
+}
+
+.ant-tabs-tab:first-of-type {
+  border-top-left-radius: 10px !important;
+  border-bottom-left-radius: 10px !important;
+  border-left: 1px solid darkgray !important;
+}
+
+.ant-tabs-tab:nth-last-child(2) {
+  border-top-right-radius: 10px !important;
+  border-bottom-right-radius: 10px !important;
+  border-right: 1px solid darkgray !important;
+}
+
+.ant-tabs-top > .ant-tabs-nav::before {
+  content: none;
+}
+
+.ant-table-thead > tr > th {
+  background: transparent;
+}
+
+.ant-table {
+  background: transparent;
+}
+
+.ant-table-thead > tr > th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
+  background: rgb(75, 75, 75, .7);
+}
+
+.ant-table-thead > tr > th, .ant-table-tbody > tr > td {
+  border-bottom: 1px solid rgb(75, 75, 75, .7);
+}
+
+.ant-tabs-tab:not(.ant-tabs-tab-active) {
+  background: #e7e7e7 !important;
+}

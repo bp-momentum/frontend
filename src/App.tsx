@@ -8,7 +8,6 @@ import Helper from "./util/helper";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import Register from "./pages/register";
-import CreateUser from "./pages/createUser";
 import AutoLogin from "./pages/autoLogin";
 import Settings from "./pages/settings";
 import EditPlan from "./pages/manage/editPlan";
@@ -51,7 +50,6 @@ function App(): JSX.Element {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/exercises" element={<Exercises />} />
-      <Route path="/createuser" element={<CreateUser />} />
       <Route path="/leaderboard" element={<Leaderboard />} />
       <Route path="/settings" element={<Settings />} />
       <Route path="/manage">
