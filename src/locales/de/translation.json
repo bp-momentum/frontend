@@ -129,7 +129,7 @@
     "name": "Name",
     "email": "Email",
     "manage": "Verwalten",
-    "delete-trainer-confirm": "Bist du sicher, dass du diesen Trainer*in löschen möchtest?",
+    "delete-trainer-confirm": "Bist du sicher, dass du diese/n Trainer*in löschen möchtest?",
     "delete-user-confirm": "Bist du sicher, dass du diesen Benutzer*in löschen möchtest?",
     "training-plan": "Trainingsplan",
     "select-plan": "Wähle einen Plan",
