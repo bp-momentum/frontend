@@ -5,8 +5,8 @@ import Routes from "../../../util/routes";
 import { getColumnSearchProps } from "./tableSearch";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { AlignType } from "rc-table/lib/interface";
-import Translations from "../../../localization/translations";
 import { t } from "i18next";
+import Translations from "../../../localization/translations";
 
 interface User {
   key: string;
@@ -35,7 +35,7 @@ const InvitedUserTable = () => {
     // load all the plans the user has access to from the API
     if (loading) {
       // load all the users for a trainer
-      // api.execute(Routes.getInvitedUsers()).then((response) => {
+      // api.execute(Routes.getInvitedTrainers()).then((response) => {
       //   if (!isMounted) return;
       //   if (!response.success) {
       //     setError(true);
@@ -74,7 +74,7 @@ const InvitedUserTable = () => {
         "name",
         searchInput,
         redraw,
-        t(Translations.userManagement.SearchEmail)
+        t(Translations.userManagement.SearchName)
       ),
       render: (text: string) => (
         <span style={{ minWidth: "100px", display: "block" }}>{text}</span>

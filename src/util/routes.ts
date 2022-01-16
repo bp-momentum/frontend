@@ -246,6 +246,17 @@ const Routes = {
   },
 
   /**
+   * Fetch trainers
+   */
+  getTrainers: (): Route => {
+    return {
+      route: "/api/gettrainers",
+      needsAuth: true,
+      method: "GET",
+    };
+  },
+
+  /**
    * delete user
    */
   deleteUser: (props: { userId: string }): Route => {
@@ -255,6 +266,20 @@ const Routes = {
       method: "POST",
       body: {
         id: props.userId,
+      },
+    };
+  },
+
+  /**
+   * delete trainer
+   */
+  deleteTrainer: (props: { trainerId: string }): Route => {
+    return {
+      route: "/api/deletetrainer",
+      needsAuth: true,
+      method: "POST",
+      body: {
+        id: props.trainerId,
       },
     };
   },

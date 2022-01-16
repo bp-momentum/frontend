@@ -14,6 +14,8 @@ import api from "../../../util/api";
 import Routes from "../../../util/routes";
 import { getColumnSearchProps } from "./tableSearch";
 import { QuestionCircleOutlined } from "@ant-design/icons";
+import { t } from "i18next";
+import Translations from "../../../localization/translations";
 
 const { Option } = Select;
 
@@ -24,51 +26,71 @@ interface User {
   thisweeksactivity: number;
 }
 
-const ActiveUserTable = (props: { plans: Plan[] }) => {
+const ActiveUserTable = () => {
   const searchInput = createRef<Input>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [data, setData] = useState<User[]>([]);
+  const [plans, setPlans] = React.useState<Plan[]>([]);
   const [, draw] = useState({});
 
   const redraw = () => draw({});
 
   const deleteUser = async (id: string) => {
     api.execute(Routes.deleteUser({ userId: id })).then(() => {
-      message.success("User deleted");
+      message.success(t(Translations.userManagement.userDeleted));
       setLoading(false);
     });
   };
 
   useEffect(() => {
     if (!error) return;
-    message.error("An error occured!");
+    message.error(t(Translations.errors.unknownError));
   }, [error]);
+
+  const fetchUsers = async () => {
+    const response = await api.execute(Routes.getTrainerUsers());
+
+    if (!response.success) {
+      setError(true);
+      return [];
+    }
+    const userList: User[] = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    response.data.users.forEach((user: Record<string, any>) => {
+      userList.push({
+        key: user.id,
+        name: user.username,
+        trainingplan: user.plan,
+        thisweeksactivity: user.done_exercises || 0,
+      });
+    });
+    return userList;
+  };
+
+  const fetchPlans = async () => {
+    const response = await api.execute(Routes.getTrainingPlans());
+    if (!response.success) {
+      setError(true);
+      return [];
+    }
+    const planList: Plan[] = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    response.data.plans.forEach((plan: Record<string, any>) => {
+      planList.push({ id: plan.id, name: plan.name });
+    });
+    return planList;
+  };
 
   useEffect(() => {
     let isMounted = true;
     // load all the plans the user has access to from the API
     if (loading) {
-      // load all the users for a trainer
-      api.execute(Routes.getTrainerUsers()).then((response) => {
-        console.log(response);
+      Promise.all([fetchUsers(), fetchPlans()]).then(([users, plans]) => {
         if (!isMounted) return;
-        if (!response.success) {
-          setError(true);
-          return;
-        }
-        const userList: User[] = [];
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        response.data.users.forEach((user: Record<string, any>) => {
-          userList.push({
-            key: user.id,
-            name: user.username,
-            trainingplan: user.plan,
-            thisweeksactivity: user.done_exercises || 0,
-          });
-        });
-        setData(userList);
         setLoading(false);
+        setData(users);
+        setPlans(plans);
       });
     }
     return () => {
@@ -79,24 +101,28 @@ const ActiveUserTable = (props: { plans: Plan[] }) => {
 
   const columns = [
     {
-      title: "Name",
+      title: t(Translations.userManagement.name),
       dataIndex: "name",
       key: "name",
-      ...getColumnSearchProps("name", searchInput, redraw),
+      ...getColumnSearchProps(
+        "name",
+        searchInput,
+        redraw,
+        t(Translations.userManagement.SearchName)
+      ),
     },
     {
-      title: "Training Plan",
+      title: t(Translations.userManagement.trainingPlan),
       dataIndex: "trainingplan",
       key: "trainingplan",
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       render: (text: string, record: any) => (
         <Select
           showSearch
-          placeholder="Select a plan"
+          placeholder={t(Translations.userManagement.selectPlan)}
           optionFilterProp="children"
           defaultValue={text}
           onChange={async (value: string) => {
-            console.log(value);
             api
               .execute(
                 Routes.assignPlanToUser({
@@ -119,7 +145,7 @@ const ActiveUserTable = (props: { plans: Plan[] }) => {
             );
           }}
         >
-          {props.plans.map((plan: Plan) => (
+          {plans.map((plan: Plan) => (
             <Option key={plan.id} value={plan.id}>
               {plan.name}
             </Option>
@@ -128,7 +154,7 @@ const ActiveUserTable = (props: { plans: Plan[] }) => {
       ),
     },
     {
-      title: "This weeks activity",
+      title: t(Translations.userManagement.activity),
       dataIndex: "thisweeksactivity",
       key: "thisweeksactivity",
       render: (text: number) => (
@@ -140,19 +166,19 @@ const ActiveUserTable = (props: { plans: Plan[] }) => {
       ),
     },
     {
-      title: "Manage",
+      title: t(Translations.userManagement.manage),
       key: "manage",
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       render: (_: unknown, record: any) => (
         <Popconfirm
-          title="Are you sure to delete this user?"
+          title={t(Translations.userManagement.deleteUserConfirm)}
           onConfirm={() => deleteUser(record.key)}
-          okText="Yes"
-          cancelText="No"
+          okText={t(Translations.confirm.yes)}
+          cancelText={t(Translations.confirm.no)}
           icon={<QuestionCircleOutlined style={{ color: "red" }} />}
         >
           <Button danger value={record}>
-            Delete
+            {t(Translations.confirm.delete)}
           </Button>
         </Popconfirm>
       ),

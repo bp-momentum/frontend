@@ -1,22 +1,26 @@
 import { Button, Input, Space } from "antd";
 import React, { RefObject } from "react";
 import { SearchOutlined } from "@ant-design/icons";
+import Translations from "../../../localization/translations";
+import { t } from "i18next";
 
 export const getColumnSearchProps = (
   dataIndex: string,
   searchInput: RefObject<Input>,
-  redraw: () => void
+  redraw: () => void,
+  searchText: string
 ) => ({
   filterDropdown: ({
     setSelectedKeys,
     selectedKeys,
     confirm,
     clearFilters,
-  }: any) => (
+  }: // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  any) => (
     <div style={{ padding: 8 }}>
       <Input
         ref={searchInput}
-        placeholder={`Search ${dataIndex}`}
+        placeholder={searchText}
         value={selectedKeys[0]}
         onChange={(e) => {
           setSelectedKeys(e.target.value ? [e.target.value] : []);
@@ -38,7 +42,7 @@ export const getColumnSearchProps = (
           size="small"
           style={{ width: 90 }}
         >
-          Search
+          {t(Translations.userManagement.search)}
         </Button>
         <Button
           onClick={() => {
@@ -49,7 +53,7 @@ export const getColumnSearchProps = (
           size="small"
           style={{ width: 90 }}
         >
-          Reset
+          {t(Translations.userManagement.reset)}
         </Button>
       </Space>
     </div>
@@ -59,6 +63,7 @@ export const getColumnSearchProps = (
     <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
   ),
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onFilter: (value: string | number | boolean, record: any) =>
     typeof value === "string" && record[dataIndex]
       ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())

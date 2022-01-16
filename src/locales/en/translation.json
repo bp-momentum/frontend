@@ -117,5 +117,29 @@
     "rank": "Rank",
     "name": "Name",
     "score": "Score"
+  },
+  "user-management": {
+    "users": "Users",
+    "trainers": "Trainers",
+    "active": "Active",
+    "invited": "Invited",
+    "invite": "Invite",
+    "trainer-deleted": "Trainer Deleted",
+    "user-deleted": "User Deleted",
+    "name": "Name",
+    "email": "Email",
+    "manage": "Manage",
+    "delete-trainer-confirm": "Are you sure you want to delete this trainer?",
+    "delete-user-confirm": "Are you sure you want to delete this user?",
+    "training-plan": "Training Plan",
+    "select-plan": "Select a plan",
+    "activity": "This weeks activity",
+    "canceled-invite": "Invitation cancelled",
+    "revoke": "Revoke",
+    "cancel-invite-confirm": "Are you sure you want to cancel this invitation?",
+    "search": "Search",
+    "reset": "Reset",
+    "search-name": "Search by name",
+    "search-email": "Search by email"
   }
 }

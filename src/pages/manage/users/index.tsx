@@ -1,10 +1,7 @@
-import { Layout, message } from "antd";
+import { Layout } from "antd";
 import { Content } from "antd/lib/layout/layout";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Container from "../../../shared/container";
-import api from "../../../util/api";
-import Routes from "../../../util/routes";
-import { Plan } from "../../../api/plan";
 import { Tabs } from "antd";
 import "../../../styles/users.css";
 import ActiveUserTable from "./activeUserTable";
@@ -15,44 +12,20 @@ import {
   FormOutlined,
   RocketOutlined,
 } from "@ant-design/icons";
+import Helper from "../../../util/helper";
+import { useAppSelector } from "../../../redux/hooks";
+import { Navigate } from "react-router-dom";
+import ActiveTrainerTable from "./activeTrainerTable";
+import { t } from "i18next";
+import Translations from "../../../localization/translations";
 
 const { TabPane } = Tabs;
 
 const Users = () => {
-  const [loading, setLoading] = useState(0);
-  const [error, setError] = useState(false);
-  const [plans, setPlans] = React.useState<Plan[]>([]);
+  const token = useAppSelector((state) => state.token.token);
+  const type = (token && Helper.getAccountType(token)) || "user";
 
-  useEffect(() => {
-    let isMounted = true;
-    // load all the plans the user has access to from the API
-    if (loading === 0) {
-      api.execute(Routes.getTrainingPlans()).then((response) => {
-        if (!isMounted) return;
-        if (!response.success) {
-          setError(true);
-          return;
-        }
-        const planList: Plan[] = [];
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        response.data.plans.forEach((plan: Record<string, any>) => {
-          planList.push({ id: plan.id, name: plan.name });
-        });
-        setPlans(planList);
-        console.log(planList);
-        setLoading(1);
-      });
-    }
-    return () => {
-      // clean up
-      isMounted = false;
-    };
-  });
-
-  useEffect(() => {
-    if (!error) return;
-    message.error("An error occured!");
-  }, [error]);
+  if (type === "user") return <Navigate to="/" />;
 
   return (
     <Container currentPage="manage">
@@ -67,7 +40,11 @@ const Users = () => {
             alignItems: "center",
           }}
         >
-          <h1 style={{ fontSize: "40px", margin: "30px 0px" }}>Users</h1>
+          <h1 style={{ fontSize: "40px", margin: "30px 0px" }}>
+            {type === "trainer"
+              ? t(Translations.userManagement.users)
+              : t(Translations.userManagement.trainers)}
+          </h1>
           <div
             style={{
               background: "#EEEEEE",
@@ -82,18 +59,22 @@ const Users = () => {
                 tab={
                   <>
                     <RocketOutlined />
-                    Active
+                    {t(Translations.userManagement.active)}
                   </>
                 }
                 key="1"
               >
-                <ActiveUserTable plans={plans} />
+                {type === "trainer" ? (
+                  <ActiveUserTable />
+                ) : (
+                  <ActiveTrainerTable />
+                )}
               </TabPane>
               <TabPane
                 tab={
                   <>
                     <FormOutlined />
-                    Invited
+                    {t(Translations.userManagement.invited)}
                   </>
                 }
                 key="2"
@@ -104,7 +85,7 @@ const Users = () => {
                 tab={
                   <>
                     <PlusCircleOutlined />
-                    Invite
+                    {t(Translations.userManagement.invite)}
                   </>
                 }
                 key="3"

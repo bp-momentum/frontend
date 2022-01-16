@@ -1,18 +1,8 @@
-import {
-  Alert,
-  Button,
-  Col,
-  Form,
-  FormInstance,
-  Input,
-  Row,
-  Space,
-} from "antd";
+import { Alert, Button, Form, FormInstance, Input } from "antd";
 import { MailOutlined } from "@ant-design/icons";
 import React from "react";
 import Api from "../../../util/api";
 import Routes from "../../../util/routes";
-import Container from "../../../shared/container";
 import { useTranslation } from "react-i18next";
 import Translations from "../../../localization/translations";
 
