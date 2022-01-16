@@ -233,6 +233,56 @@ const Routes = {
       },
     };
   },
+
+  /**
+   * Fetch users
+   */
+  getTrainerUsers: (): Route => {
+    return {
+      route: "/api/gettrainersuser",
+      needsAuth: true,
+      method: "GET",
+    };
+  },
+
+  /**
+   * Fetch trainers
+   */
+  getTrainers: (): Route => {
+    return {
+      route: "/api/gettrainers",
+      needsAuth: true,
+      method: "GET",
+    };
+  },
+
+  /**
+   * delete user
+   */
+  deleteUser: (props: { userId: string }): Route => {
+    return {
+      route: "/api/deleteuser",
+      needsAuth: true,
+      method: "POST",
+      body: {
+        id: props.userId,
+      },
+    };
+  },
+
+  /**
+   * delete trainer
+   */
+  deleteTrainer: (props: { trainerId: string }): Route => {
+    return {
+      route: "/api/deletetrainer",
+      needsAuth: true,
+      method: "POST",
+      body: {
+        id: props.trainerId,
+      },
+    };
+  },
 };
 
 export default Routes;

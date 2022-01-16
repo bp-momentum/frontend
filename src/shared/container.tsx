@@ -33,7 +33,7 @@ type pages =
   | "profile"
   | "profile_overview"
   | "profile_stats"
-  | "manage_user"
+  | "manage_users"
   | "manage_plans"; // navigatable pages
 type pagesToRouteType = {
   [K in pages]: string;
@@ -46,7 +46,7 @@ const pageToRoute: pagesToRouteType = {
   profile_overview: "/profile/overview",
   profile_stats: "/profile/stats",
   manage: "/manage",
-  manage_user: "/manage/user",
+  manage_users: "/manage/users",
   manage_plans: "/manage/plans",
 };
 
@@ -84,7 +84,7 @@ export default function Container(props: ContainerProps): JSX.Element {
               icon={<SettingTwoTone twoToneColor={props.color} />}
             >
               <Menu.Item
-                key="manage_user"
+                key="manage_users"
                 icon={<TeamOutlined style={{ color: color }} />}
               >
                 {t(Translations.tabBar.user)}

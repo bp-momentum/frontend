@@ -117,5 +117,29 @@
     "rank": "Rang",
     "name": "Name",
     "score": "Punktzahl"
+  },
+  "user-management": {
+    "users": "Benutzer*innen",
+    "trainers": "Trainer*innen",
+    "active": "Aktiv",
+    "invited": "Eingeladen",
+    "invite": "Einladen",
+    "trainer-deleted": "Trainer*in wurde gelöscht!",
+    "user-deleted": "Benutzer*in wurde gelöscht!",
+    "name": "Name",
+    "email": "Email",
+    "manage": "Verwalten",
+    "delete-trainer-confirm": "Bist du sicher, dass du diese/n Trainer*in löschen möchtest?",
+    "delete-user-confirm": "Bist du sicher, dass du diese/n Benutzer*in löschen möchtest?",
+    "training-plan": "Trainingsplan",
+    "select-plan": "Wähle einen Plan",
+    "activity": "Wöchentliche Aktivität",
+    "canceled-invite": "Einladung abgebrochen",
+    "revoke": "Widerrufen",
+    "cancel-invite-confirm": "Bist du sicher, dass du diese Einladung abbrechen möchtest?",
+    "search": "Suche",
+    "reset": "Zurücksetzen",
+    "search-name": "Suche nach Namen",
+    "search-email": "Suche nach Email"
   }
 }
