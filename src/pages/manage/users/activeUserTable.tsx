@@ -39,7 +39,7 @@ const ActiveUserTable = () => {
   const deleteUser = async (id: string) => {
     api.execute(Routes.deleteUser({ userId: id })).then(() => {
       message.success(t(Translations.userManagement.userDeleted));
-      setLoading(false);
+      setLoading(true);
     });
   };
 

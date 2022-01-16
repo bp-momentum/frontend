@@ -25,7 +25,7 @@ const ActiveTrainerTable = () => {
   const deleteTrainer = async (id: string) => {
     api.execute(Routes.deleteTrainer({ trainerId: id })).then(() => {
       message.success(t(Translations.userManagement.trainerDeleted));
-      setLoading(false);
+      setLoading(true);
     });
   };
 
