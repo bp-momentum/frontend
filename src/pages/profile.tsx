@@ -524,10 +524,10 @@ const Profile = (): JSX.Element => {
               >
                 <Row justify="space-around">
                   <Text>{t(Translations.user.trainer)}</Text>
-                  <Text style={{ marginRight: "5px" }}>
+                  <Text style={{ marginRight: "5px", whiteSpace: "pre-wrap" }}>
                     {profileData.trainerName}
                     <br />
-                    {profileData.trainerAddress}
+                    {profileData.trainerAddress.replaceAll(", ", "\n")}
                     <br />
                     <ButtonContact
                       type={ContactType.phone}
