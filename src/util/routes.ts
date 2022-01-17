@@ -283,6 +283,71 @@ const Routes = {
       },
     };
   },
+
+  /**
+   * Get user's profile information.
+   */
+  getProfile: (): Route => {
+    return {
+      route: "/api/getprofile",
+      method: "GET",
+      needsAuth: true,
+    };
+  },
+
+  /**
+   * Get trainer's contact information.
+   * This can only be called by an user.
+   */
+  getTrainerContact: (): Route => {
+    return {
+      route: "/api/gettrainercontact",
+      method: "GET",
+      needsAuth: true,
+    };
+  },
+
+  /**
+   * Changes the username of the current account.
+   */
+  changeUsername: (props: { username: string }): Route => {
+    return {
+      route: "/api/changeusername",
+      method: "POST",
+      needsAuth: true,
+      body: {
+        username: props.username,
+      },
+    };
+  },
+
+  /**
+   * Changes the avatar of the current account.
+   */
+  changeAvatar: (props: { avatarId: number }): Route => {
+    return {
+      route: "/api/changeavatar",
+      method: "POST",
+      needsAuth: true,
+      body: {
+        avatar: props.avatarId,
+      },
+    };
+  },
+
+  /**
+   * Changes the motivation status of the current account.
+   */
+  changeMotivation: (props: { motivation: string }): Route => {
+    return {
+      route: "/api/changemotivation",
+      method: "POST",
+      needsAuth: true,
+      body: {
+        motivation: props.motivation,
+      },
+    };
+  },
 };
 
 export default Routes;

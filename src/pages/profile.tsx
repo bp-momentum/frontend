@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import Container from "../shared/container";
-import { Calendar, Card, Col, Layout, Popover, Row } from "antd";
+import { Calendar, Card, Col, Layout, message, Popover, Row } from "antd";
 import { Content } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { setRefreshToken, setToken } from "../redux/token/tokenSlice";
 import Helper from "../util/helper";
 import ReactCardFlip from "react-card-flip";
 import Text from "antd/es/typography/Text";
@@ -18,6 +19,8 @@ import {
 import "../styles/profile.css";
 import Translations from "../localization/translations";
 import ButtonContact, { ContactType } from "../shared/button_contact";
+import api from "../util/api";
+import Routes from "../util/routes";
 
 const RatingStars = (props: { rating: number }): JSX.Element => {
   return (
@@ -105,37 +108,80 @@ interface ProfileData {
   accountCreated: number;
   motivation: string;
   trainerName: string;
-  trainerAddress1: string;
-  trainerAddress2: string;
+  trainerAddress: string;
   trainerPhone: string;
   trainerEmail: string;
-  avatarUrl: string;
+  avatarId: number;
 }
+
+const copyProfileData = (
+  data: ProfileData,
+  newData: {
+    dailyRating?: number;
+    minutesTrainedGoal?: number;
+    doneExercises?: DoneExercise[];
+    accountCreated?: number;
+    motivation?: string;
+    trainerName?: string;
+    trainerAddress?: string;
+    trainerPhone?: string;
+    trainerEmail?: string;
+    avatarId?: number;
+  }
+): ProfileData => {
+  return {
+    dailyRating: newData.dailyRating ?? data.dailyRating,
+    avatarId: newData.avatarId ?? data.avatarId,
+    motivation: newData.motivation ?? data.motivation,
+    trainerName: newData.trainerName ?? data.trainerName,
+    minutesTrainedGoal: newData.minutesTrainedGoal ?? data.minutesTrainedGoal,
+    doneExercises: newData.doneExercises ?? data.doneExercises,
+    trainerPhone: newData.trainerPhone ?? data.trainerPhone,
+    trainerEmail: newData.trainerEmail ?? data.trainerEmail,
+    accountCreated: newData.accountCreated ?? data.accountCreated,
+    trainerAddress: newData.trainerAddress ?? data.trainerAddress,
+  };
+};
 
 const Profile = (): JSX.Element => {
   const { t, i18n } = useTranslation();
   const token = useAppSelector((state) => state.token.token);
+  const dispatch = useAppDispatch();
   const [userFlipped, setUserFlipped] = React.useState<boolean>(false);
   const [popoverVisible, setPopoverVisible] = React.useState<boolean>(false);
   const [profileData, setProfileData] = React.useState<ProfileData | null>(
     null
   );
+  const [newAvatarId, setNewAvatarId] = React.useState<number>(0);
+  const [newUsername, setNewUsername] = React.useState<string>("");
+  const [newMotivation, setNewMotivation] = React.useState<string>("");
 
-  const avatarUrls: string[] = [];
+  const avatarIds: number[] = [];
   for (let i = 1; i <= 50; i++) {
-    avatarUrls.push(`https://cdn.geoscribble.de/avatars/avatar_${i}.png`);
+    avatarIds.push(i);
   }
 
   useEffect(() => {
     if (!profileData) {
-      loadProfile();
+      loadProfile().catch(console.error);
     }
   });
 
-  const loadProfile = () => {
+  const loadProfile = async () => {
+    const profile = await api.execute(Routes.getProfile());
+    const trainerContact = await api.execute(Routes.getTrainerContact());
+
+    if (!profile.success) {
+      message.error(profile.description);
+    }
+
+    if (!trainerContact.success) {
+      message.error(trainerContact.description);
+    }
+
     setProfileData({
-      accountCreated: 1640991600000,
-      avatarUrl: avatarUrls[0],
+      accountCreated: profile.data.first_login,
+      avatarId: profile.data.avatar,
       dailyRating: 4,
       doneExercises: [
         {
@@ -150,29 +196,66 @@ const Profile = (): JSX.Element => {
         },
       ],
       minutesTrainedGoal: 45,
-      motivation: "Meine Gesundheit!",
-      trainerAddress1: "Einbahnstr. 187",
-      trainerAddress2: "12345 Berlin",
-      trainerEmail: "julian@hilfmir.de",
-      trainerName: "Dr. med-habil. Julian Imhof",
-      trainerPhone: "0123456789",
+      motivation: profile.data.motivation,
+      trainerAddress: trainerContact.data.address,
+      trainerEmail: trainerContact.data.email,
+      trainerName: trainerContact.data.name,
+      trainerPhone: trainerContact.data.telephone,
     });
+    setNewAvatarId(profile.data.avatar);
+    setNewMotivation(profile.data.motivation);
+    setNewUsername(Helper.getUserName(token ?? ""));
   };
 
   if (!profileData) {
     return <LoadingOutlined />;
   }
 
-  let newUsername = Helper.getUserName(token ?? "");
-  let newMotivation = profileData?.motivation;
-  const saveUsername = () => {
-    // TODO
-    console.log("Saving new username: " + newUsername);
+  const getAvatarUrl = (id: number): string => {
+    return `https://cdn.geoscribble.de/avatars/avatar_${id}.png`;
   };
 
-  const saveMotivation = () => {
-    // TODO
-    console.log("Saving new motivation: " + newMotivation);
+  const saveUsername = async () => {
+    if (newUsername === Helper.getUserName(token ?? "")) {
+      return;
+    }
+    const result = await api.execute(
+      Routes.changeUsername({ username: newUsername })
+    );
+    if (!result.success) {
+      message.error(result.description);
+    }
+
+    const sessionToken = result.data.session_token;
+    const refreshToken = result.data.refresh_token;
+    dispatch(setToken(sessionToken));
+    dispatch(setRefreshToken(refreshToken));
+  };
+
+  const saveMotivation = async () => {
+    if (newMotivation === profileData.motivation) {
+      return;
+    }
+    const result = await api.execute(
+      Routes.changeMotivation({ motivation: newMotivation })
+    );
+    if (!result.success) {
+      message.error(result.description);
+    }
+    setProfileData(copyProfileData(profileData, { motivation: newMotivation }));
+  };
+
+  const saveNewAvatar = async () => {
+    if (newAvatarId === profileData.avatarId) {
+      return;
+    }
+    const result = await api.execute(
+      Routes.changeAvatar({ avatarId: newAvatarId })
+    );
+    if (!result.success) {
+      message.error(result.description);
+    }
+    setProfileData(copyProfileData(profileData, { avatarId: newAvatarId }));
   };
 
   const onClickShare = () => {
@@ -188,11 +271,6 @@ const Profile = (): JSX.Element => {
   const onClickAchievements = () => {
     // TODO
     console.log("Achievements");
-  };
-
-  const saveNewAvatar = (url: string) => {
-    // TODO
-    console.log("Save new avatar: " + url);
   };
 
   const dailyRating = profileData.dailyRating;
@@ -225,8 +303,8 @@ const Profile = (): JSX.Element => {
             <Row justify="center">
               <img
                 alt="Avatar"
-                key={profileData.avatarUrl}
-                src={profileData.avatarUrl}
+                key={getAvatarUrl(profileData.avatarId)}
+                src={getAvatarUrl(profileData.avatarId)}
                 style={{
                   height: "160px",
                   padding: "20px 10px 0 10px",
@@ -291,8 +369,8 @@ const Profile = (): JSX.Element => {
                     <Row>
                       <img
                         alt="Avatar"
-                        key={profileData.avatarUrl}
-                        src={profileData.avatarUrl}
+                        key={getAvatarUrl(profileData.avatarId)}
+                        src={getAvatarUrl(profileData.avatarId)}
                         style={{
                           height: "100px",
                           padding: "20px 10px 0 10px",
@@ -341,9 +419,10 @@ const Profile = (): JSX.Element => {
                         marginTop: "-20px",
                         marginRight: "-20px",
                       }}
-                      onClick={() => {
-                        saveUsername();
-                        saveMotivation();
+                      onClick={async () => {
+                        await saveUsername();
+                        await saveMotivation();
+                        await saveNewAvatar();
                         setUserFlipped(false);
                       }}
                       underline
@@ -358,16 +437,16 @@ const Profile = (): JSX.Element => {
                         title={t(Translations.profile.selectNewAvatar)}
                         content={
                           <Row gutter={16}>
-                            {avatarUrls.map((url) => {
+                            {avatarIds.map((id) => {
                               return (
                                 <img
                                   alt="Avatar"
                                   onClick={() => {
-                                    saveNewAvatar(url);
+                                    setNewAvatarId(id);
                                     setPopoverVisible(false);
                                   }}
-                                  key={url}
-                                  src={url}
+                                  key={id}
+                                  src={getAvatarUrl(id)}
                                   style={{
                                     height: "60px",
                                     padding: "10px 5px 0 5px",
@@ -387,8 +466,8 @@ const Profile = (): JSX.Element => {
                           onClick={() => {
                             setPopoverVisible(!popoverVisible);
                           }}
-                          key={profileData.avatarUrl}
-                          src={profileData.avatarUrl}
+                          key={newAvatarId}
+                          src={getAvatarUrl(newAvatarId)}
                           style={{
                             height: "100px",
                             padding: "20px 10px 0 10px",
@@ -403,10 +482,12 @@ const Profile = (): JSX.Element => {
                         <Text
                           style={{ fontSize: 24 }}
                           editable={{
-                            onChange: (v) => (newUsername = v),
+                            onChange: (v) => {
+                              setNewUsername(v);
+                            },
                           }}
                         >
-                          {Helper.getUserName(token ?? "")}
+                          {newUsername}
                         </Text>
                         <Text style={{ fontSize: 15 }}>
                           {accountCreatedMonths > 0
@@ -422,10 +503,10 @@ const Profile = (): JSX.Element => {
                     </Text>
                     <br />
                     <Text
-                      editable={{ onChange: (v) => (newMotivation = v) }}
+                      editable={{ onChange: (v) => setNewMotivation(v) }}
                       style={{ fontSize: 20 }}
                     >
-                      {profileData.motivation}
+                      {newMotivation}
                     </Text>
                   </Col>
                 </Card>
@@ -446,9 +527,7 @@ const Profile = (): JSX.Element => {
                   <Text style={{ marginRight: "5px" }}>
                     {profileData.trainerName}
                     <br />
-                    {profileData.trainerAddress1}
-                    <br />
-                    {profileData.trainerAddress2}
+                    {profileData.trainerAddress}
                     <br />
                     <ButtonContact
                       type={ContactType.phone}
