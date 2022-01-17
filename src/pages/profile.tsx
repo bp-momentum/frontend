@@ -95,16 +95,20 @@ const SiderButton = (props: {
   );
 };
 
-interface DoneExercise {
-  id: string;
-  name: string;
-  duration: number;
+interface Exercise {
+  id: number;
+  date: string;
+  done: boolean;
+  sets: number;
+  repeats_per_set: number;
+  exercise_plan_id: number;
+  name?: string;
 }
 
 interface ProfileData {
   dailyRating: number;
   minutesTrainedGoal: number;
-  doneExercises: DoneExercise[];
+  doneExercises: Exercise[];
   accountCreated: number;
   motivation: string;
   trainerName: string;
@@ -112,6 +116,7 @@ interface ProfileData {
   trainerPhone: string;
   trainerEmail: string;
   avatarId: number;
+  minutesTrained: number;
 }
 
 const copyProfileData = (
@@ -119,7 +124,7 @@ const copyProfileData = (
   newData: {
     dailyRating?: number;
     minutesTrainedGoal?: number;
-    doneExercises?: DoneExercise[];
+    doneExercises?: Exercise[];
     accountCreated?: number;
     motivation?: string;
     trainerName?: string;
@@ -127,6 +132,7 @@ const copyProfileData = (
     trainerPhone?: string;
     trainerEmail?: string;
     avatarId?: number;
+    minutesTrained?: number;
   }
 ): ProfileData => {
   return {
@@ -140,6 +146,7 @@ const copyProfileData = (
     trainerEmail: newData.trainerEmail ?? data.trainerEmail,
     accountCreated: newData.accountCreated ?? data.accountCreated,
     trainerAddress: newData.trainerAddress ?? data.trainerAddress,
+    minutesTrained: newData.minutesTrained ?? data.minutesTrained,
   };
 };
 
@@ -167,9 +174,21 @@ const Profile = (): JSX.Element => {
     }
   });
 
+  const getApproximateExerciseDurationSeconds = (
+    exercise: Exercise
+  ): number => {
+    return exercise.sets * 30 + exercise.sets * exercise.repeats_per_set * 10;
+  };
+  const getApproximateExerciseDurationMinutes = (
+    exercise: Exercise
+  ): number => {
+    return Math.ceil(getApproximateExerciseDurationSeconds(exercise) / 60);
+  };
+
   const loadProfile = async () => {
     const profile = await api.execute(Routes.getProfile());
     const trainerContact = await api.execute(Routes.getTrainerContact());
+    const exercises = await api.execute(Routes.getDoneExercises());
 
     if (!profile.success) {
       message.error(profile.description);
@@ -179,23 +198,41 @@ const Profile = (): JSX.Element => {
       message.error(trainerContact.description);
     }
 
+    if (!exercises.success) {
+      message.error(exercises.description);
+    }
+
+    const todayDayName = new Date()
+      .toLocaleDateString("en-GB", { weekday: "long" })
+      .toLowerCase();
+    const doneExercises: Exercise[] = exercises.data.exercises;
+    let trainedTodayReal = 0;
+    let trainDayGoal = 0;
+    for (const key in doneExercises) {
+      const exercise: Exercise = doneExercises[key];
+      const info = await api.execute(
+        Routes.getExercise({ id: exercise.id.toString() })
+      );
+      if (info.success) {
+        exercise.name = info.data.title;
+      }
+      const duration = getApproximateExerciseDurationSeconds(exercise);
+      if (exercise.date === todayDayName) {
+        trainDayGoal += duration;
+        if (exercise.done) {
+          trainedTodayReal += duration;
+        }
+      }
+    }
+    const dailyRating = (trainedTodayReal / trainDayGoal) * 5;
+
     setProfileData({
       accountCreated: profile.data.first_login,
       avatarId: profile.data.avatar,
-      dailyRating: 4,
-      doneExercises: [
-        {
-          id: "1",
-          name: "Liegestütze",
-          duration: 17 * 60 * 1000,
-        },
-        {
-          id: "2",
-          name: "Kniebeuge",
-          duration: 13 * 60 * 1000,
-        },
-      ],
-      minutesTrainedGoal: 45,
+      dailyRating: dailyRating,
+      doneExercises: doneExercises,
+      minutesTrainedGoal: Math.ceil(trainDayGoal / 60),
+      minutesTrained: Math.ceil(trainDayGoal / 60),
       motivation: profile.data.motivation,
       trainerAddress: trainerContact.data.address,
       trainerEmail: trainerContact.data.email,
@@ -272,16 +309,6 @@ const Profile = (): JSX.Element => {
     // TODO
     console.log("Achievements");
   };
-
-  const dailyRating = profileData.dailyRating;
-
-  const minutesTrainedGoal = profileData.minutesTrainedGoal;
-  const doneExercises = profileData.doneExercises;
-
-  const minutesTrained =
-    doneExercises.map((e) => e.duration).reduce((e1, e2) => e1 + e2) /
-    1000 /
-    60;
 
   const accountCreated = profileData.accountCreated;
   const accountCreatedDiff = Date.now() - accountCreated;
@@ -626,33 +653,37 @@ const Profile = (): JSX.Element => {
                       year: "numeric",
                     })}
                   </Row>
-                  <RatingStars rating={dailyRating} />
+                  <RatingStars rating={profileData.dailyRating} />
                   <Row justify="center" style={{ marginTop: "15px" }}>
                     {t(Translations.profile.activeMinutes, {
-                      active: minutesTrained,
-                      goal: minutesTrainedGoal,
+                      active: profileData.minutesTrained,
+                      goal: profileData.minutesTrainedGoal,
                     })}
                   </Row>
                   <Row>
                     <Col style={{ marginTop: "15px", marginLeft: "15px" }}>
-                      {doneExercises.map((e) => {
-                        return (
-                          <Text key={e.id}>
-                            {e.name}
-                            <br />
-                          </Text>
-                        );
-                      })}
+                      {profileData.doneExercises
+                        .filter((e) => e.done)
+                        .map((e) => {
+                          return (
+                            <Text key={e.id}>
+                              {e.name}
+                              <br />
+                            </Text>
+                          );
+                        })}
                     </Col>
                     <Col style={{ marginTop: "15px", marginLeft: "80px" }}>
-                      {doneExercises.map((e) => {
-                        return (
-                          <Text key={e.id}>
-                            {e.duration / 1000 / 60} min
-                            <br />
-                          </Text>
-                        );
-                      })}
+                      {profileData.doneExercises
+                        .filter((e) => e.done)
+                        .map((e) => {
+                          return (
+                            <Text key={e.id}>
+                              {getApproximateExerciseDurationMinutes(e)} min
+                              <br />
+                            </Text>
+                          );
+                        })}
                     </Col>
                   </Row>
                   <Row justify="end">
