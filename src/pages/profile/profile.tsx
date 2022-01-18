@@ -22,7 +22,7 @@ import Routes from "../../util/routes";
 import ExerciseCache from "../../util/exercise_cache";
 import RatingStars from "./widgets/rating_stars";
 import SiderButton from "./widgets/sider_button";
-import Sider from "antd/lib/layout/Sider";
+const { Sider } = Layout;
 
 interface Exercise {
   id: number;
