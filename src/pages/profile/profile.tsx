@@ -2,13 +2,12 @@ import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import Container from "../../shared/container";
 import { Calendar, Card, Col, Layout, message, Popover, Row, Spin } from "antd";
-import { Content } from "antd/es/layout/layout";
-import Sider from "antd/es/layout/Sider";
+import { Content } from "antd/lib/layout/layout";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { setRefreshToken, setToken } from "../../redux/token/tokenSlice";
 import Helper from "../../util/helper";
 import ReactCardFlip from "react-card-flip";
-import Text from "antd/es/typography/Text";
+import Text from "antd/lib/typography/Text";
 import {
   LeftOutlined,
   LoadingOutlined,
@@ -23,6 +22,7 @@ import Routes from "../../util/routes";
 import ExerciseCache from "../../util/exercise_cache";
 import RatingStars from "./widgets/rating_stars";
 import SiderButton from "./widgets/sider_button";
+import Sider from "antd/lib/layout/Sider";
 
 interface Exercise {
   id: number;
@@ -178,6 +178,7 @@ const Profile = (): JSX.Element => {
       <Container currentPage="profile" color="blue">
         <Layout style={{ height: "100%" }}>
           <Sider
+            data-testid="profile-sider"
             style={{
               backgroundColor: "#466995",
               color: "white",
@@ -185,7 +186,7 @@ const Profile = (): JSX.Element => {
             }}
           />
 
-          <Content>
+          <Content data-testid="loading-view">
             <Col
               style={{
                 height: "100%",
@@ -305,6 +306,7 @@ const Profile = (): JSX.Element => {
     <Container currentPage="profile" color="blue">
       <Layout style={{ height: "100%" }}>
         <Sider
+          data-testid="profile-sider"
           style={{
             backgroundColor: "#466995",
             color: "white",
@@ -374,6 +376,7 @@ const Profile = (): JSX.Element => {
                         marginRight: "-20px",
                       }}
                       onClick={() => setUserFlipped(true)}
+                      data-testid="edit-profile"
                       underline
                     >
                       {t(Translations.profile.edit)}
@@ -381,6 +384,7 @@ const Profile = (): JSX.Element => {
                     <Row>
                       <img
                         alt="Avatar"
+                        data-testid="user-avatar"
                         key={getAvatarUrl(profileData.avatarId)}
                         src={getAvatarUrl(profileData.avatarId)}
                         style={{
@@ -526,6 +530,7 @@ const Profile = (): JSX.Element => {
             </Col>
             <Col className="gutter-row" span={10}>
               <Card
+                data-testid="trainer-information"
                 style={{
                   marginTop: "30px",
                   borderRadius: "5px",
@@ -558,6 +563,7 @@ const Profile = (): JSX.Element => {
             </Col>
             <Col className="gutter-row" span={10}>
               <Card
+                data-testid="activity-calendar"
                 style={{
                   marginTop: "40px",
                   borderRadius: "5px",
@@ -671,6 +677,7 @@ const Profile = (): JSX.Element => {
             </Col>
             <Col className="gutter-row" span={10}>
               <Card
+                data-testid="activity-overview"
                 style={{
                   marginTop: "40px",
                   borderRadius: "5px",

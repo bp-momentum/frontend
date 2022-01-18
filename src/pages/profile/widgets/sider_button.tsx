@@ -1,5 +1,5 @@
 import { Col, Row } from "antd";
-import Text from "antd/es/typography/Text";
+import Text from "antd/lib/typography/Text";
 import React from "react";
 
 const SiderButton = (props: {
