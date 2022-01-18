@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import Container from "../shared/container";
+import Container from "../../shared/container";
 import { Calendar, Card, Col, Layout, message, Popover, Row, Spin } from "antd";
 import { Content } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { setRefreshToken, setToken } from "../redux/token/tokenSlice";
-import Helper from "../util/helper";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { setRefreshToken, setToken } from "../../redux/token/tokenSlice";
+import Helper from "../../util/helper";
 import ReactCardFlip from "react-card-flip";
 import Text from "antd/es/typography/Text";
 import {
@@ -14,87 +14,15 @@ import {
   LoadingOutlined,
   RightOutlined,
   ShareAltOutlined,
-  StarFilled,
 } from "@ant-design/icons";
-import "../styles/profile.css";
-import Translations from "../localization/translations";
-import ButtonContact, { ContactType } from "../shared/button_contact";
-import api from "../util/api";
-import Routes from "../util/routes";
-import ExerciseCache from "../util/exercise_cache";
-
-const RatingStars = (props: { rating: number }): JSX.Element => {
-  return (
-    <Row style={{ alignItems: "end" }} justify="space-around">
-      <StarFilled
-        style={{
-          fontSize: 65,
-          color: props.rating > 0 ? "#FFCC33" : "#C4C4C4",
-        }}
-      />
-      <StarFilled
-        style={{
-          fontSize: 75,
-          color: props.rating > 1 ? "#FFCC33" : "#C4C4C4",
-        }}
-      />
-      <StarFilled
-        style={{
-          fontSize: 80,
-          color: props.rating > 2 ? "#FFCC33" : "#C4C4C4",
-        }}
-      />
-      <StarFilled
-        style={{
-          fontSize: 75,
-          color: props.rating > 3 ? "#FFCC33" : "#C4C4C4",
-        }}
-      />
-      <StarFilled
-        style={{
-          fontSize: 65,
-          color: props.rating > 4 ? "#FFCC33" : "#C4C4C4",
-        }}
-      />
-    </Row>
-  );
-};
-
-const SiderButton = (props: {
-  onClick: VoidFunction;
-  image: string;
-  title: string;
-  rotation: number;
-  color: string;
-}) => {
-  return (
-    <Row justify="center">
-      <div
-        onClick={props.onClick}
-        style={{
-          marginBottom: "40px",
-          cursor: "pointer",
-          backgroundColor: props.color,
-          width: "140px",
-          height: "140px",
-          borderRadius: "20px",
-          color: "black",
-          transform: `rotate(${props.rotation}deg)`,
-          justifyContent: "center",
-        }}
-      >
-        <Col style={{ paddingTop: "10px" }}>
-          <Row justify="center">
-            <img src={props.image} height={82} alt={`${props.title} Icon`} />
-          </Row>
-          <Row justify="center">
-            <Text style={{ fontSize: "26" }}>{props.title}</Text>
-          </Row>
-        </Col>
-      </div>
-    </Row>
-  );
-};
+import "../../styles/profile.css";
+import Translations from "../../localization/translations";
+import ButtonContact, { ContactType } from "../../shared/button_contact";
+import api from "../../util/api";
+import Routes from "../../util/routes";
+import ExerciseCache from "../../util/exercise_cache";
+import RatingStars from "./widgets/rating_stars";
+import SiderButton from "./widgets/sider_button";
 
 interface Exercise {
   id: number;

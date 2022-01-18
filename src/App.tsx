@@ -15,7 +15,7 @@ import ManagePlans from "./pages/manage/plans";
 import Exercises from "./pages/exercises";
 import Leaderboard from "./pages/leaderboard";
 import Users from "./pages/manage/users";
-import Profile from "./pages/profile";
+import Profile from "./pages/profile/profile";
 
 // Basic App that is just used to Route to different pages
 function App(): JSX.Element {
