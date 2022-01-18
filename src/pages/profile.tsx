@@ -232,7 +232,7 @@ const Profile = (): JSX.Element => {
       dailyRating: dailyRating,
       doneExercises: doneExercises,
       minutesTrainedGoal: Math.ceil(trainDayGoal / 60),
-      minutesTrained: Math.ceil(trainDayGoal / 60),
+      minutesTrained: Math.ceil(trainedTodayReal / 60),
       motivation: profile.data.motivation,
       trainerAddress: trainerContact.data.address,
       trainerEmail: trainerContact.data.email,
