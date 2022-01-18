@@ -26,7 +26,7 @@ describe("<Profile/>", () => {
     expect(loading).toBeVisible();
   });
 
-  test("Profile sider is visible", async () => {
+  test("Profile sider is visible from beginning", async () => {
     renderProfile();
 
     const sider = await screen.findByTestId("profile-sider");
@@ -34,48 +34,38 @@ describe("<Profile/>", () => {
     expect(sider).toBeVisible();
   });
 
-  test("Edit Profile Button is visible", async () => {
+  test("Cards are visible", async () => {
     renderProfile();
 
-    const button = await screen.findByTestId("edit-profile", undefined, {
+    const profile = await screen.findByTestId("profile-card", undefined, {
       timeout: 10000,
     });
-    expect(button).toBeInTheDocument();
-    expect(button).toBeVisible();
-  });
+    expect(profile).toBeInTheDocument();
+    expect(profile).toBeVisible();
 
-  test("User avatar is visible", async () => {
-    renderProfile();
+    const editButton = await screen.findByTestId("edit-profile", undefined, {
+      timeout: 10000,
+    });
+    expect(editButton).toBeInTheDocument();
+    expect(editButton).toBeVisible();
 
     const avatar = await screen.findByTestId("user-avatar", undefined, {
       timeout: 10000,
     });
     expect(avatar).toBeInTheDocument();
     expect(avatar).toBeVisible();
-  });
-
-  test("Trainer information card is visible", async () => {
-    renderProfile();
 
     const info = await screen.findByTestId("trainer-information", undefined, {
       timeout: 10000,
     });
     expect(info).toBeInTheDocument();
     expect(info).toBeVisible();
-  });
-
-  test("Activity calendar card is visible", async () => {
-    renderProfile();
 
     const calendar = await screen.findByTestId("activity-calendar", undefined, {
       timeout: 10000,
     });
     expect(calendar).toBeInTheDocument();
     expect(calendar).toBeVisible();
-  });
-
-  test("Activity overview card is visible", async () => {
-    renderProfile();
 
     const overview = await screen.findByTestId("activity-overview", undefined, {
       timeout: 10000,

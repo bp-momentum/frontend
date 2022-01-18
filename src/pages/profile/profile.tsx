@@ -361,6 +361,7 @@ const Profile = (): JSX.Element => {
                 flipSpeedFrontToBack={1.0}
               >
                 <Card
+                  data-testid="profile-card"
                   style={{
                     borderRadius: "5px",
                     borderColor: "black",
