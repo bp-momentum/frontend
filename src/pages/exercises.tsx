@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { Exercise } from "../api/exercise";
 import api from "../util/api";
 import Routes from "../util/routes";
 import Container from "../shared/container";
@@ -16,6 +15,7 @@ import {
 import Translations from "../localization/translations";
 import { t } from "i18next";
 import { PlayCircleOutlined } from "@ant-design/icons";
+import ExerciseCache from "../util/exercise_cache";
 
 const { Content } = Layout;
 const dayOrder = [
@@ -27,6 +27,17 @@ const dayOrder = [
   "saturday",
   "sunday",
 ];
+
+interface Exercise {
+  id: number;
+  sets: number;
+  repeats_per_set: number;
+  date: string;
+  activated: boolean;
+  description: string;
+  title: string;
+  video: string;
+}
 
 const isPast = (dayName: string): boolean => {
   const now = new Date();
@@ -200,16 +211,16 @@ const Exercises = (): JSX.Element => {
     for (const i in exerciseList) {
       const exercise = exerciseList[i];
       const id = exercise.id;
-      const res = await api.execute(Routes.getExercise({ id: id }));
+      const ex = await ExerciseCache.getExerciseFromId(id);
       exercises.push({
         id: id,
         sets: exercise.sets,
         repeats_per_set: exercise.repeats_per_set,
         date: exercise.date,
-        description: res.data.description,
-        title: res.data.title,
-        activated: res.data.activated,
-        video: res.data.video,
+        description: ex.description,
+        title: ex.title,
+        activated: ex.activated,
+        video: ex.video,
       });
     }
 

@@ -21,6 +21,7 @@ import Translations from "../localization/translations";
 import ButtonContact, { ContactType } from "../shared/button_contact";
 import api from "../util/api";
 import Routes from "../util/routes";
+import ExerciseCache from "../util/exercise_cache";
 
 const RatingStars = (props: { rating: number }): JSX.Element => {
   return (
@@ -191,21 +192,23 @@ const Profile = (): JSX.Element => {
   };
 
   const loadProfile = async () => {
-    const profile = await api.execute(Routes.getProfile());
-    const trainerContact = await api.execute(Routes.getTrainerContact());
-    const exercises = await api.execute(Routes.getDoneExercises());
+    const results = await Promise.all([
+      api.execute(Routes.getProfile()),
+      api.execute(Routes.getTrainerContact()),
+      api.execute(Routes.getDoneExercises()),
+    ]);
 
-    if (!profile.success) {
-      message.error(profile.description);
+    for (const i in results) {
+      const result = results[i];
+      if (!result.success) {
+        message.error(result.description);
+        return;
+      }
     }
 
-    if (!trainerContact.success) {
-      message.error(trainerContact.description);
-    }
-
-    if (!exercises.success) {
-      message.error(exercises.description);
-    }
+    const profile = results[0];
+    const trainerContact = results[1];
+    const exercises = results[2];
 
     const todayDayName = getCurrentDayName();
     const doneExercises: Exercise[] = exercises.data.exercises;
@@ -213,12 +216,7 @@ const Profile = (): JSX.Element => {
     let trainDayGoal = 0;
     for (const key in doneExercises) {
       const exercise: Exercise = doneExercises[key];
-      const info = await api.execute(
-        Routes.getExercise({ id: exercise.id.toString() })
-      );
-      if (info.success) {
-        exercise.name = info.data.title;
-      }
+      exercise.name = await ExerciseCache.getExerciseNameFromId(exercise.id);
       const duration = getApproximateExerciseDurationSeconds(exercise);
       if (exercise.date === todayDayName) {
         trainDayGoal += duration;
