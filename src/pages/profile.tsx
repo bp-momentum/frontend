@@ -1,7 +1,17 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import Container from "../shared/container";
-import { Calendar, Card, Col, Layout, message, Popover, Row } from "antd";
+import {
+  Calendar,
+  Card,
+  Col,
+  Layout,
+  message,
+  Popover,
+  Row,
+  Space,
+  Spin,
+} from "antd";
 import { Content } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
@@ -184,6 +194,11 @@ const Profile = (): JSX.Element => {
   ): number => {
     return Math.ceil(getApproximateExerciseDurationSeconds(exercise) / 60);
   };
+  const getCurrentDayName = (): string => {
+    return new Date()
+      .toLocaleDateString("en-GB", { weekday: "long" })
+      .toLowerCase();
+  };
 
   const loadProfile = async () => {
     const profile = await api.execute(Routes.getProfile());
@@ -202,9 +217,7 @@ const Profile = (): JSX.Element => {
       message.error(exercises.description);
     }
 
-    const todayDayName = new Date()
-      .toLocaleDateString("en-GB", { weekday: "long" })
-      .toLowerCase();
+    const todayDayName = getCurrentDayName();
     const doneExercises: Exercise[] = exercises.data.exercises;
     let trainedTodayReal = 0;
     let trainDayGoal = 0;
@@ -245,7 +258,50 @@ const Profile = (): JSX.Element => {
   };
 
   if (!profileData) {
-    return <LoadingOutlined />;
+    return (
+      <Container currentPage="profile" color="blue">
+        <Layout style={{ height: "100%" }}>
+          <Sider
+            style={{
+              backgroundColor: "#466995",
+              color: "white",
+              height: "100%",
+            }}
+          />
+
+          <Content>
+            <Col
+              style={{
+                height: "100%",
+                flexDirection: "column",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Row
+                justify="center"
+                style={{ fontSize: "30px", fontWeight: "bold" }}
+              >
+                {t(Translations.profile.loading)}
+              </Row>
+              <Row
+                justify="center"
+                style={{ fontSize: "30px", fontWeight: "bold" }}
+              >
+                <Spin
+                  indicator={
+                    <LoadingOutlined
+                      style={{ fontSize: 30, marginTop: "10px" }}
+                      spin
+                    />
+                  }
+                />
+              </Row>
+            </Col>
+          </Content>
+        </Layout>
+      </Container>
+    );
   }
 
   const getAvatarUrl = (id: number): string => {
@@ -308,6 +364,19 @@ const Profile = (): JSX.Element => {
   const onClickAchievements = () => {
     // TODO
     console.log("Achievements");
+  };
+
+  const stringToColour = (str: string): string => {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    let color = "#";
+    for (let i = 0; i < 3; i++) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += value.toString(16).substring(-2);
+    }
+    return color;
   };
 
   const accountCreated = profileData.accountCreated;
@@ -618,7 +687,14 @@ const Profile = (): JSX.Element => {
                     );
                   }}
                   dateFullCellRender={(date) => {
-                    return (
+                    const dayName = date
+                      .toDate()
+                      .toLocaleDateString("en-GB", { weekday: "long" })
+                      .toLowerCase();
+                    const doneExercises = profileData?.doneExercises.filter(
+                      (e) => e.done && e.date === dayName
+                    );
+                    const text = (
                       <Text
                         style={{
                           color:
@@ -631,6 +707,37 @@ const Profile = (): JSX.Element => {
                       >
                         {date.date()}
                       </Text>
+                    );
+                    if (doneExercises.length === 0) {
+                      return text;
+                    }
+
+                    return (
+                      <Col>
+                        {text}
+                        <Row justify="center">
+                          {doneExercises.map((e) => {
+                            return (
+                              <div
+                                key={e.id}
+                                style={{
+                                  padding: "2px",
+                                  width: "5px",
+                                  height: "5px",
+                                  backgroundColor: stringToColour(
+                                    e.date +
+                                      e.done +
+                                      e.repeats_per_set +
+                                      e.exercise_plan_id +
+                                      e.sets
+                                  ),
+                                  borderRadius: "50%",
+                                }}
+                              />
+                            );
+                          })}
+                        </Row>
+                      </Col>
                     );
                   }}
                 />

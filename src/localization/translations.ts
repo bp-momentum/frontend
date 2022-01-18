@@ -149,6 +149,7 @@ const Translations = {
     chooseDate: "profile.chooseDate",
     activeMinutes: "profile.activeMinutes",
     selectNewAvatar: "profile.selectNewAvatar",
+    loading: "profile.loading",
   },
 };
 

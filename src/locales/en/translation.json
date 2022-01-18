@@ -150,6 +150,7 @@
     "motivation": "This motivates me every day:",
     "chooseDate": "Select a day to see your activity",
     "activeMinutes": "{{active}} min of {{goal}} min",
-    "selectNewAvatar": "Select your new avatar"
+    "selectNewAvatar": "Select your new avatar",
+    "loading": "Loading your profile..."
   }
 }
