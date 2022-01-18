@@ -723,34 +723,40 @@ const Profile = (): JSX.Element => {
                         {date.date()}
                       </Text>
                     );
-                    if (doneExercises.length === 0) {
-                      return text;
-                    }
-
                     return (
                       <Col>
                         {text}
                         <Row justify="center">
-                          {doneExercises.map((e) => {
-                            return (
-                              <div
-                                key={e.id}
-                                style={{
-                                  padding: "2px",
-                                  width: "5px",
-                                  height: "5px",
-                                  backgroundColor: stringToColour(
-                                    e.date +
-                                      e.done +
-                                      e.repeats_per_set +
-                                      e.exercise_plan_id +
-                                      e.sets
-                                  ),
-                                  borderRadius: "50%",
-                                }}
-                              />
-                            );
-                          })}
+                          {doneExercises.length === 0 && (
+                            <div
+                              style={{
+                                padding: "2px",
+                                width: "5px",
+                                height: "5px",
+                              }}
+                            />
+                          )}
+                          {doneExercises.length > 0 &&
+                            doneExercises.map((e) => {
+                              return (
+                                <div
+                                  key={e.id}
+                                  style={{
+                                    padding: "2px",
+                                    width: "5px",
+                                    height: "5px",
+                                    backgroundColor: stringToColour(
+                                      e.date +
+                                        e.done +
+                                        e.repeats_per_set +
+                                        e.exercise_plan_id +
+                                        e.sets
+                                    ),
+                                    borderRadius: "50%",
+                                  }}
+                                />
+                              );
+                            })}
                         </Row>
                       </Col>
                     );
