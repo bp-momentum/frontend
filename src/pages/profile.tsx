@@ -1,17 +1,7 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import Container from "../shared/container";
-import {
-  Calendar,
-  Card,
-  Col,
-  Layout,
-  message,
-  Popover,
-  Row,
-  Space,
-  Spin,
-} from "antd";
+import { Calendar, Card, Col, Layout, message, Popover, Row, Spin } from "antd";
 import { Content } from "antd/es/layout/layout";
 import Sider from "antd/es/layout/Sider";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
