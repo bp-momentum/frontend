@@ -196,6 +196,7 @@ const Exercises = (): JSX.Element => {
   const [loading, setLoading] = React.useState<boolean>(true);
 
   const loadAssignedPlan = async () => {
+    setLoading(true);
     const response = await api.execute(Routes.getAssignedPlans());
     if (!response) return;
     if (!response.success) {
@@ -230,6 +231,7 @@ const Exercises = (): JSX.Element => {
 
   useEffect(() => {
     if (!loading) return;
+    if (exercises.length !== 0) return;
     loadAssignedPlan().then(() => setLoading(false));
   });
 
