@@ -9,6 +9,7 @@ import {
   DoneExercise,
   getApproximateExerciseDurationMinutes,
 } from "../../../../api/done_exercise";
+import Helper from "../../../../util/helper";
 
 const DailySummaryCard = (props: {
   rating: number;
@@ -47,10 +48,10 @@ const DailySummaryCard = (props: {
         <Row>
           <Col style={{ marginTop: "15px", marginLeft: "15px" }}>
             {props.doneExercises
-              .filter((e) => e.done)
+              .filter((e) => e.done && e.date === Helper.getCurrentDayName())
               .map((e) => {
                 return (
-                  <Text key={e.id}>
+                  <Text key={e.id + e.date + e.done + e.sets}>
                     {e.name}
                     <br />
                   </Text>
@@ -59,10 +60,10 @@ const DailySummaryCard = (props: {
           </Col>
           <Col style={{ marginTop: "15px", marginLeft: "80px" }}>
             {props.doneExercises
-              .filter((e) => e.done)
+              .filter((e) => e.done && e.date === Helper.getCurrentDayName())
               .map((e) => {
                 return (
-                  <Text key={e.id}>
+                  <Text key={e.id + e.date + e.done + e.sets}>
                     {getApproximateExerciseDurationMinutes(e)} min
                     <br />
                   </Text>

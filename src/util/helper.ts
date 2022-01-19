@@ -72,6 +72,12 @@ const Helper = {
     );
   },
 
+  getCurrentDayName: (): string => {
+    return new Date()
+      .toLocaleDateString("en-GB", { weekday: "long" })
+      .toLowerCase();
+  },
+
   getCurrentWeek: (): number => {
     return Helper.getWeek(new Date());
   },

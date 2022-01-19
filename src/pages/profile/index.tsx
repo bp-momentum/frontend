@@ -80,12 +80,6 @@ const Profile = (): JSX.Element => {
     }
   });
 
-  const getCurrentDayName = (): string => {
-    return new Date()
-      .toLocaleDateString("en-GB", { weekday: "long" })
-      .toLowerCase();
-  };
-
   const loadProfile = async () => {
     const results = await Promise.all([
       api.execute(Routes.getProfile()),
@@ -104,7 +98,7 @@ const Profile = (): JSX.Element => {
     const trainerContact = results[1];
     const exercises = results[2];
 
-    const todayDayName = getCurrentDayName();
+    const todayDayName = Helper.getCurrentDayName();
     const doneExercises: DoneExercise[] = exercises.data.exercises;
     let trainedTodayReal = 0;
     let trainDayGoal = 0;
