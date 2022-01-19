@@ -209,8 +209,7 @@ const Exercises = (): JSX.Element => {
 
     const exerciseList = response.data.exercises;
     const exercises: Exercise[] = [];
-    for (const i in exerciseList) {
-      const exercise = exerciseList[i];
+    for (const exercise of exerciseList) {
       const id = exercise.id;
       const ex = await ExerciseCache.getExerciseFromId(id);
       exercises.push({
