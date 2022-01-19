@@ -17,6 +17,8 @@ const { Sider } = Layout;
 interface ExerciseData {
   title: string;
   description: string;
+  sets: number;
+  repeatsPerSet: number;
   videoPath: string | null;
   activated: boolean;
 }
@@ -141,8 +143,8 @@ const Train = () => {
   const [progress /*, setProgress*/] = useState(10);
   const [currentFeedback, setCurrentFeedback] = useState<null | string>();
 
-  // exerciseId from the url
-  const { exerciseId } = useParams();
+  // exercisePlanId from the url
+  const { exercisePlanId } = useParams();
 
   const webSocketRef = React.useRef<ApiSocketConnection | null>(null);
 
@@ -169,23 +171,32 @@ const Train = () => {
 
     if (!loading) return;
 
-    api
-      .execute(Routes.getExercise({ id: exerciseId ?? "" }))
-      .then((response) => {
-        if (!isMounted) return;
-        if (!response.success) {
-          setError(true);
-        }
-        setExercise({
-          title: response.data.title,
-          description: response.data.description,
-          videoPath:
-            response.data.videoPath ??
-            "https://vid.pr0gramm.com/2021/12/28/130aaef3ab9c207a.mp4",
-          activated: response.data.title,
-        });
-        setLoading(false);
+    api.execute(Routes.getDoneExercises()).then((response) => {
+      if (!isMounted) return;
+      if (!response.success) {
+        setError(true);
+      }
+      const exerciseData = response.data.exercises.find((e: any) => {
+        return e.exercise_plan_id === parseInt(exercisePlanId ?? "");
       });
+      if (exerciseData)
+        api
+          .execute(Routes.getExercise({ id: exerciseData.id }))
+          .then((response) => {
+            setExercise({
+              title: response.data.title,
+              description: response.data.description,
+              sets: exerciseData.sets,
+              repeatsPerSet: exerciseData.repeats_per_set,
+              videoPath:
+                response.data.videoPath ??
+                "https://vid.pr0gramm.com/2021/12/28/130aaef3ab9c207a.mp4",
+              activated: response.data.title,
+            });
+          });
+      else setError(true);
+      setLoading(false);
+    });
 
     connectToWS();
 
@@ -223,7 +234,7 @@ const Train = () => {
       // clean up
       isMounted = false;
     };
-  }, [loading, exerciseId]);
+  }, [loading, exercisePlanId]);
 
   return (
     <Container>
@@ -276,7 +287,7 @@ const Train = () => {
                 overflow: "hidden",
               }}
             >
-              {loading ? (
+              {loading || error ? (
                 <div
                   style={{
                     height: "100%",
@@ -335,7 +346,7 @@ const Train = () => {
               alignItems: "center",
             }}
           >
-            {loading ? (
+            {loading || error ? (
               <div
                 style={{
                   height: "100%",
@@ -366,7 +377,7 @@ const Train = () => {
               </div>
             ) : (
               <h1 style={{ color: "white", fontSize: "40px" }}>
-                Squat Exercise
+                {exercise?.title}
               </h1>
             )}
             <div
@@ -382,7 +393,9 @@ const Train = () => {
                 className="training-progress"
               />
             </div>
-            <div style={{ color: "white", marginTop: "10px" }}>10/10</div>
+            <div style={{ color: "white", marginTop: "10px" }}>
+              0/{exercise?.sets}
+            </div>
             <div style={{ position: "relative" }}>
               <WebcamStreamCapture ws={webSocketRef} />
               {currentFeedback && (

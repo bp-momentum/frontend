@@ -68,7 +68,9 @@ const Day = forwardRef(
     const navigate = useNavigate();
 
     const openNextExercise = (): void => {
-      navigate(`/train/${exercises.filter((e) => !e.completed)[0]?.id}`);
+      navigate(
+        `/train/${exercises.filter((e) => !e.completed)[0]?.exercise_plan_id}`
+      );
     };
 
     const past = isPast(name);
@@ -211,7 +213,7 @@ const ExerciseCard = ({
   const navigate = useNavigate();
 
   const openExercise = (exercise: Exercise): void => {
-    navigate(`/train/${exercise.id}`);
+    navigate(`/train/${exercise.exercise_plan_id}`);
   };
 
   return (
