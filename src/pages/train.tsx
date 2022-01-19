@@ -1,8 +1,9 @@
-import { Layout, Progress, Spin } from "antd";
+import { Button, Layout, Progress, Spin } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import React, { useEffect, useState } from "react";
 import Container from "../shared/container";
 import api from "../util/api";
+import { ApiSocketConnection } from "../util/api";
 import Routes from "../util/routes";
 import "../styles/train.css";
 import { useParams } from "react-router-dom";
@@ -10,7 +11,6 @@ import Translations from "../localization/translations";
 import { t } from "i18next";
 import { LoadingOutlined } from "@ant-design/icons";
 import Webcam from "react-webcam";
-import { waitFor } from "@testing-library/react";
 
 const { Sider } = Layout;
 
@@ -21,7 +21,9 @@ interface ExerciseData {
   activated: boolean;
 }
 
-const WebcamStreamCapture = (props: { ws: React.RefObject<WebSocket> }) => {
+const WebcamStreamCapture = (props: {
+  ws: React.RefObject<ApiSocketConnection>;
+}) => {
   const webcamRef = React.useRef<Webcam>(null);
   const mediaRecorderRef = React.useRef<MediaRecorder | null>(null);
   const [capturing, setCapturing] = React.useState(false);
@@ -100,17 +102,33 @@ const WebcamStreamCapture = (props: { ws: React.RefObject<WebSocket> }) => {
   }, [recordedChunks]);
 
   return (
-    <>
-      {capturing ? (
-        <button onClick={handleStopCaptureClick}>Stop Capture</button>
-      ) : (
-        <button onClick={handleStartCaptureClick}>Start Capture</button>
-      )}
+    <div style={{ position: "relative" }}>
       {recordedChunks.length > 0 && (
-        <button onClick={handleDownload}>Download</button>
+        <button
+          onClick={handleDownload}
+          style={{ position: "absolute", bottom: 0, right: 0 }}
+        >
+          Download
+        </button>
       )}
-      <Webcam audio={false} ref={webcamRef} mirrored />
-    </>
+      <Webcam
+        audio={false}
+        ref={webcamRef}
+        mirrored
+        style={{ border: "1px solid red" }}
+      />
+      <button
+        onClick={capturing ? handleStopCaptureClick : handleStartCaptureClick}
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+      >
+        {capturing ? "Stop" : "Start"} Capture
+      </button>
+    </div>
   );
 };
 
@@ -121,11 +139,30 @@ const Train = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [progress /*, setProgress*/] = useState(10);
+  const [currentFeedback, setCurrentFeedback] = useState<null | string>();
 
   // exerciseId from the url
   const { exerciseId } = useParams();
 
-  const webSocketRef = React.useRef<WebSocket | null>(null);
+  const webSocketRef = React.useRef<ApiSocketConnection | null>(null);
+
+  const [debugExerciseRunning, setDebugExerciseRunning] = useState(false);
+
+  const debugExerciseNoVideo = () => {
+    if (!debugExerciseRunning) {
+      webSocketRef.current?.send(
+        JSON.stringify({
+          message_type: "start_set",
+          data: { user_token: "", exercise_id: 1 },
+        })
+      );
+    } else {
+      webSocketRef.current?.send(
+        JSON.stringify({ message_type: "end_set", data: {} })
+      );
+    }
+    setDebugExerciseRunning(!debugExerciseRunning);
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -155,10 +192,23 @@ const Train = () => {
     function connectToWS() {
       webSocketRef.current = api.openSocket();
 
-      const webSocket = webSocketRef.current as WebSocket;
+      const webSocket = webSocketRef.current as ApiSocketConnection;
 
-      webSocket.onmessage = function (event) {
-        console.log(event.data);
+      webSocket.onmessage = (message) => {
+        console.log(message);
+        if (message?.success) {
+          setCurrentFeedback(
+            "Points: " +
+              message.data.intensity +
+              " / " +
+              message.data.speed +
+              " / " +
+              message.data.cleanliness +
+              "!"
+          );
+        }
+
+        setTimeout(() => setCurrentFeedback(null), 2500);
       };
 
       webSocket.onclose = function (closeEvent) {
@@ -333,7 +383,30 @@ const Train = () => {
               />
             </div>
             <div style={{ color: "white", marginTop: "10px" }}>10/10</div>
-            <WebcamStreamCapture ws={webSocketRef} />
+            <div style={{ position: "relative" }}>
+              <WebcamStreamCapture ws={webSocketRef} />
+              {currentFeedback && (
+                <span
+                  className="feedback"
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    background: "white",
+                    borderRadius: "5px",
+                    padding: "10px",
+                    width: "max-content",
+                    textAlign: "center",
+                  }}
+                >
+                  {currentFeedback}
+                </span>
+              )}
+            </div>
+            <button onClick={debugExerciseNoVideo}>
+              {debugExerciseRunning ? "End" : "Start"} Debug Exercise
+            </button>
           </div>
         </Content>
       </Layout>

@@ -129,23 +129,53 @@ class Api {
     }
   };
 
-  openSocket = (): WebSocket => {
-    const ws = new WebSocket("ws://78.46.150.116:9000/ws/socket");
-    console.log(ws);
+  openSocket = (): ApiSocketConnection => new ApiSocketConnection(this.token);
+}
 
-    ws.onopen = () =>
-      ws.send(
+export class ApiSocketConnection {
+  readonly token: string;
+  private ws: WebSocket;
+
+  constructor(token: string) {
+    this.token = token;
+    this.ws = new WebSocket("ws://78.46.150.116:9000/ws/socket");
+
+    console.log(this.ws);
+
+    this.ws.onopen = (event) => {
+      this.ws.send(
         JSON.stringify({
           message_type: "authenticate",
           data: { session_token: this.token },
         })
       );
+      if (this.onopen) this.onopen(event);
+    };
 
-    ws.onerror = (event) =>
-      console.error("WebSocket closed due to an error! Error: " + event);
+    this.send = (data: string | ArrayBufferLike | Blob | ArrayBufferView) =>
+      this.ws.send(data);
 
-    return ws;
-  };
+    this.ws.onerror = () => this.onerror;
+
+    this.ws.onmessage = (message) => {
+      if (this.onmessage) this.onmessage(JSON.parse(message.data));
+    };
+
+    this.ws.onclose = (closeEvent) => {
+      if (this.onclose) this.onclose(closeEvent);
+    };
+  }
+
+  onopen: ((event: Event) => unknown) | null = null;
+
+  readonly send;
+
+  onerror: (event: Event) => unknown = (event) =>
+    console.error("WebSocket closed due to an error! Error: " + event);
+
+  onmessage: ((message: ApiResponse | undefined) => unknown) | null = null;
+
+  onclose: ((event: CloseEvent) => unknown) | null = null;
 }
 
 interface ApiResponse {
