@@ -1,45 +1,30 @@
 import React, { useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import Container from "../../shared/container";
-import { Calendar, Card, Col, Layout, message, Popover, Row, Spin } from "antd";
+import { Col, Layout, message, Row } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { setRefreshToken, setToken } from "../../redux/token/tokenSlice";
 import Helper from "../../util/helper";
-import ReactCardFlip from "react-card-flip";
-import Text from "antd/lib/typography/Text";
-import {
-  LeftOutlined,
-  LoadingOutlined,
-  RightOutlined,
-  ShareAltOutlined,
-  EditOutlined,
-  SaveOutlined,
-} from "@ant-design/icons";
 import "../../styles/profile.css";
-import Translations from "../../localization/translations";
-import ButtonContact, { ContactType } from "../../shared/button_contact";
 import api from "../../util/api";
 import Routes from "../../util/routes";
 import ExerciseCache from "../../util/exercise_cache";
-import RatingStars from "./widgets/rating_stars";
-import SiderButton from "./widgets/sider_button";
-const { Sider } = Layout;
-
-interface Exercise {
-  id: number;
-  date: string;
-  done: boolean;
-  sets: number;
-  repeats_per_set: number;
-  exercise_plan_id: number;
-  name?: string;
-}
+import ProfileSider from "./widgets/profile_sider";
+import TrainerCard from "./widgets/cards/trainer_card";
+import {
+  DoneExercise,
+  getApproximateExerciseDurationSeconds,
+} from "../../api/done_exercise";
+import ActivityCalendarCard from "./widgets/cards/activity_calendar_card";
+import DailySummaryCard from "./widgets/cards/daily_summary_card";
+import UserCard from "./widgets/cards/user_card";
+import ProfileLoadingView from "./widgets/profile_loading_view";
+import { useNavigate } from "react-router";
 
 interface ProfileData {
   dailyRating: number;
   minutesTrainedGoal: number;
-  doneExercises: Exercise[];
+  doneExercises: DoneExercise[];
   accountCreated: number;
   motivation: string;
   trainerName: string;
@@ -55,7 +40,7 @@ const copyProfileData = (
   newData: {
     dailyRating?: number;
     minutesTrainedGoal?: number;
-    doneExercises?: Exercise[];
+    doneExercises?: DoneExercise[];
     accountCreated?: number;
     motivation?: string;
     trainerName?: string;
@@ -82,22 +67,12 @@ const copyProfileData = (
 };
 
 const Profile = (): JSX.Element => {
-  const { t, i18n } = useTranslation();
   const token = useAppSelector((state) => state.token.token);
   const dispatch = useAppDispatch();
-  const [userFlipped, setUserFlipped] = React.useState<boolean>(false);
-  const [popoverVisible, setPopoverVisible] = React.useState<boolean>(false);
+  const navigate = useNavigate();
   const [profileData, setProfileData] = React.useState<ProfileData | null>(
     null
   );
-  const [newAvatarId, setNewAvatarId] = React.useState<number>(0);
-  const [newUsername, setNewUsername] = React.useState<string>("");
-  const [newMotivation, setNewMotivation] = React.useState<string>("");
-
-  const avatarIds: number[] = [];
-  for (let i = 1; i <= 50; i++) {
-    avatarIds.push(i);
-  }
 
   useEffect(() => {
     if (!profileData) {
@@ -105,16 +80,6 @@ const Profile = (): JSX.Element => {
     }
   });
 
-  const getApproximateExerciseDurationSeconds = (
-    exercise: Exercise
-  ): number => {
-    return exercise.sets * 30 + exercise.sets * exercise.repeats_per_set * 10;
-  };
-  const getApproximateExerciseDurationMinutes = (
-    exercise: Exercise
-  ): number => {
-    return Math.ceil(getApproximateExerciseDurationSeconds(exercise) / 60);
-  };
   const getCurrentDayName = (): string => {
     return new Date()
       .toLocaleDateString("en-GB", { weekday: "long" })
@@ -128,8 +93,7 @@ const Profile = (): JSX.Element => {
       api.execute(Routes.getDoneExercises()),
     ]);
 
-    for (const i in results) {
-      const result = results[i];
+    for (const result of results) {
       if (!result.success) {
         message.error(result.description);
         return;
@@ -141,11 +105,11 @@ const Profile = (): JSX.Element => {
     const exercises = results[2];
 
     const todayDayName = getCurrentDayName();
-    const doneExercises: Exercise[] = exercises.data.exercises;
+    const doneExercises: DoneExercise[] = exercises.data.exercises;
     let trainedTodayReal = 0;
     let trainDayGoal = 0;
     for (const key in doneExercises) {
-      const exercise: Exercise = doneExercises[key];
+      const exercise: DoneExercise = doneExercises[key];
       exercise.name = await ExerciseCache.getExerciseNameFromId(exercise.id);
       const duration = getApproximateExerciseDurationSeconds(exercise);
       if (exercise.date === todayDayName) {
@@ -170,64 +134,13 @@ const Profile = (): JSX.Element => {
       trainerName: trainerContact.data.name,
       trainerPhone: trainerContact.data.telephone,
     });
-    setNewAvatarId(profile.data.avatar);
-    setNewMotivation(profile.data.motivation);
-    setNewUsername(Helper.getUserName(token ?? ""));
   };
 
   if (!profileData) {
-    return (
-      <Container currentPage="profile" color="blue">
-        <Layout style={{ height: "100%" }}>
-          <Sider
-            data-testid="profile-sider"
-            style={{
-              backgroundColor: "#466995",
-              color: "white",
-              height: "100%",
-            }}
-          />
-
-          <Content data-testid="loading-view">
-            <Col
-              style={{
-                height: "100%",
-                flexDirection: "column",
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <Row
-                justify="center"
-                style={{ fontSize: "30px", fontWeight: "bold" }}
-              >
-                {t(Translations.profile.loading)}
-              </Row>
-              <Row
-                justify="center"
-                style={{ fontSize: "30px", fontWeight: "bold" }}
-              >
-                <Spin
-                  indicator={
-                    <LoadingOutlined
-                      style={{ fontSize: 30, marginTop: "10px" }}
-                      spin
-                    />
-                  }
-                />
-              </Row>
-            </Col>
-          </Content>
-        </Layout>
-      </Container>
-    );
+    return <ProfileLoadingView />;
   }
 
-  const getAvatarUrl = (id: number): string => {
-    return `https://cdn.geoscribble.de/avatars/avatar_${id}.png`;
-  };
-
-  const saveUsername = async () => {
+  const saveUsername = async (newUsername: string) => {
     if (newUsername === Helper.getUserName(token ?? "")) {
       return;
     }
@@ -244,7 +157,7 @@ const Profile = (): JSX.Element => {
     dispatch(setRefreshToken(refreshToken));
   };
 
-  const saveMotivation = async () => {
+  const saveMotivation = async (newMotivation: string) => {
     if (newMotivation === profileData.motivation) {
       return;
     }
@@ -257,7 +170,7 @@ const Profile = (): JSX.Element => {
     setProfileData(copyProfileData(profileData, { motivation: newMotivation }));
   };
 
-  const saveNewAvatar = async () => {
+  const saveNewAvatar = async (newAvatarId: number) => {
     if (newAvatarId === profileData.avatarId) {
       return;
     }
@@ -271,477 +184,58 @@ const Profile = (): JSX.Element => {
   };
 
   const onClickShare = () => {
-    // TODO
-    console.log("Share");
+    message.error("Coming soon™");
   };
 
   const onClickFriends = () => {
-    // TODO
-    console.log("Friends");
+    return navigate("/friends");
   };
 
   const onClickAchievements = () => {
-    // TODO
-    console.log("Achievements");
+    return navigate("/achievements");
   };
-
-  const stringToColour = (str: string): string => {
-    let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-      hash = str.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    let color = "#";
-    for (let i = 0; i < 3; i++) {
-      const value = (hash >> (i * 8)) & 0xff;
-      color += value.toString(16).substring(-2);
-    }
-    return color;
-  };
-
-  const accountCreated = profileData.accountCreated;
-  const accountCreatedDiff = Date.now() - accountCreated;
-  const accountCreatedMonths = Math.floor(
-    accountCreatedDiff / 30 / 24 / 60 / 60 / 1000
-  );
 
   return (
     <Container currentPage="profile" color="blue">
       <Layout style={{ height: "100%" }}>
-        <Sider
-          data-testid="profile-sider"
-          style={{
-            backgroundColor: "#466995",
-            color: "white",
-            height: "100%",
-          }}
-        >
-          <Col>
-            <Row justify="center">
-              <img
-                alt="Avatar"
-                key={getAvatarUrl(profileData.avatarId)}
-                src={getAvatarUrl(profileData.avatarId)}
-                style={{
-                  height: "160px",
-                  padding: "20px 10px 0 10px",
-                  marginTop: "20px",
-                  clipPath: "circle(80px at center)",
-                  backgroundColor: "#626FE5",
-                }}
-              />
-            </Row>
-            <Row justify="center">
-              <h5 style={{ fontSize: 48, color: "white" }}>
-                {Helper.getUserName(token ?? "")}
-              </h5>
-            </Row>
-
-            <SiderButton
-              onClick={() => onClickFriends()}
-              image="friends_image.png"
-              title="Freunde"
-              rotation={-5.5}
-              color="#FFE14D"
-            />
-
-            <SiderButton
-              onClick={() => onClickAchievements()}
-              image="achievements_image.png"
-              title="Errungenschaften"
-              rotation={3}
-              color="#9713FF"
-            />
-          </Col>
-        </Sider>
+        <ProfileSider
+          onClickFriends={onClickFriends}
+          onClickAchievements={onClickAchievements}
+          avatarUrl={Helper.getAvatarUrl(profileData.avatarId)}
+          username={Helper.getUserName(token ?? "")}
+        />
         <Content>
           <Row gutter={16} justify="space-around" style={{ margin: 0 }}>
             <Col className="gutter-row" span={10} style={{ marginTop: "30px" }}>
-              <ReactCardFlip
-                isFlipped={userFlipped}
-                flipDirection="horizontal"
-                flipSpeedBackToFront={1.0}
-                flipSpeedFrontToBack={1.0}
-              >
-                <Card
-                  data-testid="profile-card"
-                  style={{
-                    borderRadius: "5px",
-                    borderColor: "black",
-                    backgroundColor: "#EDEDF4",
-                    boxShadow: "2px 4px 4px 0 rgba(0, 0, 0, 0.25)",
-                  }}
-                >
-                  <Col>
-                    <Text
-                      style={{
-                        float: "right",
-                        marginTop: "-20px",
-                        marginRight: "-20px",
-                      }}
-                      onClick={() => setUserFlipped(true)}
-                      data-testid="edit-profile"
-                    >
-                      {t(Translations.profile.edit)}
-                      <EditOutlined />
-                    </Text>
-                    <Row>
-                      <img
-                        alt="Avatar"
-                        data-testid="user-avatar"
-                        key={getAvatarUrl(profileData.avatarId)}
-                        src={getAvatarUrl(profileData.avatarId)}
-                        style={{
-                          height: "100px",
-                          padding: "20px 10px 0 10px",
-                          marginBottom: "30px",
-                          marginRight: "30px",
-                          clipPath: "circle(50px at center)",
-                          backgroundColor: "#626FE5",
-                        }}
-                      />
-                      <Col>
-                        <Text style={{ fontSize: 24 }}>
-                          {Helper.getUserName(token ?? "")}
-                        </Text>
-                        <br />
-                        <Text style={{ fontSize: 15 }}>
-                          {accountCreatedMonths > 0
-                            ? t(Translations.profile.activeSince, {
-                                duration: accountCreatedMonths,
-                              })
-                            : t(Translations.profile.activeShortly)}
-                        </Text>
-                      </Col>
-                    </Row>
-                    <Text style={{ fontSize: 16 }}>
-                      {t(Translations.profile.motivation)}
-                    </Text>
-                    <br />
-                    <Text style={{ fontSize: 20 }}>
-                      {profileData.motivation}
-                    </Text>
-                  </Col>
-                </Card>
-
-                <Card
-                  style={{
-                    borderRadius: "5px",
-                    borderColor: "black",
-                    backgroundColor: "#EDEDF4",
-                    boxShadow: "2px 4px 4px 0 rgba(0, 0, 0, 0.25)",
-                  }}
-                >
-                  <Col>
-                    <Text
-                      style={{
-                        float: "right",
-                        marginTop: "-20px",
-                        marginRight: "-20px",
-                      }}
-                      onClick={async () => {
-                        await saveUsername();
-                        await saveMotivation();
-                        await saveNewAvatar();
-                        setUserFlipped(false);
-                      }}
-                    >
-                      {t(Translations.profile.save)}
-                      <SaveOutlined />
-                    </Text>
-                    <Row>
-                      <Popover
-                        visible={popoverVisible}
-                        overlayStyle={{ width: "370px" }}
-                        placement="right"
-                        title={t(Translations.profile.selectNewAvatar)}
-                        content={
-                          <Row gutter={16}>
-                            {avatarIds.map((id) => {
-                              return (
-                                <img
-                                  alt="Avatar"
-                                  onClick={() => {
-                                    setNewAvatarId(id);
-                                    setPopoverVisible(false);
-                                  }}
-                                  key={id}
-                                  src={getAvatarUrl(id)}
-                                  style={{
-                                    height: "60px",
-                                    padding: "10px 5px 0 5px",
-                                    margin: "5px",
-                                    clipPath: "circle(30px at center)",
-                                    backgroundColor: "#626FE5",
-                                  }}
-                                />
-                              );
-                            })}
-                          </Row>
-                        }
-                        trigger="click"
-                      >
-                        <img
-                          alt="Avatar"
-                          onClick={() => {
-                            setPopoverVisible(!popoverVisible);
-                          }}
-                          key={newAvatarId}
-                          src={getAvatarUrl(newAvatarId)}
-                          style={{
-                            height: "100px",
-                            padding: "20px 10px 0 10px",
-                            marginBottom: "30px",
-                            marginRight: "30px",
-                            clipPath: "circle(50px at center)",
-                            backgroundColor: "#626FE5",
-                          }}
-                        />
-                      </Popover>
-                      <Col style={{ flexDirection: "column", display: "flex" }}>
-                        <Text
-                          style={{ fontSize: 24 }}
-                          editable={{
-                            onChange: (v) => {
-                              setNewUsername(v);
-                            },
-                          }}
-                        >
-                          {newUsername}
-                        </Text>
-                        <Text style={{ fontSize: 15 }}>
-                          {accountCreatedMonths > 0
-                            ? t(Translations.profile.activeSince, {
-                                duration: accountCreatedMonths,
-                              })
-                            : t(Translations.profile.activeShortly)}
-                        </Text>
-                      </Col>
-                    </Row>
-                    <Text style={{ fontSize: 16 }}>
-                      {t(Translations.profile.motivation)}
-                    </Text>
-                    <br />
-                    <Text
-                      editable={{ onChange: (v) => setNewMotivation(v) }}
-                      style={{ fontSize: 20 }}
-                    >
-                      {newMotivation}
-                    </Text>
-                  </Col>
-                </Card>
-              </ReactCardFlip>
+              <UserCard
+                avatarId={profileData.avatarId}
+                username={Helper.getUserName(token ?? "")}
+                accountCreated={profileData.accountCreated}
+                motivation={profileData.motivation}
+                saveNewUsername={saveUsername}
+                saveNewMotivation={saveMotivation}
+                saveNewAvatarId={saveNewAvatar}
+              />
             </Col>
             <Col className="gutter-row" span={10}>
-              <Card
-                data-testid="trainer-information"
-                style={{
-                  marginTop: "30px",
-                  borderRadius: "5px",
-                  borderColor: "black",
-                  backgroundColor: "#EDEDF4",
-                  boxShadow: "2px 4px 4px 0 rgba(0, 0, 0, 0.25)",
-                }}
-              >
-                <Row justify="space-around">
-                  <Text>{t(Translations.user.trainer)}</Text>
-                  <Text style={{ marginRight: "5px", whiteSpace: "pre-wrap" }}>
-                    {profileData.trainerName}
-                    <br />
-                    {profileData.trainerAddress.replaceAll(", ", "\n")}
-                    <br />
-                    <ButtonContact
-                      type={ContactType.phone}
-                      contact={profileData.trainerPhone}
-                      label={profileData.trainerPhone}
-                    />
-                    <br />
-                    <ButtonContact
-                      type={ContactType.email}
-                      contact={profileData.trainerEmail}
-                      label={profileData.trainerEmail}
-                    />
-                  </Text>
-                </Row>
-              </Card>
+              <TrainerCard
+                name={profileData.trainerName}
+                address={profileData.trainerAddress}
+                phone={profileData.trainerPhone}
+                email={profileData.trainerEmail}
+              />
             </Col>
             <Col className="gutter-row" span={10}>
-              <Card
-                data-testid="activity-calendar"
-                style={{
-                  marginTop: "40px",
-                  borderRadius: "5px",
-                  borderColor: "black",
-                  backgroundColor: "#EDEDF4",
-                  boxShadow: "2px 4px 4px 0 rgba(0, 0, 0, 0.25)",
-                }}
-              >
-                <Text>{t(Translations.profile.chooseDate)}</Text>
-                <Calendar
-                  mode="month"
-                  style={{
-                    marginTop: "5px",
-                    height: "300px",
-                    backgroundColor: "#EDEDF4",
-                    color: "transparent",
-                  }}
-                  fullscreen={false}
-                  headerRender={({ value, type, onChange, onTypeChange }) => {
-                    const localeData = value.localeData();
-                    return (
-                      <div style={{ padding: 8, color: "black" }}>
-                        <Row justify="space-between">
-                          <LeftOutlined
-                            onClick={() => {
-                              const newDate = value.clone();
-                              newDate.subtract(1, "month");
-                              onChange(newDate);
-                            }}
-                          />
-                          <Text style={{ fontSize: 20, marginTop: -8 }}>
-                            {localeData.months(value) + " " + value.year()}
-                          </Text>
-                          <RightOutlined
-                            onClick={() => {
-                              const newDate = value.clone();
-                              newDate.add(1, "month");
-                              onChange(newDate);
-                            }}
-                          />
-                        </Row>
-                      </div>
-                    );
-                  }}
-                  dateFullCellRender={(date) => {
-                    const dayName = date
-                      .toDate()
-                      .toLocaleDateString("en-GB", { weekday: "long" })
-                      .toLowerCase();
-                    const doneExercises = profileData?.doneExercises.filter(
-                      (e) =>
-                        e.done &&
-                        e.date === dayName &&
-                        Helper.getWeek(date.toDate()) ===
-                          Helper.getCurrentWeek()
-                    );
-                    const text = (
-                      <Text
-                        style={{
-                          color:
-                            date.toDate().toDateString() ===
-                            new Date().toDateString()
-                              ? "#466995"
-                              : "black",
-                          borderRadius: "50%",
-                        }}
-                      >
-                        {date.date()}
-                      </Text>
-                    );
-                    return (
-                      <Col>
-                        {text}
-                        <Row justify="center">
-                          {doneExercises.length === 0 && (
-                            <div
-                              style={{
-                                padding: "2px",
-                                width: "5px",
-                                height: "5px",
-                              }}
-                            />
-                          )}
-                          {doneExercises.length > 0 &&
-                            doneExercises.map((e) => {
-                              return (
-                                <div
-                                  key={e.id}
-                                  style={{
-                                    padding: "2px",
-                                    width: "5px",
-                                    height: "5px",
-                                    backgroundColor: stringToColour(
-                                      e.date +
-                                        e.done +
-                                        e.repeats_per_set +
-                                        e.exercise_plan_id +
-                                        e.sets
-                                    ),
-                                    borderRadius: "50%",
-                                  }}
-                                />
-                              );
-                            })}
-                        </Row>
-                      </Col>
-                    );
-                  }}
-                />
-              </Card>
+              <ActivityCalendarCard doneExercises={profileData.doneExercises} />
             </Col>
             <Col className="gutter-row" span={10}>
-              <Card
-                data-testid="activity-overview"
-                style={{
-                  marginTop: "40px",
-                  borderRadius: "5px",
-                  backgroundColor: "#E6E7EA",
-                  boxShadow: "2px 4px 4px 0 rgba(0, 0, 0, 0.25)",
-                }}
-              >
-                <Col>
-                  <Row justify="center" style={{ fontSize: 30 }}>
-                    {new Date().toLocaleDateString(i18n.language, {
-                      day: "numeric",
-                      month: "long",
-                      year: "numeric",
-                    })}
-                  </Row>
-                  <RatingStars rating={profileData.dailyRating} />
-                  <Row justify="center" style={{ marginTop: "15px" }}>
-                    {t(Translations.profile.activeMinutes, {
-                      active: profileData.minutesTrained,
-                      goal: profileData.minutesTrainedGoal,
-                    })}
-                  </Row>
-                  <Row>
-                    <Col style={{ marginTop: "15px", marginLeft: "15px" }}>
-                      {profileData.doneExercises
-                        .filter((e) => e.done)
-                        .map((e) => {
-                          return (
-                            <Text key={e.id}>
-                              {e.name}
-                              <br />
-                            </Text>
-                          );
-                        })}
-                    </Col>
-                    <Col style={{ marginTop: "15px", marginLeft: "80px" }}>
-                      {profileData.doneExercises
-                        .filter((e) => e.done)
-                        .map((e) => {
-                          return (
-                            <Text key={e.id}>
-                              {getApproximateExerciseDurationMinutes(e)} min
-                              <br />
-                            </Text>
-                          );
-                        })}
-                    </Col>
-                  </Row>
-                  <Row justify="end">
-                    <ShareAltOutlined
-                      onClick={() => onClickShare()}
-                      style={{
-                        marginTop: "-15px",
-                        backgroundColor: "#EDEDF4",
-                        borderRadius: "50%",
-                        padding: "6px 7px 5px 5px",
-                      }}
-                    />
-                  </Row>
-                </Col>
-              </Card>
+              <DailySummaryCard
+                rating={profileData.dailyRating}
+                minutesTrained={profileData.minutesTrained}
+                minutesTrainedGoal={profileData.minutesTrainedGoal}
+                doneExercises={profileData.doneExercises}
+                onClickShare={onClickShare}
+              />
             </Col>
           </Row>
         </Content>

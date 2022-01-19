@@ -75,6 +75,11 @@ const Helper = {
   getCurrentWeek: (): number => {
     return Helper.getWeek(new Date());
   },
+
+  availableAvatarIds: Array.from(Array(50).keys()).map((n) => n + 1),
+  getAvatarUrl: (id: number): string => {
+    return `https://cdn.geoscribble.de/avatars/avatar_${id}.png`;
+  },
 };
 
 export default Helper;

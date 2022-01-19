@@ -37,8 +37,8 @@ describe("<Index/>", () => {
   test("Cards are visible", async () => {
     renderProfile();
 
-    const profile = await screen.findByTestId("profile-card", undefined, {
-      timeout: 10000,
+    const profile = await screen.findByTestId("user-card", undefined, {
+      timeout: 15000,
     });
     expect(profile).toBeInTheDocument();
     expect(profile).toBeVisible();
@@ -67,9 +67,13 @@ describe("<Index/>", () => {
     expect(calendar).toBeInTheDocument();
     expect(calendar).toBeVisible();
 
-    const overview = await screen.findByTestId("activity-overview", undefined, {
-      timeout: 10000,
-    });
+    const overview = await screen.findByTestId(
+      "daily-summary-card",
+      undefined,
+      {
+        timeout: 10000,
+      }
+    );
     expect(overview).toBeInTheDocument();
     expect(overview).toBeVisible();
   });
