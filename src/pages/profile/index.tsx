@@ -76,7 +76,7 @@ const Profile = (): JSX.Element => {
 
   useEffect(() => {
     if (!profileData) {
-      loadProfile().catch(console.error);
+      loadProfile().catch((e) => message.error(e));
     }
   });
 
