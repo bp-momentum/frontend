@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import { store } from "../../redux/store";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React from "react";
-import Profile from "./profile";
+import Profile from "./index";
 
 const renderProfile = () => {
   return render(
@@ -17,7 +17,7 @@ const renderProfile = () => {
   );
 };
 
-describe("<Profile/>", () => {
+describe("<Index/>", () => {
   test("Loading animation is visible", async () => {
     renderProfile();
 
@@ -26,7 +26,7 @@ describe("<Profile/>", () => {
     expect(loading).toBeVisible();
   });
 
-  test("Profile sider is visible from beginning", async () => {
+  test("Index sider is visible from beginning", async () => {
     renderProfile();
 
     const sider = await screen.findByTestId("profile-sider");
