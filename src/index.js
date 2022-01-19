@@ -10,6 +10,8 @@ import { store, persistor } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { HashRouter } from "react-router-dom";
 import { MultiProvider } from "react-pendulum";
+import { ConfigProvider } from "antd";
+import customizeRenderEmpty from "../src/util/emptyDataRender";
 import "./i18n";
 
 ReactDOM.render(
@@ -19,6 +21,7 @@ ReactDOM.render(
         <Provider store={store} />,
         <PersistGate loading={null} persistor={persistor} />,
         <HashRouter />,
+        <ConfigProvider renderEmpty={customizeRenderEmpty} />,
       ]}
     >
       <App />
