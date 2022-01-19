@@ -13,6 +13,8 @@ import {
   LoadingOutlined,
   RightOutlined,
   ShareAltOutlined,
+  EditOutlined,
+  SaveOutlined,
 } from "@ant-design/icons";
 import "../../styles/profile.css";
 import Translations from "../../localization/translations";
@@ -378,9 +380,9 @@ const Profile = (): JSX.Element => {
                       }}
                       onClick={() => setUserFlipped(true)}
                       data-testid="edit-profile"
-                      underline
                     >
                       {t(Translations.profile.edit)}
+                      <EditOutlined />
                     </Text>
                     <Row>
                       <img
@@ -442,9 +444,9 @@ const Profile = (): JSX.Element => {
                         await saveNewAvatar();
                         setUserFlipped(false);
                       }}
-                      underline
                     >
                       {t(Translations.profile.save)}
+                      <SaveOutlined />
                     </Text>
                     <Row>
                       <Popover

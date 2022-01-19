@@ -145,7 +145,7 @@
   "profile": {
     "activeSince": "Active since {{duration}} months",
     "activeShortly": "Active since recently",
-    "edit": "Edit \uD83D\uDD8B",
+    "edit": "Edit",
     "save": "Save",
     "motivation": "This motivates me every day:",
     "chooseDate": "Select a day to see your activity",

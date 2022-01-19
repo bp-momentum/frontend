@@ -145,7 +145,7 @@
   "profile": {
     "activeSince": "Fleißig seit {{duration}} Monaten",
     "activeShortly": "Fleißig seit Kurzem",
-    "edit": "Bearbeiten \uD83D\uDD8B",
+    "edit": "Bearbeiten",
     "save": "Speichern",
     "motivation": "Das treibt mich täglich an:",
     "chooseDate": "Wähle einen Tag aus um deine Aktivität zu sehen",
