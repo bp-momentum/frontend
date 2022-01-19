@@ -35,7 +35,7 @@ interface ProfileData {
   minutesTrained: number;
 }
 
-const copyProfileData = (
+const mergeProfileData = (
   data: ProfileData,
   newData: {
     dailyRating?: number;
@@ -167,7 +167,9 @@ const Profile = (): JSX.Element => {
     if (!result.success) {
       message.error(result.description);
     }
-    setProfileData(copyProfileData(profileData, { motivation: newMotivation }));
+    setProfileData(
+      mergeProfileData(profileData, { motivation: newMotivation })
+    );
   };
 
   const saveNewAvatar = async (newAvatarId: number) => {
@@ -180,7 +182,7 @@ const Profile = (): JSX.Element => {
     if (!result.success) {
       message.error(result.description);
     }
-    setProfileData(copyProfileData(profileData, { avatarId: newAvatarId }));
+    setProfileData(mergeProfileData(profileData, { avatarId: newAvatarId }));
   };
 
   const onClickShare = () => {
