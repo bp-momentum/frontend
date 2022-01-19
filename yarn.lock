@@ -8657,6 +8657,11 @@ react-is@^17.0.2:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
+react-pendulum@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/react-pendulum/-/react-pendulum-0.0.1.tgz#ae757381c6ffb5e2e0cbf345f93eb85c1fac432c"
+  integrity sha512-pLlAmAUKqP9YocEKK3EKeg5s5bgSfGFPmZwKaFsj1PtzR+T7Hn7t3+JtYeS2gj+B4FPYS4CwSABeXGWQW0og8g==
+
 react-random-shapes@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/react-random-shapes/-/react-random-shapes-0.6.0.tgz#4d7871bc34247c6b7d48f37745c91408bb83815b"
