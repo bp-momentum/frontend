@@ -122,6 +122,7 @@ const ActiveUserTable = () => {
           placeholder={t(Translations.userManagement.selectPlan)}
           optionFilterProp="children"
           defaultValue={text}
+          style={{ minWidth: "100px" }}
           onChange={async (value: string) => {
             api
               .execute(
