@@ -123,11 +123,12 @@ const ActiveUserTable = () => {
           optionFilterProp="children"
           defaultValue={text}
           style={{ minWidth: "100px" }}
+          allowClear={true}
           onChange={async (value: string) => {
             api
               .execute(
                 Routes.assignPlanToUser({
-                  planId: value,
+                  planId: value ?? null,
                   username: record.name,
                 })
               )
