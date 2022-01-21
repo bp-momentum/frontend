@@ -23,7 +23,7 @@ ReactDOM.render(
         <Provider store={store} />,
         <PersistGate loading={null} persistor={persistor} />,
         <HashRouter />,
-        <EmojiProvider data={emojiData} />
+        <EmojiProvider data={emojiData} />,
         <ConfigProvider renderEmpty={customizeRenderEmpty} />,
       ]}
     >
