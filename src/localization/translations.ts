@@ -2,6 +2,7 @@ const Translations = {
   errors: {
     unknownError: "errors.unknown-error",
     internalServerError: "errors.internal-server-error",
+    empty: "errors.empty",
   },
   user: {
     username: "user.username",

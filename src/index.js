@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
@@ -8,17 +9,23 @@ import { Provider } from "react-redux";
 import { store, persistor } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { HashRouter } from "react-router-dom";
+import { MultiProvider } from "react-pendulum";
+import { ConfigProvider } from "antd";
+import customizeRenderEmpty from "../src/util/emptyDataRender";
 import "./i18n";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <HashRouter>
-          <App />
-        </HashRouter>
-      </PersistGate>
-    </Provider>
+    <MultiProvider
+      providers={[
+        <Provider store={store} />,
+        <PersistGate loading={null} persistor={persistor} />,
+        <HashRouter />,
+        <ConfigProvider renderEmpty={customizeRenderEmpty} />,
+      ]}
+    >
+      <App />
+    </MultiProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
