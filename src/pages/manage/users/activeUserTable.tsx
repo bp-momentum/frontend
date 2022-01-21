@@ -161,7 +161,7 @@ const ActiveUserTable = () => {
       key: "thisweeksactivity",
       render: (text: number) => (
         <Tooltip title={text + " %"}>
-          <Progress percent={text} showInfo={false}>
+          <Progress percent={text * 100} showInfo={false}>
             {" "}
           </Progress>
         </Tooltip>
