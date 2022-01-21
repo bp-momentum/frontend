@@ -15,7 +15,7 @@ import {
 import Translations from "../localization/translations";
 import { t } from "i18next";
 import { PlayCircleOutlined } from "@ant-design/icons";
-import ExerciseCache from "../util/exercise_cache";
+import { useGetExerciseByIdQuery } from "../redux/exercises/exerciseSlice";
 
 const { Content } = Layout;
 const dayOrder = [
@@ -34,9 +34,6 @@ interface Exercise {
   repeats_per_set: number;
   date: string;
   activated: boolean;
-  description: string;
-  title: string;
-  video: string;
 }
 
 const isPast = (dayName: string): boolean => {
@@ -62,7 +59,7 @@ const openNextExercise = (): void => {
 
 const openExercise = (exercise: Exercise): void => {
   // TODO
-  console.log("open " + exercise.title);
+  console.log("open " + exercise.id);
 };
 
 const Day = ({
@@ -156,12 +153,18 @@ const Day = ({
 };
 
 const ExerciseCard = ({ exercise }: { exercise: Exercise }) => {
+  const { data, error, isError, isLoading } = useGetExerciseByIdQuery(
+    exercise.id.toString()
+  );
+
   return (
     <div
       style={{ display: "flex", alignItems: "center" }}
       onClick={() => openExercise(exercise)}
     >
-      <h4 style={{ margin: "0" }}>{exercise.title}</h4>
+      <h4 style={{ margin: "0" }}>
+        {isLoading ? "Loading" : isError ? error : data?.title}
+      </h4>
       <Tooltip
         title={
           <>
@@ -207,25 +210,8 @@ const Exercises = (): JSX.Element => {
       return;
     }
 
-    const exerciseList = response.data.exercises;
-    const exercises: Exercise[] = [];
-    for (const exercise of exerciseList) {
-      const id = exercise.id;
-      const ex = await ExerciseCache.getExerciseFromId(id);
-      exercises.push({
-        id: id,
-        sets: exercise.sets,
-        repeats_per_set: exercise.repeats_per_set,
-        date: exercise.date,
-        description: ex.description,
-        title: ex.title,
-        activated: ex.activated,
-        video: ex.video,
-      });
-    }
-
-    setExercises(exercises);
     setLoading(false);
+    setExercises(response.data.exercises);
   };
 
   useEffect(() => {
