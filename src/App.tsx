@@ -8,7 +8,6 @@ import Helper from "./util/helper";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import Register from "./pages/register";
-import CreateUser from "./pages/createUser";
 import AutoLogin from "./pages/autoLogin";
 import Settings from "./pages/settings";
 import EditPlan from "./pages/manage/editPlan";
@@ -18,6 +17,7 @@ import Leaderboard from "./pages/leaderboard";
 import Train from "./pages/train";
 import Error404 from "./pages/error/404";
 import helper from "./util/helper";
+import Users from "./pages/manage/users";
 
 // Basic App that is just used to Route to different pages
 function App(): JSX.Element {
@@ -63,7 +63,7 @@ function App(): JSX.Element {
         {/* TODO: route to 404 maybe? */}
         <Route path="plans" element={<ManagePlans />} />
         <Route path="plans/:planId" element={<EditPlan />} />
-        <Route path="user" element={<>not yet implemented</>} />
+        <Route path="users" element={<Users />} />
       </Route>
       <Route path="*" element={<Error404 />} />
     </Routes>

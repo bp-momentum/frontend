@@ -4,7 +4,7 @@ import { render, screen } from "@testing-library/react";
 import CreateUser from "./createUser";
 import { Provider } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { store } from "../redux/store";
+import { store } from "../../../redux/store";
 
 const createUserWrapper = () => (
   <Provider store={store}>

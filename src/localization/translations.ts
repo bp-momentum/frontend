@@ -2,6 +2,7 @@ const Translations = {
   errors: {
     unknownError: "errors.unknown-error",
     internalServerError: "errors.internal-server-error",
+    empty: "errors.empty",
   },
   user: {
     username: "user.username",
@@ -117,6 +118,30 @@ const Translations = {
     rank: "leaderboard.rank",
     name: "leaderboard.name",
     score: "leaderboard.score",
+  },
+  userManagement: {
+    users: "user-management.users",
+    trainers: "user-management.trainers",
+    active: "user-management.active",
+    invited: "user-management.invited",
+    invite: "user-management.invite",
+    trainerDeleted: "user-management.trainer-deleted",
+    userDeleted: "user-management.user-deleted",
+    name: "user-management.name",
+    email: "user-management.email",
+    manage: "user-management.manage",
+    deleteTrainerConfirm: "user-management.delete-trainer-confirm",
+    deleteUserConfirm: "user-management.delete-user-confirm",
+    trainingPlan: "user-management.training-plan",
+    selectPlan: "user-management.select-plan",
+    activity: "user-management.activity",
+    canceledInvite: "user-management.canceled-invite",
+    revoke: "user-management.revoke",
+    cancelInviteConfirm: "user-management.cancel-invite-confirm",
+    search: "user-management.search",
+    reset: "user-management.reset",
+    SearchName: "user-management.search-name",
+    SearchEmail: "user-management.search-email",
   },
 };
 
