@@ -8,7 +8,6 @@ import Helper from "../../util/helper";
 import "../../styles/profile.css";
 import api from "../../util/api";
 import Routes from "../../util/routes";
-import ExerciseCache from "../../util/exercise_cache";
 import ProfileSider from "./widgets/profile_sider";
 import TrainerCard from "./widgets/cards/trainer_card";
 import {
@@ -102,9 +101,7 @@ const Profile = (): JSX.Element => {
     const doneExercises: DoneExercise[] = exercises.data.exercises;
     let trainedTodayReal = 0;
     let trainDayGoal = 0;
-    for (const key in doneExercises) {
-      const exercise: DoneExercise = doneExercises[key];
-      exercise.name = await ExerciseCache.getExerciseNameFromId(exercise.id);
+    for (const exercise of doneExercises) {
       const duration = getApproximateExerciseDurationSeconds(exercise);
       if (exercise.date === todayDayName) {
         trainDayGoal += duration;

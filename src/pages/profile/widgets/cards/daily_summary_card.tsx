@@ -10,6 +10,7 @@ import {
   getApproximateExerciseDurationMinutes,
 } from "../../../../api/done_exercise";
 import Helper from "../../../../util/helper";
+import { useGetExerciseByIdQuery } from "../../../../redux/exercises/exerciseSlice";
 
 const DailySummaryCard = (props: {
   rating: number;
@@ -19,6 +20,18 @@ const DailySummaryCard = (props: {
   onClickShare: VoidFunction;
 }): JSX.Element => {
   const { t, i18n } = useTranslation();
+
+  const Exercise = (props: { exercise: DoneExercise }) => {
+    const { data, isLoading, isError, error } = useGetExerciseByIdQuery(
+      props.exercise.id.toString()
+    );
+    return (
+      <Text>
+        {isLoading ? "..." : isError ? error : data?.title}
+        <br />
+      </Text>
+    );
+  };
 
   return (
     <Card
@@ -51,10 +64,10 @@ const DailySummaryCard = (props: {
               .filter((e) => e.done && e.date === Helper.getCurrentDayName())
               .map((e) => {
                 return (
-                  <Text key={e.id + e.date + e.done + e.sets}>
-                    {e.name}
-                    <br />
-                  </Text>
+                  <Exercise
+                    exercise={e}
+                    key={e.id + e.date + e.done + e.sets}
+                  />
                 );
               })}
           </Col>
