@@ -122,11 +122,13 @@ const ActiveUserTable = () => {
           placeholder={t(Translations.userManagement.selectPlan)}
           optionFilterProp="children"
           defaultValue={text}
+          style={{ minWidth: "100px" }}
+          allowClear={true}
           onChange={async (value: string) => {
             api
               .execute(
                 Routes.assignPlanToUser({
-                  planId: value,
+                  planId: value ?? null,
                   username: record.name,
                 })
               )
@@ -159,7 +161,7 @@ const ActiveUserTable = () => {
       key: "thisweeksactivity",
       render: (text: number) => (
         <Tooltip title={text + " %"}>
-          <Progress percent={text} showInfo={false}>
+          <Progress percent={text * 100} showInfo={false}>
             {" "}
           </Progress>
         </Tooltip>
