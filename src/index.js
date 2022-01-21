@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
@@ -10,19 +11,24 @@ import { PersistGate } from "redux-persist/integration/react";
 import { HashRouter } from "react-router-dom";
 import { EmojiProvider } from "react-apple-emojis";
 import emojiData from "react-apple-emojis/lib/data.json";
+import { MultiProvider } from "react-pendulum";
+import { ConfigProvider } from "antd";
+import customizeRenderEmpty from "../src/util/emptyDataRender";
 import "./i18n";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <HashRouter>
-          <EmojiProvider data={emojiData}>
-            <App />
-          </EmojiProvider>
-        </HashRouter>
-      </PersistGate>
-    </Provider>
+    <MultiProvider
+      providers={[
+        <Provider store={store} />,
+        <PersistGate loading={null} persistor={persistor} />,
+        <HashRouter />,
+        <EmojiProvider data={emojiData} />,
+        <ConfigProvider renderEmpty={customizeRenderEmpty} />,
+      ]}
+    >
+      <App />
+    </MultiProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

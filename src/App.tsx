@@ -1,4 +1,4 @@
-import "./App.css";
+import "./styles/App.css";
 import React, { useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { useAppSelector } from "./redux/hooks";
@@ -8,7 +8,6 @@ import Helper from "./util/helper";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import Register from "./pages/register";
-import CreateUser from "./pages/createUser";
 import AutoLogin from "./pages/autoLogin";
 import Settings from "./pages/settings";
 import EditPlan from "./pages/manage/editPlan";
@@ -16,6 +15,7 @@ import ManagePlans from "./pages/manage/plans";
 import Exercises from "./pages/exercises";
 import Leaderboard from "./pages/leaderboard";
 import helper from "./util/helper";
+import Users from "./pages/manage/users";
 
 // Basic App that is just used to Route to different pages
 function App(): JSX.Element {
@@ -52,14 +52,14 @@ function App(): JSX.Element {
   return (
     <Routes>
       <Route path="/" element={isUser ? <Exercises /> : <Home />} />
-      <Route path="/createuser" element={<CreateUser />} />
+      <Route path="/exercises" element={<Exercises />} />
       <Route path="/leaderboard" element={<Leaderboard />} />
       <Route path="/settings" element={<Settings />} />
       <Route path="/manage">
         {/* TODO: route to 404 maybe? */}
         <Route path="plans" element={<ManagePlans />} />
         <Route path="plans/:planId" element={<EditPlan />} />
-        <Route path="user" element={<>not yet implemented</>} />
+        <Route path="users" element={<Users />} />
       </Route>
       <Route
         path="*"
