@@ -101,21 +101,21 @@ const WebcamStreamCapture = (props: {
     }
   }, [recordedChunks]);
 
+  const videoConstraints: MediaTrackConstraints = {
+    width: { max: 0.8 * window.innerWidth },
+    height: { max: 0.8 * window.innerHeight },
+    // resizeMode: "crop-and-scale",
+    //    -> https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints#properties_of_video_tracks why no work?
+  };
+
   return (
-    <div style={{ position: "relative" }}>
-      {recordedChunks.length > 0 && (
-        <button
-          onClick={handleDownload}
-          style={{ position: "absolute", bottom: 0, right: 0 }}
-        >
-          Download
-        </button>
-      )}
+    <div style={{ position: "relative", maxWidth: "80%", maxHeight: "80%" }}>
       <Webcam
         audio={false}
         ref={webcamRef}
         mirrored
         style={{ border: "1px solid red" }}
+        // videoConstraints={videoConstraints}
       />
       <button
         onClick={capturing ? handleStopCaptureClick : handleStartCaptureClick}
