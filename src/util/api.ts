@@ -140,8 +140,6 @@ export class ApiSocketConnection {
     this.token = token;
     this.ws = new WebSocket("ws://78.46.150.116:9000/ws/socket");
 
-    console.log(this.ws);
-
     this.ws.onopen = (event) => {
       this.ws.send(
         JSON.stringify({

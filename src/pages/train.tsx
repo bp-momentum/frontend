@@ -36,7 +36,6 @@ const WebcamStreamCapture = (props: {
   const sendChunks = React.useCallback(
     (data: Blob): void => {
       webSocketRef.current?.send(data);
-      // console.log("Sent BLOB to webSocket");
     },
     [webSocketRef]
   );
@@ -94,7 +93,6 @@ const WebcamStreamCapture = (props: {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       document.body.appendChild(a);
-      // a.style = "display: none";
       a.href = url;
       a.download = "react-webcam-stream-capture.webm";
       a.click();
@@ -137,7 +135,6 @@ const WebcamStreamCapture = (props: {
 const Train = () => {
   const [exercise, setExercise] = React.useState<ExerciseData>();
   const [collapsed, setCollapsed] = useState(false);
-  // 0: not yet loading, 1: currently fetching data from api, 2: finished loading
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [progress /*, setProgress*/] = useState(10);
