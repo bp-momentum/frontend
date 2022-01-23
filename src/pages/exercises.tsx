@@ -414,7 +414,7 @@ const Exercises = (): JSX.Element => {
             style={{
               display: "flex",
               width: "100%",
-              padding: "00px",
+              padding: "0px",
               paddingTop: "20px",
               overflow: "auto",
             }}
@@ -430,7 +430,6 @@ const Exercises = (): JSX.Element => {
               <Row
                 style={{
                   padding: "10px 50px",
-                  // width: "100%",
                   height: "100%",
                   alignContent: "flex-start",
                   overflow: "auto",
