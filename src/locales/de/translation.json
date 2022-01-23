@@ -145,5 +145,9 @@
     "reset": "Zurücksetzen",
     "search-name": "Suche nach Namen",
     "search-email": "Suche nach Email"
+  },
+  "error-page": {
+    "404-text": "Des hamma net!",
+    "418-text": "Ich bin ne Teekanne!"
   }
 }

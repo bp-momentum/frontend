@@ -143,6 +143,10 @@ const Translations = {
     SearchName: "user-management.search-name",
     SearchEmail: "user-management.search-email",
   },
+  errorPage: {
+    err404Text: "error-page.404-text",
+    err418Text: "error-page.418-text",
+  },
 };
 
 export default Translations;

@@ -1,5 +1,7 @@
 import Layout, { Content } from "antd/lib/layout/layout";
+import { t } from "i18next";
 import React from "react";
+import Translations from "../../localization/translations";
 import Container from "../../shared/container";
 import Error from "../../static/_(.svg";
 
@@ -19,7 +21,7 @@ const Error404 = () => {
           }}
         >
           <h1 style={{ fontSize: "60px", marginBottom: "-10px" }}>418</h1>
-          <span>Ich bin ne Teekanne!</span>
+          <span>{t(Translations.errorPage.err418Text)}</span>
           <img
             src={Error}
             style={{ marginTop: "80px", width: "600px" }}
