@@ -98,4 +98,18 @@ nock(api.serverUrl)
         },
       ],
     },
+  })
+  .post("/api/getdoneexercisesinmonth")
+  .reply(200, {
+    success: true,
+    data: {
+      done: [
+        {
+          exercise_plan_id: 0,
+          id: 0,
+          data: 0,
+          points: 0,
+        },
+      ],
+    },
   });
