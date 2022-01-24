@@ -80,10 +80,17 @@ const Profile = (): JSX.Element => {
   });
 
   const loadProfile = async () => {
+    const date = new Date();
     const results = await Promise.all([
       api.execute(Routes.getProfile()),
       api.execute(Routes.getTrainerContact()),
       api.execute(Routes.getDoneExercises()),
+      api.execute(
+        Routes.getDoneExercisesInMonth({
+          month: date.getMonth() + 1,
+          year: date.getFullYear(),
+        })
+      ),
     ]);
 
     for (const result of results) {
