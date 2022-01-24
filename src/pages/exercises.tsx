@@ -16,6 +16,7 @@ import Translations from "../localization/translations";
 import { t } from "i18next";
 import { PlayCircleOutlined } from "@ant-design/icons";
 import { useGetExerciseByIdQuery } from "../redux/exercises/exerciseSlice";
+import Helper from "../util/helper";
 
 const { Content } = Layout;
 const dayOrder = [
@@ -37,19 +38,13 @@ interface Exercise {
 }
 
 const isPast = (dayName: string): boolean => {
-  const now = new Date();
-  const nowDayName = now
-    .toLocaleDateString("en-GB", { weekday: "long" })
-    .toLowerCase();
-  return dayOrder.indexOf(dayName) < dayOrder.indexOf(nowDayName);
+  const currentDayName = Helper.getCurrentDayName();
+  return dayOrder.indexOf(dayName) < dayOrder.indexOf(currentDayName);
 };
 
 const isFuture = (dayName: string): boolean => {
-  const now = new Date();
-  const nowDayName = now
-    .toLocaleDateString("en-GB", { weekday: "long" })
-    .toLowerCase();
-  return dayOrder.indexOf(dayName) > dayOrder.indexOf(nowDayName);
+  const currentDayName = Helper.getCurrentDayName();
+  return dayOrder.indexOf(dayName) > dayOrder.indexOf(currentDayName);
 };
 
 const openNextExercise = (): void => {
