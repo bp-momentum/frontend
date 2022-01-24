@@ -206,6 +206,22 @@ const Routes = {
   },
 
   /**
+   * Get all done exercises in a given month of a given year.
+   * This can only be called by a user.
+   */
+  getDoneExercisesInMonth: (props: { month: number; year: number }): Route => {
+    return {
+      route: "/api/getdoneexercisesinmonth",
+      method: "POST",
+      needsAuth: true,
+      body: {
+        year: props.year,
+        month: props.month,
+      },
+    };
+  },
+
+  /**
    * Get assigned training plans.
    * This can only be called by a user.
    */
