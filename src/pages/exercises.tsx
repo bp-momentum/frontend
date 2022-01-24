@@ -140,7 +140,7 @@ const Day = ({
         )}
 
         {exercises.map((e) => (
-          <ExerciseCard key={e.date + e.sets} exercise={e} />
+          <ExerciseCard key={exercises.indexOf(e)} exercise={e} />
         ))}
       </Card>
     </Col>
