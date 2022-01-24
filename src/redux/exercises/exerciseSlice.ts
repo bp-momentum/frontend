@@ -37,8 +37,21 @@ export const exerciseApi = createApi({
         return undefined;
       },
     }),
+    getDoneExercisesInMonth: builder.query<any, Record<string, number>>({
+      query(date) {
+        return {
+          url: "/api/getdoneexercisesinmonth",
+          method: "POST",
+          body: {
+            month: date["month"],
+            year: date["year"],
+          },
+        };
+      },
+    }),
   }),
 });
 
 export default exerciseApi.reducer;
-export const { useGetExerciseByIdQuery } = exerciseApi;
+export const { useGetExerciseByIdQuery, useGetDoneExercisesInMonthQuery } =
+  exerciseApi;

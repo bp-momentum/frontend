@@ -2,17 +2,28 @@ import Text from "antd/lib/typography/Text";
 import Translations from "../../../../localization/translations";
 import { Calendar, Card, Col, Row } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
-import Helper from "../../../../util/helper";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { DoneExercise } from "../../../../api/done_exercise";
+import { useGetDoneExercisesInMonthQuery } from "../../../../redux/exercises/exerciseSlice";
 
-const ActivityCalendarCard = (props: {
-  doneExercises: DoneExercise[];
+const DateCell = (props: {
+  month: number;
+  year: number;
+  date: Date;
 }): JSX.Element => {
-  const { t } = useTranslation();
+  const { data } = useGetDoneExercisesInMonthQuery({
+    month: props.month + 1,
+    year: props.year,
+  });
 
-  const stringToColour = (str: string): string => {
+  const exercises: {
+    date: number;
+    exercise_plan_id: number;
+    id: number;
+    points: number;
+  }[] = data ? data.data.done : [];
+
+  const stringToColor = (str: string): string => {
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
       hash = str.charCodeAt(i) + ((hash << 5) - hash);
@@ -24,6 +35,59 @@ const ActivityCalendarCard = (props: {
     const mod = hash % 0xffffff;
     return "#" + mod.toString(16);
   };
+
+  const doneExercises = exercises.filter((e) => {
+    const d = new Date(e.date * 1000);
+    return d.toDateString() === props.date.toDateString();
+  });
+  const text = (
+    <Text
+      style={{
+        color:
+          props.date.toDateString() === new Date().toDateString()
+            ? "#466995"
+            : "black",
+        borderRadius: "50%",
+      }}
+    >
+      {props.date.getDate()}
+    </Text>
+  );
+  return (
+    <Col>
+      {text}
+      <Row justify="center">
+        {doneExercises.length === 0 && (
+          <div
+            style={{
+              padding: "2px",
+              width: "5px",
+              height: "5px",
+            }}
+          />
+        )}
+        {doneExercises.length > 0 &&
+          doneExercises.map((e) => {
+            return (
+              <div
+                key={e.date}
+                style={{
+                  padding: "2px",
+                  width: "5px",
+                  height: "5px",
+                  backgroundColor: stringToColor(e.date.toString()),
+                  borderRadius: "50%",
+                }}
+              />
+            );
+          })}
+      </Row>
+    </Col>
+  );
+};
+
+const ActivityCalendarCard = (): JSX.Element => {
+  const { t } = useTranslation();
 
   return (
     <Card
@@ -72,68 +136,13 @@ const ActivityCalendarCard = (props: {
             </div>
           );
         }}
-        dateFullCellRender={(date) => {
-          const dayName = date
-            .toDate()
-            .toLocaleDateString("en-GB", { weekday: "long" })
-            .toLowerCase();
-          const doneExercises = props.doneExercises.filter(
-            (e) =>
-              e.done &&
-              e.date === dayName &&
-              Helper.getWeek(date.toDate()) === Helper.getCurrentWeek()
-          );
-          const text = (
-            <Text
-              style={{
-                color:
-                  date.toDate().toDateString() === new Date().toDateString()
-                    ? "#466995"
-                    : "black",
-                borderRadius: "50%",
-              }}
-            >
-              {date.date()}
-            </Text>
-          );
-          return (
-            <Col>
-              {text}
-              <Row justify="center">
-                {doneExercises.length === 0 && (
-                  <div
-                    style={{
-                      padding: "2px",
-                      width: "5px",
-                      height: "5px",
-                    }}
-                  />
-                )}
-                {doneExercises.length > 0 &&
-                  doneExercises.map((e) => {
-                    return (
-                      <div
-                        key={e.id}
-                        style={{
-                          padding: "2px",
-                          width: "5px",
-                          height: "5px",
-                          backgroundColor: stringToColour(
-                            e.date +
-                              e.done +
-                              e.repeats_per_set +
-                              e.exercise_plan_id +
-                              e.sets
-                          ),
-                          borderRadius: "50%",
-                        }}
-                      />
-                    );
-                  })}
-              </Row>
-            </Col>
-          );
-        }}
+        dateFullCellRender={(date) => (
+          <DateCell
+            month={date.month()}
+            year={date.year()}
+            date={date.toDate()}
+          />
+        )}
       />
     </Card>
   );

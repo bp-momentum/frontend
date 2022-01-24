@@ -80,17 +80,10 @@ const Profile = (): JSX.Element => {
   });
 
   const loadProfile = async () => {
-    const date = new Date();
     const results = await Promise.all([
       api.execute(Routes.getProfile()),
       api.execute(Routes.getTrainerContact()),
       api.execute(Routes.getDoneExercises()),
-      api.execute(
-        Routes.getDoneExercisesInMonth({
-          month: date.getMonth() + 1,
-          year: date.getFullYear(),
-        })
-      ),
     ]);
 
     for (const result of results) {
@@ -226,7 +219,7 @@ const Profile = (): JSX.Element => {
               />
             </Col>
             <Col className="gutter-row" span={10}>
-              <ActivityCalendarCard doneExercises={profileData.doneExercises} />
+              <ActivityCalendarCard />
             </Col>
             <Col className="gutter-row" span={10}>
               <DailySummaryCard
