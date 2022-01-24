@@ -23,7 +23,7 @@ const DailySummaryCard = (props: {
 
   const Exercise = (props: { exercise: DoneExercise }) => {
     const { data, isLoading, isError, error } = useGetExerciseByIdQuery(
-      props.exercise.id.toString()
+      props.exercise.id
     );
     return (
       <Text>

@@ -16,7 +16,7 @@ export const exerciseApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    getExerciseById: builder.query<Exercise | undefined, string>({
+    getExerciseById: builder.query<Exercise | undefined, number>({
       query(exerciseId) {
         return {
           url: "/api/getexercise",

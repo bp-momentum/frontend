@@ -148,8 +148,8 @@ const Day = ({
 };
 
 const ExerciseCard = ({ exercise }: { exercise: Exercise }) => {
-  const { data, error, isError, isLoading } = useGetExerciseByIdQuery(
-    exercise.id.toString()
+  const { data, isLoading, isError, error } = useGetExerciseByIdQuery(
+    exercise.id
   );
 
   return (

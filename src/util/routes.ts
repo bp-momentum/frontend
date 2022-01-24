@@ -117,7 +117,7 @@ const Routes = {
   /**
    * Fetch more information about an exercise with a given id.
    */
-  getExercise: (props: { id: string }): Route => {
+  getExercise: (props: { id: number }): Route => {
     return {
       route: "/api/getexercise",
       method: "POST",

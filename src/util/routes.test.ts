@@ -31,8 +31,8 @@ test("Check routes", () => {
   expect(Routes.deleteAccount().needsAuth).toBe(true);
   expect(Routes.deleteTrainingPlan({ planId: "" }).needsAuth).toBe(true);
   expect(Routes.deleteTrainingPlan({ planId: "" }).method).toBe("POST");
-  expect(Routes.getExercise({ id: "" }).method).toBe("POST");
-  expect(Routes.getExercise({ id: "" }).needsAuth).toBe(true);
+  expect(Routes.getExercise({ id: 0 }).method).toBe("POST");
+  expect(Routes.getExercise({ id: 0 }).needsAuth).toBe(true);
   expect(Routes.getAssignedPlanOfUser({ username: "" }).needsAuth).toBe(true);
   expect(Routes.getAssignedPlanOfUser({ username: "" }).method).toBe("POST");
   expect(Routes.getAssignedPlans().needsAuth).toBe(true);
