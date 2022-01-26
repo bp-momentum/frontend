@@ -8575,6 +8575,11 @@ react-app-polyfill@^3.0.0:
     regenerator-runtime "^0.13.9"
     whatwg-fetch "^3.6.2"
 
+react-apple-emojis@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/react-apple-emojis/-/react-apple-emojis-2.1.1.tgz#f5423edd9b7812d8aefdbbbb8970f06c64169d07"
+  integrity sha512-DnT7s9e6rIqCLEcXmQWxmVMpwVtclC3O8ASdvX2szZtOzNDHXcJmd87ZDocN32/01ToNsAwYEAu4c5gDLO3h9A==
+
 react-beautiful-dnd@^13.1.0:
   version "13.1.0"
   resolved "https://registry.yarnpkg.com/react-beautiful-dnd/-/react-beautiful-dnd-13.1.0.tgz#ec97c81093593526454b0de69852ae433783844d"

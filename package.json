@@ -17,6 +17,7 @@
     "nock": "^13.2.2",
     "rc-table": "^7.22.2",
     "react": "^17.0.2",
+    "react-apple-emojis": "^2.1.1",
     "react-beautiful-dnd": "^13.1.0",
     "react-dom": "^17.0.2",
     "react-i18next": "^11.15.3",
