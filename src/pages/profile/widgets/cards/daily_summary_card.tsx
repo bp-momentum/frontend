@@ -27,7 +27,11 @@ const DailySummaryCard = (props: {
     );
     return (
       <Text>
-        {isLoading ? "..." : isError ? error : data?.title}
+        {isLoading
+          ? t(Translations.exercises.loading)
+          : isError
+          ? error
+          : data?.title}
         <br />
       </Text>
     );

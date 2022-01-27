@@ -241,7 +241,11 @@ const ExerciseCard = ({
       }}
     >
       <h4 style={{ margin: "0" }}>
-        {isLoading ? "Loading" : isError ? error : data?.title}
+        {isLoading
+          ? t(Translations.exercises.loading)
+          : isError
+          ? error
+          : data?.title}
       </h4>
       <Tooltip
         title={

@@ -113,6 +113,7 @@ const Translations = {
     dayOff: "exercises.day-off",
     motivation: "exercises.motivation",
     medalMotivation: "exercises.medal-motivation",
+    loading: "exercises.loading",
   },
   leaderboard: {
     rank: "leaderboard.rank",
