@@ -6,5 +6,4 @@ export interface Exercise {
   description: string;
   title: string;
   video: string;
-  completed?: boolean;
 }

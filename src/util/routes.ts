@@ -225,11 +225,11 @@ const Routes = {
    * Get assigned training plans.
    * This can only be called by a user.
    */
-  getDoneExercises: (): Route => {
+  getAssignedPlans: (): Route => {
     return {
-      route: "/api/getdoneexercises",
+      route: "/api/requestplanofuser",
       needsAuth: true,
-      method: "GET",
+      method: "POST",
     };
   },
 

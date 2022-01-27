@@ -37,10 +37,11 @@ const dayOrder = [
 
 interface Exercise {
   id: number;
+  exercise_plan_id?: number;
   sets: number;
   repeats_per_set: number;
   date: string;
-  activated: boolean;
+  completed?: boolean;
 }
 
 const isPast = (dayName: string): boolean => {
@@ -204,19 +205,21 @@ const Day = forwardRef(
 Day.displayName = "Day";
 
 const ExerciseCard = ({
+  exercise,
   today,
 }: {
+  exercise: Exercise;
   today: boolean;
 }) => {
+  const { data, isLoading, isError, error } = useGetExerciseByIdQuery(
+    exercise.id
+  );
   const navigate = useNavigate();
 
   const openExercise = (exercise: Exercise): void => {
     navigate(`/train/${exercise.id}`);
   };
 
-  const { data, isLoading, isError, error } = useGetExerciseByIdQuery(
-    exercise.id
-  );
   return (
     <div
       className={`ExerciseCard ${
@@ -274,7 +277,6 @@ const Exercises = (): JSX.Element => {
   const [loading, setLoading] = React.useState<boolean>(true);
 
   const loadAssignedPlan = async () => {
-    setLoading(true);
     const response = await api.execute(Routes.getDoneExercises());
     if (!response) return;
     if (!response.success) {
@@ -285,13 +287,12 @@ const Exercises = (): JSX.Element => {
       return;
     }
 
-    setLoading(false);
     setExercises(response.data.exercises);
+    setLoading(false);
   };
 
   useEffect(() => {
     if (!loading) return;
-    if (exercises.length !== 0) return;
     loadAssignedPlan().then(() => setLoading(false));
   });
 
