@@ -2971,23 +2971,22 @@ ansi-styles@^5.0.0:
   resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-5.2.0.tgz#07449690ad45777d1924ac2abb2fc8895dba836b"
   integrity sha512-Cxwpt2SfTzTtXcfOlzGEee8O+c+MmUgGrNiBcXnuWxuFJHe6a5Hz7qwhwe5OgaSYI0IJvkLqWX1ASG+cJOkEiA==
 
-antd@^4.18.4:
-  version "4.18.4"
-  resolved "https://registry.yarnpkg.com/antd/-/antd-4.18.4.tgz#704d866a0e9d97686e3fd1ee05995ac04c85c3f0"
-  integrity sha512-7KCEhIyPeQJF/OenkfOTcx+5sHpiI5U6OzYmTUJn9wVPjcl07eFXu2w9teM9pJV9X7mSUWyPeM5aMFmBQo2TNQ==
+antd@^4.18.5:
+  version "4.18.5"
+  resolved "https://registry.yarnpkg.com/antd/-/antd-4.18.5.tgz#e5ffbe238fd6fdfcd1ed39ba96e4b1bd5f589757"
+  integrity sha512-5fN3C2lWAzonhOYYlNpzIw2OHl7vxFZ+4cJ7DK/XZrV+75OY61Y+OkanqMJwrFtDDamIez35OM7cAezGko9tew==
   dependencies:
     "@ant-design/colors" "^6.0.0"
     "@ant-design/icons" "^4.7.0"
     "@ant-design/react-slick" "~0.28.1"
     "@babel/runtime" "^7.12.5"
     "@ctrl/tinycolor" "^3.4.0"
-    array-tree-filter "^2.1.0"
     classnames "^2.2.6"
     copy-to-clipboard "^3.2.0"
     lodash "^4.17.21"
     memoize-one "^6.0.0"
     moment "^2.25.3"
-    rc-cascader "~3.0.0-alpha.8"
+    rc-cascader "~3.2.1"
     rc-checkbox "~2.3.0"
     rc-collapse "~3.1.0"
     rc-dialog "~8.6.0"
@@ -3014,7 +3013,7 @@ antd@^4.18.4:
     rc-textarea "~0.3.0"
     rc-tooltip "~5.1.1"
     rc-tree "~5.4.3"
-    rc-tree-select "~5.1.0"
+    rc-tree-select "~5.1.1"
     rc-trigger "^5.2.10"
     rc-upload "~4.3.0"
     rc-util "^5.14.0"
@@ -5603,17 +5602,17 @@ human-signals@^2.1.0:
   resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-2.1.0.tgz#dc91fcba42e4d06e4abaed33b3e7a3c02f514ea0"
   integrity sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==
 
-i18next-browser-languagedetector@^6.1.2:
-  version "6.1.2"
-  resolved "https://registry.yarnpkg.com/i18next-browser-languagedetector/-/i18next-browser-languagedetector-6.1.2.tgz#68565a28b929cbc98ab6a56826ef2faf0e927ff8"
-  integrity sha512-YDzIGHhMRvr7M+c8B3EQUKyiMBhfqox4o1qkFvt4QXuu5V2cxf74+NCr+VEkUuU0y+RwcupA238eeolW1Yn80g==
+i18next-browser-languagedetector@^6.1.3:
+  version "6.1.3"
+  resolved "https://registry.yarnpkg.com/i18next-browser-languagedetector/-/i18next-browser-languagedetector-6.1.3.tgz#9bc47fb4a5db86d567318895df343d2d1b9692f3"
+  integrity sha512-T+oGXHXtrur14CGnZZ7qQ07X38XJQEI00b/4ILrtO6xPbwTlQ1wtMZC2H+tBULixHuVUXv8LKbxfjyITJkezUg==
   dependencies:
     "@babel/runtime" "^7.14.6"
 
-i18next@^21.6.6:
-  version "21.6.6"
-  resolved "https://registry.yarnpkg.com/i18next/-/i18next-21.6.6.tgz#65db9a32e4746d145b3ab3f12c59fc02ad7b5101"
-  integrity sha512-K1Pw8K+nHVco56PO6UrqNq4K/ZVbb2eqBQwPqmzYDm4tGQYXBjdz8jrnvuNvV5STaE8oGpWKQMxHOvh2zhVE7Q==
+i18next@^21.6.10:
+  version "21.6.10"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-21.6.10.tgz#aa503831d42213ae2f05eaede29ca07c2d6fbb6f"
+  integrity sha512-Xw+tEGQ61BF6SXtBlFffhM/YhJKHZf2cyDrcNK/l2dE6yVbkPkSasC3VhkAsHXX30vUJ0yG04WIUtf7UvwjOxg==
   dependencies:
     "@babel/runtime" "^7.12.0"
 
@@ -7031,9 +7030,9 @@ multicast-dns@^6.0.1:
     thunky "^1.0.2"
 
 nanoid@^3.1.30:
-  version "3.1.30"
-  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.30.tgz#63f93cc548d2a113dc5dfbc63bfa09e2b9b64362"
-  integrity sha512-zJpuPDwOv8D2zq2WRoMe1HsfZthVewpel9CAvTfc/2mBD1uUT/agc5f7GHGWXlYkFvi1mVxe4IjvP2HNrop7nQ==
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.2.0.tgz#62667522da6673971cca916a6d3eff3f415ff80c"
+  integrity sha512-fmsZYa9lpn69Ad5eDn7FMcnnSR+8R34W9qJEijxYhTbfOWzr22n1QxCMzXLK+ODyW2973V3Fux959iQoUxzUIA==
 
 natural-compare@^1.4.0:
   version "1.4.0"
@@ -8230,15 +8229,15 @@ rc-align@^4.0.0:
     rc-util "^5.3.0"
     resize-observer-polyfill "^1.5.1"
 
-rc-cascader@~3.0.0-alpha.8:
-  version "3.0.0-alpha.8"
-  resolved "https://registry.yarnpkg.com/rc-cascader/-/rc-cascader-3.0.0-alpha.8.tgz#a6d2264ba26ec359ab174866a09067b5dfa0e8eb"
-  integrity sha512-zZ6tczHacUy622E7m5aruCcB3ii+J5bhusCPpyb64LP9KbcKcquchdgWeeyVY/7K8BrJXOTOJW1MDZ9nxsWBWw==
+rc-cascader@~3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/rc-cascader/-/rc-cascader-3.2.1.tgz#fc928d67d96c3d9f358263e4a9127bcf4257cc6b"
+  integrity sha512-Raxam9tFzBL4TCgHoyVcf7+Q2KSFneUk3FZXi9w1tfxEihLlezSH0oCNMjHJN8hxWwwx9ZbI9UzWTfFImjXc0Q==
   dependencies:
     "@babel/runtime" "^7.12.5"
     array-tree-filter "^2.1.0"
     classnames "^2.3.1"
-    rc-select "~14.0.0-alpha.8"
+    rc-select "~14.0.0-alpha.23"
     rc-tree "~5.4.3"
     rc-util "^5.6.1"
 
@@ -8421,10 +8420,10 @@ rc-resize-observer@^1.0.0, rc-resize-observer@^1.1.0, rc-resize-observer@^1.2.0:
     rc-util "^5.15.0"
     resize-observer-polyfill "^1.5.1"
 
-rc-select@~14.0.0-alpha.15, rc-select@~14.0.0-alpha.8:
-  version "14.0.0-alpha.17"
-  resolved "https://registry.yarnpkg.com/rc-select/-/rc-select-14.0.0-alpha.17.tgz#9f5d3936852325dfbbf3aac6cab1c8a0a9466d4e"
-  integrity sha512-5yiWwiUiDS068wWmSpgIUxCcXGuUlx8ok0Aj97hQ4f47EW44iUcSWENYf7+slxw8XFnitEinLbrByBNPkaiJjA==
+rc-select@~14.0.0-alpha.15, rc-select@~14.0.0-alpha.23, rc-select@~14.0.0-alpha.8:
+  version "14.0.0-alpha.24"
+  resolved "https://registry.yarnpkg.com/rc-select/-/rc-select-14.0.0-alpha.24.tgz#0914c2debe0df84b9cdf20d71359293f727302fe"
+  integrity sha512-EBjdBv4aIXNQC4stn/eh3zdsF3piRsFCS+4aYjwkm6T0oc5zI48dlYtrMs/lwR/3H23At6L2w3fhHhhH8qNbJQ==
   dependencies:
     "@babel/runtime" "^7.10.1"
     classnames "2.x"
@@ -8504,10 +8503,10 @@ rc-tooltip@^5.0.1, rc-tooltip@~5.1.1:
     "@babel/runtime" "^7.11.2"
     rc-trigger "^5.0.0"
 
-rc-tree-select@~5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/rc-tree-select/-/rc-tree-select-5.1.0.tgz#f8880b0daadb2a522e67faab5646287136bff306"
-  integrity sha512-SPebDZiBifJlt3/+nIrE+QWfHB7Zj6MdEu+ke/NWtxHoo4L12TTAFTok/LcpuDyKHTALCssPhUdojfU2ysKySQ==
+rc-tree-select@~5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/rc-tree-select/-/rc-tree-select-5.1.1.tgz#09940459cc57f072916ff3e2ddb6a6f62bbc4eb5"
+  integrity sha512-jchIaOTBvJjr3WJXPJc4wCeROIktkq8Ykf888GmL94nItJmqS9H6nCjSchEtkUbtDbZwx52tIJjzc81GWQbm/w==
   dependencies:
     "@babel/runtime" "^7.10.1"
     classnames "2.x"
@@ -8575,6 +8574,11 @@ react-app-polyfill@^3.0.0:
     raf "^3.4.1"
     regenerator-runtime "^0.13.9"
     whatwg-fetch "^3.6.2"
+
+react-apple-emojis@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/react-apple-emojis/-/react-apple-emojis-2.1.1.tgz#f5423edd9b7812d8aefdbbbb8970f06c64169d07"
+  integrity sha512-DnT7s9e6rIqCLEcXmQWxmVMpwVtclC3O8ASdvX2szZtOzNDHXcJmd87ZDocN32/01ToNsAwYEAu4c5gDLO3h9A==
 
 react-beautiful-dnd@^13.1.0:
   version "13.1.0"

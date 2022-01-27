@@ -9,8 +9,10 @@ import { unsetRefreshToken, unsetToken } from "../redux/token/tokenSlice";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import Translations from "../localization/translations";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 const Settings = (): JSX.Element => {
+  const navigate = useNavigate();
   const [error, setError] = React.useState<null | string>();
   const [success, setSuccess] = React.useState<null | string>();
 
@@ -21,6 +23,7 @@ const Settings = (): JSX.Element => {
   const logout = () => {
     dispatch(unsetRefreshToken());
     dispatch(unsetToken());
+    navigate("/");
   };
 
   const changeLanguage = (lng: string) =>

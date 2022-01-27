@@ -46,8 +46,7 @@
   "home": {
     "you-are": "You are {{type, en-handle-an}}!",
     "logout": "Logout",
-    "create-user": "Create User",
-    "exercises": "Show today's exercises"
+    "create-user": "Create User"
   },
   "tab-bar": {
     "home": "Home",
@@ -112,7 +111,11 @@
   },
   "exercises": {
     "no-exercises": "No Exercises",
-    "next-exercise": "Go to the next exercise"
+    "next-exercise": "Go to the next exercise",
+    "day-off": "Take a day off",
+    "motivation": "Let's go, ",
+    "medal-motivation_one": "Only 1 more day until your next medal!",
+    "medal-motivation_other": "Only {{count}} more days until your next medal!"
   },
   "leaderboard": {
     "rank": "Rank",
