@@ -1,6 +1,6 @@
 import Text from "antd/lib/typography/Text";
 import Translations from "../../../../localization/translations";
-import { Calendar, Card, Col, Row } from "antd";
+import { Calendar, Card, Col, Row, Tooltip } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -41,7 +41,7 @@ const DateCell = (props: {
     return d.toDateString() === props.date.toDateString();
   });
   const text = (
-    <Text
+    <span
       style={{
         color:
           props.date.toDateString() === new Date().toDateString()
@@ -51,38 +51,40 @@ const DateCell = (props: {
       }}
     >
       {props.date.getDate()}
-    </Text>
+    </span>
   );
   return (
-    <Col>
-      {text}
-      <Row justify="center">
-        {doneExercises.length === 0 && (
-          <div
-            style={{
-              padding: "2px",
-              width: "5px",
-              height: "5px",
-            }}
-          />
-        )}
-        {doneExercises.length > 0 &&
-          doneExercises.map((e) => {
-            return (
-              <div
-                key={e.date}
-                style={{
-                  padding: "2px",
-                  width: "5px",
-                  height: "5px",
-                  backgroundColor: stringToColor(e.date.toString()),
-                  borderRadius: "50%",
-                }}
-              />
-            );
-          })}
-      </Row>
-    </Col>
+    <Tooltip title={<Text>Hallo</Text>}>
+      <Col>
+        {text}
+        <Row justify="center">
+          {doneExercises.length === 0 && (
+            <div
+              style={{
+                padding: "2px",
+                width: "5px",
+                height: "5px",
+              }}
+            />
+          )}
+          {doneExercises.length > 0 &&
+            doneExercises.map((e) => {
+              return (
+                <div
+                  key={e.date}
+                  style={{
+                    padding: "2px",
+                    width: "5px",
+                    height: "5px",
+                    backgroundColor: stringToColor(e.date.toString()),
+                    borderRadius: "50%",
+                  }}
+                />
+              );
+            })}
+        </Row>
+      </Col>
+    </Tooltip>
   );
 };
 
@@ -110,7 +112,7 @@ const ActivityCalendarCard = (): JSX.Element => {
           color: "transparent",
         }}
         fullscreen={false}
-        headerRender={({ value, type, onChange, onTypeChange }) => {
+        headerRender={({ value, onChange }) => {
           const localeData = value.localeData();
           return (
             <div style={{ padding: 8, color: "black" }}>
