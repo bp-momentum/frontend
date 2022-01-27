@@ -94,7 +94,7 @@ const Day = forwardRef(
           className={past ? "past" : ""}
           bordered={false}
           style={{
-            borderRadius: "24px",
+            borderRadius: "25px",
             minWidth: "280px",
             background: past ? "#EBEBEB" : "#fff",
             boxShadow: "-2px 4px 4px rgba(0, 0, 0, 0.25)",
