@@ -114,8 +114,8 @@
     "next-exercise": "Gehe zur nächsten Übung",
     "day-off": "Nimm dir einen Tag Pause",
     "motivation": "Auf geht's, ",
-    "medal-motivation_one": "Nur noch ein Tag bis zur nächsten Medallie!",
-    "medal-motivation_other": "Nur noch {{count}} Tage bis zur nächsten Medallie!",
+    "medal-motivation_one": "Nur noch ein Tag bis zur nächsten Medaille!",
+    "medal-motivation_other": "Nur noch {{count}} Tage bis zur nächsten Medaille!",
     "loading": "Lade..."
   },
   "leaderboard": {
