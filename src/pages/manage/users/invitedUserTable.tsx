@@ -69,7 +69,9 @@ const InvitedUserTable = (props: {
           userList.push({
             key: invite.id,
             name: `${invite.first_name} ${invite.last_name}`,
-            email: invite.email || <i>email not provided</i>,
+            email: invite.email || (
+              <i>{t(Translations.userManagement.noEmail)}</i>
+            ),
           });
         });
         setData(userList);

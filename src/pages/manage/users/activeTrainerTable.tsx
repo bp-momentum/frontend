@@ -51,7 +51,9 @@ const ActiveTrainerTable = () => {
       userList.push({
         key: user.id,
         name: user.username,
-        last_login: user.last_login || <i>never</i>,
+        last_login: user.last_login || (
+          <i>{t(Translations.userManagement.never)}</i>
+        ),
       });
     });
     return userList;

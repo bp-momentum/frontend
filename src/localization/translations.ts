@@ -143,6 +143,8 @@ const Translations = {
     SearchName: "user-management.search-name",
     SearchEmail: "user-management.search-email",
     lastLogin: "user-management.last-login",
+    noEmail: "user-management.no-email",
+    never: "user-management.never",
   },
 };
 

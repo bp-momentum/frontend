@@ -64,7 +64,9 @@ const ActiveUserTable = () => {
         name: user.username,
         trainingplan: user.plan,
         thisweeksactivity: user.done_exercises || 0,
-        last_login: user.last_login || <i>never</i>,
+        last_login: user.last_login || (
+          <i>{t(Translations.userManagement.never)}</i>
+        ),
       });
     });
     return userList;
