@@ -6,26 +6,25 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { store } from "../../../redux/store";
 import InvitedUserTable from "./invitedUserTable";
 
-const RenderInvitedUserTable = () => {
+const InvitedUserTableWrapper = () => {
   const [updateValue, setUpdateValue] = useState(0);
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <InvitedUserTable
-                updateValue={updateValue}
-                setUpdateValue={setUpdateValue}
-              />
-            }
-          />
-        </Routes>
-      </BrowserRouter>
-    </Provider>
+    <InvitedUserTable
+      updateValue={updateValue}
+      setUpdateValue={setUpdateValue}
+    />
   );
 };
+
+const RenderInvitedUserTable = () => (
+  <Provider store={store}>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<InvitedUserTableWrapper />} />
+      </Routes>
+    </BrowserRouter>
+  </Provider>
+);
 
 describe("<InvitedUserTable />", () => {
   test("should render", () => {
