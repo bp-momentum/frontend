@@ -11,6 +11,7 @@ import { t } from "i18next";
 interface User {
   key: string;
   name: string;
+  last_login: string;
 }
 
 const ActiveTrainerTable = () => {
@@ -50,6 +51,7 @@ const ActiveTrainerTable = () => {
       userList.push({
         key: user.id,
         name: user.username,
+        last_login: user.last_login || <i>never</i>,
       });
     });
     return userList;
@@ -82,6 +84,11 @@ const ActiveTrainerTable = () => {
         redraw,
         t(Translations.userManagement.SearchName)
       ),
+    },
+    {
+      title: t(Translations.userManagement.lastLogin),
+      dataIndex: "last_login",
+      key: "lastLogin",
     },
     {
       title: t(Translations.userManagement.manage),

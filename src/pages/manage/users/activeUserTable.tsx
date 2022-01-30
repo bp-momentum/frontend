@@ -24,6 +24,7 @@ interface User {
   name: string;
   trainingplan: string;
   thisweeksactivity: number;
+  last_login: string;
 }
 
 const ActiveUserTable = () => {
@@ -63,6 +64,7 @@ const ActiveUserTable = () => {
         name: user.username,
         trainingplan: user.plan,
         thisweeksactivity: user.done_exercises || 0,
+        last_login: user.last_login || <i>never</i>,
       });
     });
     return userList;
@@ -166,6 +168,11 @@ const ActiveUserTable = () => {
           </Progress>
         </Tooltip>
       ),
+    },
+    {
+      title: t(Translations.userManagement.lastLogin),
+      dataIndex: "last_login",
+      key: "lastLogin",
     },
     {
       title: t(Translations.userManagement.manage),

@@ -6,6 +6,7 @@ import { Tabs } from "antd";
 import "../../../styles/users.css";
 import ActiveUserTable from "./activeUserTable";
 import InvitedUserTable from "./invitedUserTable";
+import InvitedTrainerTable from "./invitedTrainerTable";
 import CreateUser from "./createUser";
 import {
   PlusCircleOutlined,
@@ -79,7 +80,11 @@ const Users = () => {
                 }
                 key="2"
               >
-                <InvitedUserTable />
+                {type === "trainer" ? (
+                  <InvitedUserTable />
+                ) : (
+                  <InvitedTrainerTable />
+                )}
               </TabPane>
               <TabPane
                 tab={

@@ -24,10 +24,16 @@ const InvitedUserTable = () => {
   const redraw = () => draw({});
 
   const cancelInvitation = async (id: string) => {
-    // api.execute(Routes.cancelInvitation({ userId: id })).then(() => {
-    //   message.success(t(Translations.userManagement.cancelInvite));
-    //   setLoading(1);
-    // });
+    api
+      .execute(Routes.invalidateInvitation({ invitationId: id }))
+      .then((resp) => {
+        if (!resp.success) {
+          message.error(t(Translations.errors.internalServerError));
+        } else {
+          message.success(t(Translations.userManagement.canceledInvite));
+        }
+        setLoading(true);
+      });
   };
 
   useEffect(() => {
@@ -35,24 +41,26 @@ const InvitedUserTable = () => {
     // load all the plans the user has access to from the API
     if (loading) {
       // load all the users for a trainer
-      // api.execute(Routes.getInvitedTrainers()).then((response) => {
-      //   if (!isMounted) return;
-      //   if (!response.success) {
-      //     setError(true);
-      //     return;
-      //   }
-      //   const userList: User[] = [];
-      //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      //   response.data.users.forEach((user: Record<string, any>) => {
-      //     userList.push({
-      //       key: user.id,
-      //       name: user.username,
-      //       email: user.email || "email not provided",
-      //     });
-      //   });
-      //   setData(userList);
-      //   setLoading(false);
-      // });
+      console.log("loading");
+      api.execute(Routes.getInvited()).then((response) => {
+        console.log("resp:", response);
+        if (!isMounted) return;
+        if (!response.success) {
+          setError(true);
+          return;
+        }
+        const userList: User[] = [];
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        response.data.invited.forEach((invite: Record<string, any>) => {
+          userList.push({
+            key: invite.id,
+            name: `${invite.first_name} ${invite.last_name}`,
+            email: invite.email || <i>email not provided</i>,
+          });
+        });
+        setData(userList);
+        setLoading(false);
+      });
     }
     return () => {
       // clean up
