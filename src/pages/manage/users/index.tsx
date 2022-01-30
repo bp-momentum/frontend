@@ -6,7 +6,6 @@ import { Tabs } from "antd";
 import "../../../styles/users.css";
 import ActiveUserTable from "./activeUserTable";
 import InvitedUserTable from "./invitedUserTable";
-import InvitedTrainerTable from "./invitedTrainerTable";
 import CreateUser from "./createUser";
 import {
   PlusCircleOutlined,
@@ -25,6 +24,8 @@ const { TabPane } = Tabs;
 const Users = () => {
   const token = useAppSelector((state) => state.token.token);
   const type = (token && Helper.getAccountType(token)) || "user";
+
+  const [updateValue, setUpdateValue] = React.useState(0);
 
   if (type === "user") return <Navigate to="/" />;
 
@@ -80,11 +81,10 @@ const Users = () => {
                 }
                 key="2"
               >
-                {type === "trainer" ? (
-                  <InvitedUserTable />
-                ) : (
-                  <InvitedTrainerTable />
-                )}
+                <InvitedUserTable
+                  updateValue={updateValue}
+                  setUpdateValue={setUpdateValue}
+                />
               </TabPane>
               <TabPane
                 tab={
@@ -95,7 +95,10 @@ const Users = () => {
                 }
                 key="3"
               >
-                <CreateUser />
+                <CreateUser
+                  updateValue={updateValue}
+                  setUpdateValue={setUpdateValue}
+                />
               </TabPane>
             </Tabs>
           </div>

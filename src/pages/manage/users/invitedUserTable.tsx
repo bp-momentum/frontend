@@ -1,5 +1,11 @@
 import { Button, Input, message, Popconfirm, Table } from "antd";
-import React, { createRef, useEffect, useState } from "react";
+import React, {
+  createRef,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import api from "../../../util/api";
 import Routes from "../../../util/routes";
 import { getColumnSearchProps } from "./tableSearch";
@@ -14,12 +20,22 @@ interface User {
   email: string;
 }
 
-const InvitedUserTable = () => {
+const InvitedUserTable = (props: {
+  updateValue: number;
+  setUpdateValue: Dispatch<SetStateAction<number>>;
+}) => {
   const searchInput = createRef<Input>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [data, setData] = useState<User[]>([]);
   const [, draw] = useState({});
+
+  const [update, setUpdate] = useState(props.updateValue);
+
+  if (props.updateValue !== update) {
+    setUpdate(props.updateValue);
+    setLoading(true);
+  }
 
   const redraw = () => draw({});
 
@@ -49,7 +65,7 @@ const InvitedUserTable = () => {
         }
         const userList: User[] = [];
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        response.data.users.forEach((invite: Record<string, any>) => {
+        response.data.invited.forEach((invite: Record<string, any>) => {
           userList.push({
             key: invite.id,
             name: `${invite.first_name} ${invite.last_name}`,
