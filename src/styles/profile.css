@@ -2,3 +2,7 @@
     background-color: #EDEDF4;
     border: initial;
 }
+
+.ant-picker-cell::before {
+    pointer-events: none;
+}
