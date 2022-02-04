@@ -2542,6 +2542,13 @@
     hoist-non-react-statics "^3.3.0"
     redux "^4.0.0"
 
+"@types/react-webcam@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@types/react-webcam/-/react-webcam-3.0.0.tgz#c91cd50bb6dbd4e938ea0ec4629a9a1dc17326d2"
+  integrity sha512-iX4G+V0HEvZhfMuk5qUp4ZJUpV6M9ZW4mxjmDxmXrIN1fDSUajX4wtGYX+9yh6KShFlEXOjGyOc24j7wJagG6w==
+  dependencies:
+    react-webcam "*"
+
 "@types/react@*", "@types/react@^17.0.38":
   version "17.0.38"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.38.tgz#f24249fefd89357d5fa71f739a686b8d7c7202bd"
@@ -8760,6 +8767,11 @@ react-scripts@5.0.0:
     workbox-webpack-plugin "^6.4.1"
   optionalDependencies:
     fsevents "^2.3.2"
+
+react-webcam@*:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/react-webcam/-/react-webcam-6.0.1.tgz#6f81f9be7b208a351a42af3288ef1149bd1eec36"
+  integrity sha512-QUacokAV3lk2XeIuRWky+ZGFv5vcwrxN634IXdntAt0eRKTl4G/dujbDN/KGizf1i9r/KB6fokqNkOnQ0bbw6g==
 
 react-webcam@^6.0.0:
   version "6.0.0"

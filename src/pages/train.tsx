@@ -11,6 +11,7 @@ import Translations from "../localization/translations";
 import { t } from "i18next";
 import { LoadingOutlined } from "@ant-design/icons";
 import Webcam from "react-webcam";
+import Paper from "../shared/paper";
 
 const { Sider } = Layout;
 
@@ -102,10 +103,11 @@ const WebcamStreamCapture = (props: {
   }, [recordedChunks]);
 
   const videoConstraints: MediaTrackConstraints = {
-    width: { max: 0.8 * window.innerWidth },
-    height: { max: 0.8 * window.innerHeight },
+    width: { max: (16 * window.innerWidth) / 35 },
+    height: { max: (9 * window.innerWidth) / 35 },
     // resizeMode: "crop-and-scale",
     //    -> https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints#properties_of_video_tracks why no work?
+    //   => This does work tho?..
   };
 
   return (
@@ -115,7 +117,7 @@ const WebcamStreamCapture = (props: {
         ref={webcamRef}
         mirrored
         style={{ border: "1px solid red" }}
-        // videoConstraints={videoConstraints}
+        videoConstraints={videoConstraints}
       />
       <button
         onClick={capturing ? handleStopCaptureClick : handleStartCaptureClick}
@@ -259,9 +261,9 @@ const Train = () => {
                 position: "absolute",
                 transform: collapsed
                   ? "translate(-50%, -50%) rotate(-90deg)"
-                  : "translate(-50%, -50%) rotate(0deg)",
-                top: collapsed ? "50%" : "40px",
-                left: "50%",
+                  : "translate(-50%, -50%) rotate(-90deg)",
+                top: "50%",
+                left: collapsed ? "50%" : "-50%",
                 fontSize: "30px",
                 color: "white",
                 transition: "all 0.2s ease-in-out",
@@ -275,9 +277,8 @@ const Train = () => {
                 position: "absolute",
                 width: "100%",
                 color: "white",
-                top: collapsed ? "100%" : "90px",
+                top: collapsed ? "100%" : "30px",
                 transition: "all 0.2s ease-in-out",
-                transitionDelay: collapsed ? "0s" : "0.05s",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
@@ -312,7 +313,19 @@ const Train = () => {
                   )}
                 </div>
               ) : (
-                exercise && exercise.description
+                <Paper
+                  padding={60}
+                  backdropColor="#466995"
+                  lineColor="#A1C7DA"
+                  totalWidth={500}
+                  title={
+                    <span style={{ fontSize: "40px", lineHeight: "47.145px" }}>
+                      Instructions
+                    </span>
+                  }
+                >
+                  {exercise?.description || ""}
+                </Paper>
               )}
 
               {exercise?.videoPath && (
