@@ -193,7 +193,7 @@ const ActiveUserTable = () => {
       columns={columns}
       dataSource={data}
       pagination={{ pageSize: 5 }}
-    />
+    ></Table>
   );
 };
 
