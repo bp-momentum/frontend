@@ -71,18 +71,20 @@ const ExerciseName = (props: { id: number; points: number }): JSX.Element => {
   const { t } = useTranslation();
 
   return (
-    <Col>
-      <Text>
-        {isLoading
-          ? t(Translations.exercises.loading)
-          : isError
-          ? error
-          : data?.title +
-            ": " +
-            t(Translations.profile.points, { points: props.points })}
-      </Text>
-      <br />
-    </Col>
+    <span style={{ whiteSpace: "nowrap" }}>
+      <Col>
+        <Text>
+          {isLoading
+            ? t(Translations.exercises.loading)
+            : isError
+            ? error
+            : data?.title +
+              ": " +
+              t(Translations.profile.points, { points: props.points })}
+        </Text>
+        <br />
+      </Col>
+    </span>
   );
 };
 
