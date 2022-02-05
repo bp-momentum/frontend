@@ -154,6 +154,7 @@ const Translations = {
     activeMinutes: "profile.activeMinutes",
     selectNewAvatar: "profile.selectNewAvatar",
     loading: "profile.loading",
+    points: "profile.points",
   },
 };
 

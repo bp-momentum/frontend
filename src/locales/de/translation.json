@@ -156,6 +156,7 @@
     "chooseDate": "Wähle einen Tag aus um deine Aktivität zu sehen",
     "activeMinutes": "{{active}} min von {{goal}} min",
     "selectNewAvatar": "Wähle deinen neuen Avatar",
-    "loading": "Dein Profil wird geladen..."
+    "loading": "Dein Profil wird geladen...",
+    "points": "{{points}} Punkte"
   }
 }

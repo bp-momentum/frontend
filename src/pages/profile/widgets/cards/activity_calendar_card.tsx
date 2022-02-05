@@ -56,7 +56,7 @@ const DateCell = (props: {
       title={
         <Col>
           {doneExercises.map((e) => {
-            return <ExerciseName key={e.id} id={e.id} />;
+            return <ExerciseName key={e.id} id={e.id} points={e.points} />;
           })}
         </Col>
       }
@@ -66,7 +66,7 @@ const DateCell = (props: {
   );
 };
 
-const ExerciseName = (props: { id: number }): JSX.Element => {
+const ExerciseName = (props: { id: number; points: number }): JSX.Element => {
   const { data, isLoading, isError, error } = useGetExerciseByIdQuery(props.id);
   const { t } = useTranslation();
 
@@ -77,7 +77,9 @@ const ExerciseName = (props: { id: number }): JSX.Element => {
           ? t(Translations.exercises.loading)
           : isError
           ? error
-          : data?.title}
+          : data?.title +
+            ": " +
+            t(Translations.profile.points, { points: props.points })}
       </Text>
       <br />
     </Col>
