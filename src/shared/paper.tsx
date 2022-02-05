@@ -12,10 +12,12 @@ interface paperProps {
 
 const Paper: React.FC<paperProps> = ({ children, ...props }) => {
   const { title, padding, totalWidth, backdropColor, lineColor } = props;
-  const realTotalWidth = totalWidth || "100%";
+  const realTotalWidth = totalWidth ? `${totalWidth}px` : "100%";
   const realInnerWidth = `calc(${realTotalWidth} - ${padding * 2}px)`;
   const realBackdropColor = backdropColor || "#000";
   const realLineColor = lineColor || "#000";
+
+  console.log(realInnerWidth);
 
   return (
     <div style={{ width: realTotalWidth, paddingTop: "20px" }}>
