@@ -86,11 +86,15 @@ const UserCard = (props: {
               </Text>
             </Col>
           </Row>
-          <Text style={{ fontSize: 16 }}>
-            {t(Translations.profile.motivation)}
-          </Text>
-          <br />
-          <Text style={{ fontSize: 20 }}>{props.motivation}</Text>
+          {props.motivation && (
+            <Col>
+              <Text style={{ fontSize: 16 }}>
+                {t(Translations.profile.motivation)}
+              </Text>
+              <br />
+              <Text style={{ fontSize: 20 }}>{props.motivation}</Text>
+            </Col>
+          )}
         </Col>
       </Card>
 
