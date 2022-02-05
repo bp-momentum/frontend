@@ -251,97 +251,92 @@ const Train = () => {
         >
           <div
             style={{
-              paddingTop: "90px",
-              height: "100%",
+              position: "absolute",
+              transform: collapsed
+                ? "translate(-50%, -50%) rotate(-90deg)"
+                : "translate(-50%, -50%) rotate(-90deg)",
+              top: "50%",
+              left: collapsed ? "50%" : "-50%",
+              fontSize: "30px",
+              color: "white",
+              transition: "all 0.2s ease-in-out",
               overflow: "hidden",
             }}
           >
-            <div
-              style={{
-                position: "absolute",
-                transform: collapsed
-                  ? "translate(-50%, -50%) rotate(-90deg)"
-                  : "translate(-50%, -50%) rotate(-90deg)",
-                top: "50%",
-                left: collapsed ? "50%" : "-50%",
-                fontSize: "30px",
-                color: "white",
-                transition: "all 0.2s ease-in-out",
-                overflow: "hidden",
-              }}
-            >
-              Instructions
-            </div>
-            <div
-              style={{
-                position: "absolute",
-                width: "100%",
-                color: "white",
-                top: collapsed ? "100%" : "30px",
-                transition: "all 0.2s ease-in-out",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                overflow: "hidden",
-              }}
-            >
-              {loading || error ? (
-                <div
-                  style={{
-                    height: "100%",
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    flexDirection: "column",
-                  }}
-                >
-                  {error ? (
-                    <div>{t(Translations.planManager.error)}</div>
-                  ) : (
-                    <>
-                      <Spin
-                        indicator={
-                          <LoadingOutlined
-                            style={{ fontSize: 24, color: "white" }}
-                            spin
-                          />
-                        }
-                      />
-                      <div>{t(Translations.planManager.loading)}</div>
-                    </>
-                  )}
-                </div>
-              ) : (
-                <Paper
-                  padding={60}
-                  backdropColor="#466995"
-                  lineColor="#A1C7DA"
-                  totalWidth={500}
-                  title={
-                    <span style={{ fontSize: "40px", lineHeight: "47.145px" }}>
-                      Instructions
-                    </span>
-                  }
-                >
-                  {exercise?.description || ""}
-                </Paper>
-              )}
+            Instructions
+          </div>
+          <div
+            style={{
+              position: "absolute",
+              width: "100%",
+              color: "white",
+              top: collapsed ? "100%" : "0px",
+              transition: "all 0.2s ease-in-out",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              overflowY: "auto",
+              overflowX: "hidden",
+              height: "100%",
+              padding: "40px 0",
+            }}
+          >
+            {loading || error ? (
+              <div
+                style={{
+                  height: "100%",
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
+                {error ? (
+                  <div>{t(Translations.planManager.error)}</div>
+                ) : (
+                  <>
+                    <Spin
+                      indicator={
+                        <LoadingOutlined
+                          style={{ fontSize: 24, color: "white" }}
+                          spin
+                        />
+                      }
+                    />
+                    <div>{t(Translations.planManager.loading)}</div>
+                  </>
+                )}
+              </div>
+            ) : (
+              <Paper
+                padding={60}
+                backdropColor="#466995"
+                lineColor="#A1C7DA"
+                totalWidth={500}
+                title={
+                  <span style={{ fontSize: "40px", lineHeight: "47.145px" }}>
+                    Instructions
+                  </span>
+                }
+              >
+                {exercise?.description || ""}
+              </Paper>
+            )}
 
-              {exercise?.videoPath && (
-                <video
-                  src={exercise.videoPath}
-                  controls
-                  style={{
-                    marginTop: "80px",
-                    fontSize: "20px",
-                    fontWeight: "bold",
-                    width: "80%",
-                    background: "white",
-                  }}
-                />
-              )}
-            </div>
+            {exercise?.videoPath && (
+              <video
+                src={exercise.videoPath}
+                controls
+                style={{
+                  marginTop: "80px",
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                  width: "80%",
+                  background: "white",
+                }}
+              />
+            )}
           </div>
         </Sider>
         <Content
