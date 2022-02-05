@@ -4,7 +4,10 @@ import { Calendar, Card, Col, Row, Tooltip } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { useGetDoneExercisesInMonthQuery } from "../../../../redux/exercises/exerciseSlice";
+import {
+  useGetDoneExercisesInMonthQuery,
+  useGetExerciseByIdQuery,
+} from "../../../../redux/exercises/exerciseSlice";
 
 const DateCell = (props: {
   month: number;
@@ -23,19 +26,6 @@ const DateCell = (props: {
     points: number;
   }[] = data ? data.data.done : [];
 
-  const stringToColor = (str: string): string => {
-    let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-      hash = str.charCodeAt(i) + ((hash << 5) - hash);
-      hash = hash & hash;
-    }
-    if (hash < 0) {
-      hash *= -1;
-    }
-    const mod = hash % 0xffffff;
-    return "#" + mod.toString(16);
-  };
-
   const doneExercises = exercises.filter((e) => {
     const d = new Date(e.date * 1000);
     return d.toDateString() === props.date.toDateString();
@@ -46,45 +36,51 @@ const DateCell = (props: {
         color:
           props.date.toDateString() === new Date().toDateString()
             ? "#466995"
-            : "black",
+            : doneExercises.length === 0
+            ? "black"
+            : "green",
         borderRadius: "50%",
       }}
     >
       {props.date.getDate()}
     </span>
   );
+
+  if (doneExercises.length === 0) {
+    return text;
+  }
+
   return (
-    <Tooltip title={<Text>Hallo</Text>}>
-      <Col>
-        {text}
-        <Row justify="center">
-          {doneExercises.length === 0 && (
-            <div
-              style={{
-                padding: "2px",
-                width: "5px",
-                height: "5px",
-              }}
-            />
-          )}
-          {doneExercises.length > 0 &&
-            doneExercises.map((e) => {
-              return (
-                <div
-                  key={e.date}
-                  style={{
-                    padding: "2px",
-                    width: "5px",
-                    height: "5px",
-                    backgroundColor: stringToColor(e.date.toString()),
-                    borderRadius: "50%",
-                  }}
-                />
-              );
-            })}
-        </Row>
-      </Col>
+    <Tooltip
+      color={"white"}
+      title={
+        <Col>
+          {doneExercises.map((e) => {
+            return <ExerciseName key={e.id} id={e.id} />;
+          })}
+        </Col>
+      }
+    >
+      {text}
     </Tooltip>
+  );
+};
+
+const ExerciseName = (props: { id: number }): JSX.Element => {
+  const { data, isLoading, isError, error } = useGetExerciseByIdQuery(props.id);
+  const { t } = useTranslation();
+
+  return (
+    <Col>
+      <Text>
+        {isLoading
+          ? t(Translations.exercises.loading)
+          : isError
+          ? error
+          : data?.title}
+      </Text>
+      <br />
+    </Col>
   );
 };
 
