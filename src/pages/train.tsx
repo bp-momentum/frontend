@@ -188,7 +188,7 @@ const Train = () => {
               sets: exerciseData.sets,
               repeatsPerSet: exerciseData.repeats_per_set,
               videoPath:
-                response.data.videoPath ??
+                response.data.video ??
                 "https://vid.pr0gramm.com/2021/12/28/130aaef3ab9c207a.mp4",
               activated: response.data.title,
             });
