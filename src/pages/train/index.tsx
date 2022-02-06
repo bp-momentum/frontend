@@ -1,16 +1,12 @@
-import { Layout } from "antd";
 import React, { useEffect, useState } from "react";
 import Container from "../../shared/container";
 import api from "../../util/api";
 import Routes from "../../util/routes";
 import "../../styles/train.css";
 import { useParams } from "react-router-dom";
-import TrainSider from "./components/trainSider";
 import Training from "./training";
 import SetDone from "./setDone";
 import ExerciseDone from "./exerciseDone";
-
-const { Content, Sider } = Layout;
 
 export interface ExerciseData {
   title: string;
@@ -25,7 +21,6 @@ const Train = () => {
   const [exercise, setExercise] = React.useState<ExerciseData>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [collapsed, setCollapsed] = useState(false);
 
   const [subPage /*, setSubPage*/] = useState<
     "training" | "setDone" | "exerciseDone"
@@ -75,36 +70,11 @@ const Train = () => {
 
   return (
     <Container>
-      <Layout style={{ height: "100%" }}>
-        <Sider
-          collapsible
-          collapsed={collapsed}
-          onCollapse={() => setCollapsed(!collapsed)}
-          width={collapsed ? "50px" : "500px"}
-          style={{
-            height: "calc(100% - 48px)",
-            background: "#466995",
-            overflow: "hidden",
-          }}
-        >
-          <TrainSider
-            loading={loading}
-            exercise={exercise}
-            error={error}
-            collapsed={collapsed}
-          />
-        </Sider>
-        <Content
-          className="shadow"
-          style={{ background: "#466995", overflow: "hidden", padding: "20px" }}
-        >
-          {subPage === "training" && (
-            <Training loading={loading} exercise={exercise} error={error} />
-          )}
-          {subPage === "setDone" && <SetDone stats={{}} />}
-          {subPage === "exerciseDone" && <ExerciseDone stats={{}} />}
-        </Content>
-      </Layout>
+      {subPage === "training" && (
+        <Training loading={loading} exercise={exercise} error={error} />
+      )}
+      {subPage === "setDone" && <SetDone stats={{}} />}
+      {subPage === "exerciseDone" && <ExerciseDone stats={{}} />}
     </Container>
   );
 };

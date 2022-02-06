@@ -1,4 +1,4 @@
-import { Progress, Spin } from "antd";
+import { Layout, Progress, Spin } from "antd";
 import React, { useEffect, useState } from "react";
 import "../../styles/train.css";
 import Translations from "../../localization/translations";
@@ -7,6 +7,9 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { ExerciseData } from ".";
 import WebcamStreamCapture from "./components/webcamStreamCapture";
 import api, { ApiSocketConnection } from "../../util/api";
+import TrainSider from "./components/trainSider";
+
+const { Content, Sider } = Layout;
 
 interface trainingProps {
   loading: boolean;
@@ -20,6 +23,7 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
   const [debugExerciseRunning, setDebugExerciseRunning] = useState(false);
   const [currentFeedback, setCurrentFeedback] = useState<null | string>();
   const [progress /*, setProgress*/] = useState(10);
+  const [collapsed, setCollapsed] = useState(false);
 
   const webSocketRef = React.useRef<ApiSocketConnection | null>(null);
 
@@ -76,87 +80,114 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
   }, [loading]);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      {loading || error ? (
-        <div
-          style={{
-            height: "100%",
-            width: "100%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-          }}
-        >
-          {error ? (
-            <div>{t(Translations.planManager.error)}</div>
-          ) : (
-            <>
-              <Spin
-                indicator={
-                  <LoadingOutlined
-                    style={{ fontSize: 24, color: "white" }}
-                    spin
-                  />
-                }
-              />
-              <div style={{ color: "white" }}>
-                {t(Translations.planManager.loading)}
-              </div>
-            </>
-          )}
-        </div>
-      ) : (
-        <h1 style={{ color: "white", fontSize: "40px" }}>{exercise?.title}</h1>
-      )}
-      <div
+    <Layout style={{ height: "100%" }}>
+      <Sider
+        collapsible
+        collapsed={collapsed}
+        onCollapse={() => setCollapsed(!collapsed)}
+        width={collapsed ? "50px" : "500px"}
         style={{
-          width: "200px",
+          height: "calc(100% - 48px)",
+          background: "#466995",
+          overflow: "hidden",
         }}
       >
-        <Progress
-          percent={progress}
-          status="active"
-          showInfo={false}
-          strokeColor={"#0ff"}
-          className="training-progress"
+        <TrainSider
+          loading={loading}
+          exercise={exercise}
+          error={error}
+          collapsed={collapsed}
         />
-      </div>
-      <div style={{ color: "white", marginTop: "10px" }}>
-        0/{exercise?.sets}
-      </div>
-      <div style={{ position: "relative" }}>
-        <WebcamStreamCapture ws={webSocketRef} />
-        {currentFeedback && (
-          <span
-            className="feedback"
+      </Sider>
+      <Content
+        className="shadow"
+        style={{ background: "#466995", overflow: "hidden", padding: "20px" }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {loading || error ? (
+            <div
+              style={{
+                height: "100%",
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+            >
+              {error ? (
+                <div>{t(Translations.planManager.error)}</div>
+              ) : (
+                <>
+                  <Spin
+                    indicator={
+                      <LoadingOutlined
+                        style={{ fontSize: 24, color: "white" }}
+                        spin
+                      />
+                    }
+                  />
+                  <div style={{ color: "white" }}>
+                    {t(Translations.planManager.loading)}
+                  </div>
+                </>
+              )}
+            </div>
+          ) : (
+            <h1 style={{ color: "white", fontSize: "40px" }}>
+              {exercise?.title}
+            </h1>
+          )}
+          <div
             style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              background: "white",
-              borderRadius: "5px",
-              padding: "10px",
-              width: "max-content",
-              textAlign: "center",
+              width: "200px",
             }}
           >
-            {currentFeedback}
-          </span>
-        )}
-      </div>
-      <button onClick={debugExerciseNoVideo}>
-        {debugExerciseRunning ? "End" : "Start"} Debug Exercise
-      </button>
-    </div>
+            <Progress
+              percent={progress}
+              status="active"
+              showInfo={false}
+              strokeColor={"#0ff"}
+              className="training-progress"
+            />
+          </div>
+          <div style={{ color: "white", marginTop: "10px" }}>
+            0/{exercise?.sets}
+          </div>
+          <div style={{ position: "relative" }}>
+            <WebcamStreamCapture ws={webSocketRef} />
+            {currentFeedback && (
+              <span
+                className="feedback"
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  background: "white",
+                  borderRadius: "5px",
+                  padding: "10px",
+                  width: "max-content",
+                  textAlign: "center",
+                }}
+              >
+                {currentFeedback}
+              </span>
+            )}
+          </div>
+          <button onClick={debugExerciseNoVideo}>
+            {debugExerciseRunning ? "End" : "Start"} Debug Exercise
+          </button>
+        </div>
+      </Content>
+    </Layout>
   );
 };
 
