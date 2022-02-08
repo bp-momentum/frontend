@@ -4,6 +4,10 @@
     "unknown-error": "Ein unbekannter Fehler ist aufgetreten!",
     "empty": "Keine Daten vorhanden!"
   },
+  "common": {
+    "confirm-leave": "Willst du die Seite wirklich verlassen?",
+    "confirm-leave-content": "Wenn du die Seite verlässt, geht all dein Fortschritt verloren."
+  },
   "user": {
     "username": "Benutzername",
     "password": "Passwort",

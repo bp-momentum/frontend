@@ -4,6 +4,10 @@
     "unknown-error": "An unknown Error occurred!",
     "empty": "No data found!"
   },
+  "common": {
+    "confirm-leave": "Are you sure you want to leave?",
+    "confirm-leave-content": "If you leave, you will lose all your progress!"
+  },
   "user": {
     "username": "Username",
     "password": "Password",

@@ -4,6 +4,10 @@ const Translations = {
     internalServerError: "errors.internal-server-error",
     empty: "errors.empty",
   },
+  common: {
+    confirmLeave: "common.confirm-leave",
+    confirmLeaveContent: "common.confirm-leave-content",
+  },
   user: {
     username: "user.username",
     password: "user.password",
