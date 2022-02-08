@@ -1,4 +1,4 @@
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Modal } from "antd";
 import { Content, Header } from "antd/lib/layout/layout";
 import {
   HomeTwoTone,
@@ -18,11 +18,15 @@ import Translations from "../localization/translations";
 import { MenuInfo } from "rc-menu/lib/interface";
 import { useAppSelector } from "../redux/hooks";
 import helper from "../util/helper";
+import { ExclamationCircleOutlined } from "@ant-design/icons/lib";
 
-export interface ContainerProps {
+const { confirm } = Modal;
+
+export interface containerProps {
   children: React.ReactNode;
   currentPage?: "home" | "settings" | "leaderboard" | "profile" | "manage"; // highlightable menu items
   color?: "red" | "gold" | "blue";
+  confimLeave?: boolean;
 }
 
 type pages =
@@ -50,13 +54,25 @@ const pageToRoute: pagesToRouteType = {
   manage_plans: "/manage/plans",
 };
 
-export default function Container(props: ContainerProps): JSX.Element {
-  const color = props.color || "blue";
+const Container: React.FC<containerProps> = ({ ...containerProps }) => {
+  const { children, currentPage, confimLeave } = containerProps;
+  const color = containerProps.color || "blue";
   const navigate = useNavigate();
   const { t } = useTranslation();
 
   const handleClick = (e: MenuInfo) => {
-    navigate(pageToRoute[e.key as pages]);
+    if (confimLeave) {
+      confirm({
+        title: t(Translations.common.confirmLeave),
+        icon: <ExclamationCircleOutlined />,
+        content: t(Translations.common.confirmLeaveContent),
+        onOk() {
+          navigate(pageToRoute[e.key as pages]);
+        },
+      });
+    } else {
+      navigate(pageToRoute[e.key as pages]);
+    }
   };
 
   const token = useAppSelector((state) => state.token.token);
@@ -68,7 +84,7 @@ export default function Container(props: ContainerProps): JSX.Element {
       <Header style={{ backgroundColor: "#fff" }}>
         <Menu
           mode="horizontal"
-          selectedKeys={props.currentPage ? [props.currentPage] : []}
+          selectedKeys={currentPage ? [currentPage] : []}
           onClick={handleClick}
         >
           <Menu.Item key="home" icon={<HomeTwoTone twoToneColor={color} />}>
@@ -131,7 +147,9 @@ export default function Container(props: ContainerProps): JSX.Element {
           </Menu.Item>
         </Menu>
       </Header>
-      <Content style={{ position: "relative" }}>{props.children}</Content>
+      <Content style={{ position: "relative" }}>{children}</Content>
     </Layout>
   );
-}
+};
+
+export default Container;
