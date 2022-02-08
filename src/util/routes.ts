@@ -285,6 +285,20 @@ const Routes = {
   },
 
   /**
+   * Change user language
+   */
+  changeLanguage: (props: { language: string }): Route => {
+    return {
+      route: "/api/changelanguage",
+      needsAuth: true,
+      method: "POST",
+      body: {
+        language: props.language,
+      },
+    };
+  },
+
+  /**
    * fetch all invited
    */
   getInvited: (): Route => {
