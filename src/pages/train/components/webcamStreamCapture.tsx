@@ -1,25 +1,24 @@
-import React from "react";
+import React, { RefObject, useCallback, useRef, useState } from "react";
 import Webcam from "react-webcam";
+import useWindowDimensions from "../../../hooks/windowDimension";
 import { ApiSocketConnection } from "../../../util/api";
 
-const WebcamStreamCapture = (props: {
-  ws: React.RefObject<ApiSocketConnection>;
-}) => {
-  const webcamRef = React.useRef<Webcam>(null);
-  const mediaRecorderRef = React.useRef<MediaRecorder | null>(null);
-  const [capturing, setCapturing] = React.useState(false);
-  const [recordedChunks, setRecordedChunks] = React.useState([]);
+const WebcamStreamCapture = (props: { ws: RefObject<ApiSocketConnection> }) => {
+  const webcamRef = useRef<Webcam>(null);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const [capturing, setCapturing] = useState(false);
+  const [recordedChunks, setRecordedChunks] = useState([]);
 
   const webSocketRef = props.ws;
 
-  const sendChunks = React.useCallback(
+  const sendChunks = useCallback(
     (data: Blob): void => {
       webSocketRef.current?.send(data);
     },
     [webSocketRef]
   );
 
-  const handleDataAvailable = React.useCallback(
+  const handleDataAvailable = useCallback(
     ({ data }) => {
       if (data.size > 0) {
         setRecordedChunks((prev) => prev.concat(data));
@@ -29,7 +28,7 @@ const WebcamStreamCapture = (props: {
     [sendChunks]
   );
 
-  const handleStartCaptureClick = React.useCallback(() => {
+  const handleStartCaptureClick = useCallback(() => {
     if (!webcamRef.current?.stream?.active || !webSocketRef.current) return;
     setCapturing(true);
 
@@ -54,7 +53,7 @@ const WebcamStreamCapture = (props: {
     mediaRecorderRef.current.start(100);
   }, [webSocketRef, handleDataAvailable]);
 
-  const handleStopCaptureClick = React.useCallback(() => {
+  const handleStopCaptureClick = useCallback(() => {
     mediaRecorderRef.current?.stop();
     setCapturing(false);
     const mediaRecorder = mediaRecorderRef.current as MediaRecorder;
@@ -64,7 +63,7 @@ const WebcamStreamCapture = (props: {
       );
   }, [webSocketRef]);
 
-  const handleDownload = React.useCallback(() => {
+  const handleDownload = useCallback(() => {
     if (recordedChunks.length) {
       const blob = new Blob(recordedChunks, {
         type: "video/webm",
@@ -80,22 +79,30 @@ const WebcamStreamCapture = (props: {
     }
   }, [recordedChunks]);
 
-  const videoConstraints: MediaTrackConstraints = {
-    width: { max: (16 * window.innerWidth) / 35 },
-    height: { max: (9 * window.innerWidth) / 35 },
-    // resizeMode: "crop-and-scale",
-    //    -> https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints#properties_of_video_tracks why no work?
-    //   => This does work tho?..
-  };
+  const { height } = useWindowDimensions();
+
+  const h = Math.max((height - 230) * 0.8, 200);
 
   return (
-    <div style={{ position: "relative", maxWidth: "80%", maxHeight: "80%" }}>
+    <div
+      style={{
+        position: "relative",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        width: "100%",
+      }}
+    >
       <Webcam
         audio={false}
         ref={webcamRef}
         mirrored
-        style={{ border: "1px solid red" }}
-        videoConstraints={videoConstraints}
+        style={{
+          border: "1px solid red",
+          maxWidth: "80%",
+          maxHeight: h,
+          objectFit: "cover",
+        }}
       />
       <button
         onClick={capturing ? handleStopCaptureClick : handleStartCaptureClick}

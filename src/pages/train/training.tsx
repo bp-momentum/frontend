@@ -101,67 +101,78 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
       </Sider>
       <Content
         className="shadow"
-        style={{ background: "#466995", overflow: "hidden", padding: "20px" }}
+        style={{
+          background: "#466995",
+          overflow: "hidden",
+          height: "100%",
+        }}
       >
         <div
           style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
+            overflowY: "auto",
+            padding: "20px",
+            height: "100%",
           }}
         >
-          {loading || error ? (
-            <div
-              style={{
-                height: "100%",
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "column",
-              }}
-            >
-              {error ? (
-                <div>{t(Translations.planManager.error)}</div>
-              ) : (
-                <>
-                  <Spin
-                    indicator={
-                      <LoadingOutlined
-                        style={{ fontSize: 24, color: "white" }}
-                        spin
-                      />
-                    }
-                  />
-                  <div style={{ color: "white" }}>
-                    {t(Translations.planManager.loading)}
-                  </div>
-                </>
-              )}
-            </div>
-          ) : (
-            <h1 style={{ color: "white", fontSize: "40px" }}>
-              {exercise?.title}
-            </h1>
-          )}
           <div
             style={{
-              width: "200px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              overflowY: "auto",
             }}
           >
-            <Progress
-              percent={progress}
-              status="active"
-              showInfo={false}
-              strokeColor={"#0ff"}
-              className="training-progress"
-            />
-          </div>
-          <div style={{ color: "white", marginTop: "10px" }}>
-            0/{exercise?.sets}
-          </div>
-          <div style={{ position: "relative" }}>
+            {loading || error ? (
+              <div
+                style={{
+                  height: "100%",
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
+                {error ? (
+                  <div>{t(Translations.planManager.error)}</div>
+                ) : (
+                  <>
+                    <Spin
+                      indicator={
+                        <LoadingOutlined
+                          style={{ fontSize: 24, color: "white" }}
+                          spin
+                        />
+                      }
+                    />
+                    <div style={{ color: "white" }}>
+                      {t(Translations.planManager.loading)}
+                    </div>
+                  </>
+                )}
+              </div>
+            ) : (
+              <h1 style={{ color: "white", fontSize: "40px" }}>
+                {exercise?.title}
+              </h1>
+            )}
+            <div
+              style={{
+                width: "200px",
+              }}
+            >
+              <Progress
+                percent={progress}
+                status="active"
+                showInfo={false}
+                strokeColor={"#0ff"}
+                className="training-progress"
+              />
+            </div>
+            <div style={{ color: "white", marginTop: "10px" }}>
+              0/{exercise?.sets}
+            </div>
             <WebcamStreamCapture ws={webSocketRef} />
             {currentFeedback && (
               <span
@@ -181,10 +192,10 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
                 {currentFeedback}
               </span>
             )}
+            <button onClick={debugExerciseNoVideo}>
+              {debugExerciseRunning ? "End" : "Start"} Debug Exercise
+            </button>
           </div>
-          <button onClick={debugExerciseNoVideo}>
-            {debugExerciseRunning ? "End" : "Start"} Debug Exercise
-          </button>
         </div>
       </Content>
     </Layout>
