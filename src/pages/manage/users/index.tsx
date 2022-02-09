@@ -25,6 +25,8 @@ const Users = () => {
   const token = useAppSelector((state) => state.token.token);
   const type = (token && Helper.getAccountType(token)) || "user";
 
+  const [updateValue, setUpdateValue] = React.useState(0);
+
   if (type === "user") return <Navigate to="/" />;
 
   return (
@@ -79,7 +81,10 @@ const Users = () => {
                 }
                 key="2"
               >
-                <InvitedUserTable />
+                <InvitedUserTable
+                  updateValue={updateValue}
+                  setUpdateValue={setUpdateValue}
+                />
               </TabPane>
               <TabPane
                 tab={
@@ -90,7 +95,10 @@ const Users = () => {
                 }
                 key="3"
               >
-                <CreateUser />
+                <CreateUser
+                  updateValue={updateValue}
+                  setUpdateValue={setUpdateValue}
+                />
               </TabPane>
             </Tabs>
           </div>

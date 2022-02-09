@@ -297,6 +297,31 @@ const Routes = {
       },
     };
   },
+
+  /**
+   * fetch all invited
+   */
+  getInvited: (): Route => {
+    return {
+      route: "/api/getinvited",
+      needsAuth: true,
+      method: "GET",
+    };
+  },
+
+  /**
+   * invalidate an invitation
+   */
+  invalidateInvitation: (props: { invitationId: string }): Route => {
+    return {
+      route: "/api/invalidateinvite",
+      needsAuth: true,
+      method: "POST",
+      body: {
+        id: props.invitationId,
+      },
+    };
+  },
 };
 
 export default Routes;
