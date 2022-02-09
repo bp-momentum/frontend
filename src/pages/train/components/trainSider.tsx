@@ -32,7 +32,7 @@ const TrainSider: React.FC<trainSiderProps> = ({ ...trainSiderProps }) => {
           overflow: "hidden",
         }}
       >
-        Instructions
+        {t(Translations.training.instructions)}
       </div>
       <div
         style={{
@@ -85,7 +85,7 @@ const TrainSider: React.FC<trainSiderProps> = ({ ...trainSiderProps }) => {
             totalWidth={500}
             title={
               <span style={{ fontSize: "40px", lineHeight: "47.145px" }}>
-                Instructions
+                {t(Translations.training.instructions)}
               </span>
             }
           >

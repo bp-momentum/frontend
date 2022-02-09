@@ -153,5 +153,8 @@
   "error-page": {
     "404-text": "Des hamma net!",
     "418-text": "Ich bin ne Teekanne!"
+  },
+  "training": {
+    "instructions": "Instruktionen"
   }
 }

@@ -153,5 +153,8 @@
   "error-page": {
     "404-text": "We don't have that!",
     "418-text": "I'm a teapot!"
+  },
+  "training": {
+    "instructions": "Instructions"
   }
 }

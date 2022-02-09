@@ -151,6 +151,9 @@ const Translations = {
     err404Text: "error-page.404-text",
     err418Text: "error-page.418-text",
   },
+  training: {
+    instructions: "training.instructions",
+  },
 };
 
 export default Translations;
