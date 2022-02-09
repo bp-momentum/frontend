@@ -1,12 +1,15 @@
 import { Alert, Button, Form, FormInstance, Input } from "antd";
 import { MailOutlined } from "@ant-design/icons";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import Api from "../../../util/api";
 import Routes from "../../../util/routes";
 import { useTranslation } from "react-i18next";
 import Translations from "../../../localization/translations";
 
-const CreateUser = (): JSX.Element => {
+const CreateUser = (props: {
+  updateValue: number;
+  setUpdateValue: Dispatch<SetStateAction<number>>;
+}): JSX.Element => {
   const [error, setError] = React.useState<null | string>();
   const [success, setSuccess] = React.useState<null | string>();
   const formRef = React.createRef<FormInstance>();
@@ -36,6 +39,7 @@ const CreateUser = (): JSX.Element => {
 
     formRef.current?.resetFields();
     setSuccess(t(Translations.createUser.successfullyCreatedUser));
+    props.setUpdateValue(props.updateValue + 1);
     setTimeout(() => setSuccess(null), 5000);
   };
 

@@ -30,6 +30,7 @@ export const getColumnSearchProps = (
           redraw();
         }}
         style={{ marginBottom: 8, display: "block" }}
+        autoComplete="off"
       />
       <Space>
         <Button
@@ -40,7 +41,7 @@ export const getColumnSearchProps = (
           }}
           icon={<SearchOutlined />}
           size="small"
-          style={{ width: 90 }}
+          style={{ minWidth: 90 }}
         >
           {t(Translations.userManagement.search)}
         </Button>
@@ -51,7 +52,7 @@ export const getColumnSearchProps = (
             redraw();
           }}
           size="small"
-          style={{ width: 90 }}
+          style={{ minWidth: 90 }}
         >
           {t(Translations.userManagement.reset)}
         </Button>

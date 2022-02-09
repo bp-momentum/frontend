@@ -2971,10 +2971,10 @@ ansi-styles@^5.0.0:
   resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-5.2.0.tgz#07449690ad45777d1924ac2abb2fc8895dba836b"
   integrity sha512-Cxwpt2SfTzTtXcfOlzGEee8O+c+MmUgGrNiBcXnuWxuFJHe6a5Hz7qwhwe5OgaSYI0IJvkLqWX1ASG+cJOkEiA==
 
-antd@^4.18.5:
-  version "4.18.5"
-  resolved "https://registry.yarnpkg.com/antd/-/antd-4.18.5.tgz#e5ffbe238fd6fdfcd1ed39ba96e4b1bd5f589757"
-  integrity sha512-5fN3C2lWAzonhOYYlNpzIw2OHl7vxFZ+4cJ7DK/XZrV+75OY61Y+OkanqMJwrFtDDamIez35OM7cAezGko9tew==
+antd@^4.18.6:
+  version "4.18.6"
+  resolved "https://registry.yarnpkg.com/antd/-/antd-4.18.6.tgz#f849d3141ae18447ec1cdc2b6d83096be24c0769"
+  integrity sha512-CgliJK1iFUYVER2zJsBUManwxLKhdrRVdhpYeHByglZ8w/WXmgIJ3xoSwwM0o4A/FA+gRuDa0f7kVnzPDiqdYw==
   dependencies:
     "@ant-design/colors" "^6.0.0"
     "@ant-design/icons" "^4.7.0"
@@ -2991,7 +2991,7 @@ antd@^4.18.5:
     rc-collapse "~3.1.0"
     rc-dialog "~8.6.0"
     rc-drawer "~4.4.2"
-    rc-dropdown "~3.2.0"
+    rc-dropdown "~3.2.5"
     rc-field-form "~1.22.0-2"
     rc-image "~5.2.5"
     rc-input-number "~7.3.0"
@@ -5609,10 +5609,10 @@ i18next-browser-languagedetector@^6.1.3:
   dependencies:
     "@babel/runtime" "^7.14.6"
 
-i18next@^21.6.10:
-  version "21.6.10"
-  resolved "https://registry.yarnpkg.com/i18next/-/i18next-21.6.10.tgz#aa503831d42213ae2f05eaede29ca07c2d6fbb6f"
-  integrity sha512-Xw+tEGQ61BF6SXtBlFffhM/YhJKHZf2cyDrcNK/l2dE6yVbkPkSasC3VhkAsHXX30vUJ0yG04WIUtf7UvwjOxg==
+i18next@^21.6.11:
+  version "21.6.11"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-21.6.11.tgz#de6d649221e02474cc701d152606bf3e61e37bcd"
+  integrity sha512-tJ2+o0lVO+fhi8bPkCpBAeY1SgkqmQm5NzgPWCQssBrywJw98/o+Kombhty5nxQOpHtvMmsxcOopczUiH6bJxQ==
   dependencies:
     "@babel/runtime" "^7.12.0"
 
@@ -8279,10 +8279,10 @@ rc-drawer@~4.4.2:
     classnames "^2.2.6"
     rc-util "^5.7.0"
 
-rc-dropdown@^3.2.0, rc-dropdown@~3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/rc-dropdown/-/rc-dropdown-3.2.0.tgz#da6c2ada403842baee3a9e909a0b1a91ba3e1090"
-  integrity sha512-j1HSw+/QqlhxyTEF6BArVZnTmezw2LnSmRk6I9W7BCqNCKaRwleRmMMs1PHbuaG8dKHVqP6e21RQ7vPBLVnnNw==
+rc-dropdown@^3.2.0, rc-dropdown@~3.2.5:
+  version "3.2.5"
+  resolved "https://registry.yarnpkg.com/rc-dropdown/-/rc-dropdown-3.2.5.tgz#c211e571d29d15e7f725b5a75fc8c7f371fc3348"
+  integrity sha512-dVO2eulOSbEf+F4OyhCY5iGiMVhUYY/qeXxL7Ex2jDBt/xc89jU07mNoowV6aWxwVOc70pxEINff0oM2ogjluA==
   dependencies:
     "@babel/runtime" "^7.10.1"
     classnames "^2.2.6"
@@ -8642,10 +8642,10 @@ react-error-overlay@^6.0.10:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.10.tgz#0fe26db4fa85d9dbb8624729580e90e7159a59a6"
   integrity sha512-mKR90fX7Pm5seCOfz8q9F+66VCc1PGsWSBxKbITjfKVQHMNF2zudxHnMdJiB1fRCb+XsbQV9sO9DCkgsMQgBIA==
 
-react-i18next@^11.15.3:
-  version "11.15.3"
-  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-11.15.3.tgz#7608fb3cacc02ac75a62fc2d68b579f140b198dd"
-  integrity sha512-RSUEM4So3Tu2JHV0JsZ5Yje+4nz66YViMfPZoywxOy0xyn3L7tE2CHvJ7Y9LUsrTU7vGmZ5bwb8PpjnkatdIxg==
+react-i18next@^11.15.4:
+  version "11.15.4"
+  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-11.15.4.tgz#fe0c792ea93f038548e838cecae3ed4173822937"
+  integrity sha512-jKJNAcVcbPGK+yrTcXhLblgPY16n6NbpZZL3Mk8nswj1v3ayIiUBVDU09SgqnT+DluyQBS97hwSvPU5yVFG0yg==
   dependencies:
     "@babel/runtime" "^7.14.5"
     html-escaper "^2.0.2"
