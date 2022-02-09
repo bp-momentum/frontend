@@ -98,7 +98,7 @@ const InvitedUserTable = (props: {
         "name",
         searchInput,
         redraw,
-        t(Translations.userManagement.SearchEmail)
+        t(Translations.userManagement.SearchName)
       ),
       render: (text: string) => (
         <span style={{ minWidth: "100px", display: "block" }}>{text}</span>
