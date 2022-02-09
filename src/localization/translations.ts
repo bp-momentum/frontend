@@ -146,6 +146,9 @@ const Translations = {
     reset: "user-management.reset",
     SearchName: "user-management.search-name",
     SearchEmail: "user-management.search-email",
+    lastLogin: "user-management.last-login",
+    noEmail: "user-management.no-email",
+    never: "user-management.never",
   },
   errorPage: {
     err404Text: "error-page.404-text",

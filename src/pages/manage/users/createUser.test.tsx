@@ -1,16 +1,23 @@
 import "@testing-library/react";
-import React from "react";
+import React, { useState } from "react";
 import { render, screen } from "@testing-library/react";
 import CreateUser from "./createUser";
 import { Provider } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { store } from "../../../redux/store";
 
-const createUserWrapper = () => (
+const CreateUserWrapper = () => {
+  const [updateValue, setUpdateValue] = useState(0);
+  return (
+    <CreateUser updateValue={updateValue} setUpdateValue={setUpdateValue} />
+  );
+};
+
+const RenderCreateUser = () => (
   <Provider store={store}>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<CreateUser />} />
+        <Route path="/" element={<CreateUserWrapper />} />
       </Routes>
     </BrowserRouter>
   </Provider>
@@ -18,7 +25,7 @@ const createUserWrapper = () => (
 
 describe("CreateUser", () => {
   test("should render the form", async () => {
-    render(createUserWrapper());
+    render(RenderCreateUser());
 
     const first = await screen.findByTestId("first_name");
     const last = await screen.findByTestId("last_name");

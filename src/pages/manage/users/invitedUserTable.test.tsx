@@ -1,30 +1,38 @@
 import "@testing-library/react";
 import { render, screen } from "@testing-library/react";
-import React from "react";
+import React, { useState } from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { store } from "../../../redux/store";
 import InvitedUserTable from "./invitedUserTable";
 
-const renderInvitedUserTable = () => {
+const InvitedUserTableWrapper = () => {
+  const [updateValue, setUpdateValue] = useState(0);
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<InvitedUserTable />} />
-        </Routes>
-      </BrowserRouter>
-    </Provider>
+    <InvitedUserTable
+      updateValue={updateValue}
+      setUpdateValue={setUpdateValue}
+    />
   );
 };
 
+const RenderInvitedUserTable = () => (
+  <Provider store={store}>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<InvitedUserTableWrapper />} />
+      </Routes>
+    </BrowserRouter>
+  </Provider>
+);
+
 describe("<InvitedUserTable />", () => {
   test("should render", () => {
-    render(renderInvitedUserTable());
+    render(RenderInvitedUserTable());
   });
 
   test("should render the table", async () => {
-    render(renderInvitedUserTable());
+    render(RenderInvitedUserTable());
 
     const table = await screen.findByRole("table");
     expect(table).toBeInTheDocument();
