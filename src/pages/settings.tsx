@@ -2,7 +2,17 @@ import React from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import Container from "../shared/container";
 import helper from "../util/helper";
-import { Alert, Button, Col, Divider, Modal, Row, Select, Space } from "antd";
+import {
+  Alert,
+  Button,
+  Col,
+  Divider,
+  message,
+  Modal,
+  Row,
+  Select,
+  Space,
+} from "antd";
 import Api from "../util/api";
 import Routes from "../util/routes";
 import { unsetRefreshToken, unsetToken } from "../redux/token/tokenSlice";
@@ -10,6 +20,7 @@ import { ExclamationCircleOutlined } from "@ant-design/icons";
 import Translations from "../localization/translations";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import api from "../util/api";
 
 const Settings = (): JSX.Element => {
   const navigate = useNavigate();
@@ -26,8 +37,10 @@ const Settings = (): JSX.Element => {
     navigate("/");
   };
 
-  const changeLanguage = (lng: string) =>
-    i18n.changeLanguage(lng).catch(console.error);
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng).catch(message.error);
+    api.execute(Routes.changeLanguage({ language: lng })).catch(message.error);
+  };
 
   function showDeleteConfirm() {
     Modal.confirm({
@@ -38,7 +51,7 @@ const Settings = (): JSX.Element => {
       okType: "danger",
       cancelText: t(Translations.settings.deleteModalCancel),
       onOk() {
-        onConfirmDeleteAccount();
+        onConfirmDeleteAccount().catch(message.error);
       },
       onCancel() {
         console.log("Cancelled Account Deletion");
