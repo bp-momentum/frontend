@@ -81,8 +81,6 @@ const WebcamStreamCapture = (props: { ws: RefObject<ApiSocketConnection> }) => {
 
   const { height } = useWindowDimensions();
 
-  const h = Math.max((height - 230) * 0.8, 200);
-
   return (
     <div
       style={{
@@ -100,7 +98,7 @@ const WebcamStreamCapture = (props: { ws: RefObject<ApiSocketConnection> }) => {
         style={{
           border: "1px solid red",
           maxWidth: "80%",
-          maxHeight: h,
+          maxHeight: Math.max((height - 230) * 0.8, 200),
           objectFit: "cover",
         }}
       />
