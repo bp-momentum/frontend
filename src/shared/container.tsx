@@ -147,7 +147,11 @@ const Container: React.FC<containerProps> = ({ ...containerProps }) => {
           </Menu.Item>
         </Menu>
       </Header>
-      <Content style={{ position: "relative" }}>{children}</Content>
+      <Content
+        style={{ position: "relative", height: "100%", overflow: "auto" }}
+      >
+        {children}
+      </Content>
     </Layout>
   );
 };
