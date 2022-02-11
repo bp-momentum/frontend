@@ -1,3 +1,4 @@
+import Helper from "./helper";
 import { Route } from "./routes";
 
 class Api {
@@ -22,6 +23,17 @@ class Api {
     while (route.needsAuth && this.token === "" && ++i < 50) {
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
+
+    const username = Helper.getUserName(this.token);
+    const protectedUser = ["admin", "trainer", "user"].includes(username);
+    const protectedRoute = [
+      "/api/deleteaccount",
+      "/api/changeusername",
+      "/api/changeavatar",
+      "/api/changemotivation",
+    ].includes(route.route);
+    if (protectedRoute && protectedUser)
+      throw new Error("You are not authorized to access this route");
 
     let response;
     switch (route.method) {

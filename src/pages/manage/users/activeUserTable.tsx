@@ -187,8 +187,9 @@ const ActiveUserTable = () => {
           okText={t(Translations.confirm.yes)}
           cancelText={t(Translations.confirm.no)}
           icon={<QuestionCircleOutlined style={{ color: "red" }} />}
+          disabled={record.name === "user"}
         >
-          <Button danger value={record}>
+          <Button danger value={record} disabled={record.name === "user"}>
             {t(Translations.confirm.delete)}
           </Button>
         </Popconfirm>

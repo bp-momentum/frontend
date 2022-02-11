@@ -104,8 +104,9 @@ const ActiveTrainerTable = () => {
           okText={t(Translations.confirm.yes)}
           cancelText={t(Translations.confirm.no)}
           icon={<QuestionCircleOutlined style={{ color: "red" }} />}
+          disabled={record.name === "trainer"}
         >
-          <Button danger value={record}>
+          <Button danger value={record} disabled={record.name === "trainer"}>
             {t(Translations.confirm.delete)}
           </Button>
         </Popconfirm>
