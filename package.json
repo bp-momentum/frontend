@@ -4,6 +4,7 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
+    "@ant-design/plots": "^1.0.9",
     "@reduxjs/toolkit": "^1.7.2",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.2",

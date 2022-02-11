@@ -1,10 +1,10 @@
 import { Layout, Progress, Spin } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import "../../styles/train.css";
 import Translations from "../../localization/translations";
 import { t } from "i18next";
 import { LoadingOutlined } from "@ant-design/icons";
-import { ExerciseData } from ".";
+import { ExerciseData, statsType } from ".";
 import WebcamStreamCapture from "./components/webcamStreamCapture";
 import api, { ApiSocketConnection } from "../../util/api";
 import TrainSider from "./components/trainSider";
@@ -15,10 +15,12 @@ interface trainingProps {
   loading: boolean;
   error: boolean;
   exercise?: ExerciseData;
+  setStats: Dispatch<statsType>;
+  setSubPage: Dispatch<SetStateAction<"training" | "setDone" | "exerciseDone">>;
 }
 
 const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
-  const { loading, exercise, error } = trainingProps;
+  const { loading, exercise, error, setStats, setSubPage } = trainingProps;
 
   const [debugExerciseRunning, setDebugExerciseRunning] = useState(false);
   const [currentFeedback, setCurrentFeedback] = useState<null | string>();

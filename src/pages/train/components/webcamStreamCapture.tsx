@@ -100,6 +100,7 @@ const WebcamStreamCapture = (props: { ws: RefObject<ApiSocketConnection> }) => {
           maxWidth: "80%",
           maxHeight: Math.max((height - 230) * 0.8, 200),
           objectFit: "cover",
+          borderRadius: "30px",
         }}
       />
       <button

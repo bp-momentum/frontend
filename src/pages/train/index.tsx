@@ -17,12 +17,25 @@ export interface ExerciseData {
   activated: boolean;
 }
 
-const Train = () => {
+export interface dataEntryType {
+  type: "Intensity" | "Accuracy" | "Speed";
+  set: string;
+  performance: number;
+}
+
+export interface statsType {
+  data: dataEntryType[];
+  totalPoints: number;
+}
+
+const Train: React.FC = () => {
   const [exercise, setExercise] = React.useState<ExerciseData>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const [subPage /*, setSubPage*/] = useState<
+  const [stats, setStats] = useState<statsType>({ data: [], totalPoints: 0 });
+
+  const [subPage, setSubPage] = useState<
     "training" | "setDone" | "exerciseDone"
   >("training");
 
@@ -69,12 +82,20 @@ const Train = () => {
   }, [loading, exercisePlanId]);
 
   return (
-    <Container>
+    <Container confimLeave={subPage !== "exerciseDone"}>
       {subPage === "training" && (
-        <Training loading={loading} exercise={exercise} error={error} />
+        <Training
+          loading={loading}
+          exercise={exercise}
+          error={error}
+          setStats={setStats}
+          setSubPage={setSubPage}
+        />
       )}
-      {subPage === "setDone" && <SetDone stats={{}} />}
-      {subPage === "exerciseDone" && <ExerciseDone stats={{}} />}
+      {subPage === "setDone" && <SetDone stats={stats} />}
+      {subPage === "exerciseDone" && (
+        <ExerciseDone stats={stats} exercise={exercise} />
+      )}
     </Container>
   );
 };

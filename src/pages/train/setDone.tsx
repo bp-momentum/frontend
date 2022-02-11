@@ -1,7 +1,8 @@
 import React from "react";
+import { statsType } from ".";
 
 interface setDoneProps {
-  stats: any;
+  stats: statsType;
 }
 
 const SetDone: React.FC<setDoneProps> = ({ ...setDoneProps }) => {
