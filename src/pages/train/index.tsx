@@ -90,9 +90,10 @@ const Train: React.FC = () => {
           error={error}
           setStats={setStats}
           setSubPage={setSubPage}
+          stats={stats}
         />
       )}
-      {subPage === "setDone" && <SetDone stats={stats} />}
+      {subPage === "setDone" && <SetDone stats={stats} exercise={exercise} />}
       {subPage === "exerciseDone" && (
         <ExerciseDone stats={stats} exercise={exercise} />
       )}

@@ -15,6 +15,7 @@ interface trainingProps {
   loading: boolean;
   error: boolean;
   exercise?: ExerciseData;
+  stats: statsType;
   setStats: Dispatch<statsType>;
   setSubPage: Dispatch<SetStateAction<"training" | "setDone" | "exerciseDone">>;
 }
