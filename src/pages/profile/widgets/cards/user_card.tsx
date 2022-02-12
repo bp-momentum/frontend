@@ -6,6 +6,7 @@ import ReactCardFlip from "react-card-flip";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import Helper from "../../../../util/helper";
+import { FaPen } from "react-icons/fa";
 
 const UserCard = (props: {
   avatarId: number;
@@ -155,22 +156,53 @@ const UserCard = (props: {
               }
               trigger="click"
             >
-              <img
-                alt="Avatar"
-                onClick={() => {
-                  setPopoverVisible(!popoverVisible);
-                }}
-                key={newAvatarId}
-                src={Helper.getAvatarUrl(newAvatarId)}
+              <div
                 style={{
-                  height: "100px",
-                  padding: "20px 10px 0 10px",
-                  marginBottom: "30px",
-                  marginRight: "30px",
-                  clipPath: "circle(50px at center)",
-                  backgroundColor: "#626FE5",
+                  position: "relative",
                 }}
-              />
+              >
+                <img
+                  alt="Avatar"
+                  onClick={() => {
+                    setPopoverVisible(!popoverVisible);
+                  }}
+                  key={newAvatarId}
+                  src={Helper.getAvatarUrl(newAvatarId)}
+                  style={{
+                    cursor: "pointer",
+                    height: "100px",
+                    padding: "20px 10px 0 10px",
+                    marginBottom: "30px",
+                    marginRight: "30px",
+                    clipPath: "circle(50px at center)",
+                    backgroundColor: "#626FE5",
+                    display: "block",
+                  }}
+                />
+                {!popoverVisible && (
+                  <div
+                    onClick={() => {
+                      setPopoverVisible(!popoverVisible);
+                    }}
+                    style={{
+                      cursor: "pointer",
+                      position: "absolute",
+                      top: "0",
+                      right: "20px",
+                      backgroundColor: "#BCBCBC",
+                      borderRadius: "50%",
+                      width: "30px",
+                      height: "30px",
+                    }}
+                  >
+                    <FaPen
+                      style={{
+                        margin: "5px",
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
             </Popover>
             <Col style={{ flexDirection: "column", display: "flex" }}>
               <Text
