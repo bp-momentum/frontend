@@ -52,12 +52,12 @@ const UserCard = (props: {
               float: "right",
               marginTop: "-20px",
               marginRight: "-20px",
+              cursor: "pointer",
             }}
             onClick={() => setUserFlipped(true)}
             data-testid="edit-profile"
           >
-            {t(Translations.profile.edit)}
-            <EditOutlined />
+            {t(Translations.profile.edit)} <EditOutlined />
           </Text>
           <Row>
             <img
@@ -112,6 +112,7 @@ const UserCard = (props: {
               float: "right",
               marginTop: "-20px",
               marginRight: "-20px",
+              cursor: "pointer",
             }}
             onClick={async () => {
               await props.saveNewUsername(newUsername);
@@ -120,8 +121,7 @@ const UserCard = (props: {
               setUserFlipped(false);
             }}
           >
-            {t(Translations.profile.save)}
-            <SaveOutlined />
+            {t(Translations.profile.save)} <SaveOutlined />
           </Text>
           <Row>
             <Popover
