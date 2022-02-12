@@ -1,4 +1,4 @@
-import { Layout, Progress, Spin } from "antd";
+import { message, Progress, Spin } from "antd";
 import React, {
   Dispatch,
   SetStateAction,
@@ -13,9 +13,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { dataEntryType, ExerciseData, statsType } from ".";
 import WebcamStreamCapture from "./components/webcamStreamCapture";
 import api, { ApiSocketConnection } from "../../util/api";
-import TrainSider from "./components/trainSider";
-
-const { Content, Sider } = Layout;
+import TrainLayout from "./components/trainLayout";
 
 interface trainingProps {
   loadingExercise: boolean;
@@ -48,7 +46,6 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
   const [debugExerciseRunning, setDebugExerciseRunning] = useState(false);
   const [currentFeedback, setCurrentFeedback] = useState<null | string>();
   const [progress, setProgress] = useState(0);
-  const [collapsed, setCollapsed] = useState(false);
 
   const [active, setActive] = useState(false);
 
@@ -188,7 +185,7 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
 
     if (mounted && webSocketRef.current?.connected()) return;
 
-    connectToWS();
+    connectToWS().catch(message.error);
 
     return () => {
       mounted = false;
@@ -199,33 +196,8 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
   // TODO(someone): please someone get a better dep for this
 
   return (
-    <Layout style={{ height: "100%" }}>
-      <Sider
-        collapsible
-        collapsed={collapsed}
-        onCollapse={() => setCollapsed(!collapsed)}
-        width={collapsed ? "50px" : "500px"}
-        style={{
-          height: "calc(100% - 48px)",
-          background: "#466995",
-          overflow: "hidden",
-        }}
-      >
-        <TrainSider
-          loading={loadingExercise}
-          exercise={exercise}
-          error={error}
-          collapsed={collapsed}
-        />
-      </Sider>
-      <Content
-        className="shadow"
-        style={{
-          background: "#466995",
-          overflow: "hidden",
-          height: "100%",
-        }}
-      >
+    <TrainLayout
+      content={
         <div
           style={{
             overflowY: "auto",
@@ -300,8 +272,11 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
             </button>
           </div>
         </div>
-      </Content>
-    </Layout>
+      }
+      loadingExercise={loadingExercise}
+      error={error}
+      exercise={exercise}
+    />
   );
 };
 
