@@ -25,6 +25,7 @@ export interface dataEntryType {
 
 export interface statsType {
   data: dataEntryType[];
+  set: number;
   totalPoints: number;
 }
 
@@ -33,7 +34,11 @@ const Train: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const [stats, setStats] = useState<statsType>({ data: [], totalPoints: 0 });
+  const [stats, setStats] = useState<statsType>({
+    data: [],
+    totalPoints: 0,
+    set: 0,
+  });
 
   const [subPage, setSubPage] = useState<
     "training" | "setDone" | "exerciseDone"
@@ -85,15 +90,18 @@ const Train: React.FC = () => {
     <Container confimLeave={subPage !== "exerciseDone"}>
       {subPage === "training" && (
         <Training
-          loading={loading}
+          loadingExercise={loading}
           exercise={exercise}
           error={error}
           setStats={setStats}
           setSubPage={setSubPage}
           stats={stats}
+          exercisePlanId={exercisePlanId}
         />
       )}
-      {subPage === "setDone" && <SetDone stats={stats} exercise={exercise} />}
+      {subPage === "setDone" && (
+        <SetDone stats={stats} exercise={exercise} setSubPage={setSubPage} />
+      )}
       {subPage === "exerciseDone" && (
         <ExerciseDone stats={stats} exercise={exercise} />
       )}

@@ -17,8 +17,6 @@ const Paper: React.FC<paperProps> = ({ children, ...props }) => {
   const realBackdropColor = backdropColor || "#000";
   const realLineColor = lineColor || "#000";
 
-  console.log(realInnerWidth);
-
   return (
     <div style={{ width: realTotalWidth, paddingTop: "20px" }}>
       <div

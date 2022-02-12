@@ -3,19 +3,28 @@ import Webcam from "react-webcam";
 import useWindowDimensions from "../../../hooks/windowDimension";
 import { ApiSocketConnection } from "../../../util/api";
 
-const WebcamStreamCapture = (props: { ws: RefObject<ApiSocketConnection> }) => {
+interface webcamStreamCaptureProps {
+  webSocketRef: RefObject<ApiSocketConnection>;
+  active: boolean;
+}
+
+const WebcamStreamCapture: React.FC<webcamStreamCaptureProps> = ({
+  children,
+  ...webcamStreamCaptureProps
+}) => {
+  const { webSocketRef, active } = webcamStreamCaptureProps;
+
   const webcamRef = useRef<Webcam>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const [capturing, setCapturing] = useState(false);
   const [recordedChunks, setRecordedChunks] = useState([]);
 
-  const webSocketRef = props.ws;
-
   const sendChunks = useCallback(
     (data: Blob): void => {
+      if (!active) return;
       webSocketRef.current?.send(data);
     },
-    [webSocketRef]
+    [active, webSocketRef]
   );
 
   const handleDataAvailable = useCallback(
@@ -88,7 +97,6 @@ const WebcamStreamCapture = (props: { ws: RefObject<ApiSocketConnection> }) => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        width: "100%",
       }}
     >
       <Webcam
@@ -96,13 +104,28 @@ const WebcamStreamCapture = (props: { ws: RefObject<ApiSocketConnection> }) => {
         ref={webcamRef}
         mirrored
         style={{
-          border: "1px solid red",
           maxWidth: "80%",
           maxHeight: Math.max((height - 230) * 0.8, 200),
           objectFit: "cover",
           borderRadius: "30px",
         }}
       />
+      <div
+        style={{
+          position: "absolute",
+          margin: "auto",
+          maxWidth: "80%",
+          maxHeight: Math.max((height - 230) * 0.8, 200),
+          width: "100%",
+          height: "100%",
+          padding: "15px 20px",
+          backdropFilter: active ? "none" : "blur(50px)",
+          borderRadius: "30px",
+          border: "1px solid red",
+        }}
+      >
+        {children}
+      </div>
       <button
         onClick={capturing ? handleStopCaptureClick : handleStartCaptureClick}
         style={{

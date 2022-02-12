@@ -129,16 +129,29 @@ class Api {
     }
   };
 
-  openSocket = (): ApiSocketConnection => new ApiSocketConnection(this.token);
+  openSocket = async (): Promise<ApiSocketConnection> => {
+    /**
+     * Wait for a token on authorized requests
+     * Wait a max of 5 seconds
+     */
+    let i = 0;
+    while (this.token === "" && ++i < 50) {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+
+    const str = this.serverUrl.replace(/http(s?):\/\//, "ws://");
+
+    return new ApiSocketConnection(this.token, str);
+  };
 }
 
 export class ApiSocketConnection {
   readonly token: string;
   private ws: WebSocket;
 
-  constructor(token: string) {
+  constructor(token: string, url: string) {
     this.token = token;
-    this.ws = new WebSocket("ws://78.46.150.116:9000/ws/socket");
+    this.ws = new WebSocket(url + "ws/socket");
 
     this.ws.onopen = (event) => {
       this.ws.send(
@@ -171,9 +184,14 @@ export class ApiSocketConnection {
   onerror: (event: Event) => unknown = (event) =>
     console.error("WebSocket closed due to an error! Error: " + event);
 
-  onmessage: ((message: ApiResponse | undefined) => unknown) | null = null;
+  onmessage: ((message: WebsocketResponse | undefined) => unknown) | null =
+    null;
 
   onclose: ((event: CloseEvent) => unknown) | null = null;
+
+  close: () => void = () => this.ws.close();
+
+  connected: () => boolean = () => this.ws.readyState === WebSocket.OPEN;
 }
 
 interface ApiResponse {
@@ -181,6 +199,10 @@ interface ApiResponse {
   description: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: Record<string, any>;
+}
+
+interface WebsocketResponse extends ApiResponse {
+  message_type: string;
 }
 
 export default new Api();
