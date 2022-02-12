@@ -253,8 +253,7 @@ const ExerciseCard = ({
       >
         <span
           style={{
-            margin: "0",
-            marginLeft: "auto",
+            margin: "0 0 0 auto",
             fontWeight: 400,
             fontSize: "16px",
           }}
@@ -436,7 +435,10 @@ const Exercises = (): JSX.Element => {
                   alignContent: "flex-start",
                   overflow: "auto",
                   flexFlow: "row",
-                  margin: "0px",
+                  marginLeft: "0px",
+                  marginTop: "0px", // needs to be split because of
+                  marginRight: "0px", // https://github.com/facebook/react/issues/8689
+                  marginBottom: "0px",
                   flexDirection: "row",
                 }}
                 gutter={[16, 16]}
