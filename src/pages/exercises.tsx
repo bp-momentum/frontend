@@ -171,9 +171,9 @@ const Day = forwardRef(
                       : "normal"
                   }
                   format={(percent, success) =>
-                    `${((percent || 0) / 100) * exercises.length} / ${
-                      exercises.length
-                    }`
+                    `${Math.ceil(
+                      ((percent || 0) / 100) * exercises.length
+                    )} / ${exercises.length}`
                   }
                 />
               )}
