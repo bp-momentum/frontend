@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Container from "../../shared/container";
 import api from "../../util/api";
 import Routes from "../../util/routes";
@@ -34,7 +34,9 @@ const Train: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const [stats, setStats] = useState<statsType>({
+  const initialCollapsed = useRef(false);
+
+  const stats = useRef<statsType>({
     data: [],
     totalPoints: 0,
     set: 0,
@@ -93,14 +95,19 @@ const Train: React.FC = () => {
           loadingExercise={loading}
           exercise={exercise}
           error={error}
-          setStats={setStats}
           setSubPage={setSubPage}
           stats={stats}
           exercisePlanId={exercisePlanId}
+          initialCollapsed={initialCollapsed}
         />
       )}
       {subPage === "setDone" && (
-        <SetDone stats={stats} exercise={exercise} setSubPage={setSubPage} />
+        <SetDone
+          stats={stats}
+          exercise={exercise}
+          setSubPage={setSubPage}
+          initialCollapsed={initialCollapsed}
+        />
       )}
       {subPage === "exerciseDone" && (
         <ExerciseDone stats={stats} exercise={exercise} />

@@ -1,31 +1,32 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, MutableRefObject, SetStateAction } from "react";
 import { ExerciseData, statsType } from ".";
 import TrainLayout from "./components/trainLayout";
 import { Button, Col } from "antd";
 
 interface setDoneProps {
-  stats: statsType;
+  stats: MutableRefObject<statsType>;
+  initialCollapsed: MutableRefObject<boolean>;
   exercise?: ExerciseData;
   setSubPage: Dispatch<SetStateAction<"training" | "setDone" | "exerciseDone">>;
 }
 
 const SetDone: React.FC<setDoneProps> = ({ ...setDoneProps }) => {
-  const { stats, exercise, setSubPage } = setDoneProps;
+  const { stats, exercise, setSubPage, initialCollapsed } = setDoneProps;
 
   return (
     <TrainLayout
-      content={
-        <div>
-          <Col>
-            {stats}
-            <Button onClick={() => setSubPage("training")}>Next Set</Button>
-          </Col>
-        </div>
-      }
       loadingExercise={false}
       error={false}
       exercise={exercise}
-    />
+      initialCollapsed={initialCollapsed}
+    >
+      <div>
+        <Col>
+          {stats.current.totalPoints}
+          <Button onClick={() => setSubPage("training")}>Next Set</Button>
+        </Col>
+      </div>
+    </TrainLayout>
   );
 };
 
