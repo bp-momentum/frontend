@@ -52,23 +52,20 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
 
   const webSocketRef = useRef<ApiSocketConnection | null>(null);
 
-  const [points, setPoints] = useState<Points[]>([]);
+  const points = useRef<Points[]>([]);
 
   const calculatePoints = (): dataEntryType[] => {
-    const intensity = stats.current.data.reduce(
-      (acc, curr) => acc + curr.performance,
+    const intensity = points.current.reduce(
+      (acc, curr) => acc + curr.intensity,
       0
     );
 
-    const accuracy = stats.current.data.reduce(
-      (acc, curr) => acc + curr.performance,
+    const accuracy = points.current.reduce(
+      (acc, curr) => acc + curr.accuracy,
       0
     );
 
-    const speed = stats.current.data.reduce(
-      (acc, curr) => acc + curr.performance,
-      0
-    );
+    const speed = points.current.reduce((acc, curr) => acc + curr.speed, 0);
 
     const pts: dataEntryType[] = [
       {
@@ -124,7 +121,7 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
     };
 
     webSocket.onmessage = (message) => {
-      console.log(message);
+      // console.log(message);
 
       if (!message || !message?.success) return;
 
@@ -138,12 +135,12 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
             message.data.cleanliness +
             "!"
         );
+        setTimeout(() => setCurrentFeedback(null), 2500);
       }
-
-      setTimeout(() => setCurrentFeedback(null), 2500);
 
       switch (message.message_type) {
         case "init":
+          stats.current.set = message.data.current_set + 1;
           setProgress(
             ((message.data.current_set + 1) / (exercise?.sets || 1)) * 100
           );
@@ -152,33 +149,29 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
           setActive(true);
           break;
         case "statistics":
-          setPoints(
-            points.concat({
-              intensity: message.data.intensity,
-              accuracy: message.data.cleanliness,
-              speed: message.data.speed,
-              total: 0,
-            })
-          );
+          points.current.push({
+            intensity: message.data.intensity,
+            accuracy: message.data.cleanliness,
+            speed: message.data.speed,
+            total: 0,
+          });
           break;
         case "end_set":
           setActive(false);
-          // setStats({ ...stats, set: message.data.current_set + 1 });
+          stats.current.data = stats.current.data.concat(calculatePoints());
+          stats.current.set = message.data.current_set + 1;
           setSubPage("setDone");
           break;
         case "exercise_complete":
-          // setStats({
-          //   ...stats,
-          //   set: message.data.current_set + 1,
-          //   data: stats.data.concat(calculatePoints()),
-          // });
+          stats.current.data = stats.current.data.concat(calculatePoints());
+          // TODO: Add points to stats
+          stats.current.totalPoints = 1337;
           setSubPage("exerciseDone");
           break;
       }
     };
 
-    webSocket.onclose = function (closeEvent) {
-      // if (!mounted) return;
+    webSocket.onclose = function () {
       setTimeout(function () {
         console.warn("WebSocket closed! Trying to reconnect...");
         connectToWS();
@@ -187,27 +180,20 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
   }
 
   useEffect(() => {
-    console.log("render :(");
-
     if (firstUpdate.current) {
       firstUpdate.current = false;
     } else {
       return;
     }
 
-    let mounted = true;
-
-    if (mounted && webSocketRef.current?.connected()) return;
-
     connectToWS().catch(message.error);
 
     return () => {
-      mounted = false;
+      if (webSocketRef.current) webSocketRef.current.onclose = null;
       webSocketRef.current?.close();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  });
-  // TODO(someone): please someone get a better dep for this
+  }, []);
 
   return (
     <TrainLayout
