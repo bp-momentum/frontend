@@ -1,39 +1,41 @@
 import { message, Progress, Spin } from "antd";
 import React, {
+  createRef,
   Dispatch,
   MutableRefObject,
   SetStateAction,
+  useCallback,
   useEffect,
   useRef,
   useState,
 } from "react";
-import "../../styles/train.css";
-import Translations from "../../localization/translations";
+import "../../../styles/train.css";
+import Translations from "../../../localization/translations";
 import { t } from "i18next";
 import { LoadingOutlined } from "@ant-design/icons";
-import { dataEntryType, ExerciseData, statsType } from ".";
-import WebcamStreamCapture from "./components/webcamStreamCapture";
-import api, { ApiSocketConnection } from "../../util/api";
-import TrainLayout from "./components/trainLayout";
+import { ExerciseData, statsType } from "..";
+import WebcamStreamCapture from "../components/webcamStreamCapture";
+import api, { ApiSocketConnection } from "../../../util/api";
+import TrainLayout from "../components/trainLayout";
+import {
+  doneCallback,
+  endCallback,
+  initCallback,
+  statsCallback,
+} from "./callbacks";
 
 interface trainingProps {
   loadingExercise: boolean;
   error: boolean;
   exercise?: ExerciseData;
   stats: MutableRefObject<statsType>;
-  setSubPage: Dispatch<SetStateAction<"training" | "setDone" | "exerciseDone">>;
+  setSubPage: Dispatch<SetStateAction<subPage>>;
   exercisePlanId?: string;
   initialCollapsed: MutableRefObject<boolean>;
 }
 
-interface Points {
-  intensity: number;
-  accuracy: number;
-  speed: number;
-  total: number;
-}
-
 const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
+  // deconstruct props
   const {
     loadingExercise,
     exercise,
@@ -44,67 +46,36 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
     initialCollapsed,
   } = trainingProps;
 
-  const [debugExerciseRunning, setDebugExerciseRunning] = useState(false);
+  // TODO replace this
   const [currentFeedback, setCurrentFeedback] = useState<null | string>();
+
+  // repeats done per repeats to do in percent
   const [progress, setProgress] = useState(0);
 
+  // whether sending video to server
   const [active, setActive] = useState(false);
 
   const webSocketRef = useRef<ApiSocketConnection | null>(null);
 
+  const currentRepeat = useRef(0);
+
+  const [feedback, setFeedback] = useState<feedback>({
+    x: -100,
+    y: -100,
+    addedPoints: 0,
+    totalPoints: 0,
+  });
+
+  const totalPoints = useRef(0);
+
+  useEffect(() => {
+    totalPoints.current = feedback.totalPoints;
+  }, [feedback.totalPoints]);
+
+  // used to cache points per exercise
   const points = useRef<Points[]>([]);
 
-  const calculatePoints = (): dataEntryType[] => {
-    const intensity = points.current.reduce(
-      (acc, curr) => acc + curr.intensity,
-      0
-    );
-
-    const accuracy = points.current.reduce(
-      (acc, curr) => acc + curr.accuracy,
-      0
-    );
-
-    const speed = points.current.reduce((acc, curr) => acc + curr.speed, 0);
-
-    const pts: dataEntryType[] = [
-      {
-        type: "Intensity",
-        set: stats.current.set.toString(),
-        performance: intensity,
-      },
-      {
-        type: "Accuracy",
-        set: stats.current.set.toString(),
-        performance: accuracy,
-      },
-      {
-        type: "Speed",
-        set: stats.current.set.toString(),
-        performance: speed,
-      },
-    ];
-
-    return pts;
-  };
-
-  const debugExerciseNoVideo = () => {
-    if (!debugExerciseRunning) {
-      webSocketRef.current?.send(
-        JSON.stringify({
-          message_type: "start_set",
-          data: { user_token: "", exercise_id: 1 },
-        })
-      );
-    } else {
-      webSocketRef.current?.send(
-        JSON.stringify({ message_type: "end_set", data: {} })
-      );
-    }
-    setDebugExerciseRunning(!debugExerciseRunning);
-  };
-
-  const firstUpdate = useRef(true);
+  const getFeedback = useCallback(() => feedback, [feedback]);
 
   async function connectToWS() {
     webSocketRef.current = await api.openSocket();
@@ -121,8 +92,6 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
     };
 
     webSocket.onmessage = (message) => {
-      // console.log(message);
-
       if (!message || !message?.success) return;
 
       if (message.message_type === "statistics") {
@@ -140,33 +109,27 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
 
       switch (message.message_type) {
         case "init":
-          stats.current.set = message.data.current_set + 1;
-          setProgress(
-            ((message.data.current_set + 1) / (exercise?.sets || 1)) * 100
-          );
+          initCallback(message.data, stats.current);
           break;
         case "start_set":
           setActive(true);
           break;
         case "statistics":
-          points.current.push({
-            intensity: message.data.intensity,
-            accuracy: message.data.cleanliness,
-            speed: message.data.speed,
-            total: 0,
-          });
+          statsCallback(
+            message.data,
+            points.current,
+            setProgress,
+            exercise?.repeatsPerSet || 1,
+            currentRepeat,
+            setFeedback,
+            totalPoints
+          );
           break;
         case "end_set":
-          setActive(false);
-          stats.current.data = stats.current.data.concat(calculatePoints());
-          stats.current.set = message.data.current_set + 1;
-          setSubPage("setDone");
+          endCallback(stats.current, setActive, setSubPage, points.current);
           break;
         case "exercise_complete":
-          stats.current.data = stats.current.data.concat(calculatePoints());
-          // TODO: Add points to stats
-          stats.current.totalPoints = 1337;
-          setSubPage("exerciseDone");
+          doneCallback(stats.current, setActive, setSubPage, points.current);
           break;
       }
     };
@@ -179,13 +142,8 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
     };
   }
 
+  // start websocket connection on mount and disconnect on unmount
   useEffect(() => {
-    if (firstUpdate.current) {
-      firstUpdate.current = false;
-    } else {
-      return;
-    }
-
     connectToWS().catch(message.error);
 
     return () => {
@@ -194,6 +152,18 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const ptsRef = createRef<HTMLSpanElement>();
+
+  useEffect(() => {
+    if (!ptsRef.current) return;
+    ptsRef.current.style.fontSize = "2.2rem";
+    setTimeout(() => {
+      if (!ptsRef.current) return;
+      ptsRef.current.style.fontSize = "2rem";
+    }, 100);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [feedback.totalPoints]);
 
   return (
     <TrainLayout
@@ -266,14 +236,57 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
             />
           </div>
           <div style={{ color: "white", marginTop: "10px" }}>
-            {(progress / 100) * (exercise?.sets || 1)}/{exercise?.sets}
+            {stats.current.set}/{exercise?.sets}
           </div>
           <WebcamStreamCapture webSocketRef={webSocketRef} active={active}>
-            {currentFeedback}
+            <div
+              style={{
+                position: "relative",
+                height: "45px",
+                display: "flex",
+                color: "#466995",
+                fontWeight: "bold",
+                textShadow:
+                  "-1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff",
+                alignItems: "flex-end",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "2rem",
+                }}
+              >
+                Pts:&nbsp;
+              </span>
+              <span
+                ref={ptsRef}
+                style={{
+                  transition: "font-size 0.1s ease-in-out",
+                  fontSize: "2rem",
+                }}
+              >
+                {feedback.totalPoints}
+              </span>
+            </div>
+            {currentFeedback && (
+              <>
+                <span
+                  style={{
+                    position: "absolute",
+                    left: feedback?.x,
+                    top: feedback?.y,
+                    color: "#466995",
+                    textShadow:
+                      "-1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff",
+                    transform: "translate(-50%, -50%)",
+                    fontSize: "1.5rem",
+                  }}
+                >
+                  +{feedback.addedPoints}
+                </span>
+              </>
+            )}
           </WebcamStreamCapture>
-          <button onClick={debugExerciseNoVideo}>
-            {debugExerciseRunning ? "End" : "Start"} Debug Exercise
-          </button>
         </div>
       </div>
     </TrainLayout>

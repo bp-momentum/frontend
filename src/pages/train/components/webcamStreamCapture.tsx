@@ -118,13 +118,21 @@ const WebcamStreamCapture: React.FC<webcamStreamCaptureProps> = ({
           maxHeight: Math.max((height - 230) * 0.8, 200),
           width: "100%",
           height: "100%",
-          padding: "15px 20px",
           backdropFilter: active ? "none" : "blur(50px)",
           borderRadius: "30px",
           border: "1px solid red",
+          padding: "15px 20px",
         }}
       >
-        {children}
+        <div
+          style={{
+            position: "relative",
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          {children}
+        </div>
       </div>
       <button
         onClick={capturing ? handleStopCaptureClick : handleStartCaptureClick}

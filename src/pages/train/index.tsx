@@ -17,12 +17,6 @@ export interface ExerciseData {
   activated: boolean;
 }
 
-export interface dataEntryType {
-  type: "Intensity" | "Accuracy" | "Speed";
-  set: string;
-  performance: number;
-}
-
 export interface statsType {
   data: dataEntryType[];
   set: number;
@@ -42,9 +36,7 @@ const Train: React.FC = () => {
     set: 0,
   });
 
-  const [subPage, setSubPage] = useState<
-    "training" | "setDone" | "exerciseDone"
-  >("training");
+  const [subPage, setSubPage] = useState<subPage>("training");
 
   // exercisePlanId from the url
   const { exercisePlanId } = useParams();
@@ -77,9 +69,12 @@ const Train: React.FC = () => {
                 "https://vid.pr0gramm.com/2021/12/28/130aaef3ab9c207a.mp4",
               activated: response.data.title,
             });
+            setLoading(false);
           });
-      else setError(true);
-      setLoading(false);
+      else {
+        setError(true);
+        setLoading(false);
+      }
     });
 
     return () => {
@@ -90,27 +85,33 @@ const Train: React.FC = () => {
 
   return (
     <Container confimLeave={subPage !== "exerciseDone"}>
-      {subPage === "training" && (
-        <Training
-          loadingExercise={loading}
-          exercise={exercise}
-          error={error}
-          setSubPage={setSubPage}
-          stats={stats}
-          exercisePlanId={exercisePlanId}
-          initialCollapsed={initialCollapsed}
-        />
-      )}
-      {subPage === "setDone" && (
-        <SetDone
-          stats={stats}
-          exercise={exercise}
-          setSubPage={setSubPage}
-          initialCollapsed={initialCollapsed}
-        />
-      )}
-      {subPage === "exerciseDone" && (
-        <ExerciseDone stats={stats} exercise={exercise} />
+      {loading || exercise === undefined ? (
+        <div>Loading...</div>
+      ) : (
+        <>
+          {subPage === "training" && (
+            <Training
+              loadingExercise={loading}
+              exercise={exercise}
+              error={error}
+              setSubPage={setSubPage}
+              stats={stats}
+              exercisePlanId={exercisePlanId}
+              initialCollapsed={initialCollapsed}
+            />
+          )}
+          {subPage === "setDone" && (
+            <SetDone
+              stats={stats}
+              exercise={exercise}
+              setSubPage={setSubPage}
+              initialCollapsed={initialCollapsed}
+            />
+          )}
+          {subPage === "exerciseDone" && (
+            <ExerciseDone stats={stats} exercise={exercise} />
+          )}
+        </>
       )}
     </Container>
   );

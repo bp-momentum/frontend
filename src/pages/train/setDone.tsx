@@ -7,7 +7,7 @@ interface setDoneProps {
   stats: MutableRefObject<statsType>;
   initialCollapsed: MutableRefObject<boolean>;
   exercise?: ExerciseData;
-  setSubPage: Dispatch<SetStateAction<"training" | "setDone" | "exerciseDone">>;
+  setSubPage: Dispatch<SetStateAction<subPage>>;
 }
 
 const SetDone: React.FC<setDoneProps> = ({ ...setDoneProps }) => {
