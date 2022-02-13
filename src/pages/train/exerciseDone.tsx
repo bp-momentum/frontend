@@ -1,9 +1,9 @@
-import React from "react";
+import React, { MutableRefObject } from "react";
 import { ExerciseData, statsType } from ".";
 import Graph from "../../shared/graph";
 
 interface exerciseDoneProps {
-  stats: statsType;
+  stats: MutableRefObject<statsType>;
   exercise?: ExerciseData;
 }
 
@@ -25,9 +25,13 @@ const ExerciseDone: React.FC<exerciseDoneProps> = ({
       }}
     >
       <h1 style={{ color: "white", fontSize: "60px" }}>{exercise?.title}</h1>
-      <Graph data={stats.data} width={600} style={{ marginBottom: "40px" }} />
+      <Graph
+        data={stats.current.data}
+        width={600}
+        style={{ marginBottom: "40px" }}
+      />
       <h1 style={{ color: "white", fontSize: "45px" }}>
-        Score: {stats.totalPoints}
+        Score: {stats.current.totalPoints}
       </h1>
     </div>
   );
