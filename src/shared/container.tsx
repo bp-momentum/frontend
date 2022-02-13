@@ -60,6 +60,7 @@ export default function Container(props: ContainerProps): JSX.Element {
   };
 
   const token = useAppSelector((state) => state.token.token);
+  const isUser = token && helper.getAccountType(token) === "user";
   const isAdmin = token && helper.getAccountType(token) === "admin";
   const isTrainer = token && helper.getAccountType(token) === "trainer";
 
@@ -107,27 +108,30 @@ export default function Container(props: ContainerProps): JSX.Element {
               {t(Translations.tabBar.leaderboard)}
             </Menu.Item>
           )}
-          <SubMenu
-            style={{ marginLeft: "auto" }}
-            key="profile"
-            icon={<UserOutlined style={{ color: color }} />}
-            title={t(Translations.tabBar.profile)}
-          >
-            <Menu.Item
-              key="profile_overview"
-              icon={<BarsOutlined style={{ color: props.color }} />}
+          {isUser && (
+            <SubMenu
+              style={{ marginLeft: "auto" }}
+              key="profile"
+              icon={<UserOutlined style={{ color: color }} />}
+              title={t(Translations.tabBar.profile)}
             >
-              {t(Translations.tabBar.overview)}
-            </Menu.Item>
-            <Menu.Item
-              key="profile_stats"
-              icon={<StockOutlined style={{ color: props.color }} />}
-            >
-              {t(Translations.tabBar.statistics)}
-            </Menu.Item>
-          </SubMenu>
+              <Menu.Item
+                key="profile_overview"
+                icon={<BarsOutlined style={{ color: props.color }} />}
+              >
+                {t(Translations.tabBar.overview)}
+              </Menu.Item>
+              <Menu.Item
+                key="profile_stats"
+                icon={<StockOutlined style={{ color: props.color }} />}
+              >
+                {t(Translations.tabBar.statistics)}
+              </Menu.Item>
+            </SubMenu>
+          )}
           <Menu.Item
             key="settings"
+            style={isUser ? {} : { marginLeft: "auto" }}
             icon={<SettingTwoTone twoToneColor={props.color} />}
           >
             {t(Translations.tabBar.settings)}

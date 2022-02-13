@@ -91,7 +91,7 @@ function App(): JSX.Element {
       <Route path="/" element={isUser ? <Exercises /> : <Home />} />
       <Route path="/exercises" element={<Exercises />} />
       <Route path="/leaderboard" element={<Leaderboard />} />
-      <Route path="/profile" element={<Profile />} />
+      {isUser && <Route path="/profile" element={<Profile />} />}
       <Route path="/settings" element={<Settings />} />
       <Route path="/manage">
         {/* TODO: route to 404 maybe? */}
