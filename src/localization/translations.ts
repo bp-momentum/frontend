@@ -156,6 +156,15 @@ const Translations = {
   },
   training: {
     instructions: "training.instructions",
+    score: "training.score",
+    todo: "training.todo",
+    tip: "training.tip",
+    set: "training.set",
+    remainingSets: "training.remaining-sets",
+    nextSet: "training.next-set",
+    intensity: "training.intensity",
+    accuracy: "training.accuracy",
+    speed: "training.speed",
   },
 };
 

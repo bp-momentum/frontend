@@ -158,6 +158,15 @@
     "418-text": "Ich bin ne Teekanne!"
   },
   "training": {
-    "instructions": "Instruktionen"
+    "instructions": "Instruktionen",
+    "score": "Punkte: {{points}}",
+    "todo": "Zu Erledigen",
+    "tip": "Tipp: Versuche dich beim nächsten Set auf deine {{type}} zu konzentrieren!",
+    "set": "Set {{number}}",
+    "remaining-sets": "Nur noch {{count}} Sets übrig!",
+    "next-set": "Nächstes Set in {{seconds}}s",
+    "intensity": "Intensität",
+    "accuracy": "Genauigkeit",
+    "speed": "Schnelligkeit"
   }
 }

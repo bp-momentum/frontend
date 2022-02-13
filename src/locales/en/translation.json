@@ -158,6 +158,15 @@
     "418-text": "I'm a teapot!"
   },
   "training": {
-    "instructions": "Instructions"
+    "instructions": "Instructions",
+    "score": "Score: {{points}}",
+    "todo": "TODO",
+    "tip": "Tip: Try to focus on your {{type}} for the next set!",
+    "set": "Set {{number}}",
+    "remaining-sets": "Only {{count}} more to go!",
+    "next-set": "Next Set in {{seconds}}s",
+    "intensity": "intensity",
+    "accuracy": "accuracy",
+    "speed": "speed"
   }
 }

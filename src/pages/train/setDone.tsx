@@ -7,8 +7,12 @@ import React, {
 } from "react";
 import { ExerciseData, statsType } from ".";
 import TrainLayout from "./components/trainLayout";
-import { Button, Row } from "antd";
+import { Col, Row } from "antd";
 import Paper from "../../shared/paper";
+import { FaCheck } from "react-icons/fa";
+import continue_arrow from "../../static/continue_arrow.png";
+import { useTranslation } from "react-i18next";
+import Translations from "../../localization/translations";
 
 interface setDoneProps {
   stats: MutableRefObject<statsType>;
@@ -20,6 +24,7 @@ interface setDoneProps {
 const SetDone: React.FC<setDoneProps> = ({ ...setDoneProps }) => {
   const { stats, exercise, setSubPage, initialCollapsed } = setDoneProps;
   const [remainingSeconds, setRemainingSeconds] = useState<number>(30);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (remainingSeconds === 0) {
@@ -31,6 +36,24 @@ const SetDone: React.FC<setDoneProps> = ({ ...setDoneProps }) => {
     }, 1000);
   });
 
+  const getTypeKey = (type: dataEntryType) => {
+    switch (type.type) {
+      case "Intensity":
+        return Translations.training.intensity;
+      case "Accuracy":
+        return Translations.training.accuracy;
+      case "Speed":
+        return Translations.training.speed;
+    }
+  };
+
+  let focus = stats.current.data.length === 0 ? null : stats.current.data[0];
+  for (const data of stats.current.data) {
+    if ((focus?.performance ?? 0) < data.performance) {
+      focus = data;
+    }
+  }
+  console.log(stats.current.data);
   return (
     <TrainLayout
       loadingExercise={false}
@@ -57,33 +80,78 @@ const SetDone: React.FC<setDoneProps> = ({ ...setDoneProps }) => {
           <h1 style={{ color: "white", fontSize: "70px" }}>
             {exercise?.title}
           </h1>
-          <h3 style={{ color: "white", fontSize: "24px" }}>
-            Next set starts in: {remainingSeconds}s
-          </h3>
-          <Paper
-            title={
-              <span style={{ fontSize: "40px", lineHeight: "47.145px" }}>
-                TODO
-              </span>
-            }
-            padding={60}
-            backdropColor="#466995"
-            lineColor="#A1C7DA"
-            totalWidth={500}
+          <Row
+            justify="space-around"
+            style={{
+              width: "100%",
+              paddingTop: "50px",
+            }}
           >
-            <div>
-              {Array.from(Array(exercise?.sets ?? 0).keys()).map((set) => (
-                <Row key={set} justify="space-between">
-                  <>
-                    Set {set + 1}
-                    <br />
-                  </>
-                </Row>
-              ))}
-            </div>
-          </Paper>
-          {stats.current.totalPoints}
-          <Button onClick={() => setSubPage("training")}>Next Set</Button>
+            <h3 style={{ width: "200px", color: "white", fontSize: "36px" }}>
+              {t(Translations.training.score, {
+                points: stats.current.totalPoints,
+              })}
+            </h3>
+            <Paper
+              title={
+                <span style={{ fontSize: "40px", lineHeight: "47.145px" }}>
+                  {t(Translations.training.todo)}
+                </span>
+              }
+              padding={60}
+              backdropColor="#466995"
+              lineColor="#A1C7DA"
+              totalWidth={500}
+            >
+              <div
+                style={{
+                  width: "300px",
+                }}
+              >
+                {Array.from(Array(exercise?.sets ?? 0).keys()).map((set) => (
+                  <Row key={set} justify="space-between">
+                    <>
+                      {t(Translations.training.set, { number: set + 1 })}
+                      <br />
+                    </>
+                    {set < stats.current.set && <FaCheck color="green" />}
+                  </Row>
+                ))}
+              </div>
+            </Paper>
+            {focus ? (
+              <h3 style={{ width: "200px", color: "white", fontSize: "24px" }}>
+                {t(Translations.training.tip, {
+                  type: t(getTypeKey(focus)),
+                })}
+              </h3>
+            ) : (
+              <div style={{ width: "200px" }} />
+            )}
+          </Row>
+          <Row justify="space-between" style={{ width: "100%" }}>
+            <div style={{ width: "100px" }} />
+            <h3
+              style={{ color: "white", fontSize: "40px", paddingTop: "50px" }}
+            >
+              {t(Translations.training.remainingSets, {
+                count:
+                  (exercise?.sets ?? stats.current.set) - stats.current.set,
+              })}
+            </h3>
+            <Col
+              onClick={() => setSubPage("training")}
+              style={{
+                cursor: "pointer",
+                width: "100px",
+                color: "white",
+                marginRight: "20px",
+              }}
+            >
+              <img src={continue_arrow} alt="Continue" width="100px" />
+              {t(Translations.training.nextSet, { seconds: remainingSeconds })}
+            </Col>
+          </Row>
         </div>
       </div>
     </TrainLayout>

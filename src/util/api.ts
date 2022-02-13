@@ -1,7 +1,7 @@
 import { Route } from "./routes";
 
 class Api {
-  serverUrl = "http://78.46.150.116:8000/";
+  serverUrl = "http://78.46.150.116:9000/";
   token = "";
   refreshToken = "";
 
