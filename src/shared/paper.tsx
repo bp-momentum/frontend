@@ -7,7 +7,6 @@ interface paperProps {
   backdropColor?: string;
   totalWidth?: number;
   lineColor?: string;
-  children: string;
 }
 
 const Paper: React.FC<paperProps> = ({ children, ...props }) => {
