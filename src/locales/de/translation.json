@@ -180,6 +180,8 @@
     "next-set": "Nächstes Set in {{seconds}}s",
     "intensity": "Intensität",
     "accuracy": "Genauigkeit",
-    "speed": "Schnelligkeit"
+    "speed": "Schnelligkeit",
+    "score-short": "Pkt",
+    "current-set": "Aktuelles Set"
   }
 }
