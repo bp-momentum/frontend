@@ -119,7 +119,8 @@
     "day-off": "Take a day off",
     "motivation": "Let's go, ",
     "medal-motivation_one": "Only 1 more day until your next medal!",
-    "medal-motivation_other": "Only {{count}} more days until your next medal!"
+    "medal-motivation_other": "Only {{count}} more days until your next medal!",
+    "loading": "Loading..."
   },
   "leaderboard": {
     "rank": "Rank",
@@ -152,6 +153,18 @@
     "last-login": "Last Login",
     "no-email": "No email provided",
     "never": "Never"
+  },
+  "profile": {
+    "activeSince": "Active since {{duration}} months",
+    "activeShortly": "Active since recently",
+    "edit": "Edit",
+    "save": "Save",
+    "motivation": "This motivates me every day:",
+    "chooseDate": "Select a day to see your activity",
+    "activeMinutes": "{{active}} min of {{goal}} min",
+    "selectNewAvatar": "Select your new avatar",
+    "loading": "Loading your profile...",
+    "points": "{{points}} points"
   },
   "error-page": {
     "404-text": "We don't have that!",

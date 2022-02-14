@@ -3,7 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import "antd/dist/antd.css";
-import App from "./App";
+import LocalizedApp from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { store, persistor } from "./redux/store";
@@ -27,7 +27,7 @@ ReactDOM.render(
         <ConfigProvider renderEmpty={customizeRenderEmpty} />,
       ]}
     >
-      <App />
+      <LocalizedApp />
     </MultiProvider>
   </React.StrictMode>,
   document.getElementById("root")

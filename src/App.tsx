@@ -18,6 +18,43 @@ import Train from "./pages/train";
 import Error404 from "./pages/error/404";
 import helper from "./util/helper";
 import Users from "./pages/manage/users";
+import Profile from "./pages/profile";
+import { ConfigProvider } from "antd";
+import { Locale } from "antd/lib/locale-provider";
+import { useTranslation } from "react-i18next";
+import moment from "moment";
+
+// initialize available languages of moment library
+import "moment/locale/de";
+import "moment/locale/en-gb";
+
+// import available languages from ant locales
+import deDE from "antd/lib/locale-provider/de_DE";
+import enGB from "antd/lib/locale-provider/en_GB";
+
+function LocalizedApp(): JSX.Element {
+  const [locale, setLocale] = React.useState<Locale>(deDE);
+  const { i18n } = useTranslation();
+
+  const updateLanguage = (language: string) => {
+    moment.locale(language);
+    switch (language) {
+      case "de":
+        setLocale(deDE);
+        break;
+      case "en":
+        setLocale(enGB);
+        break;
+    }
+  };
+
+  useEffect(() => updateLanguage(i18n.language), [i18n.language]);
+  return (
+    <ConfigProvider locale={locale}>
+      <App />
+    </ConfigProvider>
+  );
+}
 
 // Basic App that is just used to Route to different pages
 function App(): JSX.Element {
@@ -58,6 +95,7 @@ function App(): JSX.Element {
       <Route path="/train/:exercisePlanId" element={<Train />} />
       <Route path="/exercises" element={<Exercises />} />
       <Route path="/leaderboard" element={<Leaderboard />} />
+      {isUser && <Route path="/profile" element={<Profile />} />}
       <Route path="/settings" element={<Settings />} />
       <Route path="/manage">
         {/* TODO: route to 404 maybe? */}
@@ -70,4 +108,4 @@ function App(): JSX.Element {
   );
 }
 
-export default App;
+export default LocalizedApp;

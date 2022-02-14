@@ -117,6 +117,7 @@ const Translations = {
     dayOff: "exercises.day-off",
     motivation: "exercises.motivation",
     medalMotivation: "exercises.medal-motivation",
+    loading: "exercises.loading",
   },
   leaderboard: {
     rank: "leaderboard.rank",
@@ -149,6 +150,18 @@ const Translations = {
     lastLogin: "user-management.last-login",
     noEmail: "user-management.no-email",
     never: "user-management.never",
+  },
+  profile: {
+    activeSince: "profile.activeSince",
+    activeShortly: "profile.activeShortly",
+    edit: "profile.edit",
+    save: "profile.save",
+    motivation: "profile.motivation",
+    chooseDate: "profile.chooseDate",
+    activeMinutes: "profile.activeMinutes",
+    selectNewAvatar: "profile.selectNewAvatar",
+    loading: "profile.loading",
+    points: "profile.points",
   },
   errorPage: {
     err404Text: "error-page.404-text",
