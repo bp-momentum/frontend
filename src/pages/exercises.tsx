@@ -1,5 +1,4 @@
 import React, { createRef, forwardRef, RefObject, useEffect } from "react";
-import { Exercise } from "../api/exercise";
 import api from "../util/api";
 import Routes from "../util/routes";
 import Container from "../shared/container";
@@ -23,6 +22,7 @@ import "../styles/home.css";
 import useWindowDimensions from "../hooks/windowDimension";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
+import { useGetExerciseByIdQuery } from "../redux/exercises/exerciseSlice";
 
 const { Content } = Layout;
 const dayOrder = [
@@ -35,20 +35,23 @@ const dayOrder = [
   "sunday",
 ];
 
+interface Exercise {
+  id: number;
+  exercise_plan_id?: number;
+  sets: number;
+  repeats_per_set: number;
+  date: string;
+  completed?: boolean;
+}
+
 const isPast = (dayName: string): boolean => {
-  const now = new Date();
-  const nowDayName = now
-    .toLocaleDateString("en-GB", { weekday: "long" })
-    .toLowerCase();
-  return dayOrder.indexOf(dayName) < dayOrder.indexOf(nowDayName);
+  const currentDayName = Helper.getCurrentDayName();
+  return dayOrder.indexOf(dayName) < dayOrder.indexOf(currentDayName);
 };
 
 const isFuture = (dayName: string): boolean => {
-  const now = new Date();
-  const nowDayName = now
-    .toLocaleDateString("en-GB", { weekday: "long" })
-    .toLowerCase();
-  return dayOrder.indexOf(dayName) > dayOrder.indexOf(nowDayName);
+  const currentDayName = Helper.getCurrentDayName();
+  return dayOrder.indexOf(dayName) > dayOrder.indexOf(currentDayName);
 };
 
 const Day = forwardRef(
@@ -68,7 +71,9 @@ const Day = forwardRef(
     const navigate = useNavigate();
 
     const openNextExercise = (): void => {
-      navigate(`/train/${exercises.filter((e) => !e.completed)[0]?.id}`);
+      navigate(
+        `/train/${exercises.filter((e) => !e.completed)[0]?.exercise_plan_id}`
+      );
     };
 
     const past = isPast(name);
@@ -169,9 +174,9 @@ const Day = forwardRef(
                       : "normal"
                   }
                   format={(percent, success) =>
-                    `${((percent || 0) / 100) * exercises.length} / ${
-                      exercises.length
-                    }`
+                    `${Math.ceil(
+                      ((percent || 0) / 100) * exercises.length
+                    )} / ${exercises.length}`
                   }
                 />
               )}
@@ -208,10 +213,13 @@ const ExerciseCard = ({
   exercise: Exercise;
   today: boolean;
 }) => {
+  const { data, isLoading, isError, error } = useGetExerciseByIdQuery(
+    exercise.id
+  );
   const navigate = useNavigate();
 
   const openExercise = (exercise: Exercise): void => {
-    navigate(`/train/${exercise.id}`);
+    navigate(`/train/${exercise.exercise_plan_id}`);
   };
 
   return (
@@ -234,7 +242,13 @@ const ExerciseCard = ({
         if (today && !exercise.completed) openExercise(exercise);
       }}
     >
-      <h4 style={{ margin: "0" }}>{exercise.title}</h4>
+      <h4 style={{ margin: "0" }}>
+        {isLoading
+          ? t(Translations.exercises.loading)
+          : isError
+          ? error
+          : data?.title}
+      </h4>
       <Tooltip
         title={
           <>
@@ -251,8 +265,7 @@ const ExerciseCard = ({
       >
         <span
           style={{
-            margin: "0",
-            marginLeft: "auto",
+            margin: "0 0 0 auto",
             fontWeight: 400,
             fontSize: "16px",
           }}
@@ -279,26 +292,7 @@ const Exercises = (): JSX.Element => {
       return;
     }
 
-    const exerciseList = response.data.exercises;
-    const exercises: Exercise[] = [];
-    for (const exercise of exerciseList) {
-      const id = exercise.id;
-      const res = await api.execute(Routes.getExercise({ id: id }));
-      exercises.push({
-        id: id,
-        exercise_plan_id: exercise.exercise_plan_id,
-        sets: exercise.sets,
-        repeats_per_set: exercise.repeats_per_set,
-        date: exercise.date,
-        description: res.data.description,
-        title: res.data.title,
-        activated: res.data.activated,
-        video: res.data.video,
-        completed: exercise.done,
-      });
-    }
-
-    setExercises(exercises);
+    setExercises(response.data.exercises);
     setLoading(false);
   };
 
@@ -392,7 +386,6 @@ const Exercises = (): JSX.Element => {
                   flexWrap: "nowrap",
                 }}
               >
-                1337
                 <span
                   style={{
                     background:
@@ -434,7 +427,10 @@ const Exercises = (): JSX.Element => {
                   alignContent: "flex-start",
                   overflow: "auto",
                   flexFlow: "row",
-                  margin: "0px",
+                  marginLeft: "0px",
+                  marginTop: "0px", // needs to be split because of
+                  marginRight: "0px", // https://github.com/facebook/react/issues/8689
+                  marginBottom: "0px",
                   flexDirection: "row",
                 }}
                 gutter={[16, 16]}

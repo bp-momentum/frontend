@@ -140,6 +140,70 @@ class Api {
       return this.serverUrl + "/" + route;
     }
   };
+
+  openSocket = async (): Promise<ApiSocketConnection> => {
+    /**
+     * Wait for a token on authorized requests
+     * Wait a max of 5 seconds
+     */
+    let i = 0;
+    while (this.token === "" && ++i < 50) {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+
+    const str = this.serverUrl.replace(/http(s?):\/\//, "ws://");
+
+    return new ApiSocketConnection(this.token, str);
+  };
+}
+
+export class ApiSocketConnection {
+  readonly token: string;
+  private ws: WebSocket;
+
+  constructor(token: string, url: string) {
+    this.token = token;
+    this.ws = new WebSocket(url + "ws/socket");
+
+    this.ws.onopen = (event) => {
+      this.ws.send(
+        JSON.stringify({
+          message_type: "authenticate",
+          data: { session_token: this.token },
+        })
+      );
+      if (this.onopen) this.onopen(event);
+    };
+
+    this.send = (data: string | ArrayBufferLike | Blob | ArrayBufferView) =>
+      this.ws.send(data);
+
+    this.ws.onerror = () => this.onerror;
+
+    this.ws.onmessage = (message) => {
+      if (this.onmessage) this.onmessage(JSON.parse(message.data));
+    };
+
+    this.ws.onclose = (closeEvent) => {
+      if (this.onclose) this.onclose(closeEvent);
+    };
+  }
+
+  onopen: ((event: Event) => unknown) | null = null;
+
+  readonly send;
+
+  onerror: (event: Event) => unknown = (event) =>
+    console.error("WebSocket closed due to an error! Error: " + event);
+
+  onmessage: ((message: WebsocketResponse | undefined) => unknown) | null =
+    null;
+
+  onclose: ((event: CloseEvent) => unknown) | null = null;
+
+  close: () => void = () => this.ws.close();
+
+  connected: () => boolean = () => this.ws.readyState === WebSocket.OPEN;
 }
 
 interface ApiResponse {
@@ -147,6 +211,10 @@ interface ApiResponse {
   description: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: Record<string, any>;
+}
+
+interface WebsocketResponse extends ApiResponse {
+  message_type: string;
 }
 
 export default new Api();

@@ -17,7 +17,6 @@
 }
 
 .ant-progress-show-info .ant-progress-outer {
-  margin-right: initial;
   padding-right: initial;
   flex-grow: 1;
   width: initial;

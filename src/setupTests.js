@@ -71,4 +71,53 @@ nock(api.serverUrl)
         { rank: 3, username: "UserC", score: 10 },
       ],
     },
+  })
+  .get("/api/getprofile")
+  .reply(200, {
+    success: true,
+    data: {
+      motivation: "Test",
+      avatar: 1,
+      first_login: 0,
+    },
+  })
+  .get("/api/gettrainercontact")
+  .reply(200, {
+    success: true,
+    data: {
+      address: "None",
+      telephone: "0123",
+      email: "",
+      name: "",
+    },
+  })
+  .get("/api/getdoneexercises")
+  .reply(200, {
+    success: true,
+    data: {
+      exercises: [
+        {
+          id: 1,
+          date: 0,
+          done: true,
+          sets: 1,
+          repeats_per_set: 1,
+          exercise_plan_id: 1,
+        },
+      ],
+    },
+  })
+  .post("/api/getdoneexercisesinmonth")
+  .reply(200, {
+    success: true,
+    data: {
+      done: [
+        {
+          exercise_plan_id: 0,
+          id: 0,
+          data: 0,
+          points: 0,
+        },
+      ],
+    },
   });

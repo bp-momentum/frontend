@@ -4,6 +4,10 @@ const Translations = {
     internalServerError: "errors.internal-server-error",
     empty: "errors.empty",
   },
+  common: {
+    confirmLeave: "common.confirm-leave",
+    confirmLeaveContent: "common.confirm-leave-content",
+  },
   user: {
     username: "user.username",
     password: "user.password",
@@ -113,6 +117,7 @@ const Translations = {
     dayOff: "exercises.day-off",
     motivation: "exercises.motivation",
     medalMotivation: "exercises.medal-motivation",
+    loading: "exercises.loading",
   },
   leaderboard: {
     rank: "leaderboard.rank",
@@ -145,6 +150,36 @@ const Translations = {
     lastLogin: "user-management.last-login",
     noEmail: "user-management.no-email",
     never: "user-management.never",
+  },
+  profile: {
+    activeSince: "profile.activeSince",
+    activeShortly: "profile.activeShortly",
+    edit: "profile.edit",
+    save: "profile.save",
+    motivation: "profile.motivation",
+    chooseDate: "profile.chooseDate",
+    activeMinutes: "profile.activeMinutes",
+    selectNewAvatar: "profile.selectNewAvatar",
+    loading: "profile.loading",
+    points: "profile.points",
+  },
+  errorPage: {
+    err404Text: "error-page.404-text",
+    err418Text: "error-page.418-text",
+  },
+  training: {
+    instructions: "training.instructions",
+    score: "training.score",
+    todo: "training.todo",
+    tip: "training.tip",
+    set: "training.set",
+    remainingSets: "training.remaining-sets",
+    nextSet: "training.next-set",
+    intensity: "training.intensity",
+    accuracy: "training.accuracy",
+    speed: "training.speed",
+    scoreShort: "training.score-short",
+    currentSet: "training.current-set",
   },
 };
 

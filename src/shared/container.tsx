@@ -1,4 +1,4 @@
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Modal } from "antd";
 import { Content, Header } from "antd/lib/layout/layout";
 import {
   HomeTwoTone,
@@ -18,11 +18,15 @@ import Translations from "../localization/translations";
 import { MenuInfo } from "rc-menu/lib/interface";
 import { useAppSelector } from "../redux/hooks";
 import helper from "../util/helper";
+import { ExclamationCircleOutlined } from "@ant-design/icons/lib";
 
-export interface ContainerProps {
+const { confirm } = Modal;
+
+export interface containerProps {
   children: React.ReactNode;
-  currentPage: "home" | "settings" | "leaderboard" | "profile" | "manage"; // highlightable menu items
+  currentPage?: "home" | "settings" | "leaderboard" | "profile" | "manage"; // highlightable menu items
   color?: "red" | "gold" | "blue";
+  confimLeave?: boolean;
 }
 
 type pages =
@@ -34,7 +38,7 @@ type pages =
   | "profile_overview"
   | "profile_stats"
   | "manage_users"
-  | "manage_plans"; // navigatable pages
+  | "manage_plans"; // navigable pages
 type pagesToRouteType = {
   [K in pages]: string;
 };
@@ -43,23 +47,36 @@ const pageToRoute: pagesToRouteType = {
   settings: "/settings",
   leaderboard: "/leaderboard",
   profile: "/profile",
-  profile_overview: "/profile/overview",
+  profile_overview: "/profile",
   profile_stats: "/profile/stats",
   manage: "/manage",
   manage_users: "/manage/users",
   manage_plans: "/manage/plans",
 };
 
-export default function Container(props: ContainerProps): JSX.Element {
-  const color = props.color || "blue";
+const Container: React.FC<containerProps> = ({ ...containerProps }) => {
+  const { children, currentPage, confimLeave } = containerProps;
+  const color = containerProps.color || "blue";
   const navigate = useNavigate();
   const { t } = useTranslation();
 
   const handleClick = (e: MenuInfo) => {
-    navigate(pageToRoute[e.key as pages]);
+    if (confimLeave) {
+      confirm({
+        title: t(Translations.common.confirmLeave),
+        icon: <ExclamationCircleOutlined />,
+        content: t(Translations.common.confirmLeaveContent),
+        onOk() {
+          navigate(pageToRoute[e.key as pages]);
+        },
+      });
+    } else {
+      navigate(pageToRoute[e.key as pages]);
+    }
   };
 
   const token = useAppSelector((state) => state.token.token);
+  const isUser = token && helper.getAccountType(token) === "user";
   const isAdmin = token && helper.getAccountType(token) === "admin";
   const isTrainer = token && helper.getAccountType(token) === "trainer";
 
@@ -68,20 +85,17 @@ export default function Container(props: ContainerProps): JSX.Element {
       <Header style={{ backgroundColor: "#fff" }}>
         <Menu
           mode="horizontal"
-          selectedKeys={[props.currentPage]}
+          selectedKeys={currentPage ? [currentPage] : []}
           onClick={handleClick}
         >
-          <Menu.Item
-            key="home"
-            icon={<HomeTwoTone twoToneColor={props.color} />}
-          >
+          <Menu.Item key="home" icon={<HomeTwoTone twoToneColor={color} />}>
             {t(Translations.tabBar.home)}
           </Menu.Item>
           {(isTrainer || isAdmin) && (
             <SubMenu
               key="manage"
               title={t(Translations.tabBar.manage)}
-              icon={<SettingTwoTone twoToneColor={props.color} />}
+              icon={<SettingTwoTone twoToneColor={color} />}
             >
               <Menu.Item
                 key="manage_users"
@@ -107,34 +121,43 @@ export default function Container(props: ContainerProps): JSX.Element {
               {t(Translations.tabBar.leaderboard)}
             </Menu.Item>
           )}
-          <SubMenu
-            style={{ marginLeft: "auto" }}
-            key="profile"
-            icon={<UserOutlined style={{ color: color }} />}
-            title="Profil"
-          >
-            <Menu.Item
-              key="profile_overview"
-              icon={<BarsOutlined style={{ color: props.color }} />}
+          {isUser && (
+            <SubMenu
+              style={{ marginLeft: "auto" }}
+              key="profile"
+              icon={<UserOutlined style={{ color: color }} />}
+              title={t(Translations.tabBar.profile)}
             >
-              {t(Translations.tabBar.overview)}
-            </Menu.Item>
-            <Menu.Item
-              key="profile_stats"
-              icon={<StockOutlined style={{ color: props.color }} />}
-            >
-              {t(Translations.tabBar.statistics)}
-            </Menu.Item>
-          </SubMenu>
+              <Menu.Item
+                key="profile_overview"
+                icon={<BarsOutlined style={{ color: color }} />}
+              >
+                {t(Translations.tabBar.overview)}
+              </Menu.Item>
+              <Menu.Item
+                key="profile_stats"
+                icon={<StockOutlined style={{ color: color }} />}
+              >
+                {t(Translations.tabBar.statistics)}
+              </Menu.Item>
+            </SubMenu>
+          )}
           <Menu.Item
             key="settings"
-            icon={<SettingTwoTone twoToneColor={props.color} />}
+            style={isUser ? {} : { marginLeft: "auto" }}
+            icon={<SettingTwoTone twoToneColor={color} />}
           >
             {t(Translations.tabBar.settings)}
           </Menu.Item>
         </Menu>
       </Header>
-      <Content style={{ position: "relative" }}>{props.children}</Content>
+      <Content
+        style={{ position: "relative", height: "100%", overflow: "auto" }}
+      >
+        {children}
+      </Content>
     </Layout>
   );
-}
+};
+
+export default Container;

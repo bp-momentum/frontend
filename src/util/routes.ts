@@ -117,7 +117,7 @@ const Routes = {
   /**
    * Fetch more information about an exercise with a given id.
    */
-  getExercise: (props: { id: string }): Route => {
+  getExercise: (props: { id: number }): Route => {
     return {
       route: "/api/getexercise",
       method: "POST",
@@ -206,6 +206,34 @@ const Routes = {
   },
 
   /**
+   * Get all done exercises in a given month of a given year.
+   * This can only be called by a user.
+   */
+  getDoneExercisesInMonth: (props: { month: number; year: number }): Route => {
+    return {
+      route: "/api/getdoneexercisesinmonth",
+      method: "POST",
+      needsAuth: true,
+      body: {
+        year: props.year,
+        month: props.month,
+      },
+    };
+  },
+
+  /**
+   * Get assigned training plans.
+   * This can only be called by a user.
+   */
+  getAssignedPlans: (): Route => {
+    return {
+      route: "/api/requestplanofuser",
+      needsAuth: true,
+      method: "POST",
+    };
+  },
+
+  /**
    * Get the assigned plan of a user.
    * This can only be called by a trainer.
    */
@@ -280,6 +308,71 @@ const Routes = {
       method: "POST",
       body: {
         id: props.trainerId,
+      },
+    };
+  },
+
+  /**
+   * Get user's profile information.
+   */
+  getProfile: (): Route => {
+    return {
+      route: "/api/getprofile",
+      method: "GET",
+      needsAuth: true,
+    };
+  },
+
+  /**
+   * Get trainer's contact information.
+   * This can only be called by an user.
+   */
+  getTrainerContact: (): Route => {
+    return {
+      route: "/api/gettrainercontact",
+      method: "GET",
+      needsAuth: true,
+    };
+  },
+
+  /**
+   * Changes the username of the current account.
+   */
+  changeUsername: (props: { username: string }): Route => {
+    return {
+      route: "/api/changeusername",
+      method: "POST",
+      needsAuth: true,
+      body: {
+        username: props.username,
+      },
+    };
+  },
+
+  /**
+   * Changes the avatar of the current account.
+   */
+  changeAvatar: (props: { avatarId: number }): Route => {
+    return {
+      route: "/api/changeavatar",
+      method: "POST",
+      needsAuth: true,
+      body: {
+        avatar: props.avatarId,
+      },
+    };
+  },
+
+  /**
+   * Changes the motivation status of the current account.
+   */
+  changeMotivation: (props: { motivation: string }): Route => {
+    return {
+      route: "/api/changemotivation",
+      method: "POST",
+      needsAuth: true,
+      body: {
+        motivation: props.motivation,
       },
     };
   },
