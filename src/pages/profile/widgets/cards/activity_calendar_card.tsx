@@ -1,0 +1,153 @@
+import Text from "antd/lib/typography/Text";
+import Translations from "../../../../localization/translations";
+import { Calendar, Card, Col, Row, Tooltip } from "antd";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import {
+  useGetDoneExercisesInMonthQuery,
+  useGetExerciseByIdQuery,
+} from "../../../../redux/exercises/exerciseSlice";
+
+const DateCell = (props: {
+  month: number;
+  year: number;
+  date: Date;
+}): JSX.Element => {
+  const { data } = useGetDoneExercisesInMonthQuery({
+    month: props.month + 1,
+    year: props.year,
+  });
+
+  const exercises: {
+    date: number;
+    exercise_plan_id: number;
+    id: number;
+    points: number;
+  }[] = data ? data.data.done : [];
+
+  const doneExercises = exercises.filter((e) => {
+    const d = new Date(e.date * 1000);
+    return d.toDateString() === props.date.toDateString();
+  });
+  const text = (
+    <span
+      style={{
+        color:
+          props.date.toDateString() === new Date().toDateString()
+            ? "#466995"
+            : doneExercises.length === 0
+            ? "black"
+            : "green",
+        borderRadius: "50%",
+      }}
+    >
+      {props.date.getDate()}
+    </span>
+  );
+
+  if (doneExercises.length === 0) {
+    return text;
+  }
+
+  return (
+    <Tooltip
+      color={"white"}
+      title={
+        <Col>
+          {doneExercises.map((e) => {
+            return <ExerciseName key={e.id} id={e.id} points={e.points} />;
+          })}
+        </Col>
+      }
+    >
+      {text}
+    </Tooltip>
+  );
+};
+
+const ExerciseName = (props: { id: number; points: number }): JSX.Element => {
+  const { data, isLoading, isError, error } = useGetExerciseByIdQuery(props.id);
+  const { t } = useTranslation();
+
+  return (
+    <span style={{ whiteSpace: "nowrap" }}>
+      <Col>
+        <Text>
+          {isLoading
+            ? t(Translations.exercises.loading)
+            : isError
+            ? error
+            : data?.title +
+              ": " +
+              t(Translations.profile.points, { points: props.points })}
+        </Text>
+        <br />
+      </Col>
+    </span>
+  );
+};
+
+const ActivityCalendarCard = (): JSX.Element => {
+  const { t } = useTranslation();
+
+  return (
+    <Card
+      data-testid="activity-calendar"
+      style={{
+        marginTop: "40px",
+        borderRadius: "5px",
+        borderColor: "black",
+        backgroundColor: "#EDEDF4",
+        boxShadow: "2px 4px 4px 0 rgba(0, 0, 0, 0.25)",
+      }}
+    >
+      <Text>{t(Translations.profile.chooseDate)}</Text>
+      <Calendar
+        mode="month"
+        style={{
+          marginTop: "5px",
+          height: "300px",
+          backgroundColor: "#EDEDF4",
+          color: "transparent",
+        }}
+        fullscreen={false}
+        headerRender={({ value, onChange }) => {
+          const localeData = value.localeData();
+          return (
+            <div style={{ padding: 8, color: "black" }}>
+              <Row justify="space-between">
+                <LeftOutlined
+                  onClick={() => {
+                    const newDate = value.clone();
+                    newDate.subtract(1, "month");
+                    onChange(newDate);
+                  }}
+                />
+                <Text style={{ fontSize: 20, marginTop: -8 }}>
+                  {localeData.months(value) + " " + value.year()}
+                </Text>
+                <RightOutlined
+                  onClick={() => {
+                    const newDate = value.clone();
+                    newDate.add(1, "month");
+                    onChange(newDate);
+                  }}
+                />
+              </Row>
+            </div>
+          );
+        }}
+        dateFullCellRender={(date) => (
+          <DateCell
+            month={date.month()}
+            year={date.year()}
+            date={date.toDate()}
+          />
+        )}
+      />
+    </Card>
+  );
+};
+
+export default ActivityCalendarCard;

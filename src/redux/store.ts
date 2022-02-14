@@ -11,6 +11,8 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import tokenReducer from "./token/tokenSlice";
+import exercisesReducer, { exerciseApi } from "./exercises/exerciseSlice";
+import { setupListeners } from "@reduxjs/toolkit/query";
 
 const persistConfig = {
   key: "root",
@@ -18,7 +20,10 @@ const persistConfig = {
   storage,
 };
 
-const rootReducer = combineReducers({ token: tokenReducer });
+const rootReducer = combineReducers({
+  token: tokenReducer,
+  [exerciseApi.reducerPath]: exercisesReducer,
+});
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
@@ -28,9 +33,11 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
+    }).concat(exerciseApi.middleware),
   devTools: true,
 });
+
+setupListeners(store.dispatch);
 
 export const persistor = persistStore(store);
 

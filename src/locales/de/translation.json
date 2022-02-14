@@ -114,8 +114,9 @@
     "next-exercise": "Gehe zur nächsten Übung",
     "day-off": "Nimm dir einen Tag Pause",
     "motivation": "Auf geht's, ",
-    "medal-motivation_one": "Nur noch ein Tag bis zur nächsten Medallie!",
-    "medal-motivation_other": "Nur noch {{count}} Tage bis zur nächsten Medallie!"
+    "medal-motivation_one": "Nur noch ein Tag bis zur nächsten Medaille!",
+    "medal-motivation_other": "Nur noch {{count}} Tage bis zur nächsten Medaille!",
+    "loading": "Lade..."
   },
   "leaderboard": {
     "rank": "Rang",
@@ -148,5 +149,17 @@
     "last-login": "Letzte Anmeldung",
     "no-email": "Keine Email angegeben",
     "never": "Niemals"
+  },
+  "profile": {
+    "activeSince": "Fleißig seit {{duration}} Monaten",
+    "activeShortly": "Fleißig seit Kurzem",
+    "edit": "Bearbeiten",
+    "save": "Speichern",
+    "motivation": "Das treibt mich täglich an:",
+    "chooseDate": "Wähle einen Tag aus um deine Aktivität zu sehen",
+    "activeMinutes": "{{active}} min von {{goal}} min",
+    "selectNewAvatar": "Wähle deinen neuen Avatar",
+    "loading": "Dein Profil wird geladen...",
+    "points": "{{points}} Punkte"
   }
 }
