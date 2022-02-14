@@ -393,7 +393,6 @@ const Exercises = (): JSX.Element => {
                   flexWrap: "nowrap",
                 }}
               >
-                1337
                 <span
                   style={{
                     background:
