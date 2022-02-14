@@ -30,7 +30,7 @@ jobs:
         run: yarn test
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: test
     steps:
       - uses: actions/checkout@v2
@@ -58,5 +58,5 @@ jobs:
           name: build
       - run: rm -rf /var/www/vhosts/bp/*
         name: Delete old files
-      - run: cp -r build/* /var/www/vhosts/bp/
+      - run: cp -r * /var/www/vhosts/bp/
         name: Copy new files
