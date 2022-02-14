@@ -53,7 +53,7 @@ const SetDone: React.FC<setDoneProps> = ({ ...setDoneProps }) => {
       focus = data;
     }
   }
-  console.log(stats.current.data);
+
   return (
     <TrainLayout
       loadingExercise={false}
@@ -65,16 +65,16 @@ const SetDone: React.FC<setDoneProps> = ({ ...setDoneProps }) => {
         style={{
           overflowY: "auto",
           padding: "20px",
-          height: "100%",
         }}
       >
-        <div
+        <Col
           style={{
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
             overflowY: "auto",
+            height: "100%",
           }}
         >
           <h1 style={{ color: "white", fontSize: "70px" }}>
@@ -130,7 +130,7 @@ const SetDone: React.FC<setDoneProps> = ({ ...setDoneProps }) => {
             )}
           </Row>
           <Row justify="space-between" style={{ width: "100%" }}>
-            <div style={{ width: "100px" }} />
+            <div style={{ width: "130px" }} />
             <h3
               style={{ color: "white", fontSize: "40px", paddingTop: "50px" }}
             >
@@ -143,7 +143,7 @@ const SetDone: React.FC<setDoneProps> = ({ ...setDoneProps }) => {
               onClick={() => setSubPage("training")}
               style={{
                 cursor: "pointer",
-                width: "100px",
+                width: "130px",
                 color: "white",
                 marginRight: "20px",
               }}
@@ -152,7 +152,7 @@ const SetDone: React.FC<setDoneProps> = ({ ...setDoneProps }) => {
               {t(Translations.training.nextSet, { seconds: remainingSeconds })}
             </Col>
           </Row>
-        </div>
+        </Col>
       </div>
     </TrainLayout>
   );
