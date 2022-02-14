@@ -4,7 +4,6 @@ import React, {
   Dispatch,
   MutableRefObject,
   SetStateAction,
-  useCallback,
   useEffect,
   useRef,
   useState,
@@ -46,19 +45,10 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
     initialCollapsed,
   } = trainingProps;
 
-  // TODO replace this
-  const [currentFeedback, setCurrentFeedback] = useState<null | string>();
-
-  // repeats done per repeats to do in percent
-  const [progress, setProgress] = useState(0);
-
-  // whether sending video to server
-  const [active, setActive] = useState(false);
-
-  const webSocketRef = useRef<ApiSocketConnection | null>(null);
-
-  const currentRepeat = useRef(0);
-
+  const [progress, setProgress] = useState(0); // repeats done per repeats to do in percent
+  const [active, setActive] = useState(false); // whether sending video to server
+  const [currentSet, setCurrentSet] = useState(stats.current.set);
+  const [isFeedbackNew, setIsFeedbackNew] = useState(false);
   const [feedback, setFeedback] = useState<feedback>({
     x: -100,
     y: -100,
@@ -66,16 +56,54 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
     totalPoints: 0,
   });
 
+  const currentRepeat = useRef(0);
   const totalPoints = useRef(0);
+  const webSocketRef = useRef<ApiSocketConnection | null>(null);
+  const points = useRef<Points[]>([]); // used to cache points per exercise
+
+  const ptsRef = createRef<HTMLSpanElement>();
+  const addPtsRef = createRef<HTMLSpanElement>();
 
   useEffect(() => {
     totalPoints.current = feedback.totalPoints;
   }, [feedback.totalPoints]);
 
-  // used to cache points per exercise
-  const points = useRef<Points[]>([]);
+  useEffect(() => {
+    if (!isFeedbackNew || !addPtsRef.current) return;
+    addPtsRef.current.style.transform = "translate(-50%, -100%)";
+    setTimeout(() => {
+      if (!addPtsRef.current) return;
+      addPtsRef.current.style.opacity = "0";
+    }, 300);
+    setTimeout(() => {
+      if (!addPtsRef.current) return;
+      addPtsRef.current.style.opacity = "1";
+      addPtsRef.current.style.transform = "translate(-50%, -50%)";
+      setIsFeedbackNew(false);
+    }, 500);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFeedbackNew]);
 
-  const getFeedback = useCallback(() => feedback, [feedback]);
+  useEffect(() => {
+    // start websocket connection on mount and disconnect on unmount
+    connectToWS().catch(message.error);
+
+    return () => {
+      if (webSocketRef.current) webSocketRef.current.onclose = null;
+      webSocketRef.current?.close();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (!ptsRef.current) return;
+    ptsRef.current.style.fontSize = "2.2rem";
+    setTimeout(() => {
+      if (!ptsRef.current) return;
+      ptsRef.current.style.fontSize = "2rem";
+    }, 100);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [feedback.totalPoints]);
 
   async function connectToWS() {
     webSocketRef.current = await api.openSocket();
@@ -94,22 +122,9 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
     webSocket.onmessage = (message) => {
       if (!message || !message?.success) return;
 
-      if (message.message_type === "statistics") {
-        setCurrentFeedback(
-          "Points: " +
-            message.data.intensity +
-            " / " +
-            message.data.speed +
-            " / " +
-            message.data.cleanliness +
-            "!"
-        );
-        setTimeout(() => setCurrentFeedback(null), 2500);
-      }
-
       switch (message.message_type) {
         case "init":
-          initCallback(message.data, stats.current);
+          initCallback(message.data, stats, setCurrentSet);
           break;
         case "start_set":
           setActive(true);
@@ -122,7 +137,8 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
             exercise?.repeatsPerSet || 1,
             currentRepeat,
             setFeedback,
-            totalPoints
+            totalPoints,
+            setIsFeedbackNew
           );
           break;
         case "end_set":
@@ -142,29 +158,6 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
     };
   }
 
-  // start websocket connection on mount and disconnect on unmount
-  useEffect(() => {
-    connectToWS().catch(message.error);
-
-    return () => {
-      if (webSocketRef.current) webSocketRef.current.onclose = null;
-      webSocketRef.current?.close();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const ptsRef = createRef<HTMLSpanElement>();
-
-  useEffect(() => {
-    if (!ptsRef.current) return;
-    ptsRef.current.style.fontSize = "2.2rem";
-    setTimeout(() => {
-      if (!ptsRef.current) return;
-      ptsRef.current.style.fontSize = "2rem";
-    }, 100);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [feedback.totalPoints]);
-
   return (
     <TrainLayout
       loadingExercise={loadingExercise}
@@ -174,120 +167,110 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
     >
       <div
         style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
           overflowY: "auto",
-          padding: "20px",
-          height: "100%",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            overflowY: "auto",
-          }}
-        >
-          {loadingExercise || error ? (
-            <div
-              style={{
-                height: "100%",
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "column",
-              }}
-            >
-              {error ? (
-                <div>{t(Translations.planManager.error)}</div>
-              ) : (
-                <>
-                  <Spin
-                    indicator={
-                      <LoadingOutlined
-                        style={{ fontSize: 24, color: "white" }}
-                        spin
-                      />
-                    }
-                  />
-                  <div style={{ color: "white" }}>
-                    {t(Translations.planManager.loading)}
-                  </div>
-                </>
-              )}
-            </div>
-          ) : (
-            <h1 style={{ color: "white", fontSize: "40px" }}>
-              {exercise?.title}
-            </h1>
-          )}
+        {loadingExercise || error ? (
           <div
             style={{
-              width: "200px",
+              height: "100%",
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
             }}
           >
-            <Progress
-              percent={progress}
-              status="active"
-              showInfo={false}
-              strokeColor={"#0ff"}
-              className="training-progress"
-            />
-          </div>
-          <div style={{ color: "white", marginTop: "10px" }}>
-            {stats.current.set}/{exercise?.sets}
-          </div>
-          <WebcamStreamCapture webSocketRef={webSocketRef} active={active}>
-            <div
-              style={{
-                position: "relative",
-                height: "45px",
-                display: "flex",
-                color: "#466995",
-                fontWeight: "bold",
-                textShadow:
-                  "-1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff",
-                alignItems: "flex-end",
-              }}
-            >
-              <span
-                style={{
-                  fontSize: "2rem",
-                }}
-              >
-                Pts:&nbsp;
-              </span>
-              <span
-                ref={ptsRef}
-                style={{
-                  transition: "font-size 0.1s ease-in-out",
-                  fontSize: "2rem",
-                }}
-              >
-                {feedback.totalPoints}
-              </span>
-            </div>
-            {currentFeedback && (
+            {error ? (
+              <div>{t(Translations.planManager.error)}</div>
+            ) : (
               <>
-                <span
-                  style={{
-                    position: "absolute",
-                    left: feedback?.x,
-                    top: feedback?.y,
-                    color: "#466995",
-                    textShadow:
-                      "-1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff",
-                    transform: "translate(-50%, -50%)",
-                    fontSize: "1.5rem",
-                  }}
-                >
-                  +{feedback.addedPoints}
-                </span>
+                <Spin
+                  indicator={
+                    <LoadingOutlined
+                      style={{ fontSize: 24, color: "white" }}
+                      spin
+                    />
+                  }
+                />
+                <div style={{ color: "white" }}>
+                  {t(Translations.planManager.loading)}
+                </div>
               </>
             )}
-          </WebcamStreamCapture>
+          </div>
+        ) : (
+          <h1 style={{ color: "white", fontSize: "40px" }}>
+            {exercise?.title}
+          </h1>
+        )}
+        <div
+          style={{
+            width: "200px",
+          }}
+        >
+          <Progress
+            percent={progress}
+            status="active"
+            showInfo={false}
+            strokeColor={"#0ff"}
+            className="training-progress"
+          />
         </div>
+        <div style={{ color: "white", marginTop: "10px" }}>
+          {currentSet}/{exercise?.sets}
+        </div>
+        <WebcamStreamCapture webSocketRef={webSocketRef} active={active}>
+          <div
+            style={{
+              position: "relative",
+              height: "45px",
+              display: "flex",
+              color: "#466995",
+              fontWeight: "bold",
+              textShadow:
+                "-1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff",
+              alignItems: "flex-end",
+            }}
+          >
+            <span
+              style={{
+                fontSize: "2rem",
+              }}
+            >
+              Pts:&nbsp;
+            </span>
+            <span
+              ref={ptsRef}
+              style={{
+                transition: "font-size 0.1s ease-in-out",
+                fontSize: "2rem",
+              }}
+            >
+              {feedback.totalPoints}
+            </span>
+          </div>
+          <span
+            style={{
+              position: "absolute",
+              left: feedback?.x,
+              top: feedback?.y,
+              color: "#466995",
+              textShadow:
+                "-1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff",
+              transform: "translate(-50%, -50%)",
+              fontSize: "1.5rem",
+              transition: "transform 0.5s ease-out, opacity 0.2s ease-out",
+            }}
+            ref={addPtsRef}
+          >
+            {isFeedbackNew && <>+{feedback.addedPoints}</>}
+          </span>
+        </WebcamStreamCapture>
       </div>
     </TrainLayout>
   );

@@ -44,9 +44,11 @@ const calculatePoints = (points: Points[], set: number): dataEntryType[] => {
 
 export const initCallback = (
   data: Record<string, any>,
-  stats: statsType
+  stats: React.MutableRefObject<statsType>,
+  setCurrentSet: React.Dispatch<React.SetStateAction<number>>
 ): void => {
-  stats.set = data.current_set + 1;
+  setCurrentSet(data.current_set + 1);
+  stats.current.set = data.current_set + 1;
 };
 
 export const statsCallback = (
@@ -56,7 +58,8 @@ export const statsCallback = (
   repeats: number,
   currentRepeat: React.MutableRefObject<number>,
   setFeedback: React.Dispatch<React.SetStateAction<feedback>>,
-  totalPoints: React.MutableRefObject<number>
+  totalPoints: React.MutableRefObject<number>,
+  setIsFeedbackNew: React.Dispatch<React.SetStateAction<boolean>>
 ): void => {
   const total = totalPointsCalculation(
     data.intensity,
@@ -78,6 +81,7 @@ export const statsCallback = (
     addedPoints: total,
     totalPoints: totalPoints.current + total,
   });
+  setIsFeedbackNew(true);
 };
 
 export const endCallback = (
