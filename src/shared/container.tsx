@@ -145,7 +145,7 @@ const Container: React.FC<containerProps> = ({ ...containerProps }) => {
           <Menu.Item
             key="settings"
             style={isUser ? {} : { marginLeft: "auto" }}
-            icon={<SettingTwoTone twoToneColor={props.color} />}
+            icon={<SettingTwoTone twoToneColor={color} />}
           >
             {t(Translations.tabBar.settings)}
           </Menu.Item>
