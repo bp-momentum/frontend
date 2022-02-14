@@ -1,5 +1,7 @@
+import { t } from "i18next";
 import React, { MutableRefObject } from "react";
 import { ExerciseData, statsType } from ".";
+import Translations from "../../localization/translations";
 import Graph from "../../shared/graph";
 
 interface exerciseDoneProps {
@@ -31,7 +33,9 @@ const ExerciseDone: React.FC<exerciseDoneProps> = ({
         style={{ marginBottom: "40px" }}
       />
       <h1 style={{ color: "white", fontSize: "45px" }}>
-        Score: {stats.current.totalPoints}
+        {t(Translations.training.score, {
+          points: stats.current.totalPoints,
+        })}
       </h1>
     </div>
   );

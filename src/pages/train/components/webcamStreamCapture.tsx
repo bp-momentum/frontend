@@ -2,6 +2,8 @@ import React, { RefObject, useCallback, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import useWindowDimensions from "../../../hooks/windowDimension";
 import { ApiSocketConnection } from "../../../util/api";
+import { PlayCircleOutlined } from "@ant-design/icons";
+import { Button } from "antd";
 
 interface webcamStreamCaptureProps {
   webSocketRef: RefObject<ApiSocketConnection>;
@@ -17,7 +19,6 @@ const WebcamStreamCapture: React.FC<webcamStreamCaptureProps> = ({
   const webcamRef = useRef<Webcam>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const [capturing, setCapturing] = useState(false);
-  const [recordedChunks, setRecordedChunks] = useState([]);
 
   const sendChunks = useCallback(
     (data: Blob): void => {
@@ -30,7 +31,6 @@ const WebcamStreamCapture: React.FC<webcamStreamCaptureProps> = ({
   const handleDataAvailable = useCallback(
     ({ data }) => {
       if (data.size > 0) {
-        setRecordedChunks((prev) => prev.concat(data));
         sendChunks(data);
       }
     },
@@ -61,32 +61,6 @@ const WebcamStreamCapture: React.FC<webcamStreamCaptureProps> = ({
     // data available every 100 milliseconds
     mediaRecorderRef.current.start(100);
   }, [webSocketRef, handleDataAvailable]);
-
-  const handleStopCaptureClick = useCallback(() => {
-    mediaRecorderRef.current?.stop();
-    setCapturing(false);
-    const mediaRecorder = mediaRecorderRef.current as MediaRecorder;
-    mediaRecorder.onstop = () =>
-      webSocketRef.current?.send(
-        JSON.stringify({ message_type: "end_set", data: {} })
-      );
-  }, [webSocketRef]);
-
-  const handleDownload = useCallback(() => {
-    if (recordedChunks.length) {
-      const blob = new Blob(recordedChunks, {
-        type: "video/webm",
-      });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      document.body.appendChild(a);
-      a.href = url;
-      a.download = "react-webcam-stream-capture.webm";
-      a.click();
-      window.URL.revokeObjectURL(url);
-      setRecordedChunks([]);
-    }
-  }, [recordedChunks]);
 
   const { height } = useWindowDimensions();
 
@@ -134,17 +108,23 @@ const WebcamStreamCapture: React.FC<webcamStreamCaptureProps> = ({
           {children}
         </div>
       </div>
-      <button
-        onClick={capturing ? handleStopCaptureClick : handleStartCaptureClick}
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-        }}
-      >
-        {capturing ? "Stop" : "Start"} Capture
-      </button>
+      {!capturing && (
+        <Button
+          onClick={handleStartCaptureClick}
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            borderRadius: "10px",
+            padding: "10px",
+            height: "inherit",
+            width: "inherit",
+            fontSize: "30px",
+          }}
+          icon={<PlayCircleOutlined style={{ fontSize: "30px" }} />}
+        />
+      )}
     </div>
   );
 };

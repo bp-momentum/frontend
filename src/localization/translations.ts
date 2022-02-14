@@ -165,6 +165,8 @@ const Translations = {
     intensity: "training.intensity",
     accuracy: "training.accuracy",
     speed: "training.speed",
+    scoreShort: "training.score-short",
+    currentSet: "training.current-set",
   },
 };
 

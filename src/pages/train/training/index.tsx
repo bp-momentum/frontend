@@ -1,4 +1,4 @@
-import { message, Progress, Spin } from "antd";
+import { message, Progress, Spin, Tooltip } from "antd";
 import React, {
   createRef,
   Dispatch,
@@ -209,9 +209,15 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
             {exercise?.title}
           </h1>
         )}
+        <div style={{ color: "white", marginBottom: "20px" }}>
+          <Tooltip title={t(Translations.training.currentSet)}>
+            {currentSet}/{exercise?.sets}
+          </Tooltip>
+        </div>
         <div
           style={{
-            width: "200px",
+            width: "100%",
+            maxWidth: "min(64%, 500px)",
           }}
         >
           <Progress
@@ -221,9 +227,6 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
             strokeColor={"#0ff"}
             className="training-progress"
           />
-        </div>
-        <div style={{ color: "white", marginTop: "10px" }}>
-          {currentSet}/{exercise?.sets}
         </div>
         <WebcamStreamCapture webSocketRef={webSocketRef} active={active}>
           <div
@@ -243,7 +246,7 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
                 fontSize: "2rem",
               }}
             >
-              Pts:&nbsp;
+              {t(Translations.training.scoreShort)}:&nbsp;
             </span>
             <span
               ref={ptsRef}
