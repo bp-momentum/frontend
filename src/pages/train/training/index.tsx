@@ -66,10 +66,21 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
 
   useEffect(() => {
     totalPoints.current = feedback.totalPoints;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [feedback.totalPoints]);
 
   useEffect(() => {
     if (!isFeedbackNew || !addPtsRef.current) return;
+
+    //animate total points
+    if (!ptsRef.current) return;
+    ptsRef.current.style.fontSize = "2.2rem";
+    setTimeout(() => {
+      if (!ptsRef.current) return;
+      ptsRef.current.style.fontSize = "2rem";
+    }, 100);
+
+    // animate added points
     addPtsRef.current.style.transform = "translate(-50%, -100%)";
     setTimeout(() => {
       if (!addPtsRef.current) return;
@@ -94,16 +105,6 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    if (!ptsRef.current) return;
-    ptsRef.current.style.fontSize = "2.2rem";
-    setTimeout(() => {
-      if (!ptsRef.current) return;
-      ptsRef.current.style.fontSize = "2rem";
-    }, 100);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [feedback.totalPoints]);
 
   async function connectToWS() {
     webSocketRef.current = await api.openSocket();

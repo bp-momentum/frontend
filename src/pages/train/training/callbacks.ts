@@ -92,6 +92,7 @@ export const endCallback = (
 ): void => {
   setActive(false);
   stats.data = stats.data.concat(calculatePoints(points, stats.set));
+  stats.totalPoints += points.reduce((acc, curr) => acc + curr.total, 0);
   setTimeout(() => setSubPage("setDone"), 2000);
 };
 
@@ -103,6 +104,6 @@ export const doneCallback = (
 ): void => {
   setActive(false);
   stats.data = stats.data.concat(calculatePoints(points, stats.set));
-  stats.totalPoints = points.reduce((acc, curr) => acc + curr.total, 0);
+  stats.totalPoints += points.reduce((acc, curr) => acc + curr.total, 0);
   setTimeout(() => setSubPage("exerciseDone"), 2000);
 };
