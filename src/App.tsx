@@ -14,6 +14,8 @@ import EditPlan from "./pages/manage/editPlan";
 import ManagePlans from "./pages/manage/plans";
 import Exercises from "./pages/exercises";
 import Leaderboard from "./pages/leaderboard";
+import Train from "./pages/train";
+import Error404 from "./pages/error/404";
 import helper from "./util/helper";
 import Users from "./pages/manage/users";
 import Profile from "./pages/profile";
@@ -88,7 +90,9 @@ function App(): JSX.Element {
 
   return (
     <Routes>
+      {/* TODO(JUL14N): set propper routing */}
       <Route path="/" element={isUser ? <Exercises /> : <Home />} />
+      <Route path="/train/:exercisePlanId" element={<Train />} />
       <Route path="/exercises" element={<Exercises />} />
       <Route path="/leaderboard" element={<Leaderboard />} />
       {isUser && <Route path="/profile" element={<Profile />} />}
@@ -99,12 +103,7 @@ function App(): JSX.Element {
         <Route path="plans/:planId" element={<EditPlan />} />
         <Route path="users" element={<Users />} />
       </Route>
-      <Route
-        path="*"
-        element={
-          <div style={{ fontSize: 180, textAlign: "center" }}> 404 </div>
-        }
-      />
+      <Route path="*" element={<Error404 />} />
     </Routes>
   );
 }

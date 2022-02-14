@@ -1,0 +1,39 @@
+.shadow {
+  position: relative;
+}
+
+.shadow::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: -60px;
+  bottom: 20px;
+  width: 100px;
+  background: radial-gradient(#222a, transparent 75%);
+  opacity: .3;
+  z-index: 10;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.training-progress .ant-progress-inner {
+  overflow: initial;
+}
+
+.training-progress .ant-progress-bg {
+  box-shadow: 0px 0px 15px 3px #0ffa;
+  overflow: hidden;
+  animation: ant-progress-pulse 1s linear 0s infinite;
+}
+
+@keyframes ant-progress-pulse {
+  0% {
+    box-shadow: 0px 0px 15px 3px #0ffa;
+  }
+  50% {
+    box-shadow: 0px 0px 15px 5px #0ffa;
+  }
+  100% {
+    box-shadow: 0px 0px 15px 3px #0ffa;
+  }
+}

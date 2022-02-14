@@ -4,6 +4,10 @@
     "unknown-error": "An unknown Error occurred!",
     "empty": "No data found!"
   },
+  "common": {
+    "confirm-leave": "Are you sure you want to leave?",
+    "confirm-leave-content": "If you leave, you will lose all your progress!"
+  },
   "user": {
     "username": "Username",
     "password": "Password",
@@ -161,5 +165,23 @@
     "selectNewAvatar": "Select your new avatar",
     "loading": "Loading your profile...",
     "points": "{{points}} points"
+  },
+  "error-page": {
+    "404-text": "We don't have that!",
+    "418-text": "I'm a teapot!"
+  },
+  "training": {
+    "instructions": "Instructions",
+    "score": "Score: {{points}}",
+    "todo": "TODO",
+    "tip": "Tip: Try to focus on your {{type}} for the next set!",
+    "set": "Set {{number}}",
+    "remaining-sets": "Only {{count}} more to go!",
+    "next-set": "Next Set in {{seconds}}s",
+    "intensity": "intensity",
+    "accuracy": "accuracy",
+    "speed": "speed",
+    "score-short": "Pts",
+    "current-set": "Current Set"
   }
 }

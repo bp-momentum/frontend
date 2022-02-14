@@ -1,26 +1,27 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import debounce from "lodash/debounce";
 
-function getWindowDimensions() {
-  const { innerWidth: width, innerHeight: height } = window;
-  return {
-    width,
-    height,
-  };
-}
-
-export default function useWindowDimensions() {
-  const [windowDimensions, setWindowDimensions] = useState(
-    getWindowDimensions()
-  );
+function useWindowDimensions(delay = 100) {
+  function getSize() {
+    return {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    };
+  }
+  const [windowSize, setWindowSize] = useState(getSize());
 
   useEffect(() => {
-    function handleResize() {
-      setWindowDimensions(getWindowDimensions());
-    }
+    const handleResize = () => {
+      setWindowSize(getSize());
+    };
+    const debouncedHandleResize = debounce(handleResize, delay);
+    window.addEventListener("resize", debouncedHandleResize);
+    return () => {
+      window.removeEventListener("resize", debouncedHandleResize);
+    };
+  }, [delay]);
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  return windowDimensions;
+  return windowSize;
 }
+
+export default useWindowDimensions;

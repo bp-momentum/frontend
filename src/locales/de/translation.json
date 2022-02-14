@@ -4,6 +4,10 @@
     "unknown-error": "Ein unbekannter Fehler ist aufgetreten!",
     "empty": "Keine Daten vorhanden!"
   },
+  "common": {
+    "confirm-leave": "Willst du die Seite wirklich verlassen?",
+    "confirm-leave-content": "Wenn du die Seite verlässt, geht all dein Fortschritt verloren."
+  },
   "user": {
     "username": "Benutzername",
     "password": "Passwort",
@@ -161,5 +165,23 @@
     "selectNewAvatar": "Wähle deinen neuen Avatar",
     "loading": "Dein Profil wird geladen...",
     "points": "{{points}} Punkte"
+  },
+  "error-page": {
+    "404-text": "Des hamma net!",
+    "418-text": "Ich bin ne Teekanne!"
+  },
+  "training": {
+    "instructions": "Instruktionen",
+    "score": "Punkte: {{points}}",
+    "todo": "Zu Erledigen",
+    "tip": "Tipp: Versuche dich beim nächsten Set auf deine {{type}} zu konzentrieren!",
+    "set": "Set {{number}}",
+    "remaining-sets": "Nur noch {{count}} Sets übrig!",
+    "next-set": "Nächstes Set in {{seconds}}s",
+    "intensity": "Intensität",
+    "accuracy": "Genauigkeit",
+    "speed": "Schnelligkeit",
+    "score-short": "Pkt",
+    "current-set": "Aktuelles Set"
   }
 }

@@ -71,7 +71,9 @@ const Day = forwardRef(
     const navigate = useNavigate();
 
     const openNextExercise = (): void => {
-      navigate(`/train/${exercises.filter((e) => !e.completed)[0]?.id}`);
+      navigate(
+        `/train/${exercises.filter((e) => !e.completed)[0]?.exercise_plan_id}`
+      );
     };
 
     const past = isPast(name);
@@ -172,9 +174,9 @@ const Day = forwardRef(
                       : "normal"
                   }
                   format={(percent, success) =>
-                    `${((percent || 0) / 100) * exercises.length} / ${
-                      exercises.length
-                    }`
+                    `${Math.ceil(
+                      ((percent || 0) / 100) * exercises.length
+                    )} / ${exercises.length}`
                   }
                 />
               )}
@@ -217,7 +219,7 @@ const ExerciseCard = ({
   const navigate = useNavigate();
 
   const openExercise = (exercise: Exercise): void => {
-    navigate(`/train/${exercise.id}`);
+    navigate(`/train/${exercise.exercise_plan_id}`);
   };
 
   return (
@@ -263,8 +265,7 @@ const ExerciseCard = ({
       >
         <span
           style={{
-            margin: "0",
-            marginLeft: "auto",
+            margin: "0 0 0 auto",
             fontWeight: 400,
             fontSize: "16px",
           }}
@@ -385,7 +386,6 @@ const Exercises = (): JSX.Element => {
                   flexWrap: "nowrap",
                 }}
               >
-                1337
                 <span
                   style={{
                     background:
@@ -427,7 +427,10 @@ const Exercises = (): JSX.Element => {
                   alignContent: "flex-start",
                   overflow: "auto",
                   flexFlow: "row",
-                  margin: "0px",
+                  marginLeft: "0px",
+                  marginTop: "0px", // needs to be split because of
+                  marginRight: "0px", // https://github.com/facebook/react/issues/8689
+                  marginBottom: "0px",
                   flexDirection: "row",
                 }}
                 gutter={[16, 16]}
