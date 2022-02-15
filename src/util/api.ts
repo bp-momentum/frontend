@@ -139,7 +139,9 @@ class Api {
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
 
-    const str = this.serverUrl.replace(/http(s?):\/\//, "ws://");
+    const str = this.serverUrl
+      .replace(/http:\/\//, "ws://")
+      .replace(/https:\/\//, "wss://");
 
     return new ApiSocketConnection(this.token, str);
   };
