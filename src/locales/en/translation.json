@@ -183,7 +183,7 @@
     "speed": "speed",
     "score-short": "Pts",
     "current-set": "Current Set",
-    "medal": "Here could be your medal!",
+    "medal": "Sadly you did not earn a medal this time!",
     "medal_bronze": "Bronze Medal",
     "medal_silver": "Silver Medal",
     "medal_gold": "Gold Medal"
