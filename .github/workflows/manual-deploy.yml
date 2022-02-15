@@ -48,7 +48,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build
-      - run: rm -rf /var/www/vhosts/bp/*
+      - run: rm -rf /var/www/vhosts/bp-test/*
         name: Delete old files
-      - run: cp -r * /var/www/vhosts/bp/
+      - run: cp -r * /var/www/vhosts/bp-test/
         name: Copy new files
