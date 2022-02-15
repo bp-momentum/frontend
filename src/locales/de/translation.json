@@ -182,6 +182,10 @@
     "accuracy": "Genauigkeit",
     "speed": "Schnelligkeit",
     "score-short": "Pkt",
-    "current-set": "Aktuelles Set"
+    "current-set": "Aktuelles Set",
+    "medal": "Hier könnte deine Medaille stehen!",
+    "medal_bronze": "Bronze Medaille",
+    "medal_silver": "Silber Medaille",
+    "medal_gold": "Gold Medaille"
   }
 }

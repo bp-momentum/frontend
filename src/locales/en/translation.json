@@ -182,6 +182,10 @@
     "accuracy": "accuracy",
     "speed": "speed",
     "score-short": "Pts",
-    "current-set": "Current Set"
+    "current-set": "Current Set",
+    "medal": "Here could be your medal!",
+    "medal_bronze": "Bronze Medal",
+    "medal_silver": "Silver Medal",
+    "medal_gold": "Gold Medal"
   }
 }
