@@ -21,7 +21,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - run: yarn
         name: Collect dependencies
-      - run: eslint ./src/
+      - run: yarn run eslint ./src/
         name: Check formatting
       - run: yarn test --clearCache
         name: Clear test cache
