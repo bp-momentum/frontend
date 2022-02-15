@@ -1,4 +1,10 @@
-import React, { RefObject, useCallback, useRef, useState } from "react";
+import React, {
+  RefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import Webcam from "react-webcam";
 import useWindowDimensions from "../../../hooks/windowDimension";
 import { ApiSocketConnection } from "../../../util/api";
@@ -36,6 +42,21 @@ const WebcamStreamCapture: React.FC<webcamStreamCaptureProps> = ({
     },
     [sendChunks]
   );
+
+  const handlerRef = useRef<({ data }: { data: Blob }) => void>();
+
+  useEffect(() => {
+    if (handlerRef.current)
+      mediaRecorderRef.current?.removeEventListener(
+        "dataavailable",
+        handlerRef.current
+      );
+    mediaRecorderRef.current?.addEventListener(
+      "dataavailable",
+      handleDataAvailable
+    );
+    handlerRef.current = handleDataAvailable;
+  }, [handleDataAvailable]);
 
   const handleStartCaptureClick = useCallback(() => {
     if (!webcamRef.current?.stream?.active || !webSocketRef.current) return;
