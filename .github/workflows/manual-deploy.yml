@@ -1,6 +1,9 @@
 name: Manual Deploy
 
-on: workflow_dispatch
+on:
+  push:
+    branches:
+      - "feat/manual-deploy"
 
 env:
   NODE_VERSION: 16
