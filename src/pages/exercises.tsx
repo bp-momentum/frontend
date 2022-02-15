@@ -41,7 +41,7 @@ interface Exercise {
   sets: number;
   repeats_per_set: number;
   date: string;
-  completed?: boolean;
+  done?: boolean;
 }
 
 const isPast = (dayName: string): boolean => {
@@ -72,7 +72,7 @@ const Day = forwardRef(
 
     const openNextExercise = (): void => {
       navigate(
-        `/train/${exercises.filter((e) => !e.completed)[0]?.exercise_plan_id}`
+        `/train/${exercises.filter((e) => !e.done)[0]?.exercise_plan_id}`
       );
     };
 
@@ -80,15 +80,13 @@ const Day = forwardRef(
     const future = isFuture(name);
     const today = !past && !future;
 
-    const doneExercises = future
-      ? 0.0
-      : exercises.filter((e) => e.completed).length;
+    const doneExercises = future ? 0.0 : exercises.filter((e) => e.done).length;
     const progress =
       doneExercises === 0
         ? 0
         : Math.floor((doneExercises / exercises.length) * 100);
 
-    const hasExercisesToDo = exercises.filter((e) => !e.completed).length > 0;
+    const hasExercisesToDo = exercises.filter((e) => !e.done).length > 0;
 
     return (
       <Col {...(ref && today ? { ref: ref as RefObject<HTMLDivElement> } : {})}>
@@ -224,9 +222,7 @@ const ExerciseCard = ({
 
   return (
     <div
-      className={`ExerciseCard ${
-        exercise.completed || !today ? "completed" : ""
-      }`}
+      className={`ExerciseCard ${exercise.done || !today ? "done" : ""}`}
       style={{
         display: "flex",
         alignItems: "center",
@@ -234,12 +230,12 @@ const ExerciseCard = ({
         padding: "10px 20px",
         borderRadius: "50px",
         width: "100%",
-        background: exercise.completed ? "#5ec77b" : "initial",
-        cursor: exercise.completed || !today ? "default" : "pointer",
+        background: exercise.done ? "#5ec77b" : "initial",
+        cursor: exercise.done || !today ? "default" : "pointer",
         margin: "5px",
       }}
       onClick={() => {
-        if (today && !exercise.completed) openExercise(exercise);
+        if (today && !exercise.done) openExercise(exercise);
       }}
     >
       <h4 style={{ margin: "0" }}>

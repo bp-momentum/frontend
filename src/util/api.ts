@@ -2,7 +2,7 @@ import Helper from "./helper";
 import { Route } from "./routes";
 
 class Api {
-  serverUrl = "http://78.46.150.116:8000/";
+  serverUrl = "https://bp-api.geoscribble.de/";
   token = "";
   refreshToken = "";
 
@@ -151,7 +151,9 @@ class Api {
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
 
-    const str = this.serverUrl.replace(/http(s?):\/\//, "ws://");
+    const str = this.serverUrl
+      .replace(/http:\/\//, "ws://")
+      .replace(/https:\/\//, "wss://");
 
     return new ApiSocketConnection(this.token, str);
   };
