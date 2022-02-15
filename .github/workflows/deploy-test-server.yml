@@ -1,9 +1,6 @@
-name: Manual Deploy
+name: Deploy Testserver
 
-on:
-  push:
-    branches:
-      - "feat/manual-deploy"
+on: workflow_dispatch
 
 env:
   NODE_VERSION: 16
