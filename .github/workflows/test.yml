@@ -1,9 +1,5 @@
 name: Test
 
-concurrency:
-  group: ${{ github.ref }}
-  cancel-in-progress: true
-
 on:
   push:
     branches:
@@ -14,7 +10,7 @@ env:
   NODE_VERSION: 16
 jobs:
   test:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -22,7 +18,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - run: yarn
         name: Collect dependencies
-      - run: eslint ./src/
+      - run: yarn run eslint ./src/
         name: Check formatting
       - run: yarn test --clearCache
         name: Clear test cache
