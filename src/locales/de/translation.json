@@ -118,8 +118,9 @@
     "next-exercise": "Gehe zur nächsten Übung",
     "day-off": "Nimm dir einen Tag Pause",
     "motivation": "Auf geht's, ",
-    "medal-motivation_one": "Nur noch ein Tag bis zur nächsten Medaille!",
-    "medal-motivation_other": "Nur noch {{count}} Tage bis zur nächsten Medaille!",
+    "medal-motivation_zero": "Du hast für heute alle Medaillen gesammelt!",
+    "medal-motivation_one": "Du kannst heute noch eine Medaille sammeln!",
+    "medal-motivation_other": "Du kannst heute noch {{count}} Medaillen sammeln!",
     "loading": "Lade..."
   },
   "leaderboard": {
@@ -182,6 +183,10 @@
     "accuracy": "Genauigkeit",
     "speed": "Schnelligkeit",
     "score-short": "Pkt",
-    "current-set": "Aktuelles Set"
+    "current-set": "Aktuelles Set",
+    "medal": "Leider hast du dieses Mal keine Medaille verdient!",
+    "medal_bronze": "Bronze Medaille",
+    "medal_silver": "Silber Medaille",
+    "medal_gold": "Gold Medaille"
   }
 }

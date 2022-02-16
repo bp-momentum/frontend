@@ -118,8 +118,9 @@
     "next-exercise": "Go to the next exercise",
     "day-off": "Take a day off",
     "motivation": "Let's go, ",
-    "medal-motivation_one": "Only 1 more day until your next medal!",
-    "medal-motivation_other": "Only {{count}} more days until your next medal!",
+    "medal-motivation_zero": "You collected all medals for today!",
+    "medal-motivation_one": "You can still collect one medal today!",
+    "medal-motivation_other": "You can still collect {{count}} medals today!",
     "loading": "Loading..."
   },
   "leaderboard": {
@@ -182,6 +183,10 @@
     "accuracy": "accuracy",
     "speed": "speed",
     "score-short": "Pts",
-    "current-set": "Current Set"
+    "current-set": "Current Set",
+    "medal": "Sadly you did not earn a medal this time!",
+    "medal_bronze": "Bronze Medal",
+    "medal_silver": "Silver Medal",
+    "medal_gold": "Gold Medal"
   }
 }
