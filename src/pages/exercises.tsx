@@ -21,7 +21,6 @@ import { Emoji } from "react-apple-emojis";
 import "../styles/home.css";
 import useWindowDimensions from "../hooks/windowDimension";
 import { useNavigate } from "react-router-dom";
-import moment from "moment";
 import { useGetExerciseByIdQuery } from "../redux/exercises/exerciseSlice";
 
 const { Content } = Layout;
@@ -312,6 +311,11 @@ const Exercises = (): JSX.Element => {
 
   const wrapper = createRef<HTMLDivElement>();
 
+  const dayName = Helper.getCurrentDayName();
+  const todoExercises = exercises.filter((e) => e.date === dayName);
+  const doneExercises = todoExercises.filter((e) => e.done);
+  const medalCount = todoExercises.length - doneExercises.length;
+
   useEffect(() => {
     const day =
       monday.current ||
@@ -360,7 +364,7 @@ const Exercises = (): JSX.Element => {
               </h1>
               <h2 style={{ fontSize: "24px" }}>
                 {t(Translations.exercises.medalMotivation, {
-                  count: 7 - moment().day(),
+                  count: medalCount,
                 })}
               </h2>
             </div>

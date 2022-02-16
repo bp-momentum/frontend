@@ -180,6 +180,7 @@ const Translations = {
     speed: "training.speed",
     scoreShort: "training.score-short",
     currentSet: "training.current-set",
+    medal: "training.medal",
   },
 };
 
