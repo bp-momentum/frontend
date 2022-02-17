@@ -18,7 +18,7 @@ import { setRefreshToken, setToken } from "../redux/token/tokenSlice";
 import { useTranslation } from "react-i18next";
 import Translations from "../localization/translations";
 
-const Login = (): JSX.Element => {
+const Login: React.FC = () => {
   const dispatch = useAppDispatch();
   const [error, setError] = React.useState<null | string>();
   const [loading, setLoading] = React.useState(false);

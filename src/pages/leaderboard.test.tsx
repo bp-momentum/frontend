@@ -6,8 +6,8 @@ import Leaderboard from "./leaderboard";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 
-const renderLeaderboard = () => {
-  return render(
+const LeaderboardWrapper: React.FC = () => {
+  return (
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
@@ -20,7 +20,7 @@ const renderLeaderboard = () => {
 
 describe("<Leaderboard />", () => {
   test("The leaderboard (table) should be visible with rows 'rank', 'name' and 'score'", async () => {
-    renderLeaderboard();
+    render(<LeaderboardWrapper />);
 
     const table = await screen.findByTestId("leaderboard", undefined, {
       timeout: 10000,
@@ -44,7 +44,7 @@ describe("<Leaderboard />", () => {
   });
 
   test("The leaderboard entries fetched from the db should be correctly displayed inside the leaderboard", async () => {
-    renderLeaderboard();
+    render(<LeaderboardWrapper />);
 
     const leaderboard = await screen.findByTestId("leaderboard", undefined, {
       timeout: 10000,

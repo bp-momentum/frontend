@@ -5,7 +5,7 @@ import Error from "../../static/_(.svg";
 import { t } from "i18next";
 import Translations from "../../localization/translations";
 
-const Error404 = () => {
+const Error404: React.FC = () => {
   return (
     <Container>
       <Layout style={{ height: "100%" }}>

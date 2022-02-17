@@ -2,13 +2,15 @@ import { Col, Row } from "antd";
 import Text from "antd/lib/typography/Text";
 import React from "react";
 
-const SiderButton = (props: {
+interface siderButtonProps {
   onClick: VoidFunction;
   image: string;
   title: string;
   rotation: number;
   color: string;
-}) => {
+}
+
+const SiderButton: React.FC<siderButtonProps> = ({ ...props }) => {
   return (
     <Row justify="center">
       <div

@@ -5,7 +5,6 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { ExerciseData, statsType } from ".";
 import TrainLayout from "./components/trainLayout";
 import { Col, Row } from "antd";
 import Paper from "../../shared/paper";
@@ -21,8 +20,8 @@ interface setDoneProps {
   setSubPage: Dispatch<SetStateAction<subPage>>;
 }
 
-const SetDone: React.FC<setDoneProps> = ({ ...setDoneProps }) => {
-  const { stats, exercise, setSubPage, initialCollapsed } = setDoneProps;
+const SetDone: React.FC<setDoneProps> = ({ ...props }) => {
+  const { stats, exercise, setSubPage, initialCollapsed } = props;
   const [remainingSeconds, setRemainingSeconds] = useState<number>(30);
   const { t } = useTranslation();
 

@@ -21,7 +21,7 @@ import Translations from "../../../localization/translations";
 
 const { TabPane } = Tabs;
 
-const Users = () => {
+const Users: React.FC = () => {
   const token = useAppSelector((state) => state.token.token);
   const type = (token && Helper.getAccountType(token)) || "user";
 

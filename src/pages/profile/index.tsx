@@ -20,52 +20,14 @@ import UserCard from "./widgets/cards/user_card";
 import ProfileLoadingView from "./widgets/profile_loading_view";
 import { useNavigate } from "react-router";
 
-interface ProfileData {
-  dailyRating: number;
-  minutesTrainedGoal: number;
-  doneExercises: DoneExercise[];
-  accountCreated: number;
-  motivation: string;
-  trainerName: string;
-  trainerAddress: string;
-  trainerPhone: string;
-  trainerEmail: string;
-  avatarId: number;
-  minutesTrained: number;
+function mergeData<Type>(data: Type, newData: Record<string, unknown>): Type {
+  return {
+    ...data,
+    ...newData,
+  };
 }
 
-const mergeProfileData = (
-  data: ProfileData,
-  newData: {
-    dailyRating?: number;
-    minutesTrainedGoal?: number;
-    doneExercises?: DoneExercise[];
-    accountCreated?: number;
-    motivation?: string;
-    trainerName?: string;
-    trainerAddress?: string;
-    trainerPhone?: string;
-    trainerEmail?: string;
-    avatarId?: number;
-    minutesTrained?: number;
-  }
-): ProfileData => {
-  return {
-    dailyRating: newData.dailyRating ?? data.dailyRating,
-    avatarId: newData.avatarId ?? data.avatarId,
-    motivation: newData.motivation ?? data.motivation,
-    trainerName: newData.trainerName ?? data.trainerName,
-    minutesTrainedGoal: newData.minutesTrainedGoal ?? data.minutesTrainedGoal,
-    doneExercises: newData.doneExercises ?? data.doneExercises,
-    trainerPhone: newData.trainerPhone ?? data.trainerPhone,
-    trainerEmail: newData.trainerEmail ?? data.trainerEmail,
-    accountCreated: newData.accountCreated ?? data.accountCreated,
-    trainerAddress: newData.trainerAddress ?? data.trainerAddress,
-    minutesTrained: newData.minutesTrained ?? data.minutesTrained,
-  };
-};
-
-const Profile = (): JSX.Element => {
+const Profile: React.FC = () => {
   const token = useAppSelector((state) => state.token.token);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -158,9 +120,7 @@ const Profile = (): JSX.Element => {
     if (!result.success) {
       message.error(result.description);
     }
-    setProfileData(
-      mergeProfileData(profileData, { motivation: newMotivation })
-    );
+    setProfileData(mergeData(profileData, { motivation: newMotivation }));
   };
 
   const saveNewAvatar = async (newAvatarId: number) => {
@@ -173,7 +133,7 @@ const Profile = (): JSX.Element => {
     if (!result.success) {
       message.error(result.description);
     }
-    setProfileData(mergeProfileData(profileData, { avatarId: newAvatarId }));
+    setProfileData(mergeData(profileData, { avatarId: newAvatarId }));
   };
 
   const onClickShare = () => {

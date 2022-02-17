@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import Helper from "../../../../util/helper";
 import { FaPen } from "react-icons/fa";
 
-const UserCard = (props: {
+interface userCardProps {
   avatarId: number;
   username: string;
   accountCreated: number;
@@ -16,7 +16,9 @@ const UserCard = (props: {
   saveNewUsername: (u: string) => void;
   saveNewMotivation: (m: string) => void;
   saveNewAvatarId: (a: number) => void;
-}): JSX.Element => {
+}
+
+const UserCard: React.FC<userCardProps> = ({ ...props }) => {
   const { t } = useTranslation();
   const [userFlipped, setUserFlipped] = React.useState<boolean>(false);
   const [popoverVisible, setPopoverVisible] = React.useState<boolean>(false);

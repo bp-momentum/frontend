@@ -13,7 +13,7 @@ import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import Translations from "../localization/translations";
 
-const AutoLogin = (): JSX.Element => {
+const AutoLogin: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const refreshToken = useAppSelector((state) => state.token.refreshToken);

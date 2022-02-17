@@ -19,3 +19,18 @@ interface feedback {
   addedPoints: number;
   totalPoints: number;
 }
+
+interface ExerciseData {
+  title: string;
+  description: string;
+  sets: number;
+  repeatsPerSet: number;
+  videoPath: string | null;
+  activated: boolean;
+}
+
+interface statsType {
+  data: dataEntryType[];
+  set: number;
+  totalPoints: number;
+}

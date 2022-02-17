@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "../redux/store";
 
-const renderRegister = () => (
+const RegisterWrapper: React.FC = () => (
   <Provider store={store}>
     <BrowserRouter>
       <Routes>
@@ -17,11 +17,11 @@ const renderRegister = () => (
 
 describe("<Register />", () => {
   test("should render", () => {
-    render(renderRegister());
+    render(<RegisterWrapper />);
   });
 
   test("should render the register form", async () => {
-    render(renderRegister());
+    render(<RegisterWrapper />);
 
     const username = await screen.findByPlaceholderText("user.username");
     const password = await screen.findAllByPlaceholderText("user.password");

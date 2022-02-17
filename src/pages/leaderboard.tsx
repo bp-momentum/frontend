@@ -18,7 +18,7 @@ interface LeaderboardEntry {
  * Shown are the player themselves and 9 surrounding players with their rank and score
  * @returns The page for the leaderboard
  */
-const Leaderboard = (): JSX.Element => {
+const Leaderboard: React.FC = () => {
   const [entries, setEntries] = React.useState<LeaderboardEntry[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
   const [error, setError] = React.useState<boolean>(false);

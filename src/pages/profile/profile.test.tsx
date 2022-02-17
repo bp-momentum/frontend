@@ -5,8 +5,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React from "react";
 import Profile from "./index";
 
-const renderProfile = () => {
-  return render(
+const ProfileWrapper: React.FC = () => {
+  return (
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
@@ -19,7 +19,7 @@ const renderProfile = () => {
 
 describe("<Index/>", () => {
   test("Loading animation is visible", async () => {
-    renderProfile();
+    render(<ProfileWrapper />);
 
     const loading = await screen.findByTestId("loading-view");
     expect(loading).toBeInTheDocument();
@@ -27,7 +27,7 @@ describe("<Index/>", () => {
   });
 
   test("Index sider is visible from beginning", async () => {
-    renderProfile();
+    render(<ProfileWrapper />);
 
     const sider = await screen.findByTestId("profile-sider");
     expect(sider).toBeInTheDocument();
@@ -35,7 +35,7 @@ describe("<Index/>", () => {
   });
 
   test("Cards are visible", async () => {
-    renderProfile();
+    render(<ProfileWrapper />);
 
     const profile = await screen.findByTestId("user-card", undefined, {
       timeout: 15000,

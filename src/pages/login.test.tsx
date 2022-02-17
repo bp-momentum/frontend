@@ -6,7 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { store } from "../redux/store";
 import Login from "./login";
 
-const renderLogin = () => (
+const LoginWrapper: React.FC = () => (
   <Provider store={store}>
     <BrowserRouter>
       <Routes>
@@ -18,7 +18,7 @@ const renderLogin = () => (
 
 describe("<Login>", () => {
   test("should render the form", async () => {
-    render(renderLogin());
+    render(<LoginWrapper />);
 
     const username = await screen.findByPlaceholderText("user.username");
     const password = await screen.findByPlaceholderText("user.password");

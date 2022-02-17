@@ -9,11 +9,13 @@ import {
   useGetExerciseByIdQuery,
 } from "../../../../redux/exercises/exerciseSlice";
 
-const DateCell = (props: {
+interface dateCellProps {
   month: number;
   year: number;
   date: Date;
-}): JSX.Element => {
+}
+
+const DateCell: React.FC<dateCellProps> = ({ ...props }) => {
   const { data } = useGetDoneExercisesInMonthQuery({
     month: props.month + 1,
     year: props.year,

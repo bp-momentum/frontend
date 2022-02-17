@@ -32,7 +32,7 @@ import "moment/locale/en-gb";
 import deDE from "antd/lib/locale-provider/de_DE";
 import enGB from "antd/lib/locale-provider/en_GB";
 
-function LocalizedApp(): JSX.Element {
+const LocalizedApp: React.FC = () => {
   const [locale, setLocale] = React.useState<Locale>(deDE);
   const { i18n } = useTranslation();
 
@@ -54,10 +54,10 @@ function LocalizedApp(): JSX.Element {
       <App />
     </ConfigProvider>
   );
-}
+};
 
 // Basic App that is just used to Route to different pages
-function App(): JSX.Element {
+const App: React.FC = () => {
   const token = useAppSelector((state) => state.token.token);
   const refreshToken = useAppSelector((state) => state.token.refreshToken);
 
@@ -106,6 +106,6 @@ function App(): JSX.Element {
       <Route path="*" element={<Error404 />} />
     </Routes>
   );
-}
+};
 
 export default LocalizedApp;

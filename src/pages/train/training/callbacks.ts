@@ -1,5 +1,3 @@
-import { statsType } from "..";
-
 const totalPointsCalculation = (
   intensity: number,
   accuracy: number,

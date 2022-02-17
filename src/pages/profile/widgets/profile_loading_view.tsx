@@ -7,7 +7,7 @@ import Container from "../../../shared/container";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-const ProfileLoadingView = (): JSX.Element => {
+const ProfileLoadingView: React.FC = () => {
   const { t } = useTranslation();
 
   return (

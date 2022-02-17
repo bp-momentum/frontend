@@ -4,12 +4,14 @@ import React from "react";
 
 const { Sider } = Layout;
 
-const ProfileSider = (props: {
+interface profileSiderProps {
   onClickFriends: VoidFunction;
   onClickAchievements: VoidFunction;
   avatarUrl: string;
   username: string;
-}): JSX.Element => {
+}
+
+const ProfileSider: React.FC<profileSiderProps> = ({ ...props }) => {
   return (
     <Sider
       data-testid="profile-sider"
