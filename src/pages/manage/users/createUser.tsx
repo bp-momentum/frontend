@@ -6,10 +6,14 @@ import Routes from "../../../util/routes";
 import { useTranslation } from "react-i18next";
 import Translations from "../../../localization/translations";
 
-const CreateUser = (props: {
+interface createUserProps {
   updateValue: number;
   setUpdateValue: Dispatch<SetStateAction<number>>;
-}): JSX.Element => {
+}
+
+const CreateUser: React.FC<createUserProps> = ({ ...props }) => {
+  const { updateValue, setUpdateValue } = props;
+
   const [error, setError] = React.useState<null | string>();
   const [success, setSuccess] = React.useState<null | string>();
   const formRef = React.createRef<FormInstance>();
@@ -39,7 +43,7 @@ const CreateUser = (props: {
 
     formRef.current?.resetFields();
     setSuccess(t(Translations.createUser.successfullyCreatedUser));
-    props.setUpdateValue(props.updateValue + 1);
+    setUpdateValue(updateValue + 1);
     setTimeout(() => setSuccess(null), 5000);
   };
 

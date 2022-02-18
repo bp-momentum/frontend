@@ -7,8 +7,8 @@ import Exercises from "./exercises";
 import { EmojiProvider } from "react-apple-emojis";
 import emojiData from "react-apple-emojis/lib/data.json";
 
-const renderExercises = () => {
-  return render(
+const ExercisesWrapper: React.FC = () => {
+  return (
     <Provider store={store}>
       <BrowserRouter>
         <EmojiProvider data={emojiData}>
@@ -23,7 +23,7 @@ const renderExercises = () => {
 
 describe("<Exercises/>", () => {
   test("Monday is visible", async () => {
-    renderExercises();
+    render(<ExercisesWrapper />);
 
     const card = await screen.findByTestId("monday");
     expect(card).toBeInTheDocument();

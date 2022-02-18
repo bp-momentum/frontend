@@ -12,13 +12,15 @@ import {
 import Helper from "../../../../util/helper";
 import { useGetExerciseByIdQuery } from "../../../../redux/exercises/exerciseSlice";
 
-const DailySummaryCard = (props: {
+interface dailySummaryCardProps {
   rating: number;
   minutesTrained: number;
   minutesTrainedGoal: number;
   doneExercises: DoneExercise[];
   onClickShare: VoidFunction;
-}): JSX.Element => {
+}
+
+const DailySummaryCard: React.FC<dailySummaryCardProps> = ({ ...props }) => {
   const { t, i18n } = useTranslation();
 
   const Exercise = (props: { exercise: DoneExercise }) => {

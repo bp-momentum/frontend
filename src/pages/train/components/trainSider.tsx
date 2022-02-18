@@ -4,7 +4,6 @@ import { LoadingOutlined } from "@ant-design/icons";
 import Translations from "../../../localization/translations";
 import { t } from "i18next";
 import Paper from "../../../shared/paper";
-import { ExerciseData } from "..";
 
 interface trainSiderProps {
   loading: boolean;
@@ -13,8 +12,8 @@ interface trainSiderProps {
   exercise?: ExerciseData;
 }
 
-const TrainSider: React.FC<trainSiderProps> = ({ ...trainSiderProps }) => {
-  const { loading, exercise, collapsed, error } = trainSiderProps;
+const TrainSider: React.FC<trainSiderProps> = ({ ...props }) => {
+  const { loading, exercise, collapsed, error } = props;
 
   return (
     <>

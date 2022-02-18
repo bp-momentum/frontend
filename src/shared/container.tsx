@@ -54,9 +54,9 @@ const pageToRoute: pagesToRouteType = {
   manage_plans: "/manage/plans",
 };
 
-const Container: React.FC<containerProps> = ({ ...containerProps }) => {
-  const { children, currentPage, confimLeave } = containerProps;
-  const color = containerProps.color || "blue";
+const Container: React.FC<containerProps> = ({ ...props }) => {
+  const { children, currentPage, confimLeave } = props;
+  const color = props.color || "blue";
   const navigate = useNavigate();
   const { t } = useTranslation();
 

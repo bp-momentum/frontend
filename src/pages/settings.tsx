@@ -22,7 +22,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import api from "../util/api";
 
-const Settings = (): JSX.Element => {
+const Settings: React.FC = () => {
   const navigate = useNavigate();
   const [error, setError] = React.useState<null | string>();
   const [success, setSuccess] = React.useState<null | string>();

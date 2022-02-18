@@ -6,7 +6,7 @@ import { Col, Row, Space } from "antd";
 import { useTranslation } from "react-i18next";
 import Translations from "../localization/translations";
 
-const Home = (): JSX.Element => {
+const Home: React.FC = () => {
   const token = useAppSelector((state) => state.token.token);
   const { t } = useTranslation();
 

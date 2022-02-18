@@ -27,7 +27,7 @@ interface User {
   last_login: string;
 }
 
-const ActiveUserTable = () => {
+const ActiveUserTable: React.FC = () => {
   const searchInput = createRef<Input>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);

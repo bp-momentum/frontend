@@ -6,8 +6,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 import EditPlan from "./editPlan";
 
-const renderPlanEditor = () => {
-  return render(
+const PlanEditorWrapper: React.FC = () => {
+  return (
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
@@ -20,7 +20,7 @@ const renderPlanEditor = () => {
 
 describe("<EditPlan />", () => {
   test("The Test Exercise should be in the store.", async () => {
-    renderPlanEditor();
+    render(<PlanEditorWrapper />);
 
     const addButton = await screen.findByText("Test Exercise", undefined, {
       timeout: 10000,
@@ -29,7 +29,7 @@ describe("<EditPlan />", () => {
   });
 
   test("The garbage Sider should be visible while dragging.", async () => {
-    renderPlanEditor();
+    render(<PlanEditorWrapper />);
 
     const addButton = await screen.findByText("Test Exercise", undefined, {
       timeout: 10000,

@@ -12,7 +12,6 @@ import "../../../styles/train.css";
 import Translations from "../../../localization/translations";
 import { t } from "i18next";
 import { LoadingOutlined } from "@ant-design/icons";
-import { ExerciseData, statsType } from "..";
 import WebcamStreamCapture from "../components/webcamStreamCapture";
 import api, { ApiSocketConnection } from "../../../util/api";
 import TrainLayout from "../components/trainLayout";
@@ -33,7 +32,7 @@ interface trainingProps {
   initialCollapsed: MutableRefObject<boolean>;
 }
 
-const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
+const Training: React.FC<trainingProps> = ({ ...props }) => {
   // deconstruct props
   const {
     loadingExercise,
@@ -43,7 +42,7 @@ const Training: React.FC<trainingProps> = ({ ...trainingProps }) => {
     setSubPage,
     exercisePlanId,
     initialCollapsed,
-  } = trainingProps;
+  } = props;
 
   const [progress, setProgress] = useState(0); // repeats done per repeats to do in percent
   const [active, setActive] = useState(false); // whether sending video to server

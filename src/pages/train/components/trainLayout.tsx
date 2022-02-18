@@ -1,7 +1,6 @@
 import React, { MutableRefObject, useState } from "react";
 import { Layout } from "antd";
 import TrainSider from "./trainSider";
-import { ExerciseData } from "../index";
 const { Content, Sider } = Layout;
 
 interface trainLayoutProps {
@@ -11,9 +10,9 @@ interface trainLayoutProps {
   initialCollapsed: MutableRefObject<boolean>;
 }
 
-const TrainLayout: React.FC<trainLayoutProps> = ({ ...trainLayoutProps }) => {
+const TrainLayout: React.FC<trainLayoutProps> = ({ ...props }) => {
   const { children, loadingExercise, error, exercise, initialCollapsed } =
-    trainLayoutProps;
+    props;
 
   const [collapsed, setCollapsed] = useState(initialCollapsed.current);
 

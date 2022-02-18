@@ -6,8 +6,8 @@ import ManagePlans from "./plans";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 
-const renderPlanManager = () => {
-  return render(
+const PlanManagerWrapper: React.FC = () => {
+  return (
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
@@ -20,7 +20,7 @@ const renderPlanManager = () => {
 
 describe("<ManagePlans />", () => {
   test("An add plan button should be visible.", async () => {
-    renderPlanManager();
+    render(<PlanManagerWrapper />);
 
     const addButton = await screen.findByRole(
       "button",
@@ -31,7 +31,7 @@ describe("<ManagePlans />", () => {
   });
 
   test("A plan should be visible.", async () => {
-    renderPlanManager();
+    render(<PlanManagerWrapper />);
 
     const plan = await screen.findByText("Test Plan", undefined, {
       timeout: 10000,

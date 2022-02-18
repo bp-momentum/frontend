@@ -18,9 +18,9 @@ interface webcamStreamCaptureProps {
 
 const WebcamStreamCapture: React.FC<webcamStreamCaptureProps> = ({
   children,
-  ...webcamStreamCaptureProps
+  ...props
 }) => {
-  const { webSocketRef, active } = webcamStreamCaptureProps;
+  const { webSocketRef, active } = props;
 
   const webcamRef = useRef<Webcam>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);

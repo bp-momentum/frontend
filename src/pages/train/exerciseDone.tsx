@@ -1,7 +1,6 @@
 import { Tooltip } from "antd";
 import { t } from "i18next";
 import React, { MutableRefObject } from "react";
-import { ExerciseData, statsType } from ".";
 import Translations from "../../localization/translations";
 import Graph from "../../shared/graph";
 import { StarFilled } from "@ant-design/icons";
@@ -11,10 +10,8 @@ interface exerciseDoneProps {
   exercise?: ExerciseData;
 }
 
-const ExerciseDone: React.FC<exerciseDoneProps> = ({
-  ...exerciseDoneProps
-}) => {
-  const { stats, exercise } = exerciseDoneProps;
+const ExerciseDone: React.FC<exerciseDoneProps> = ({ ...props }) => {
+  const { stats, exercise } = props;
 
   const totalPerf =
     stats.current.data.reduce((acc: number, set: dataEntryType) => {

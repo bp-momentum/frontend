@@ -17,7 +17,7 @@ const style2 = {
   transition: "all .8s linear",
 };
 
-const Shapes = (): JSX.Element => {
+const Shapes: React.FC = () => {
   const [seed, setSeed] = React.useState(getSeed());
   const [seed2, setSeed2] = React.useState(getSeed());
   const [animation, setAnimation] = React.useState<NodeJS.Timeout | null>();

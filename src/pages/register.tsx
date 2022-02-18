@@ -9,11 +9,11 @@ import { useNavigate } from "react-router";
 import Translations from "../localization/translations";
 import { useTranslation } from "react-i18next";
 
-export interface RegisterProps {
+export interface registerProps {
   registerToken: string;
 }
 
-const Register = (props: RegisterProps): JSX.Element => {
+const Register: React.FC<registerProps> = ({ ...props }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [error, setError] = React.useState<null | string>();

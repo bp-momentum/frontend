@@ -6,26 +6,28 @@ import { Provider } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { store } from "../../../redux/store";
 
-const CreateUserWrapper = () => {
+const CreateUserWrapper: React.FC = () => {
   const [updateValue, setUpdateValue] = useState(0);
   return (
     <CreateUser updateValue={updateValue} setUpdateValue={setUpdateValue} />
   );
 };
 
-const RenderCreateUser = () => (
-  <Provider store={store}>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<CreateUserWrapper />} />
-      </Routes>
-    </BrowserRouter>
-  </Provider>
-);
+const CreateUserWrapperWrapper: React.FC = () => {
+  return (
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<CreateUserWrapper />} />
+        </Routes>
+      </BrowserRouter>
+    </Provider>
+  );
+};
 
 describe("CreateUser", () => {
   test("should render the form", async () => {
-    render(RenderCreateUser());
+    render(<CreateUserWrapperWrapper />);
 
     const first = await screen.findByTestId("first_name");
     const last = await screen.findByTestId("last_name");

@@ -6,7 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { store } from "../../../redux/store";
 import InvitedUserTable from "./invitedUserTable";
 
-const InvitedUserTableWrapper = () => {
+const InvitedUserTableWrapper: React.FC = () => {
   const [updateValue, setUpdateValue] = useState(0);
   return (
     <InvitedUserTable
@@ -16,23 +16,25 @@ const InvitedUserTableWrapper = () => {
   );
 };
 
-const RenderInvitedUserTable = () => (
-  <Provider store={store}>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<InvitedUserTableWrapper />} />
-      </Routes>
-    </BrowserRouter>
-  </Provider>
-);
+const InvitedUserTableWrapperWrapper: React.FC = () => {
+  return (
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<InvitedUserTableWrapper />} />
+        </Routes>
+      </BrowserRouter>
+    </Provider>
+  );
+};
 
 describe("<InvitedUserTable />", () => {
   test("should render", () => {
-    render(RenderInvitedUserTable());
+    render(<InvitedUserTableWrapperWrapper />);
   });
 
   test("should render the table", async () => {
-    render(RenderInvitedUserTable());
+    render(<InvitedUserTableWrapperWrapper />);
 
     const table = await screen.findByRole("table");
     expect(table).toBeInTheDocument();

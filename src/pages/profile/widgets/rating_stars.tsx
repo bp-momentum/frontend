@@ -2,7 +2,11 @@ import { Row } from "antd";
 import { StarFilled } from "@ant-design/icons";
 import React from "react";
 
-const RatingStars = (props: { rating: number }): JSX.Element => {
+interface ratingStarProps {
+  rating: number;
+}
+
+const RatingStars: React.FC<ratingStarProps> = ({ ...props }) => {
   return (
     <Row style={{ alignItems: "end" }} justify="space-around">
       <StarFilled

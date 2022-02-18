@@ -6,7 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { store } from "../../../redux/store";
 import ActiveUserTable from "./activeUserTable";
 
-const renderActiveUserTable = () => {
+const ActiveUserTableWrapper: React.FC = () => {
   return (
     <Provider store={store}>
       <BrowserRouter>
@@ -20,11 +20,11 @@ const renderActiveUserTable = () => {
 
 describe("<ActiveUserTable />", () => {
   test("should render", () => {
-    render(renderActiveUserTable());
+    render(<ActiveUserTableWrapper />);
   });
 
   test("should render the table", async () => {
-    render(renderActiveUserTable());
+    render(<ActiveUserTableWrapper />);
 
     const table = await screen.findByRole("table");
     expect(table).toBeInTheDocument();

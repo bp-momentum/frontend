@@ -16,7 +16,7 @@ import { Plan } from "../../api/plan";
  * Consists of a list of all the plans the user has access to.
  * @returns The page for managing plans.
  */
-const ManagePlans = (): JSX.Element => {
+const ManagePlans: React.FC = () => {
   const navigate = useNavigate();
   const [plans, setPlans] = React.useState<Plan[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);

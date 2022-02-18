@@ -14,7 +14,7 @@ interface User {
   last_login: string;
 }
 
-const ActiveTrainerTable = () => {
+const ActiveTrainerTable: React.FC = () => {
   const searchInput = createRef<Input>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);

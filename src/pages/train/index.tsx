@@ -8,21 +8,6 @@ import Training from "./training";
 import SetDone from "./setDone";
 import ExerciseDone from "./exerciseDone";
 
-export interface ExerciseData {
-  title: string;
-  description: string;
-  sets: number;
-  repeatsPerSet: number;
-  videoPath: string | null;
-  activated: boolean;
-}
-
-export interface statsType {
-  data: dataEntryType[];
-  set: number;
-  totalPoints: number;
-}
-
 const Train: React.FC = () => {
   const [exercise, setExercise] = React.useState<ExerciseData>();
   const [loading, setLoading] = useState(true);
@@ -68,7 +53,7 @@ const Train: React.FC = () => {
                 response.data.video ??
                 "https://vid.pr0gramm.com/2021/12/28/130aaef3ab9c207a.mp4",
               activated: response.data.title,
-            });
+            } as ExerciseData);
             setLoading(false);
           });
       else {

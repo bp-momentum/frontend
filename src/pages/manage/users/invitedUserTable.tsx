@@ -20,20 +20,24 @@ interface User {
   email: string;
 }
 
-const InvitedUserTable = (props: {
+interface invitedUserTableProps {
   updateValue: number;
   setUpdateValue: Dispatch<SetStateAction<number>>;
-}) => {
+}
+
+const InvitedUserTable: React.FC<invitedUserTableProps> = ({ ...props }) => {
+  const { updateValue } = props;
+
   const searchInput = createRef<Input>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [data, setData] = useState<User[]>([]);
   const [, draw] = useState({});
 
-  const [update, setUpdate] = useState(props.updateValue);
+  const [update, setUpdate] = useState(updateValue);
 
-  if (props.updateValue !== update) {
-    setUpdate(props.updateValue);
+  if (updateValue !== update) {
+    setUpdate(updateValue);
     setLoading(true);
   }
 
