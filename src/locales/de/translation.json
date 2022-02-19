@@ -24,7 +24,11 @@
     "remember-me": "Angemeldet bleiben",
     "login": "Anmelden",
     "enter-password": "Bitte gib dein Passwort ein!",
-    "enter-username": "Bitte gib deinen Benutzernamen ein!"
+    "enter-username": "Bitte gib deinen Benutzernamen ein!",
+    "enter-email": "Bitte gib deine Email-Adresse ein!",
+    "enter-valid-email": "Bitte gib eine gültige Email-Adresse ein!",
+    "back": "Zurück",
+    "reset": "Zurücksetzen"
   },
   "auto-login": {
     "signing-in": "Du wirst angemeldet..."

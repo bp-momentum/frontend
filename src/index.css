@@ -17,5 +17,21 @@ code {
 
 *:not(svg) {
   font-family: 'Patrick Hand';
-  font-size: 1.1rem;
+  font-size: 20px;
+}
+
+.ant-btn:not(.ant-btn-sm) {
+  height: 32px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  line-height: 30px !important;
+  align-items: center;
+}
+
+.ant-btn-sm {
+  height: 26px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  line-height: 24px !important;
+  align-items: center;
 }

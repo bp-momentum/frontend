@@ -1,4 +1,4 @@
-import { Alert, Button, Form, FormInstance, Input } from "antd";
+import { Alert, Button, Form, Input } from "antd";
 import { MailOutlined } from "@ant-design/icons";
 import React, { Dispatch, SetStateAction } from "react";
 import Api from "../../../util/api";
@@ -16,8 +16,9 @@ const CreateUser: React.FC<createUserProps> = ({ ...props }) => {
 
   const [error, setError] = React.useState<null | string>();
   const [success, setSuccess] = React.useState<null | string>();
-  const formRef = React.createRef<FormInstance>();
   const { t } = useTranslation();
+
+  const [form] = Form.useForm();
 
   const onFinish = async (values: Record<string, never>) => {
     const firstName = values["first_name"];
@@ -41,7 +42,8 @@ const CreateUser: React.FC<createUserProps> = ({ ...props }) => {
       return;
     }
 
-    formRef.current?.resetFields();
+    form.resetFields();
+    console.log(form);
     setSuccess(t(Translations.createUser.successfullyCreatedUser));
     setUpdateValue(updateValue + 1);
     setTimeout(() => setSuccess(null), 5000);
@@ -53,7 +55,7 @@ const CreateUser: React.FC<createUserProps> = ({ ...props }) => {
 
   return (
     <Form
-      ref={formRef}
+      form={form}
       name="login"
       labelCol={{ span: 16 }}
       wrapperCol={{ span: 24 }}
