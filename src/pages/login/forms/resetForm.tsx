@@ -1,9 +1,9 @@
 import React, { ChangeEvent, useState } from "react";
 import { Alert, Button, Form, Input } from "antd";
-import { t } from "i18next";
 import Translations from "../../../localization/translations";
 import { MailOutlined } from "@ant-design/icons";
 import { ValidateStatus } from "antd/lib/form/FormItem";
+import { useTranslation } from "react-i18next";
 
 interface loginProps {
   onFinish: (values: Record<string, never>) => void;
@@ -15,6 +15,8 @@ interface loginProps {
 
 const ResetForm: React.FC<loginProps> = ({ ...props }) => {
   const { onFinish, onFinishFailed, loading, error, setForm } = props;
+
+  const { t } = useTranslation();
 
   const [number, setNumber] = useState<{
     validateStatus?: ValidateStatus;

@@ -1,8 +1,8 @@
 import React from "react";
 import { Alert, Button, Checkbox, Form, Input } from "antd";
-import { t } from "i18next";
 import Translations from "../../../localization/translations";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { useTranslation } from "react-i18next";
 
 interface loginProps {
   onFinish: (values: Record<string, never>) => void;
@@ -14,6 +14,8 @@ interface loginProps {
 
 const LoginForm: React.FC<loginProps> = ({ ...props }) => {
   const { onFinish, onFinishFailed, loading, error, setForm } = props;
+  const { t } = useTranslation();
+
   return (
     <Form
       name="login"
