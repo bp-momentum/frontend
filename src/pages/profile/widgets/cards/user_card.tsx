@@ -24,6 +24,9 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
   const [popoverVisible, setPopoverVisible] = React.useState<boolean>(false);
   const [newAvatarId, setNewAvatarId] = React.useState<number>(props.avatarId);
   const [newUsername, setNewUsername] = React.useState<string>(props.username);
+  const [newUsernameError, setNewUsernameError] = React.useState<string | null>(
+    null
+  );
   const [newMotivation, setNewMotivation] = React.useState<string>(
     props.motivation
   );
@@ -32,6 +35,22 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
   const accountCreatedMonths = Math.floor(
     accountCreatedDiff / 30 / 24 / 60 / 60 / 1000
   );
+
+  const validateUsername = (username: string) => {
+    if (username.trim().length === 0) {
+      setNewUsernameError(t(Translations.profile.usernameEmpty));
+      setNewUsername(props.username);
+    } else if (!username.match(/^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/)) {
+      setNewUsernameError(t(Translations.profile.usernameNotAllowed));
+      setNewUsername(props.username);
+    } else if (username.length > 50) {
+      setNewUsernameError(t(Translations.profile.usernameTooLong));
+      setNewUsername(props.username);
+    } else {
+      setNewUsernameError(null);
+      setNewUsername(username.trim());
+    }
+  };
 
   const flipCard = () => {
     if (userFlipped) {
@@ -242,12 +261,17 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
                 style={{ fontSize: 24 }}
                 editable={{
                   onChange: (v) => {
-                    setNewUsername(v);
+                    validateUsername(v);
                   },
                 }}
               >
                 {newUsername}
               </Text>
+              {newUsernameError && (
+                <Text style={{ color: "red", fontSize: 14 }}>
+                  {newUsernameError}
+                </Text>
+              )}
               <Text style={{ fontSize: 15 }}>
                 {accountCreatedMonths > 0
                   ? t(Translations.profile.activeSince, {

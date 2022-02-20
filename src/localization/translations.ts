@@ -163,6 +163,9 @@ const Translations = {
     selectNewAvatar: "profile.selectNewAvatar",
     loading: "profile.loading",
     points: "profile.points",
+    usernameEmpty: "profile.username-empty",
+    usernameTooLong: "profile.username-too-long",
+    usernameNotAllowed: "profile.username-not-allowed",
   },
   errorPage: {
     err404Text: "error-page.404-text",
