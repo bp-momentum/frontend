@@ -13,6 +13,7 @@ interface dateCellProps {
   month: number;
   year: number;
   date: Date;
+  currentMonth: number;
 }
 
 const DateCell: React.FC<dateCellProps> = ({ ...props }) => {
@@ -32,15 +33,23 @@ const DateCell: React.FC<dateCellProps> = ({ ...props }) => {
     const d = new Date(e.date * 1000);
     return d.toDateString() === props.date.toDateString();
   });
+  const getTextColor = () => {
+    if (props.month !== props.currentMonth) {
+      return "gray";
+    }
+    const today = new Date();
+    if (props.date.toDateString() === today.toDateString()) {
+      return "#466995";
+    }
+    if (doneExercises.length !== 0) {
+      return "green";
+    }
+    return "black";
+  };
   const text = (
     <span
       style={{
-        color:
-          props.date.toDateString() === new Date().toDateString()
-            ? "#466995"
-            : doneExercises.length === 0
-            ? "black"
-            : "green",
+        color: getTextColor(),
         borderRadius: "50%",
       }}
     >
@@ -92,6 +101,7 @@ const ExerciseName = (props: { id: number; points: number }): JSX.Element => {
 
 const ActivityCalendarCard = (): JSX.Element => {
   const { t } = useTranslation();
+  let currentMonthViewed = new Date().getMonth();
 
   return (
     <Card
@@ -106,6 +116,7 @@ const ActivityCalendarCard = (): JSX.Element => {
     >
       <Text>{t(Translations.profile.chooseDate)}</Text>
       <Calendar
+        onChange={(date) => (currentMonthViewed = date.month())}
         mode="month"
         style={{
           marginTop: "5px",
@@ -145,6 +156,7 @@ const ActivityCalendarCard = (): JSX.Element => {
             month={date.month()}
             year={date.year()}
             date={date.toDate()}
+            currentMonth={currentMonthViewed}
           />
         )}
       />
