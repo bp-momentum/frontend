@@ -286,7 +286,7 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
           </Text>
           <br />
           <Text
-            editable={{ onChange: (v) => setNewMotivation(v) }}
+            editable={{ maxLength: 100, onChange: (v) => setNewMotivation(v) }}
             style={{ fontSize: 20 }}
           >
             {newMotivation}
