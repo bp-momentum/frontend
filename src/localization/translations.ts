@@ -156,6 +156,7 @@ const Translations = {
     activeShortly: "profile.activeShortly",
     edit: "profile.edit",
     save: "profile.save",
+    cancel: "profile.cancel",
     motivation: "profile.motivation",
     chooseDate: "profile.chooseDate",
     activeMinutes: "profile.activeMinutes",

@@ -33,6 +33,21 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
     accountCreatedDiff / 30 / 24 / 60 / 60 / 1000
   );
 
+  const flipCard = () => {
+    if (userFlipped) {
+      setUserFlipped(false);
+    } else {
+      resetEditFields();
+      setUserFlipped(true);
+    }
+  };
+
+  const resetEditFields = () => {
+    setNewAvatarId(props.avatarId);
+    setNewUsername(props.username);
+    setNewMotivation(props.motivation);
+  };
+
   return (
     <ReactCardFlip
       isFlipped={userFlipped}
@@ -57,7 +72,7 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
               marginRight: "-20px",
               cursor: "pointer",
             }}
-            onClick={() => setUserFlipped(true)}
+            onClick={() => flipCard()}
             data-testid="edit-profile"
           >
             {t(Translations.profile.edit)} <EditOutlined />
@@ -110,22 +125,38 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
         }}
       >
         <Col>
-          <Text
+          <Row
             style={{
               float: "right",
               marginTop: "-20px",
               marginRight: "-20px",
-              cursor: "pointer",
-            }}
-            onClick={async () => {
-              await props.saveNewUsername(newUsername);
-              await props.saveNewMotivation(newMotivation);
-              await props.saveNewAvatarId(newAvatarId);
-              setUserFlipped(false);
             }}
           >
-            {t(Translations.profile.save)} <SaveOutlined />
-          </Text>
+            <Text
+              style={{
+                cursor: "pointer",
+                paddingRight: "15px",
+              }}
+              onClick={async () => {
+                flipCard();
+              }}
+            >
+              {t(Translations.profile.cancel)}
+            </Text>
+            <Text
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={async () => {
+                await props.saveNewUsername(newUsername);
+                await props.saveNewMotivation(newMotivation);
+                await props.saveNewAvatarId(newAvatarId);
+                flipCard();
+              }}
+            >
+              {t(Translations.profile.save)} <SaveOutlined />
+            </Text>
+          </Row>
           <Row>
             <Popover
               visible={popoverVisible}
@@ -140,7 +171,7 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
                         alt="Avatar"
                         onClick={() => {
                           setNewAvatarId(id);
-                          setPopoverVisible(false);
+                          flipCard();
                         }}
                         key={id}
                         src={Helper.getAvatarUrl(id)}

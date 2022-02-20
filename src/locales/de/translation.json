@@ -160,6 +160,7 @@
     "activeShortly": "Fleißig seit Kurzem",
     "edit": "Bearbeiten",
     "save": "Speichern",
+    "cancel": "Abbrechen",
     "motivation": "Das treibt mich täglich an:",
     "chooseDate": "Wähle einen Tag aus um deine Aktivität zu sehen",
     "activeMinutes": "{{active}} min von {{goal}} min",
