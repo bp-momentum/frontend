@@ -8,16 +8,16 @@ import Helper from "../../util/helper";
 import "../../styles/profile.css";
 import api from "../../util/api";
 import Routes from "../../util/routes";
-import ProfileSider from "./widgets/profile_sider";
-import TrainerCard from "./widgets/cards/trainer_card";
+import ProfileSider from "./components/profile_sider";
+import TrainerCard from "./components/cards/trainer_card";
 import {
   DoneExercise,
   getApproximateExerciseDurationSeconds,
 } from "../../api/done_exercise";
-import ActivityCalendarCard from "./widgets/cards/activity_calendar_card";
-import DailySummaryCard from "./widgets/cards/daily_summary_card";
-import UserCard from "./widgets/cards/user_card";
-import ProfileLoadingView from "./widgets/profile_loading_view";
+import ActivityCalendarCard from "./components/cards/activity_calendar_card";
+import DailySummaryCard from "./components/cards/daily_summary_card";
+import UserCard from "./components/cards/user_card";
+import ProfileLoadingView from "./components/profile_loading_view";
 import { useNavigate } from "react-router";
 
 function mergeData<Type>(data: Type, newData: Record<string, unknown>): Type {
