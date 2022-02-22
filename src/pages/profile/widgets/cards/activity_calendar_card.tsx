@@ -1,6 +1,6 @@
 import Text from "antd/lib/typography/Text";
 import Translations from "../../../../localization/translations";
-import { Calendar, Card, Col, Row, Tooltip } from "antd";
+import { Calendar, Card, Col, Popover, Row } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -33,6 +33,7 @@ const DateCell: React.FC<dateCellProps> = ({ ...props }) => {
     const d = new Date(e.date * 1000);
     return d.toDateString() === props.date.toDateString();
   });
+
   const isToday = (): boolean => {
     return props.date.toDateString() === new Date().toDateString();
   };
@@ -46,6 +47,7 @@ const DateCell: React.FC<dateCellProps> = ({ ...props }) => {
     }
     return "black";
   };
+
   const text = (
     <div>
       <div
@@ -70,18 +72,27 @@ const DateCell: React.FC<dateCellProps> = ({ ...props }) => {
   }
 
   return (
-    <Tooltip
+    <Popover
       color={"white"}
-      title={
+      trigger="click"
+      title={<Text>{props.date.toLocaleDateString()}</Text>}
+      content={
         <Col>
-          {doneExercises.map((e) => {
-            return <ExerciseName key={e.id} id={e.id} points={e.points} />;
-          })}
+          <ul
+            style={{
+              paddingLeft: "10px",
+              marginBottom: "5px",
+            }}
+          >
+            {doneExercises.map((e) => {
+              return <ExerciseName key={e.id} id={e.id} points={e.points} />;
+            })}
+          </ul>
         </Col>
       }
     >
       {text}
-    </Tooltip>
+    </Popover>
   );
 };
 
@@ -90,20 +101,22 @@ const ExerciseName = (props: { id: number; points: number }): JSX.Element => {
   const { t } = useTranslation();
 
   return (
-    <span style={{ whiteSpace: "nowrap" }}>
-      <Col>
-        <Text>
-          {isLoading
-            ? t(Translations.exercises.loading)
-            : isError
-            ? error
-            : data?.title +
-              ": " +
-              t(Translations.profile.points, { points: props.points })}
-        </Text>
-        <br />
-      </Col>
-    </span>
+    <li>
+      <span style={{ whiteSpace: "nowrap" }}>
+        <Col>
+          <Text>
+            {isLoading
+              ? t(Translations.exercises.loading)
+              : isError
+              ? error
+              : data?.title +
+                ": " +
+                t(Translations.profile.points, { points: props.points })}
+          </Text>
+          <br />
+        </Col>
+      </span>
+    </li>
   );
 };
 
