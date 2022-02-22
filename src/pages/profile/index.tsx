@@ -158,11 +158,7 @@ const Profile: React.FC = () => {
           username={Helper.getUserName(token ?? "")}
         />
         <Content>
-          <Row
-            gutter={16}
-            justify="space-around"
-            style={{ margin: 0, display: "flex" }}
-          >
+          <Row gutter={16} justify="space-around" style={{ margin: 0 }}>
             <Col
               className="gutter-row"
               span={10}
