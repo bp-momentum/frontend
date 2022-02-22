@@ -19,6 +19,7 @@ const ProfileSider: React.FC<profileSiderProps> = ({ ...props }) => {
         backgroundColor: "#466995",
         color: "white",
         height: "100%",
+        position: "fixed",
       }}
     >
       <Col>

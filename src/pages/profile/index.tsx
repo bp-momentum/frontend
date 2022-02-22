@@ -157,7 +157,7 @@ const Profile: React.FC = () => {
           avatarUrl={Helper.getAvatarUrl(profileData.avatarId)}
           username={Helper.getUserName(token ?? "")}
         />
-        <Content>
+        <Content style={{ paddingLeft: "200px" }}>
           <Row gutter={16} justify="space-around" style={{ margin: 0 }}>
             <Col
               className="gutter-row"
