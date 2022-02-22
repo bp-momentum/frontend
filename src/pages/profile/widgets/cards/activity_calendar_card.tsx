@@ -33,13 +33,13 @@ const DateCell: React.FC<dateCellProps> = ({ ...props }) => {
     const d = new Date(e.date * 1000);
     return d.toDateString() === props.date.toDateString();
   });
+  const isToday = (): boolean => {
+    return props.date.toDateString() === new Date().toDateString();
+  };
+
   const getTextColor = () => {
     if (props.month !== props.currentMonth) {
       return "gray";
-    }
-    const today = new Date();
-    if (props.date.toDateString() === today.toDateString()) {
-      return "#466995";
     }
     if (doneExercises.length !== 0) {
       return "green";
@@ -47,14 +47,22 @@ const DateCell: React.FC<dateCellProps> = ({ ...props }) => {
     return "black";
   };
   const text = (
-    <span
-      style={{
-        color: getTextColor(),
-        borderRadius: "50%",
-      }}
-    >
-      {props.date.getDate()}
-    </span>
+    <div>
+      <div
+        style={{
+          margin: "0 auto",
+          width: "30px",
+          height: "30px",
+          borderRadius: "50%",
+          borderColor: isToday() ? "#466995" : "transparent",
+          borderStyle: "solid",
+          borderWidth: "1px",
+          color: getTextColor(),
+        }}
+      >
+        {props.date.getDate()}
+      </div>
+    </div>
   );
 
   if (doneExercises.length === 0) {
