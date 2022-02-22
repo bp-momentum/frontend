@@ -40,7 +40,16 @@ const ProfileSider: React.FC<profileSiderProps> = ({ ...props }) => {
           </Row>
         )}
         <Row justify="center">
-          <h5 style={{ fontSize: 48, color: "white" }}>{props.username}</h5>
+          <h5
+            style={{
+              textAlign: "center",
+              fontSize: 48,
+              color: "white",
+              overflowWrap: "anywhere",
+            }}
+          >
+            {props.username}
+          </h5>
         </Row>
 
         <SiderButton
