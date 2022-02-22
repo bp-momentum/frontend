@@ -158,8 +158,16 @@ const Profile: React.FC = () => {
           username={Helper.getUserName(token ?? "")}
         />
         <Content>
-          <Row gutter={16} justify="space-around" style={{ margin: 0 }}>
-            <Col className="gutter-row" span={10} style={{ marginTop: "30px" }}>
+          <Row
+            gutter={16}
+            justify="space-around"
+            style={{ margin: 0, display: "flex" }}
+          >
+            <Col
+              className="gutter-row"
+              span={10}
+              style={{ marginTop: "30px", minWidth: "450px" }}
+            >
               <UserCard
                 avatarId={profileData.avatarId}
                 username={Helper.getUserName(token ?? "")}
@@ -170,7 +178,7 @@ const Profile: React.FC = () => {
                 saveNewAvatarId={saveNewAvatar}
               />
             </Col>
-            <Col className="gutter-row" span={10}>
+            <Col className="gutter-row" span={10} style={{ minWidth: "450px" }}>
               <TrainerCard
                 name={profileData.trainerName}
                 address={profileData.trainerAddress}
@@ -178,10 +186,14 @@ const Profile: React.FC = () => {
                 email={profileData.trainerEmail}
               />
             </Col>
-            <Col className="gutter-row" span={10}>
+            <Col className="gutter-row" span={10} style={{ minWidth: "450px" }}>
               <ActivityCalendarCard />
             </Col>
-            <Col className="gutter-row" span={10}>
+            <Col
+              className="gutter-row"
+              span={10}
+              style={{ marginBottom: "30px", minWidth: "450px" }}
+            >
               <DailySummaryCard
                 rating={profileData.dailyRating}
                 minutesTrained={profileData.minutesTrained}
