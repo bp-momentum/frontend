@@ -40,7 +40,7 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
     if (username.trim().length === 0) {
       setNewUsernameError(t(Translations.profile.usernameEmpty));
       setNewUsername(props.username);
-    } else if (!username.match(/^[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*$/)) {
+    } else if (!username.match(/^[A-Za-z0-9 _-]{3,50}$/)) {
       setNewUsernameError(t(Translations.profile.usernameNotAllowed));
       setNewUsername(props.username);
     } else if (username.length > 50) {
