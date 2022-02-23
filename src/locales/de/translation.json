@@ -191,6 +191,7 @@
     "medal": "Leider hast du dieses Mal keine Medaille verdient!",
     "medal_bronze": "Bronze Medaille",
     "medal_silver": "Silber Medaille",
-    "medal_gold": "Gold Medaille"
+    "medal_gold": "Gold Medaille",
+    "back-home": "Zurück zur Übersicht"
   }
 }

@@ -185,6 +185,7 @@ const Translations = {
     scoreShort: "training.score-short",
     currentSet: "training.current-set",
     medal: "training.medal",
+    backHome: "training.back-home",
   },
 };
 
