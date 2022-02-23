@@ -144,6 +144,7 @@ const WebcamStreamCapture: React.FC<webcamStreamCaptureProps> = ({
             fontSize: "30px",
           }}
           icon={<PlayCircleOutlined style={{ fontSize: "30px" }} />}
+          className="no-font-fix-button-weirdness"
         />
       )}
     </div>

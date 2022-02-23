@@ -20,7 +20,7 @@ code {
   font-size: 20px;
 }
 
-.ant-btn:not(.ant-btn-sm) {
+.ant-btn:not(.ant-btn-sm):not(.no-font-fix-button-weirdness) {
   height: 32px !important;
   padding-top: 0 !important;
   padding-bottom: 0 !important;
@@ -28,7 +28,7 @@ code {
   align-items: center;
 }
 
-.ant-btn-sm {
+.ant-btn-sm:not(.no-font-fix-button-weirdness) {
   height: 26px !important;
   padding-top: 0 !important;
   padding-bottom: 0 !important;
