@@ -53,7 +53,7 @@ const ExerciseDone: React.FC<exerciseDoneProps> = ({ ...props }) => {
     <div
       style={{
         width: "100%",
-        height: "100%",
+        minHeight: "100%",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -94,6 +94,7 @@ const ExerciseDone: React.FC<exerciseDoneProps> = ({ ...props }) => {
           position: "relative",
           display: "flex",
           flexWrap: "wrap",
+          flexDirection: "row-reverse",
           justifyContent: "center",
           marginBottom: 30,
           minHeight: "230px",
