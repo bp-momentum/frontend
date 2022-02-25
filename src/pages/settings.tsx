@@ -32,8 +32,7 @@ const Settings: React.FC = () => {
   const token = useAppSelector((state) => state.token.token);
 
   const logout = () => {
-    dispatch(unsetRefreshToken());
-    dispatch(unsetToken());
+    dispatch({ type: "USER_LOGOUT" });
     navigate("/");
   };
 

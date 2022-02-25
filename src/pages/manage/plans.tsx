@@ -84,7 +84,10 @@ const ManagePlans: React.FC = () => {
               {plans.map((plan) => (
                 <Col
                   key={plan.id}
-                  style={{ display: "flex", flexDirection: "column" }}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
                 >
                   <Button
                     style={{
@@ -95,10 +98,19 @@ const ManagePlans: React.FC = () => {
                       overflow: "hidden",
                     }}
                     onClick={() => navigate(`/manage/plans/${plan.id}`)}
+                    className="no-font-fix-button-weirdness"
                   >
                     <Shapes />
                   </Button>
-                  {plan.name}
+                  <span
+                    style={{
+                      width: "150px",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    {plan.name}
+                  </span>
                 </Col>
               ))}
               <Col style={{ display: "flex", flexDirection: "column" }}>
@@ -108,6 +120,7 @@ const ManagePlans: React.FC = () => {
                     navigate("new");
                   }}
                   style={{ width: "150px", minWidth: "150px", height: "100px" }}
+                  className="no-font-fix-button-weirdness"
                 >
                   <PlusOutlined />
                 </Button>

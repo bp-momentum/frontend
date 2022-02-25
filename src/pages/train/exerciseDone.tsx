@@ -4,6 +4,8 @@ import React, { MutableRefObject } from "react";
 import Translations from "../../localization/translations";
 import Graph from "../../shared/graph";
 import { StarFilled } from "@ant-design/icons";
+import continue_arrow from "../../static/continue_arrow.png";
+import { useNavigate } from "react-router-dom";
 
 interface exerciseDoneProps {
   stats: MutableRefObject<statsType>;
@@ -12,6 +14,12 @@ interface exerciseDoneProps {
 
 const ExerciseDone: React.FC<exerciseDoneProps> = ({ ...props }) => {
   const { stats, exercise } = props;
+
+  const navigate = useNavigate();
+
+  const goHome = (): void => {
+    navigate("/");
+  };
 
   const totalPerf =
     stats.current.data.reduce((acc: number, set: dataEntryType) => {
@@ -45,7 +53,7 @@ const ExerciseDone: React.FC<exerciseDoneProps> = ({ ...props }) => {
     <div
       style={{
         width: "100%",
-        height: "100%",
+        minHeight: "100%",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -81,12 +89,62 @@ const ExerciseDone: React.FC<exerciseDoneProps> = ({ ...props }) => {
           </div>
         </Tooltip>
       )}
-      <Graph
-        data={stats.current.data}
-        width={600}
-        style={{ marginBottom: "40px" }}
-      />
-      <h1 style={{ color: "white", fontSize: "45px" }}>
+      <div
+        style={{
+          position: "relative",
+          display: "flex",
+          flexWrap: "wrap",
+          flexDirection: "row-reverse",
+          justifyContent: "center",
+          marginBottom: 30,
+          minHeight: "230px",
+          width: "100%",
+          overflow: "hidden",
+        }}
+      >
+        <div style={{ width: 1100, height: 185 }}></div>
+        <div style={{ width: 100, margin: "55px 20px" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              cursor: "pointer",
+            }}
+            onClick={goHome}
+          >
+            <img
+              src={continue_arrow}
+              alt="Continue"
+              width="100px"
+              style={{ transform: "rotate(180deg)" }}
+            />
+            <span
+              style={{ marginTop: 10, color: "white", textAlign: "center" }}
+            >
+              {t(Translations.training.backHome)}
+            </span>
+          </div>
+        </div>
+        <div
+          style={{
+            position: "absolute",
+            height: 200,
+            top: 0,
+            left: "50%",
+            display: "flex",
+            justifyContent: "center",
+            transform: "translateX(-50%)",
+          }}
+        >
+          <Graph
+            data={stats.current.data}
+            width={600}
+            style={{ marginLeft: -31 }}
+          />
+        </div>
+      </div>
+      <h1 style={{ color: "white", fontSize: "45px", marginTop: -50 }}>
         {t(Translations.training.score, {
           points: stats.current.totalPoints,
         })}

@@ -133,6 +133,7 @@ const InvitedUserTable: React.FC<invitedUserTableProps> = ({ ...props }) => {
             title={t(Translations.userManagement.cancelInviteConfirm)}
             onConfirm={() => cancelInvitation(record.key)}
             okText={t(Translations.confirm.yes)}
+            okType="danger"
             cancelText={t(Translations.confirm.no)}
             icon={<QuestionCircleOutlined style={{ color: "red" }} />}
           >
