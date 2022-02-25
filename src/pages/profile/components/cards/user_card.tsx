@@ -32,7 +32,7 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
   );
 
   const today = new Date();
-  const created = new Date(props.accountCreated * 1000); // may need * 1000 depending on what this variable is
+  const created = new Date(props.accountCreated * 1000);
   const accountCreatedMonths =
     (today.getFullYear() - created.getFullYear()) * 12 +
     today.getMonth() -
