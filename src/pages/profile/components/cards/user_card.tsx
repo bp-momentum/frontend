@@ -31,10 +31,13 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
     props.motivation
   );
 
-  const accountCreatedDiff = Date.now() - props.accountCreated;
-  const accountCreatedMonths = Math.floor(
-    accountCreatedDiff / 30 / 24 / 60 / 60 / 1000
-  );
+  const today = new Date();
+  const created = new Date(props.accountCreated * 1000); // may need * 1000 depending on what this variable is
+  const accountCreatedMonths =
+    (today.getFullYear() - created.getFullYear()) * 12 +
+    today.getMonth() -
+    created.getMonth() +
+    (today.getDate() >= created.getDate() ? 0 : -1);
 
   const validateUsername = (username: string) => {
     if (username.trim().length === 0) {
