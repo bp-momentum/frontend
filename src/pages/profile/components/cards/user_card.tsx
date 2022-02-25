@@ -40,18 +40,13 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
     (today.getDate() >= created.getDate() ? 0 : -1);
 
   const validateUsername = (username: string) => {
-    if (username.length === 0) {
-      setNewUsernameError(t(Translations.profile.usernameEmpty));
-      setNewUsername(props.username);
-    } else if (username.length > 50) {
-      setNewUsernameError(t(Translations.profile.usernameTooLong));
-      setNewUsername(props.username);
-    } else if (!username.match(/^[A-Za-z0-9 _-]{3,50}$/)) {
-      setNewUsernameError(t(Translations.profile.usernameNotAllowed));
-      setNewUsername(props.username);
-    } else {
+    const errorKey = Helper.checkUsername(username);
+    if (!errorKey) {
       setNewUsernameError(null);
       setNewUsername(username);
+    } else {
+      setNewUsernameError(t(errorKey, { max: Helper.maxUsernameLength }));
+      setNewUsername(props.username);
     }
   };
 
