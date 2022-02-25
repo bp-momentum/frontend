@@ -40,7 +40,7 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
     (today.getDate() >= created.getDate() ? 0 : -1);
 
   const validateUsername = (username: string) => {
-    if (username.trim().length === 0) {
+    if (username.length === 0) {
       setNewUsernameError(t(Translations.profile.usernameEmpty));
       setNewUsername(props.username);
     } else if (username.length > 50) {
@@ -51,7 +51,7 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
       setNewUsername(props.username);
     } else {
       setNewUsernameError(null);
-      setNewUsername(username.trim());
+      setNewUsername(username);
     }
   };
 
@@ -264,7 +264,7 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
                 style={{ fontSize: 24 }}
                 editable={{
                   onChange: (v) => {
-                    validateUsername(v);
+                    validateUsername(v.trim());
                   },
                 }}
               >
