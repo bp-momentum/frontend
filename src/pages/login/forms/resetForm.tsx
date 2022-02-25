@@ -50,7 +50,7 @@ const ResetForm: React.FC<loginProps> = ({ ...props }) => {
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
       autoComplete="off"
-      style={{ width: "300px" }}
+      style={{ width: "350px" }}
     >
       {error && (
         <Alert
