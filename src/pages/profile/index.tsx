@@ -8,16 +8,16 @@ import Helper from "../../util/helper";
 import "../../styles/profile.css";
 import api from "../../util/api";
 import Routes from "../../util/routes";
-import ProfileSider from "./widgets/profile_sider";
-import TrainerCard from "./widgets/cards/trainer_card";
+import ProfileSider from "./components/profile_sider";
+import TrainerCard from "./components/cards/trainer_card";
 import {
   DoneExercise,
   getApproximateExerciseDurationSeconds,
 } from "../../api/done_exercise";
-import ActivityCalendarCard from "./widgets/cards/activity_calendar_card";
-import DailySummaryCard from "./widgets/cards/daily_summary_card";
-import UserCard from "./widgets/cards/user_card";
-import ProfileLoadingView from "./widgets/profile_loading_view";
+import ActivityCalendarCard from "./components/cards/activity_calendar_card";
+import DailySummaryCard from "./components/cards/daily_summary_card";
+import UserCard from "./components/cards/user_card";
+import ProfileLoadingView from "./components/profile_loading_view";
 import { useNavigate } from "react-router";
 
 function mergeData<Type>(data: Type, newData: Record<string, unknown>): Type {
@@ -48,19 +48,12 @@ const Profile: React.FC = () => {
       api.execute(Routes.getDoneExercises()),
     ]);
 
-    for (const result of results) {
-      if (!result.success) {
-        message.error(result.description);
-        return;
-      }
-    }
-
     const profile = results[0];
     const trainerContact = results[1];
     const exercises = results[2];
 
     const todayDayName = Helper.getCurrentDayName();
-    const doneExercises: DoneExercise[] = exercises.data.exercises;
+    const doneExercises: DoneExercise[] = exercises.data.exercises ?? [];
     let trainedTodayReal = 0;
     let trainDayGoal = 0;
     for (const exercise of doneExercises) {
@@ -75,17 +68,17 @@ const Profile: React.FC = () => {
     const dailyRating = (trainedTodayReal / trainDayGoal) * 5;
 
     setProfileData({
-      accountCreated: profile.data.first_login,
-      avatarId: profile.data.avatar,
+      accountCreated: profile.data.first_login ?? 0,
+      avatarId: profile.data.avatar ?? "",
       dailyRating: dailyRating,
       doneExercises: doneExercises,
       minutesTrainedGoal: Math.ceil(trainDayGoal / 60),
       minutesTrained: Math.ceil(trainedTodayReal / 60),
-      motivation: profile.data.motivation,
-      trainerAddress: trainerContact.data.address,
-      trainerEmail: trainerContact.data.email,
-      trainerName: trainerContact.data.name,
-      trainerPhone: trainerContact.data.telephone,
+      motivation: profile.data.motivation ?? "",
+      trainerAddress: trainerContact.data.address ?? "",
+      trainerEmail: trainerContact.data.email ?? "",
+      trainerName: trainerContact.data.name ?? "",
+      trainerPhone: trainerContact.data.telephone ?? "",
     });
   };
 
@@ -157,9 +150,13 @@ const Profile: React.FC = () => {
           avatarUrl={Helper.getAvatarUrl(profileData.avatarId)}
           username={Helper.getUserName(token ?? "")}
         />
-        <Content>
+        <Content style={{ paddingLeft: "200px" }}>
           <Row gutter={16} justify="space-around" style={{ margin: 0 }}>
-            <Col className="gutter-row" span={10} style={{ marginTop: "30px" }}>
+            <Col
+              className="gutter-row"
+              span={10}
+              style={{ marginTop: "30px", minWidth: "450px" }}
+            >
               <UserCard
                 avatarId={profileData.avatarId}
                 username={Helper.getUserName(token ?? "")}
@@ -170,7 +167,7 @@ const Profile: React.FC = () => {
                 saveNewAvatarId={saveNewAvatar}
               />
             </Col>
-            <Col className="gutter-row" span={10}>
+            <Col className="gutter-row" span={10} style={{ minWidth: "450px" }}>
               <TrainerCard
                 name={profileData.trainerName}
                 address={profileData.trainerAddress}
@@ -178,10 +175,14 @@ const Profile: React.FC = () => {
                 email={profileData.trainerEmail}
               />
             </Col>
-            <Col className="gutter-row" span={10}>
+            <Col className="gutter-row" span={10} style={{ minWidth: "450px" }}>
               <ActivityCalendarCard />
             </Col>
-            <Col className="gutter-row" span={10}>
+            <Col
+              className="gutter-row"
+              span={10}
+              style={{ marginBottom: "30px", minWidth: "450px" }}
+            >
               <DailySummaryCard
                 rating={profileData.dailyRating}
                 minutesTrained={profileData.minutesTrained}

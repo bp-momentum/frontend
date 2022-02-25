@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
-import { store } from "../redux/store";
+import { store } from "../../redux/store";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React from "react";
-import Exercises from "./exercises";
+import Exercises from "./index";
 import { EmojiProvider } from "react-apple-emojis";
 import emojiData from "react-apple-emojis/lib/data.json";
 

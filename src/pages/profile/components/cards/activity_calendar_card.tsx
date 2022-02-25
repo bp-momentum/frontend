@@ -1,6 +1,6 @@
 import Text from "antd/lib/typography/Text";
 import Translations from "../../../../localization/translations";
-import { Calendar, Card, Col, Row, Tooltip } from "antd";
+import { Calendar, Card, Col, Popover, Row } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -13,6 +13,7 @@ interface dateCellProps {
   month: number;
   year: number;
   date: Date;
+  currentMonth: number;
 }
 
 const DateCell: React.FC<dateCellProps> = ({ ...props }) => {
@@ -32,20 +33,38 @@ const DateCell: React.FC<dateCellProps> = ({ ...props }) => {
     const d = new Date(e.date * 1000);
     return d.toDateString() === props.date.toDateString();
   });
+
+  const isToday = (): boolean => {
+    return props.date.toDateString() === new Date().toDateString();
+  };
+
+  const getTextColor = () => {
+    if (props.month !== props.currentMonth) {
+      return "gray";
+    }
+    if (doneExercises.length !== 0) {
+      return "green";
+    }
+    return "black";
+  };
+
   const text = (
-    <span
-      style={{
-        color:
-          props.date.toDateString() === new Date().toDateString()
-            ? "#466995"
-            : doneExercises.length === 0
-            ? "black"
-            : "green",
-        borderRadius: "50%",
-      }}
-    >
-      {props.date.getDate()}
-    </span>
+    <div>
+      <div
+        style={{
+          margin: "0 auto",
+          width: "30px",
+          height: "30px",
+          borderRadius: "50%",
+          borderColor: isToday() ? "#466995" : "transparent",
+          borderStyle: "solid",
+          borderWidth: "1px",
+          color: getTextColor(),
+        }}
+      >
+        {props.date.getDate()}
+      </div>
+    </div>
   );
 
   if (doneExercises.length === 0) {
@@ -53,18 +72,27 @@ const DateCell: React.FC<dateCellProps> = ({ ...props }) => {
   }
 
   return (
-    <Tooltip
+    <Popover
       color={"white"}
-      title={
+      trigger="click"
+      title={<Text>{props.date.toLocaleDateString()}</Text>}
+      content={
         <Col>
-          {doneExercises.map((e) => {
-            return <ExerciseName key={e.id} id={e.id} points={e.points} />;
-          })}
+          <ul
+            style={{
+              paddingLeft: "10px",
+              marginBottom: "5px",
+            }}
+          >
+            {doneExercises.map((e) => {
+              return <ExerciseName key={e.id} id={e.id} points={e.points} />;
+            })}
+          </ul>
         </Col>
       }
     >
       {text}
-    </Tooltip>
+    </Popover>
   );
 };
 
@@ -73,25 +101,28 @@ const ExerciseName = (props: { id: number; points: number }): JSX.Element => {
   const { t } = useTranslation();
 
   return (
-    <span style={{ whiteSpace: "nowrap" }}>
-      <Col>
-        <Text>
-          {isLoading
-            ? t(Translations.exercises.loading)
-            : isError
-            ? error
-            : data?.title +
-              ": " +
-              t(Translations.profile.points, { points: props.points })}
-        </Text>
-        <br />
-      </Col>
-    </span>
+    <li>
+      <span style={{ whiteSpace: "nowrap" }}>
+        <Col>
+          <Text>
+            {isLoading
+              ? t(Translations.exercises.loading)
+              : isError
+              ? error
+              : data?.title +
+                ": " +
+                t(Translations.profile.points, { points: props.points })}
+          </Text>
+          <br />
+        </Col>
+      </span>
+    </li>
   );
 };
 
 const ActivityCalendarCard = (): JSX.Element => {
   const { t } = useTranslation();
+  let currentMonthViewed = new Date().getMonth();
 
   return (
     <Card
@@ -106,6 +137,7 @@ const ActivityCalendarCard = (): JSX.Element => {
     >
       <Text>{t(Translations.profile.chooseDate)}</Text>
       <Calendar
+        onChange={(date) => (currentMonthViewed = date.month())}
         mode="month"
         style={{
           marginTop: "5px",
@@ -145,6 +177,7 @@ const ActivityCalendarCard = (): JSX.Element => {
             month={date.month()}
             year={date.year()}
             date={date.toDate()}
+            currentMonth={currentMonthViewed}
           />
         )}
       />

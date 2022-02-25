@@ -8,6 +8,7 @@ import { setRefreshToken, setToken } from "../redux/token/tokenSlice";
 import { useNavigate } from "react-router";
 import Translations from "../localization/translations";
 import { useTranslation } from "react-i18next";
+import Helper from "../util/helper";
 
 export interface registerProps {
   registerToken: string;
@@ -25,6 +26,12 @@ const Register: React.FC<registerProps> = ({ ...props }) => {
     const passwordRepeat = values["password-repeat"];
     const username = values["username"];
     const remember = values["remember"];
+
+    const usernameErrorKey = Helper.checkUsername(username);
+    if (usernameErrorKey) {
+      setError(t(usernameErrorKey, { max: Helper.maxUsernameLength }));
+      return;
+    }
 
     if (password !== passwordRepeat) {
       setError(t(Translations.register.passwordsDontMatch));

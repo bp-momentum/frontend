@@ -164,12 +164,16 @@
     "activeShortly": "Active since recently",
     "edit": "Edit",
     "save": "Save",
+    "cancel": "Cancel",
     "motivation": "This motivates me every day:",
     "chooseDate": "Select a day to see your activity",
     "activeMinutes": "{{active}} min of {{goal}} min",
     "selectNewAvatar": "Select your new avatar",
     "loading": "Loading your profile...",
-    "points": "{{points}} points"
+    "points": "{{points}} points",
+    "username-empty": "Your username cannot be empty!",
+    "username-too-long": "Your username is too long! (max. {{max}} characters)",
+    "username-not-allowed": "Your username uses illegal characters!"
   },
   "error-page": {
     "404-text": "We don't have that!",

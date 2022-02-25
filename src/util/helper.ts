@@ -1,4 +1,5 @@
 import { Buffer } from "buffer";
+import Translations from "../localization/translations";
 
 const Helper = {
   getAccountType: (token: string): "user" | "trainer" | "admin" => {
@@ -85,6 +86,19 @@ const Helper = {
   availableAvatarIds: Array.from(Array(50).keys()).map((n) => n + 1),
   getAvatarUrl: (id: number): string => {
     return `https://cdn.geoscribble.de/avatars/avatar_${id}.png`;
+  },
+
+  maxUsernameLength: 50,
+  checkUsername: (username: string): string | undefined => {
+    if (username.length === 0) {
+      return Translations.profile.usernameEmpty;
+    } else if (username.length > Helper.maxUsernameLength) {
+      return Translations.profile.usernameTooLong;
+    } else if (!username.match(/^[A-Za-z0-9 _-]{3,50}$/)) {
+      return Translations.profile.usernameNotAllowed;
+    } else {
+      return undefined;
+    }
   },
 };
 

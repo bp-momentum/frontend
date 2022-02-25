@@ -24,14 +24,46 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
   const [popoverVisible, setPopoverVisible] = React.useState<boolean>(false);
   const [newAvatarId, setNewAvatarId] = React.useState<number>(props.avatarId);
   const [newUsername, setNewUsername] = React.useState<string>(props.username);
+  const [newUsernameError, setNewUsernameError] = React.useState<string | null>(
+    null
+  );
   const [newMotivation, setNewMotivation] = React.useState<string>(
     props.motivation
   );
 
-  const accountCreatedDiff = Date.now() - props.accountCreated;
-  const accountCreatedMonths = Math.floor(
-    accountCreatedDiff / 30 / 24 / 60 / 60 / 1000
-  );
+  const today = new Date();
+  const created = new Date(props.accountCreated * 1000);
+  const accountCreatedMonths =
+    (today.getFullYear() - created.getFullYear()) * 12 +
+    today.getMonth() -
+    created.getMonth() +
+    (today.getDate() >= created.getDate() ? 0 : -1);
+
+  const validateUsername = (username: string) => {
+    const errorKey = Helper.checkUsername(username);
+    if (!errorKey) {
+      setNewUsernameError(null);
+      setNewUsername(username);
+    } else {
+      setNewUsernameError(t(errorKey, { max: Helper.maxUsernameLength }));
+      setNewUsername(props.username);
+    }
+  };
+
+  const flipCard = () => {
+    if (userFlipped) {
+      setUserFlipped(false);
+    } else {
+      resetEditFields();
+      setUserFlipped(true);
+    }
+  };
+
+  const resetEditFields = () => {
+    setNewAvatarId(props.avatarId);
+    setNewUsername(props.username);
+    setNewMotivation(props.motivation);
+  };
 
   return (
     <ReactCardFlip
@@ -57,7 +89,7 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
               marginRight: "-20px",
               cursor: "pointer",
             }}
-            onClick={() => setUserFlipped(true)}
+            onClick={() => flipCard()}
             data-testid="edit-profile"
           >
             {t(Translations.profile.edit)} <EditOutlined />
@@ -110,22 +142,38 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
         }}
       >
         <Col>
-          <Text
+          <Row
             style={{
               float: "right",
               marginTop: "-20px",
               marginRight: "-20px",
-              cursor: "pointer",
-            }}
-            onClick={async () => {
-              await props.saveNewUsername(newUsername);
-              await props.saveNewMotivation(newMotivation);
-              await props.saveNewAvatarId(newAvatarId);
-              setUserFlipped(false);
             }}
           >
-            {t(Translations.profile.save)} <SaveOutlined />
-          </Text>
+            <Text
+              style={{
+                cursor: "pointer",
+                paddingRight: "15px",
+              }}
+              onClick={async () => {
+                flipCard();
+              }}
+            >
+              {t(Translations.profile.cancel)}
+            </Text>
+            <Text
+              style={{
+                cursor: "pointer",
+              }}
+              onClick={async () => {
+                await props.saveNewUsername(newUsername);
+                await props.saveNewMotivation(newMotivation);
+                await props.saveNewAvatarId(newAvatarId);
+                flipCard();
+              }}
+            >
+              {t(Translations.profile.save)} <SaveOutlined />
+            </Text>
+          </Row>
           <Row>
             <Popover
               visible={popoverVisible}
@@ -140,7 +188,7 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
                         alt="Avatar"
                         onClick={() => {
                           setNewAvatarId(id);
-                          setPopoverVisible(false);
+                          flipCard();
                         }}
                         key={id}
                         src={Helper.getAvatarUrl(id)}
@@ -211,12 +259,17 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
                 style={{ fontSize: 24 }}
                 editable={{
                   onChange: (v) => {
-                    setNewUsername(v);
+                    validateUsername(v.trim());
                   },
                 }}
               >
                 {newUsername}
               </Text>
+              {newUsernameError && (
+                <Text style={{ color: "red", fontSize: 14 }}>
+                  {newUsernameError}
+                </Text>
+              )}
               <Text style={{ fontSize: 15 }}>
                 {accountCreatedMonths > 0
                   ? t(Translations.profile.activeSince, {
@@ -231,7 +284,7 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
           </Text>
           <br />
           <Text
-            editable={{ onChange: (v) => setNewMotivation(v) }}
+            editable={{ maxLength: 100, onChange: (v) => setNewMotivation(v) }}
             style={{ fontSize: 20 }}
           >
             {newMotivation}

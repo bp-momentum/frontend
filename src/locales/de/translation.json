@@ -164,12 +164,16 @@
     "activeShortly": "Fleißig seit Kurzem",
     "edit": "Bearbeiten",
     "save": "Speichern",
+    "cancel": "Abbrechen",
     "motivation": "Das treibt mich täglich an:",
     "chooseDate": "Wähle einen Tag aus um deine Aktivität zu sehen",
     "activeMinutes": "{{active}} min von {{goal}} min",
     "selectNewAvatar": "Wähle deinen neuen Avatar",
     "loading": "Dein Profil wird geladen...",
-    "points": "{{points}} Punkte"
+    "points": "{{points}} Punkte",
+    "username-empty": "Dein Nutzername darf nicht leer sein!",
+    "username-too-long": "Dein Nutzername ist zu lang! ({{max}} Zeichen maximal)",
+    "username-not-allowed": "Dein Nutzername verwendet verbotene Zeichen!"
   },
   "error-page": {
     "404-text": "Des hamma net!",
