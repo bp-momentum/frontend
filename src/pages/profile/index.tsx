@@ -48,19 +48,12 @@ const Profile: React.FC = () => {
       api.execute(Routes.getDoneExercises()),
     ]);
 
-    for (const result of results) {
-      if (!result.success) {
-        message.error(result.description);
-        return;
-      }
-    }
-
     const profile = results[0];
     const trainerContact = results[1];
     const exercises = results[2];
 
     const todayDayName = Helper.getCurrentDayName();
-    const doneExercises: DoneExercise[] = exercises.data.exercises;
+    const doneExercises: DoneExercise[] = exercises.data.exercises ?? [];
     let trainedTodayReal = 0;
     let trainDayGoal = 0;
     for (const exercise of doneExercises) {
@@ -75,17 +68,17 @@ const Profile: React.FC = () => {
     const dailyRating = (trainedTodayReal / trainDayGoal) * 5;
 
     setProfileData({
-      accountCreated: profile.data.first_login,
-      avatarId: profile.data.avatar,
+      accountCreated: profile.data.first_login ?? 0,
+      avatarId: profile.data.avatar ?? "",
       dailyRating: dailyRating,
       doneExercises: doneExercises,
       minutesTrainedGoal: Math.ceil(trainDayGoal / 60),
       minutesTrained: Math.ceil(trainedTodayReal / 60),
-      motivation: profile.data.motivation,
-      trainerAddress: trainerContact.data.address,
-      trainerEmail: trainerContact.data.email,
-      trainerName: trainerContact.data.name,
-      trainerPhone: trainerContact.data.telephone,
+      motivation: profile.data.motivation ?? "",
+      trainerAddress: trainerContact.data.address ?? "",
+      trainerEmail: trainerContact.data.email ?? "",
+      trainerName: trainerContact.data.name ?? "",
+      trainerPhone: trainerContact.data.telephone ?? "",
     });
   };
 
