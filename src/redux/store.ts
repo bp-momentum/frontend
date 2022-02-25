@@ -20,10 +20,22 @@ const persistConfig = {
   storage,
 };
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   token: tokenReducer,
   [exerciseApi.reducerPath]: exercisesReducer,
 });
+
+const rootReducer = (state: any, action: any) => {
+  if (action.type === "USER_LOGOUT") {
+    // for all keys defined in your persistConfig(s)
+    storage.removeItem("persist:root");
+    // storage.removeItem('persist:otherKey')
+
+    return appReducer(undefined, action);
+  }
+  return appReducer(state, action);
+};
+
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
