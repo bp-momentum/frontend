@@ -24,7 +24,11 @@
     "remember-me": "Remember me",
     "login": "Login",
     "enter-password": "Please enter your password!",
-    "enter-username": "Please enter your username!"
+    "enter-username": "Please enter your username!",
+    "enter-email": "Please enter your email!",
+    "enter-valid-email": "Please enter a valid email!",
+    "back": "Back",
+    "reset": "Reset"
   },
   "auto-login": {
     "signing-in": "Signing you in..."
@@ -191,6 +195,7 @@
     "medal": "Sadly you did not earn a medal this time!",
     "medal_bronze": "Bronze Medal",
     "medal_silver": "Silver Medal",
-    "medal_gold": "Gold Medal"
+    "medal_gold": "Gold Medal",
+    "back-home": "Back to Home"
   }
 }

@@ -164,7 +164,9 @@ const ActiveUserTable: React.FC = () => {
       dataIndex: "thisweeksactivity",
       key: "thisweeksactivity",
       render: (text: number) => (
-        <Tooltip title={text + " %"}>
+        <Tooltip
+          title={Math.round((text * 100 + Number.EPSILON) * 100) / 100 + " %"}
+        >
           <Progress percent={text * 100} showInfo={false}>
             {" "}
           </Progress>
@@ -185,6 +187,7 @@ const ActiveUserTable: React.FC = () => {
           title={t(Translations.userManagement.deleteUserConfirm)}
           onConfirm={() => deleteUser(record.key)}
           okText={t(Translations.confirm.yes)}
+          okType="danger"
           cancelText={t(Translations.confirm.no)}
           icon={<QuestionCircleOutlined style={{ color: "red" }} />}
         >

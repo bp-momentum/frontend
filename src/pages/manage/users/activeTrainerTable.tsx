@@ -102,6 +102,7 @@ const ActiveTrainerTable: React.FC = () => {
           title={t(Translations.userManagement.deleteTrainerConfirm)}
           onConfirm={() => deleteTrainer(record.key)}
           okText={t(Translations.confirm.yes)}
+          okType="danger"
           cancelText={t(Translations.confirm.no)}
           icon={<QuestionCircleOutlined style={{ color: "red" }} />}
         >

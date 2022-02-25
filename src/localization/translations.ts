@@ -25,6 +25,10 @@ const Translations = {
     login: "login.login",
     enterUsername: "login.enter-username",
     enterPassword: "login.enter-password",
+    enterEmail: "login.enter-email",
+    enterValidEmail: "login.enter-valid-email",
+    back: "login.back",
+    reset: "login.reset",
   },
   autoLogin: {
     signingIn: "auto-login.signing-in",
@@ -185,6 +189,7 @@ const Translations = {
     scoreShort: "training.score-short",
     currentSet: "training.current-set",
     medal: "training.medal",
+    backHome: "training.back-home",
   },
 };
 
