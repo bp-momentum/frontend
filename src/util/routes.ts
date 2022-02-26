@@ -415,6 +415,36 @@ const Routes = {
       },
     };
   },
+
+  /**
+   * request a password reset
+   */
+  requestPasswordReset: (props: { username: string; url: string }): Route => {
+    return {
+      route: "/api/getresetpasswordemail",
+      needsAuth: false,
+      method: "POST",
+      body: {
+        username: props.username,
+        url: props.url,
+      },
+    };
+  },
+
+  /**
+   * reset password
+   */
+  resetPassword: (props: { password: string; token: string }): Route => {
+    return {
+      route: "/api/resetpassword",
+      needsAuth: false,
+      method: "POST",
+      body: {
+        new_password: props.password,
+        reset_token: props.token,
+      },
+    };
+  },
 };
 
 export default Routes;

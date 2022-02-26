@@ -1,7 +1,7 @@
 import { Route } from "./routes";
 
 class Api {
-  serverUrl = "https://bp-api.geoscribble.de/";
+  serverUrl = "https://bp-test-api.geoscribble.de/";
   token = "";
   refreshToken = "";
 

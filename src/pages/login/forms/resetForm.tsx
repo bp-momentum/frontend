@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from "react";
 import { Alert, Button, Form, Input } from "antd";
 import Translations from "../../../localization/translations";
-import { MailOutlined } from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
 import { ValidateStatus } from "antd/lib/form/FormItem";
 import { useTranslation } from "react-i18next";
 
@@ -18,30 +18,30 @@ const ResetForm: React.FC<loginProps> = ({ ...props }) => {
 
   const { t } = useTranslation();
 
-  const [number, setNumber] = useState<{
-    validateStatus?: ValidateStatus;
-    errorMsg?: string | null;
-  }>({});
+  // const [number, setNumber] = useState<{
+  //   validateStatus?: ValidateStatus;
+  //   errorMsg?: string | null;
+  // }>({});
 
-  const validateEmail = (
-    email: string
-  ): { validateStatus: ValidateStatus; errorMsg: string | null } => {
-    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
-      return {
-        validateStatus: "success",
-        errorMsg: null,
-      };
-    return {
-      validateStatus: "error",
-      errorMsg: t(Translations.login.enterValidEmail),
-    };
-  };
+  // const validateEmail = (
+  //   email: string
+  // ): { validateStatus: ValidateStatus; errorMsg: string | null } => {
+  //   if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+  //     return {
+  //       validateStatus: "success",
+  //       errorMsg: null,
+  //     };
+  //   return {
+  //     validateStatus: "error",
+  //     errorMsg: t(Translations.login.enterValidEmail),
+  //   };
+  // };
 
-  const onEmailChange = (value: ChangeEvent<HTMLInputElement>) => {
-    setNumber({
-      ...validateEmail(value.target.value),
-    });
-  };
+  // const onEmailChange = (value: ChangeEvent<HTMLInputElement>) => {
+  //   setNumber({
+  //     ...validateEmail(value.target.value),
+  //   });
+  // };
 
   return (
     <Form
@@ -62,20 +62,20 @@ const ResetForm: React.FC<loginProps> = ({ ...props }) => {
       )}
 
       <Form.Item
-        name="email"
+        name="username"
         rules={[
           {
             required: true,
             message: t(Translations.login.enterEmail),
           },
         ]}
-        validateStatus={number.validateStatus}
-        help={number.errorMsg}
+        // validateStatus={number.validateStatus}
+        // help={number.errorMsg}
       >
         <Input
-          prefix={<MailOutlined className="site-form-item-icon" />}
-          placeholder={t(Translations.user.email)}
-          onChange={onEmailChange}
+          prefix={<UserOutlined className="site-form-item-icon" />}
+          placeholder={t(Translations.user.username)}
+          // onChange={onEmailChange}
         />
       </Form.Item>
 
@@ -96,7 +96,7 @@ const ResetForm: React.FC<loginProps> = ({ ...props }) => {
           <Button
             type="primary"
             htmlType="submit"
-            disabled={loading || number.validateStatus !== "success"}
+            disabled={loading}
             style={{ float: "right" }}
             loading={loading}
           >

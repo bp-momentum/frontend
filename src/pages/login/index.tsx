@@ -56,9 +56,22 @@ const Login: React.FC = () => {
     dispatch(setToken(token));
   };
 
-  const onReset = () => {
-    // TODO(JUL14N): Implement
-    message.success("Reset password email sent!");
+  const onReset = (values: Record<string, never>) => {
+    const username = values["username"];
+    api
+      .execute(
+        Routes.requestPasswordReset({
+          username,
+          url: window.location.origin + "/#",
+        })
+      )
+      .then((response) => {
+        if (!response || !response.success) {
+          message.error("Error requesting password reset");
+          return;
+        }
+        message.success("Reset password email sent!");
+      });
   };
 
   const onFinishFailed = (errorInfo: unknown) => {

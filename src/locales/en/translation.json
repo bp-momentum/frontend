@@ -51,6 +51,14 @@
     "repeat-password": "Please enter your password again!",
     "register": "Register"
   },
+  "reset-pw": {
+    "title": "Reset your password",
+    "subtitle": "Enter your old password and a new one.",
+    "old-password": "Old Password",
+    "new-password": "New Password",
+    "repeat-password": "Repeat Password",
+    "submit": "Reset"
+  },
   "home": {
     "you-are": "You are {{type, en-handle-an}}!",
     "logout": "Logout",

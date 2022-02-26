@@ -51,6 +51,16 @@ const Translations = {
     repeatPassword: "register.repeat-password",
     register: "register.register",
   },
+  resetPw: {
+    title: "reset-pw.title",
+    subtitle: "reset-pw.subtitle",
+    passwordsDontMatch: "reset-pw.passwords-dont-match",
+    oldPassword: "reset-pw.old-password",
+    newPassword: "reset-pw.new-password",
+    enterPassword: "reset-pw.enter-password",
+    repeatPassword: "reset-pw.repeat-password",
+    submit: "reset-pw.submit",
+  },
   home: {
     youAre: "home.you-are",
     logout: "home.logout",
