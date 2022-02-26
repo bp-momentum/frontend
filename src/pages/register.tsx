@@ -151,16 +151,16 @@ const Register: React.FC<registerProps> = ({ ...props }) => {
               />
             </Form.Item>
 
-            <Form.Item
-              name="remember"
-              valuePropName="checked"
-              wrapperCol={{ offset: 8, span: 16 }}
-            >
+            <Form.Item name="remember" valuePropName="checked">
               <Checkbox>{t(Translations.login.rememberMe)}</Checkbox>
             </Form.Item>
 
-            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-              <Button type="primary" htmlType="submit">
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                style={{ width: "100%" }}
+              >
                 {t(Translations.register.register)}
               </Button>
             </Form.Item>

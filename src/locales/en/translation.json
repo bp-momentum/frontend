@@ -28,7 +28,8 @@
     "enter-email": "Please enter your email!",
     "enter-valid-email": "Please enter a valid email!",
     "back": "Back",
-    "reset": "Reset"
+    "reset": "Reset",
+    "forgot-password": "Forgot Password?"
   },
   "auto-login": {
     "signing-in": "Signing you in..."
@@ -57,7 +58,9 @@
     "old-password": "Old Password",
     "new-password": "New Password",
     "repeat-password": "Repeat Password",
-    "submit": "Reset"
+    "submit": "Reset",
+    "error": "The email could not be sent.",
+    "success": "An email has been sent to you with further instructions."
   },
   "home": {
     "you-are": "You are {{type, en-handle-an}}!",

@@ -76,7 +76,7 @@ const LoginForm: React.FC<loginProps> = ({ ...props }) => {
             setForm("reset");
           }}
         >
-          Forgot password
+          {t(Translations.login.forgotPassword)}
         </Button>
       </Form.Item>
 

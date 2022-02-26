@@ -3,26 +3,21 @@ import { LockOutlined } from "@ant-design/icons";
 import React from "react";
 import api from "../util/api";
 import Routes from "../util/routes";
-import { useAppDispatch } from "../redux/hooks";
-import { setToken } from "../redux/token/tokenSlice";
 import { useNavigate } from "react-router";
 import Translations from "../localization/translations";
 import { useTranslation } from "react-i18next";
-import Helper from "../util/helper";
 
 export interface resetPwProps {
   resetToken: string;
 }
 
 const ResetPw: React.FC<resetPwProps> = ({ resetToken }) => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [error, setError] = React.useState<null | string>();
   const { t } = useTranslation();
 
   const onFinish = async (values: Record<string, never>) => {
     setError(null);
-    const oldPassword = values["old-password"];
     const password = values["password"];
     const passwordRepeat = values["password-repeat"];
 
@@ -38,16 +33,11 @@ const ResetPw: React.FC<resetPwProps> = ({ resetToken }) => {
       })
     );
 
-    if (!response) return;
-
-    if (!response.success) {
-      setError(t(response.description ?? Translations.errors.unknownError));
+    if (!response || !response.success) {
+      setError(response.description ?? t(Translations.errors.unknownError));
       return;
     }
 
-    const token = response.data["session_token"];
-
-    dispatch(setToken(token));
     navigate("", { replace: true });
   };
 
@@ -93,21 +83,6 @@ const ResetPw: React.FC<resetPwProps> = ({ resetToken }) => {
                 style={{ marginBottom: "20px" }}
               />
             )}
-
-            <Form.Item
-              name="old-password"
-              rules={[
-                {
-                  required: true,
-                  message: t(Translations.resetPw.enterPassword),
-                },
-              ]}
-            >
-              <Input.Password
-                prefix={<LockOutlined className="site-form-item-icon" />}
-                placeholder={t(Translations.resetPw.oldPassword)}
-              />
-            </Form.Item>
 
             <Form.Item
               name="password"

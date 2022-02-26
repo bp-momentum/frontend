@@ -67,10 +67,10 @@ const Login: React.FC = () => {
       )
       .then((response) => {
         if (!response || !response.success) {
-          message.error("Error requesting password reset");
+          message.error(t(Translations.resetPw.error));
           return;
         }
-        message.success("Reset password email sent!");
+        message.success(t(Translations.resetPw.success));
       });
   };
 
