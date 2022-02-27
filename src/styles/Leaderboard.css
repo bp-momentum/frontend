@@ -1,0 +1,31 @@
+.ant-table-cell::after, .ant-table-cell::before {
+  content: initial !important;
+}
+
+th.ant-table-cell {
+  vertical-align: top;
+  padding-bottom: 5px !important;
+}
+
+.medal {
+  background: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid black;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.medalWrapper {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}

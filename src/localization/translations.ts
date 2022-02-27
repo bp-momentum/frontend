@@ -127,6 +127,7 @@ const Translations = {
     rank: "leaderboard.rank",
     name: "leaderboard.name",
     score: "leaderboard.score",
+    details: "leaderboard.details",
   },
   userManagement: {
     users: "user-management.users",

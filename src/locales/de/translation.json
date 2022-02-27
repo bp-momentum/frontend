@@ -130,7 +130,8 @@
   "leaderboard": {
     "rank": "Rang",
     "name": "Name",
-    "score": "Punktzahl"
+    "score": "Punktzahl",
+    "details": "Details"
   },
   "user-management": {
     "users": "Benutzer*innen",
