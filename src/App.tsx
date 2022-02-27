@@ -16,6 +16,7 @@ import Exercises from "./pages/exercises";
 import Leaderboard from "./pages/leaderboard";
 import Train from "./pages/train";
 import Error404 from "./pages/error/404";
+import Error418 from "./pages/error/418";
 import helper from "./util/helper";
 import Users from "./pages/manage/users";
 import Profile from "./pages/profile";
@@ -23,6 +24,7 @@ import { ConfigProvider } from "antd";
 import { Locale } from "antd/lib/locale-provider";
 import { useTranslation } from "react-i18next";
 import moment from "moment";
+import ResetForm from "./pages/resetPw";
 
 // initialize available languages of moment library
 import "moment/locale/de";
@@ -69,10 +71,20 @@ const App: React.FC = () => {
   const useQuery = new URLSearchParams(useLocation().search);
   const new_user_token = useQuery.get("new_user_token");
 
+  const reset_token = useQuery.get("reset_token");
+
   // It is probably enough to just pass the token to Register directly as a prop
+
+  if (new_user_token && reset_token) {
+    return <Error418 />;
+  }
 
   if (new_user_token) {
     return <Register registerToken={new_user_token} />;
+  }
+
+  if (reset_token) {
+    return <ResetForm resetToken={reset_token} />;
   }
 
   if (

@@ -28,7 +28,8 @@
     "enter-email": "Bitte gib deine Email-Adresse ein!",
     "enter-valid-email": "Bitte gib eine gültige Email-Adresse ein!",
     "back": "Zurück",
-    "reset": "Zurücksetzen"
+    "reset": "Zurücksetzen",
+    "forgot-password": "Passwort vergessen?"
   },
   "auto-login": {
     "signing-in": "Du wirst angemeldet..."
@@ -50,6 +51,16 @@
     "enter-password": "Bitte wähle ein Passwort!",
     "repeat-password": "Bitte gib dein Passwort erneut ein!",
     "register": "Registrieren"
+  },
+  "reset-pw": {
+    "title": "Passwort zurücksetzen",
+    "subtitle": "Gib dein altes Passwort ein und wähle ein neues.",
+    "old-password": "Altes Passwort",
+    "new-password": "Neues Passwort",
+    "repeat-password": "Passwort wiederholen",
+    "submit": "Zurücksetzen",
+    "error": "Die Email konnte nicht gesendet werden.",
+    "success": "Eine Email mit weiteren Anweisungen wurde an deine Email-Adresse gesendet."
   },
   "home": {
     "you-are": "Du bist ein/e {{type}}!",

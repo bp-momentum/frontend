@@ -1,21 +1,17 @@
-import { Alert, Button, Checkbox, Col, Form, Input, Row, Space } from "antd";
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { Alert, Button, Col, Form, Input, Row, Space } from "antd";
+import { LockOutlined } from "@ant-design/icons";
 import React from "react";
 import api from "../util/api";
 import Routes from "../util/routes";
-import { useAppDispatch } from "../redux/hooks";
-import { setRefreshToken, setToken } from "../redux/token/tokenSlice";
 import { useNavigate } from "react-router";
 import Translations from "../localization/translations";
 import { useTranslation } from "react-i18next";
-import Helper from "../util/helper";
 
-export interface registerProps {
-  registerToken: string;
+export interface resetPwProps {
+  resetToken: string;
 }
 
-const Register: React.FC<registerProps> = ({ ...props }) => {
-  const dispatch = useAppDispatch();
+const ResetPw: React.FC<resetPwProps> = ({ resetToken }) => {
   const navigate = useNavigate();
   const [error, setError] = React.useState<null | string>();
   const { t } = useTranslation();
@@ -24,14 +20,6 @@ const Register: React.FC<registerProps> = ({ ...props }) => {
     setError(null);
     const password = values["password"];
     const passwordRepeat = values["password-repeat"];
-    const username = values["username"];
-    const remember = values["remember"];
-
-    const usernameErrorKey = Helper.checkUsername(username);
-    if (usernameErrorKey) {
-      setError(t(usernameErrorKey, { max: Helper.maxUsernameLength }));
-      return;
-    }
 
     if (password !== passwordRepeat) {
       setError(t(Translations.register.passwordsDontMatch));
@@ -39,27 +27,17 @@ const Register: React.FC<registerProps> = ({ ...props }) => {
     }
 
     const response = await api.execute(
-      Routes.registerUser({
+      Routes.resetPassword({
         password: password,
-        registerToken: props.registerToken,
-        username: username,
+        token: resetToken,
       })
     );
 
-    if (!response) return;
-
-    if (!response.success) {
-      setError(t(response.description ?? Translations.errors.unknownError));
+    if (!response || !response.success) {
+      setError(response.description ?? t(Translations.errors.unknownError));
       return;
     }
 
-    const token = response.data["session_token"];
-    const refreshToken = response.data["refresh_token"];
-
-    if (remember) {
-      dispatch(setRefreshToken(refreshToken));
-    }
-    dispatch(setToken(token));
     navigate("", { replace: true });
   };
 
@@ -81,9 +59,9 @@ const Register: React.FC<registerProps> = ({ ...props }) => {
     >
       <Col>
         <Row justify="center" style={{ fontSize: "30px", fontWeight: "bold" }}>
-          {t(Translations.register.title)}
+          {t(Translations.resetPw.title)}
         </Row>
-        <Row justify="center">{t(Translations.register.subtitle)}</Row>
+        <Row justify="center">{t(Translations.resetPw.subtitle)}</Row>
       </Col>
       <Row justify="center">
         <Col>
@@ -107,32 +85,17 @@ const Register: React.FC<registerProps> = ({ ...props }) => {
             )}
 
             <Form.Item
-              name="username"
-              rules={[
-                {
-                  required: true,
-                  message: t(Translations.register.chooseUsername),
-                },
-              ]}
-            >
-              <Input
-                prefix={<UserOutlined className="site-form-item-icon" />}
-                placeholder={t(Translations.user.username)}
-              />
-            </Form.Item>
-
-            <Form.Item
               name="password"
               rules={[
                 {
                   required: true,
-                  message: t(Translations.register.enterPassword),
+                  message: t(Translations.resetPw.enterPassword),
                 },
               ]}
             >
               <Input.Password
                 prefix={<LockOutlined className="site-form-item-icon" />}
-                placeholder={t(Translations.user.password)}
+                placeholder={t(Translations.resetPw.newPassword)}
               />
             </Form.Item>
 
@@ -141,18 +104,14 @@ const Register: React.FC<registerProps> = ({ ...props }) => {
               rules={[
                 {
                   required: true,
-                  message: t(Translations.register.repeatPassword),
+                  message: t(Translations.resetPw.repeatPassword),
                 },
               ]}
             >
               <Input.Password
                 prefix={<LockOutlined className="site-form-item-icon" />}
-                placeholder={t(Translations.user.password)}
+                placeholder={t(Translations.resetPw.repeatPassword)}
               />
-            </Form.Item>
-
-            <Form.Item name="remember" valuePropName="checked">
-              <Checkbox>{t(Translations.login.rememberMe)}</Checkbox>
             </Form.Item>
 
             <Form.Item>
@@ -161,7 +120,7 @@ const Register: React.FC<registerProps> = ({ ...props }) => {
                 htmlType="submit"
                 style={{ width: "100%" }}
               >
-                {t(Translations.register.register)}
+                {t(Translations.resetPw.submit)}
               </Button>
             </Form.Item>
           </Form>
@@ -171,4 +130,4 @@ const Register: React.FC<registerProps> = ({ ...props }) => {
   );
 };
 
-export default Register;
+export default ResetPw;

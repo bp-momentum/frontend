@@ -28,7 +28,8 @@
     "enter-email": "Please enter your email!",
     "enter-valid-email": "Please enter a valid email!",
     "back": "Back",
-    "reset": "Reset"
+    "reset": "Reset",
+    "forgot-password": "Forgot Password?"
   },
   "auto-login": {
     "signing-in": "Signing you in..."
@@ -50,6 +51,16 @@
     "enter-password": "Please enter your password!",
     "repeat-password": "Please enter your password again!",
     "register": "Register"
+  },
+  "reset-pw": {
+    "title": "Reset your password",
+    "subtitle": "Enter your old password and a new one.",
+    "old-password": "Old Password",
+    "new-password": "New Password",
+    "repeat-password": "Repeat Password",
+    "submit": "Reset",
+    "error": "The email could not be sent.",
+    "success": "An email has been sent to you with further instructions."
   },
   "home": {
     "you-are": "You are {{type, en-handle-an}}!",

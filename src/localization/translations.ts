@@ -29,6 +29,7 @@ const Translations = {
     enterValidEmail: "login.enter-valid-email",
     back: "login.back",
     reset: "login.reset",
+    forgotPassword: "login.forgot-password",
   },
   autoLogin: {
     signingIn: "auto-login.signing-in",
@@ -50,6 +51,18 @@ const Translations = {
     enterPassword: "register.enter-password",
     repeatPassword: "register.repeat-password",
     register: "register.register",
+  },
+  resetPw: {
+    title: "reset-pw.title",
+    subtitle: "reset-pw.subtitle",
+    passwordsDontMatch: "reset-pw.passwords-dont-match",
+    oldPassword: "reset-pw.old-password",
+    newPassword: "reset-pw.new-password",
+    enterPassword: "reset-pw.enter-password",
+    repeatPassword: "reset-pw.repeat-password",
+    submit: "reset-pw.submit",
+    error: "reset-pw.error",
+    success: "reset-pw.success",
   },
   home: {
     youAre: "home.you-are",
