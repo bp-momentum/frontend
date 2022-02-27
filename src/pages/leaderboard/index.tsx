@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "../../styles/Leaderboard.css";
-import { Layout, message, Table } from "antd";
+import { Layout, message, Spin, Table } from "antd";
 import Container from "../../shared/container";
 import api from "../../util/api";
 import Routes from "../../util/routes";
@@ -10,6 +10,7 @@ import { Content } from "antd/lib/layout/layout";
 import Stars from "./components/stars";
 import Helper from "../../util/helper";
 import Crown from "../../static/crown.svg";
+import { LoadingOutlined } from "@ant-design/icons";
 
 interface LeaderboardEntry {
   rank: number;
@@ -50,6 +51,7 @@ const loadData = async (): Promise<{
  */
 const Leaderboard: React.FC = () => {
   const [entries, setEntries] = React.useState<LeaderboardEntry[]>([]);
+  const [loading, setLoading] = React.useState(true);
 
   useEffect(() => {
     let isMounted = true;
@@ -58,6 +60,7 @@ const Leaderboard: React.FC = () => {
       if (isMounted) {
         if (data.error) message.error(data.error);
         setEntries(data.data);
+        setLoading(false);
       }
     });
     return () => {
@@ -190,13 +193,22 @@ const Leaderboard: React.FC = () => {
               boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.5)",
             }}
           >
-            <Table
-              data-testid="leaderboard"
-              dataSource={entries}
-              columns={tableColumns}
-              rowKey={(entry) => entry.username}
-              pagination={false}
-            />
+            {loading ? (
+              <>
+                <Spin
+                  indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
+                />
+                <div>{t(Translations.planManager.loading)}</div>
+              </>
+            ) : (
+              <Table
+                data-testid="leaderboard"
+                dataSource={entries}
+                columns={tableColumns}
+                rowKey={(entry) => entry.username}
+                pagination={false}
+              />
+            )}
           </div>
         </Content>
       </Layout>

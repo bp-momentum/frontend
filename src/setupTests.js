@@ -66,9 +66,30 @@ nock(api.serverUrl)
     success: true,
     data: {
       leaderboard: [
-        { rank: 1, username: "UserA", score: 1000 },
-        { rank: 2, username: "UserB", score: 100 },
-        { rank: 3, username: "UserC", score: 10 },
+        {
+          rank: 1,
+          username: "UserA",
+          score: 1000,
+          speed: 1,
+          intensity: 1,
+          cleanliness: 1,
+        },
+        {
+          rank: 2,
+          username: "UserB",
+          score: 100,
+          speed: 1,
+          intensity: 1,
+          cleanliness: 1,
+        },
+        {
+          rank: 3,
+          username: "UserC",
+          score: 10,
+          speed: 1,
+          intensity: 1,
+          cleanliness: 1,
+        },
       ],
     },
   })
