@@ -88,7 +88,18 @@
     "delete-modal-msg": "Bist du sicher, dass du deinen Account löschen möchtest? Dies kann nicht rückgängig gemacht werden.",
     "delete-modal-confirm": "Account Löschen",
     "delete-modal-cancel": "Abbrechen",
-    "successfully-deleted-account": "Der Account wurde erfolgreich gelöscht! Du wirst in Kürze abgemeldet."
+    "successfully-deleted-account": "Der Account wurde erfolgreich gelöscht! Du wirst in Kürze abgemeldet.",
+    "logout-all-devices": {
+      "title": "Alle Geräte ausloggen",
+      "success": "Alle anderen Geräte wurden erfolgreich aus deinem Account ausgeloggt!",
+      "success-login": "Alle Geräte wurden erfolgreich aus deinem Account ausgeloggt! Du musst dich erneut einloggen!",
+      "modal": {
+        "title": "Alle Geräte ausloggen",
+        "message": "Bist du dir sicher, dass du alle anderen Geräte aus deinem Account ausloggen möchtest?",
+        "confirm": "Ausloggen",
+        "cancel": "Abbrechen"
+      }
+    }
   },
   "plan-manager": {
     "new-plan": "Neuer Plan",
