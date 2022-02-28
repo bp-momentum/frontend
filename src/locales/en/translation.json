@@ -83,12 +83,16 @@
     "logout": "Logout",
     "change-language": "Change your language!",
     "danger-zone": "Danger Zone",
+    "security": "Security",
     "delete-account": "Delete Account",
     "delete-modal-title": "Account Deletion",
     "delete-modal-msg": "Are you sure you want to delete your account? This action is irreversible.",
     "delete-modal-confirm": "Delete Account",
     "delete-modal-cancel": "Cancel",
-    "successfully-deleted-account": "Account Deletion was successful! You will be logged out shortly."
+    "successfully-deleted-account": "Account Deletion was successful! You will be logged out shortly.",
+    "change-password": {
+      "button-title": "Change password"
+    }
   },
   "plan-manager": {
     "new-plan": "New Plan",

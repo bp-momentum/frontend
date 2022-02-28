@@ -445,6 +445,21 @@ const Routes = {
       },
     };
   },
+
+  /**
+   * Change the user's password
+   */
+  changePassword: (props: { password: string; newPassword: string }): Route => {
+    return {
+      route: "/api/changepassword",
+      needsAuth: true,
+      method: "POST",
+      body: {
+        password: props.password,
+        new_password: props.newPassword,
+      },
+    };
+  },
 };
 
 export default Routes;

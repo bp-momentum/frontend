@@ -85,12 +85,16 @@ const Translations = {
     changeLanguage: "settings.change-language",
     logout: "settings.logout",
     dangerZone: "settings.danger-zone",
+    security: "settings.security",
     deleteAccount: "settings.delete-account",
     deleteModalTitel: "settings.delete-modal-title",
     deleteModalMSG: "settings.delete-modal-msg",
     deleteModalConfirm: "settings.delete-modal-confirm",
     deleteModalCancel: "settings.delete-modal-cancel",
     successfullyDeletedAccount: "settings.successfully-deleted-account",
+    changePassword: {
+      buttonTitle: "settings.change-password.button-title",
+    },
   },
   planManager: {
     newPlan: "plan-manager.new-plan",

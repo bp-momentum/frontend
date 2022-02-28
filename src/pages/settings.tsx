@@ -79,6 +79,10 @@ const Settings: React.FC = () => {
     dispatch(unsetToken());
   };
 
+  const onChangePassword = async () => {
+    console.log("Change Password!");
+  };
+
   return (
     <Container currentPage="settings" color="blue">
       <Col>
@@ -121,7 +125,19 @@ const Settings: React.FC = () => {
             </Divider>
 
             <Row justify="center">
-              <Button onClick={logout}>{t(Translations.home.logout)}</Button>
+              <Button onClick={logout}>
+                {t(Translations.settings.logout)}
+              </Button>
+            </Row>
+
+            <Divider plain style={{ fontSize: "20px", fontWeight: "bold" }}>
+              {t(Translations.settings.security)}
+            </Divider>
+
+            <Row justify="center">
+              <Button onClick={onChangePassword}>
+                {t(Translations.settings.changePassword.buttonTitle)}
+              </Button>
             </Row>
 
             <Divider plain style={{ fontSize: "20px", fontWeight: "bold" }}>
