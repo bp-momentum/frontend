@@ -44,7 +44,7 @@ const Train: React.FC<TrainProps> = ({ rawExercise }) => {
   useEffect(() => {
     let isMounted = true;
 
-    if (data && isMounted) {
+    if (data && isMounted && rawExercise.id !== -1) {
       setExercise({
         title: data.title,
         description: data.description,
@@ -92,7 +92,7 @@ const Train: React.FC<TrainProps> = ({ rawExercise }) => {
 };
 
 const Wrapper = () => {
-  const [exercise, setExercise] = useState({});
+  const [exercise, setExercise] = useState({ id: -1 });
 
   const { exercisePlanId } = useParams();
 
