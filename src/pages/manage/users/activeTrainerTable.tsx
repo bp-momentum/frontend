@@ -8,6 +8,30 @@ import { AlignType } from "rc-table/lib/interface";
 import Translations from "../../../localization/translations";
 import { t } from "i18next";
 
+const fetchUsers = async () => {
+  const response = await api.execute(Routes.getTrainers());
+
+  if (!response) return [];
+
+  if (!response.success) {
+    message.error(response.description);
+    return [];
+  }
+
+  const userList: User[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  response.data.trainers.forEach((user: Record<string, any>) => {
+    userList.push({
+      key: user.id,
+      name: user.username,
+      last_login: user.last_login || (
+        <i>{t(Translations.userManagement.never)}</i>
+      ),
+    });
+  });
+  return userList;
+};
+
 interface User {
   key: string;
   name: string;
@@ -16,64 +40,37 @@ interface User {
 
 const ActiveTrainerTable: React.FC = () => {
   const searchInput = createRef<Input>();
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
   const [data, setData] = useState<User[]>([]);
   const [, draw] = useState({});
 
   const redraw = () => draw({});
 
+  const [isMounted, setIsMounted] = useState(true);
+
+  const loadData = () => {
+    Promise.all([fetchUsers()]).then(([users]) => {
+      if (!isMounted) return;
+      setData(users);
+    });
+  };
+
   const deleteTrainer = async (id: string) => {
     api.execute(Routes.deleteTrainer({ trainerId: id })).then(() => {
       message.success(t(Translations.userManagement.trainerDeleted));
-      setLoading(true);
+      loadData();
     });
   };
 
   useEffect(() => {
-    if (!error) return;
-    message.error(t(Translations.errors.unknownError));
-  }, [error]);
-
-  const fetchUsers = async () => {
-    const response = await api.execute(Routes.getTrainers());
-
-    if (!response.success) {
-      setError(true);
-      return [];
-    }
-
-    console.log(response.data.trainers);
-
-    const userList: User[] = [];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    response.data.trainers.forEach((user: Record<string, any>) => {
-      userList.push({
-        key: user.id,
-        name: user.username,
-        last_login: user.last_login || (
-          <i>{t(Translations.userManagement.never)}</i>
-        ),
-      });
-    });
-    return userList;
-  };
-
-  useEffect(() => {
-    let isMounted = true;
     // load a list of trainers
-    if (loading) {
-      Promise.all([fetchUsers()]).then(([users]) => {
-        if (!isMounted) return;
-        setLoading(false);
-        setData(users);
-      });
-    }
+    loadData();
+
     return () => {
       // clean up
-      isMounted = false;
+      setIsMounted(false);
     };
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const columns = [
     {

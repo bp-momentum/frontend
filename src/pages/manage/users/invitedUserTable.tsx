@@ -20,6 +20,29 @@ interface User {
   email: string;
 }
 
+const fetchUsers = async () => {
+  const response = await api.execute(Routes.getInvited());
+
+  if (!response) return [];
+
+  if (!response.success) {
+    message.error(response.description);
+    return [];
+  }
+
+  const userList: User[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  response.data.invited.forEach((invite: Record<string, any>) => {
+    userList.push({
+      key: invite.id,
+      name: `${invite.first_name} ${invite.last_name}`,
+      email: invite.email || <i>{t(Translations.userManagement.noEmail)}</i>,
+    });
+  });
+
+  return userList;
+};
+
 interface invitedUserTableProps {
   updateValue: number;
   setUpdateValue: Dispatch<SetStateAction<number>>;
@@ -29,19 +52,22 @@ const InvitedUserTable: React.FC<invitedUserTableProps> = ({ ...props }) => {
   const { updateValue } = props;
 
   const searchInput = createRef<Input>();
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
   const [data, setData] = useState<User[]>([]);
-  const [, draw] = useState({});
+  const [isMounted, setIsMounted] = useState(true);
 
   const [update, setUpdate] = useState(updateValue);
 
+  const loadData = () => {
+    Promise.all([fetchUsers()]).then(([users]) => {
+      if (!isMounted) return;
+      setData(users);
+    });
+  };
+
   if (updateValue !== update) {
     setUpdate(updateValue);
-    setLoading(true);
+    loadData();
   }
-
-  const redraw = () => draw({});
 
   const cancelInvitation = async (id: string) => {
     api
@@ -52,46 +78,19 @@ const InvitedUserTable: React.FC<invitedUserTableProps> = ({ ...props }) => {
         } else {
           message.success(t(Translations.userManagement.canceledInvite));
         }
-        setLoading(true);
+        loadData();
       });
   };
 
   useEffect(() => {
-    let isMounted = true;
-    // load all the plans the user has access to from the API
-    if (loading) {
-      // load all the users for a trainer
-      api.execute(Routes.getInvited()).then((response) => {
-        if (!isMounted) return;
-        if (!response.success) {
-          setError(true);
-          return;
-        }
-        const userList: User[] = [];
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        response.data.invited.forEach((invite: Record<string, any>) => {
-          userList.push({
-            key: invite.id,
-            name: `${invite.first_name} ${invite.last_name}`,
-            email: invite.email || (
-              <i>{t(Translations.userManagement.noEmail)}</i>
-            ),
-          });
-        });
-        setData(userList);
-        setLoading(false);
-      });
-    }
+    loadData();
+
     return () => {
       // clean up
-      isMounted = false;
+      setIsMounted(false);
     };
-  });
-
-  useEffect(() => {
-    if (!error) return;
-    message.error(t(Translations.errors.unknownError));
-  }, [error]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const columns = [
     {
@@ -101,7 +100,7 @@ const InvitedUserTable: React.FC<invitedUserTableProps> = ({ ...props }) => {
       ...getColumnSearchProps(
         "name",
         searchInput,
-        redraw,
+        loadData,
         t(Translations.userManagement.SearchName)
       ),
       render: (text: string) => (
@@ -115,7 +114,7 @@ const InvitedUserTable: React.FC<invitedUserTableProps> = ({ ...props }) => {
       ...getColumnSearchProps(
         "email",
         searchInput,
-        redraw,
+        loadData,
         t(Translations.userManagement.SearchEmail)
       ),
       render: (text: string) => (

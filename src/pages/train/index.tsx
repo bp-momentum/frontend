@@ -7,11 +7,27 @@ import { useParams } from "react-router-dom";
 import Training from "./training";
 import SetDone from "./setDone";
 import ExerciseDone from "./exerciseDone";
+import { useGetExerciseByIdQuery } from "../../redux/exercises/exerciseSlice";
+import { message } from "antd";
 
-const Train: React.FC = () => {
+const exercisePlanIdToExercise = async (planId: number) => {
+  const response = await api.execute(Routes.getDoneExercises());
+  if (!response) return [];
+  if (!response.success) {
+    message.error(response.description);
+    return [];
+  }
+  return response.data.exercises.find((e: any) => {
+    return e.exercise_plan_id === planId;
+  });
+};
+
+interface TrainProps {
+  rawExercise: Record<string, any>;
+}
+
+const Train: React.FC<TrainProps> = ({ rawExercise }) => {
   const [exercise, setExercise] = React.useState<ExerciseData>();
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
 
   const initialCollapsed = useRef(false);
 
@@ -23,65 +39,42 @@ const Train: React.FC = () => {
 
   const [subPage, setSubPage] = useState<subPage>("training");
 
-  // exercisePlanId from the url
-  const { exercisePlanId } = useParams();
+  const { data, isLoading } = useGetExerciseByIdQuery(rawExercise.id);
 
   useEffect(() => {
     let isMounted = true;
 
-    if (!loading) return;
-
-    api.execute(Routes.getDoneExercises()).then((response) => {
-      if (!isMounted) return;
-      if (!response.success) {
-        setError(true);
-      }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const exerciseData = response.data.exercises.find((e: any) => {
-        return e.exercise_plan_id === parseInt(exercisePlanId ?? "");
+    if (data && isMounted) {
+      setExercise({
+        title: data.title,
+        description: data.description,
+        sets: rawExercise.sets,
+        repeatsPerSet: rawExercise.repeats_per_set,
+        videoPath:
+          data.video ??
+          "https://vid.pr0gramm.com/2021/12/28/130aaef3ab9c207a.mp4",
+        activated: true,
       });
-      if (exerciseData)
-        api
-          .execute(Routes.getExercise({ id: exerciseData.id }))
-          .then((response) => {
-            setExercise({
-              title: response.data.title,
-              description: response.data.description,
-              sets: exerciseData.sets,
-              repeatsPerSet: exerciseData.repeats_per_set,
-              videoPath:
-                response.data.video ??
-                "https://vid.pr0gramm.com/2021/12/28/130aaef3ab9c207a.mp4",
-              activated: response.data.title,
-            } as ExerciseData);
-            setLoading(false);
-          });
-      else {
-        setError(true);
-        setLoading(false);
-      }
-    });
+    }
 
     return () => {
-      // clean up
       isMounted = false;
     };
-  }, [loading, exercisePlanId]);
+  }, [data, rawExercise.repeats_per_set, rawExercise.sets]);
 
   return (
     <Container confimLeave={subPage !== "exerciseDone"}>
-      {loading || exercise === undefined ? (
+      {isLoading || exercise === null ? (
         <div>Loading...</div>
       ) : (
         <>
           {subPage === "training" && (
             <Training
-              loadingExercise={loading}
+              loadingExercise={false}
               exercise={exercise}
-              error={error}
+              error={false}
               setSubPage={setSubPage}
               stats={stats}
-              exercisePlanId={exercisePlanId}
               initialCollapsed={initialCollapsed}
             />
           )}
@@ -102,4 +95,28 @@ const Train: React.FC = () => {
   );
 };
 
-export default Train;
+const Wrapper = () => {
+  const [exercise, setExercise] = useState({});
+
+  const { exercisePlanId } = useParams();
+
+  useEffect(() => {
+    let isMounted = true;
+
+    exercisePlanIdToExercise(parseInt(exercisePlanId ?? "")).then(
+      (exerciseData) => {
+        if (exerciseData && isMounted) setExercise(exerciseData);
+      }
+    );
+
+    return () => {
+      // clean up
+      isMounted = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return <Train rawExercise={exercise} />;
+};
+
+export default Wrapper;

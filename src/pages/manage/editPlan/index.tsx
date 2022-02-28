@@ -13,6 +13,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import Exercise from "./components/exercise";
 import Day from "./components/day";
 import { reorder } from "./functions";
+import _ from "lodash";
 
 const { Sider, Content } = Layout;
 const { confirm } = Modal;
@@ -87,61 +88,66 @@ const EditPlan: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    // load exercises from server
-    if (!exercisesLoaded) {
-      api.execute(Routes.getExercises()).then((response) => {
-        if (!response.success) return;
-        const storeItems = response.data.exercises.map(
-          (item: { id: number; title: string }) => ({
-            id: `store-${item.id}`,
-            data: {
-              type: item.id,
-              description: "string",
-              sets: 1,
-              repeats: 1,
-            },
-          })
-        );
-        setStoreItems(storeItems);
-        setExercises(response.data.exercises);
-        setExercisesLoaded(true);
-      });
-    }
+  const prepareExercises = async () => {
+    const response = await api.execute(Routes.getExercises());
+    if (!response) throw new Error("Failed to load exercises");
+    if (!response.success) throw new Error(response.description);
+    const storeItems = response.data.exercises.map(
+      (item: { id: number; title: string }) => ({
+        id: `store-${item.id}`,
+        data: {
+          type: item.id,
+          description: "string",
+          sets: 1,
+          repeats: 1,
+        },
+      })
+    );
+    return { storeItems, exercises: response.data.exercises };
+  };
 
-    if (!planLoaded && planId && planId !== "new") {
+  const days = [
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday",
+  ];
+
+  useEffect(() => {
+    let isMounted = true;
+    // load exercises from server
+    prepareExercises()
+      .then(({ storeItems, exercises }) => {
+        if (!isMounted) return;
+        setStoreItems(storeItems);
+        setExercises(exercises);
+        setExercisesLoaded(true);
+      })
+      .catch((error) => {
+        message.error(error.message);
+      });
+
+    // load plan from server
+    if (planId && planId !== "new") {
       api
         .execute(Routes.getTrainingPlan({ planId: planId }))
         .then((response) => {
-          if (!response.success) return;
+          if (!isMounted) return;
+          if (!response.success) {
+            message.error(response.description);
+            return;
+          }
           setName(response.data.name);
-          for (const day of [
-            "monday",
-            "tuesday",
-            "wednesday",
-            "thursday",
-            "friday",
-            "saturday",
-            "sunday",
-          ]) {
-            const list1 = response.data.exercises.filter(
-              (item: {
-                id: number;
-                sets: number;
-                repeats_per_set: number;
-                date: string;
-              }) => item.date === day
-            );
-            const list2 = list1.map(
-              (
-                item: {
-                  id: number;
-                  sets: number;
-                  repeats_per_set: number;
-                  date: string;
-                },
-                index: number
-              ) => ({
+          for (const day of days) {
+            let list1: ExerciseInPlan[] = response.data.exercises;
+            list1 = list1.filter((item) => item.date === day);
+            const list2: ExerciseCardData[] = _.map(
+              list1,
+              // eslint-disable-next-line no-loop-func
+              (item, index: number) => ({
                 id: `restored-${day}-${index}`,
                 data: {
                   type: item.id,
@@ -156,11 +162,11 @@ const EditPlan: React.FC = () => {
         });
     }
 
-    if (!planId || planId === "new") {
-      setPlanLoaded(true);
-    }
+    return () => {
+      isMounted = false;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [planId]);
+  }, []);
 
   /**
    * Initiate reordering after dropping an item
@@ -202,15 +208,7 @@ const EditPlan: React.FC = () => {
     if (planId !== "new") data.id = planId;
     data.name = name;
     data.exercise = [];
-    for (const date of [
-      "monday",
-      "tuesday",
-      "wednesday",
-      "thursday",
-      "friday",
-      "saturday",
-      "sunday",
-    ]) {
+    for (const date of days) {
       const list = DropToState(date).get;
       const items = list.map((item) => ({
         date: date,

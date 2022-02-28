@@ -26,14 +26,21 @@ const SetDone: React.FC<setDoneProps> = ({ ...props }) => {
   const { t } = useTranslation();
 
   useEffect(() => {
+    let isMounted = true;
     if (remainingSeconds === 0) {
       setSubPage("training");
       return;
     }
     setTimeout(() => {
+      if (!isMounted) return;
       setRemainingSeconds(remainingSeconds - 1);
     }, 1000);
-  });
+
+    return () => {
+      isMounted = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const getTypeKey = (type: dataEntryType) => {
     switch (type.type) {

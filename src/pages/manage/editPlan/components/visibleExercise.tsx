@@ -5,7 +5,7 @@ import Translations from "../../../../localization/translations";
 import { exerciseIdToName } from "../functions";
 
 interface visibleExerciseProps {
-  card: ExerciseData;
+  card: ExerciseData2;
   details: boolean;
   collapsed: boolean;
   exercises: Exercise[];

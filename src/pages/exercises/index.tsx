@@ -15,27 +15,26 @@ const { Content } = Layout;
 
 const Exercises: React.FC = () => {
   const [exercises, setExercises] = React.useState<Exercise[]>([]);
-  const [loading, setLoading] = React.useState<boolean>(true);
-
-  const loadAssignedPlan = async () => {
-    const response = await api.execute(Routes.getDoneExercises());
-    if (!response) return;
-    if (!response.success) {
-      message.error(
-        t(response.description ?? Translations.errors.unknownError)
-      );
-      setLoading(false);
-      return;
-    }
-
-    setExercises(response.data.exercises);
-    setLoading(false);
-  };
 
   useEffect(() => {
-    if (!loading) return;
-    loadAssignedPlan().then(() => setLoading(false));
-  });
+    let isMounted = true;
+
+    api.execute(Routes.getDoneExercises()).then((response) => {
+      if (!response || !isMounted) return;
+      if (!response.success) {
+        message.error(
+          t(response.description ?? Translations.errors.unknownError)
+        );
+        return;
+      }
+      setExercises(response.data.exercises);
+    });
+
+    return () => {
+      isMounted = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const token = useAppSelector((state) => state.token.token);
   const username = token && Helper.getUserName(token);

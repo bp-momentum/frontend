@@ -22,6 +22,7 @@ import {
   statsCallback,
 } from "./callbacks";
 import _ from "lodash";
+import { useParams } from "react-router-dom";
 
 const playRandomAudio = () => {
   const audioCDN = "https://cdn.geoscribble.de/sounds/";
@@ -43,7 +44,6 @@ interface trainingProps {
   exercise?: ExerciseData;
   stats: MutableRefObject<statsType>;
   setSubPage: Dispatch<SetStateAction<subPage>>;
-  exercisePlanId?: string;
   initialCollapsed: MutableRefObject<boolean>;
 }
 
@@ -55,7 +55,6 @@ const Training: React.FC<trainingProps> = ({ ...props }) => {
     error,
     stats,
     setSubPage,
-    exercisePlanId,
     initialCollapsed,
   } = props;
 
@@ -77,6 +76,8 @@ const Training: React.FC<trainingProps> = ({ ...props }) => {
 
   const ptsRef = createRef<HTMLSpanElement>();
   const addPtsRef = createRef<HTMLSpanElement>();
+
+  const { exercisePlanId } = useParams();
 
   useEffect(() => {
     totalPoints.current = feedback.totalPoints;
