@@ -120,7 +120,7 @@ const Container: React.FC<containerProps> = ({ ...props }) => {
               icon={<BarsOutlined style={{ color: color }} />}
               style={{ marginLeft: "auto" }}
             >
-              {t(Translations.tabBar.overview)}
+              {t(Translations.tabBar.profile)}
             </Menu.Item>
           )}
           <Menu.Item
