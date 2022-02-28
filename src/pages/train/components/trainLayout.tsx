@@ -4,15 +4,12 @@ import TrainSider from "./trainSider";
 const { Content, Sider } = Layout;
 
 interface trainLayoutProps {
-  loadingExercise: boolean;
-  error: boolean;
   exercise?: ExerciseData;
   initialCollapsed: MutableRefObject<boolean>;
 }
 
 const TrainLayout: React.FC<trainLayoutProps> = ({ ...props }) => {
-  const { children, loadingExercise, error, exercise, initialCollapsed } =
-    props;
+  const { children, exercise, initialCollapsed } = props;
 
   const [collapsed, setCollapsed] = useState(initialCollapsed.current);
 
@@ -32,12 +29,7 @@ const TrainLayout: React.FC<trainLayoutProps> = ({ ...props }) => {
           overflow: "hidden",
         }}
       >
-        <TrainSider
-          loading={loadingExercise}
-          exercise={exercise}
-          error={error}
-          collapsed={collapsed}
-        />
+        <TrainSider exercise={exercise} collapsed={collapsed} />
       </Sider>
       <Content
         className="shadow"

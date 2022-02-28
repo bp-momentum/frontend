@@ -1,4 +1,4 @@
-import { message, Progress, Spin, Tooltip } from "antd";
+import { message, Progress, Tooltip } from "antd";
 import React, {
   createRef,
   Dispatch,
@@ -11,7 +11,6 @@ import React, {
 import "../../../styles/train.css";
 import Translations from "../../../localization/translations";
 import { t } from "i18next";
-import { LoadingOutlined } from "@ant-design/icons";
 import WebcamStreamCapture from "../components/webcamStreamCapture";
 import api, { ApiSocketConnection } from "../../../util/api";
 import TrainLayout from "../components/trainLayout";
@@ -39,8 +38,6 @@ const playRandomAudio = () => {
 };
 
 interface trainingProps {
-  loadingExercise: boolean;
-  error: boolean;
   exercise?: ExerciseData;
   stats: MutableRefObject<statsType>;
   setSubPage: Dispatch<SetStateAction<subPage>>;
@@ -49,14 +46,7 @@ interface trainingProps {
 
 const Training: React.FC<trainingProps> = ({ ...props }) => {
   // deconstruct props
-  const {
-    loadingExercise,
-    exercise,
-    error,
-    stats,
-    setSubPage,
-    initialCollapsed,
-  } = props;
+  const { exercise, stats, setSubPage, initialCollapsed } = props;
 
   const [progress, setProgress] = useState(0); // repeats done per repeats to do in percent
   const [active, setActive] = useState(false); // whether sending video to server
@@ -176,12 +166,7 @@ const Training: React.FC<trainingProps> = ({ ...props }) => {
   }
 
   return (
-    <TrainLayout
-      loadingExercise={loadingExercise}
-      error={error}
-      exercise={exercise}
-      initialCollapsed={initialCollapsed}
-    >
+    <TrainLayout exercise={exercise} initialCollapsed={initialCollapsed}>
       <div
         style={{
           display: "flex",
@@ -191,40 +176,7 @@ const Training: React.FC<trainingProps> = ({ ...props }) => {
           overflowY: "auto",
         }}
       >
-        {loadingExercise || error ? (
-          <div
-            style={{
-              height: "100%",
-              width: "100%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "column",
-            }}
-          >
-            {error ? (
-              <div>{t(Translations.planManager.error)}</div>
-            ) : (
-              <>
-                <Spin
-                  indicator={
-                    <LoadingOutlined
-                      style={{ fontSize: 24, color: "white" }}
-                      spin
-                    />
-                  }
-                />
-                <div style={{ color: "white" }}>
-                  {t(Translations.planManager.loading)}
-                </div>
-              </>
-            )}
-          </div>
-        ) : (
-          <h1 style={{ color: "white", fontSize: "40px" }}>
-            {exercise?.title}
-          </h1>
-        )}
+        <h1 style={{ color: "white", fontSize: "40px" }}>{exercise?.title}</h1>
         <div style={{ color: "white", marginBottom: "20px" }}>
           <Tooltip title={t(Translations.training.currentSet)}>
             {currentSet}/{exercise?.sets}
