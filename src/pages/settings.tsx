@@ -86,12 +86,12 @@ const Settings: React.FC = () => {
 
   function onLogoutAllDevices() {
     Modal.confirm({
-      title: t(Translations.settings.logoutAllDevicesModalTitle),
+      title: t(Translations.settings.logoutAllDevices.modal.title),
       icon: <ExclamationCircleOutlined />,
-      content: t(Translations.settings.logoutAllDevicesModalMessage),
-      okText: t(Translations.settings.logoutAllDevicesModalConfirm),
+      content: t(Translations.settings.logoutAllDevices.modal.message),
+      okText: t(Translations.settings.logoutAllDevices.modal.confirm),
       okType: "danger",
-      cancelText: t(Translations.settings.logoutAllDevicesModalCancel),
+      cancelText: t(Translations.settings.logoutAllDevices.modal.cancel),
       onOk() {
         onConfirmLogoutAllDevices().catch(message.error);
       },
@@ -114,7 +114,7 @@ const Settings: React.FC = () => {
      * This happens with a 5-second delay.
      */
     const displaySuccessAndRedirect = async () => {
-      setSuccess(t(Translations.settings.logoutAllDevicesSuccessLogin));
+      setSuccess(t(Translations.settings.logoutAllDevices.successLogin));
       setTimeout(() => setSuccess(null), 5000);
       await new Promise((resolve) => setTimeout(resolve, 5000)); // sleep for 2 Seconds
       dispatch(unsetRefreshToken());
@@ -145,7 +145,7 @@ const Settings: React.FC = () => {
     }
 
     // save new tokens
-    setSuccess(t(Translations.settings.logoutAllDevicesSuccess));
+    setSuccess(t(Translations.settings.logoutAllDevices.success));
     dispatch(setRefreshToken(refreshToken));
     dispatch(setToken(sessionToken));
     setTimeout(() => setSuccess(null), 5000);
@@ -220,7 +220,7 @@ const Settings: React.FC = () => {
             </Row>
             <Row justify="center" style={{ paddingBottom: "20px" }}>
               <Button onClick={onLogoutAllDevices} danger>
-                {t(Translations.settings.logoutAllDevices)}
+                {t(Translations.settings.logoutAllDevices.title)}
               </Button>
             </Row>
             <Row justify="center">
