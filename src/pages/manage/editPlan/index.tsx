@@ -160,6 +160,8 @@ const EditPlan: React.FC = () => {
           }
           setPlanLoaded(true);
         });
+    } else if (planId === "new") {
+      setPlanLoaded(true);
     }
 
     return () => {
