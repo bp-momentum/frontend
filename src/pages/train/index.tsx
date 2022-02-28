@@ -62,7 +62,7 @@ const Train: React.FC<TrainProps> = ({ rawExercise }) => {
 
   return (
     <Container confimLeave={subPage !== "exerciseDone"}>
-      {isLoading || exercise === null ? (
+      {isLoading || !exercise ? (
         <div>Loading...</div>
       ) : (
         <>
