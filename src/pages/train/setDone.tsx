@@ -39,8 +39,7 @@ const SetDone: React.FC<setDoneProps> = ({ ...props }) => {
     return () => {
       isMounted = false;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  });
 
   const getTypeKey = (type: dataEntryType) => {
     switch (type.type) {
