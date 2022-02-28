@@ -50,9 +50,7 @@ const Train: React.FC<TrainProps> = ({ rawExercise }) => {
         description: data.description,
         sets: rawExercise.sets,
         repeatsPerSet: rawExercise.repeats_per_set,
-        videoPath:
-          data.video ??
-          "https://vid.pr0gramm.com/2021/12/28/130aaef3ab9c207a.mp4",
+        videoPath: data.video,
         activated: true,
       });
     }
