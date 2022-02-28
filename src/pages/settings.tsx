@@ -15,7 +15,12 @@ import {
 } from "antd";
 import Api from "../util/api";
 import Routes from "../util/routes";
-import { unsetRefreshToken, unsetToken } from "../redux/token/tokenSlice";
+import {
+  setRefreshToken,
+  setToken,
+  unsetRefreshToken,
+  unsetToken,
+} from "../redux/token/tokenSlice";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import Translations from "../localization/translations";
 import { useTranslation } from "react-i18next";
@@ -43,9 +48,9 @@ const Settings: React.FC = () => {
 
   function showDeleteConfirm() {
     Modal.confirm({
-      title: t(Translations.settings.deleteModalTitel),
+      title: t(Translations.settings.deleteModalTitle),
       icon: <ExclamationCircleOutlined />,
-      content: t(Translations.settings.deleteModalMSG),
+      content: t(Translations.settings.deleteModalMessage),
       okText: t(Translations.settings.deleteModalConfirm),
       okType: "danger",
       cancelText: t(Translations.settings.deleteModalCancel),
@@ -77,6 +82,73 @@ const Settings: React.FC = () => {
 
     dispatch(unsetRefreshToken());
     dispatch(unsetToken());
+  };
+
+  function onLogoutAllDevices() {
+    Modal.confirm({
+      title: t(Translations.settings.logoutAllDevices.modal.title),
+      icon: <ExclamationCircleOutlined />,
+      content: t(Translations.settings.logoutAllDevices.modal.message),
+      okText: t(Translations.settings.logoutAllDevices.modal.confirm),
+      okType: "danger",
+      cancelText: t(Translations.settings.logoutAllDevices.modal.cancel),
+      onOk() {
+        onConfirmLogoutAllDevices().catch(message.error);
+      },
+      onCancel() {
+        console.log("Cancelled Logout All Devices");
+      },
+    });
+  }
+
+  const onConfirmLogoutAllDevices = async () => {
+    setError(null);
+    const response = await Api.execute(Routes.logoutAllDevices());
+    if (!response || !response.success) {
+      setError(t(response.description ?? Translations.errors.unknownError));
+      return;
+    }
+
+    /**
+     * This method displays a message that the logout was successful, but that the user has to log in manually again.
+     * This happens with a 5-second delay.
+     */
+    const displaySuccessAndRedirect = async () => {
+      setSuccess(t(Translations.settings.logoutAllDevices.successLogin));
+      setTimeout(() => setSuccess(null), 5000);
+      await new Promise((resolve) => setTimeout(resolve, 5000)); // sleep for 2 Seconds
+      dispatch(unsetRefreshToken());
+      dispatch(unsetToken());
+    };
+
+    const refreshToken = response.data["refresh_token"];
+    let sessionToken = response.data["session_token"];
+
+    // if no refresh token is returned, we have to redirect the user to the login
+    if (!refreshToken) {
+      await displaySuccessAndRedirect();
+      return;
+    }
+
+    // if we have a refresh token but no session token, we need to authenticate again to get a fresh session token
+    if (!sessionToken) {
+      const authResponse = await Api.execute(
+        Routes.auth({ refreshToken: refreshToken })
+      );
+
+      // authentication failed, redirect user to login
+      if (!response || !response.success) {
+        await displaySuccessAndRedirect();
+        return;
+      }
+      sessionToken = authResponse.data["session_token"];
+    }
+
+    // save new tokens
+    setSuccess(t(Translations.settings.logoutAllDevices.success));
+    dispatch(setRefreshToken(refreshToken));
+    dispatch(setToken(sessionToken));
+    setTimeout(() => setSuccess(null), 5000);
   };
 
   return (
@@ -145,6 +217,11 @@ const Settings: React.FC = () => {
                   style={{ marginBottom: "20px" }}
                 />
               )}
+            </Row>
+            <Row justify="center" style={{ paddingBottom: "20px" }}>
+              <Button onClick={onLogoutAllDevices} danger>
+                {t(Translations.settings.logoutAllDevices.title)}
+              </Button>
             </Row>
             <Row justify="center">
               <Button
