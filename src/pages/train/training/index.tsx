@@ -21,6 +21,21 @@ import {
   initCallback,
   statsCallback,
 } from "./callbacks";
+import _ from "lodash";
+
+const playRandomAudio = () => {
+  const audioCDN = "https://cdn.geoscribble.de/sounds/";
+  const audioFiles = _.range(16);
+  const audioExtension = ".wav";
+
+  const audio = new Audio(
+    `${audioCDN}${
+      audioFiles[Math.floor(Math.random() * audioFiles.length)]
+    }${audioExtension}`
+  );
+  audio.volume = 0.2;
+  audio.play();
+};
 
 interface trainingProps {
   loadingExercise: boolean;
@@ -140,6 +155,7 @@ const Training: React.FC<trainingProps> = ({ ...props }) => {
             totalPoints,
             setIsFeedbackNew
           );
+          playRandomAudio();
           break;
         case "end_set":
           endCallback(stats.current, setActive, setSubPage, points.current);
