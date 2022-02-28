@@ -11,6 +11,7 @@ import Stars from "./components/stars";
 import Helper from "../../util/helper";
 import Crown from "../../static/crown.svg";
 import { LoadingOutlined } from "@ant-design/icons";
+import { useAppSelector } from "../../redux/hooks";
 
 interface LeaderboardEntry {
   rank: number;
@@ -68,9 +69,16 @@ const Leaderboard: React.FC = () => {
     };
   }, []);
 
-  const uname = Helper.getUserName(api.token);
+  const token = useAppSelector((state) => state.token.token);
+  const [isTrainer, setIsTrainer] = React.useState(false);
+  const [uname, setUname] = React.useState("");
 
-  const isTrainer = Helper.getAccountType(api.token) === "trainer";
+  useEffect(() => {
+    if (token) {
+      setIsTrainer(Helper.getAccountType(token) === "trainer");
+      setUname(Helper.getUserName(token));
+    }
+  }, [token]);
 
   const rankColors = ["#f5c842", "#c8c8c8", "#C17913"];
 
