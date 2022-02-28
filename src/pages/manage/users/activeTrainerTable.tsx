@@ -48,7 +48,7 @@ const ActiveTrainerTable: React.FC = () => {
   const [isMounted, setIsMounted] = useState(true);
 
   const loadData = () => {
-    Promise.all([fetchUsers()]).then(([users]) => {
+    fetchUsers().then((users) => {
       if (!isMounted) return;
       setData(users);
     });

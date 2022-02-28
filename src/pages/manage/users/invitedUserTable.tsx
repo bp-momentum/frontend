@@ -58,7 +58,7 @@ const InvitedUserTable: React.FC<invitedUserTableProps> = ({ ...props }) => {
   const [update, setUpdate] = useState(updateValue);
 
   const loadData = () => {
-    Promise.all([fetchUsers()]).then(([users]) => {
+    fetchUsers().then((users) => {
       if (!isMounted) return;
       setData(users);
     });
