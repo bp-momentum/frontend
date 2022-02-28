@@ -109,6 +109,10 @@ const Settings: React.FC = () => {
       return;
     }
 
+    /**
+     * This method displays a message that the logout was successful, but that the user has to log in manually again.
+     * This happens with a 5-second delay.
+     */
     const displaySuccessAndRedirect = async () => {
       setSuccess(t(Translations.settings.logoutAllDevicesSuccessSelf));
       setTimeout(() => setSuccess(null), 5000);
@@ -119,15 +123,20 @@ const Settings: React.FC = () => {
 
     const refreshToken = response.data["refresh_token"];
     let sessionToken = response.data["session_token"];
+
+    // if no refresh token is returned, we have to redirect the user to the login
     if (!refreshToken) {
       await displaySuccessAndRedirect();
       return;
     }
 
+    // if we have a refresh token but no session token, we need to authenticate again to get a fresh session token
     if (!sessionToken) {
       const authResponse = await Api.execute(
         Routes.auth({ refreshToken: refreshToken })
       );
+
+      // authentication failed, redirect user to login
       if (!response || !response.success) {
         await displaySuccessAndRedirect();
         return;
@@ -135,6 +144,7 @@ const Settings: React.FC = () => {
       sessionToken = authResponse.data["session_token"];
     }
 
+    // save new tokens
     setSuccess(t(Translations.settings.logoutAllDevicesSuccess));
     dispatch(setRefreshToken(refreshToken));
     dispatch(setToken(sessionToken));
