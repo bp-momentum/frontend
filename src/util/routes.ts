@@ -445,6 +445,17 @@ const Routes = {
       },
     };
   },
+
+  /**
+   * Logs the user out of all other devices
+   */
+  logoutAllDevices: (): Route => {
+    return {
+      route: "/api/logoutdevices",
+      needsAuth: true,
+      method: "POST",
+    };
+  },
 };
 
 export default Routes;

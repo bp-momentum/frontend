@@ -15,7 +15,12 @@ import {
 } from "antd";
 import Api from "../util/api";
 import Routes from "../util/routes";
-import { unsetRefreshToken, unsetToken } from "../redux/token/tokenSlice";
+import {
+  setRefreshToken,
+  setToken,
+  unsetRefreshToken,
+  unsetToken,
+} from "../redux/token/tokenSlice";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import Translations from "../localization/translations";
 import { useTranslation } from "react-i18next";
@@ -43,9 +48,9 @@ const Settings: React.FC = () => {
 
   function showDeleteConfirm() {
     Modal.confirm({
-      title: t(Translations.settings.deleteModalTitel),
+      title: t(Translations.settings.deleteModalTitle),
       icon: <ExclamationCircleOutlined />,
-      content: t(Translations.settings.deleteModalMSG),
+      content: t(Translations.settings.deleteModalMessage),
       okText: t(Translations.settings.deleteModalConfirm),
       okType: "danger",
       cancelText: t(Translations.settings.deleteModalCancel),
@@ -77,6 +82,63 @@ const Settings: React.FC = () => {
 
     dispatch(unsetRefreshToken());
     dispatch(unsetToken());
+  };
+
+  function onLogoutAllDevices() {
+    Modal.confirm({
+      title: t(Translations.settings.logoutAllDevicesModalTitle),
+      icon: <ExclamationCircleOutlined />,
+      content: t(Translations.settings.logoutAllDevicesModalMessage),
+      okText: t(Translations.settings.logoutAllDevicesModalConfirm),
+      okType: "danger",
+      cancelText: t(Translations.settings.logoutAllDevicesModalCancel),
+      onOk() {
+        onConfirmLogoutAllDevices().catch(message.error);
+      },
+      onCancel() {
+        console.log("Cancelled Logout All Devices");
+      },
+    });
+  }
+
+  const onConfirmLogoutAllDevices = async () => {
+    setError(null);
+    const response = await Api.execute(Routes.logoutAllDevices());
+    if (!response || !response.success) {
+      setError(t(response.description ?? Translations.errors.unknownError));
+      return;
+    }
+
+    const displaySuccessAndRedirect = async () => {
+      setSuccess(t(Translations.settings.logoutAllDevicesSuccessSelf));
+      setTimeout(() => setSuccess(null), 5000);
+      await new Promise((resolve) => setTimeout(resolve, 5000)); // sleep for 2 Seconds
+      dispatch(unsetRefreshToken());
+      dispatch(unsetToken());
+    };
+
+    const refreshToken = response.data["refresh_token"];
+    let sessionToken = response.data["session_token"];
+    if (!refreshToken) {
+      await displaySuccessAndRedirect();
+      return;
+    }
+
+    if (!sessionToken) {
+      const authResponse = await Api.execute(
+        Routes.auth({ refreshToken: refreshToken })
+      );
+      if (!response || !response.success) {
+        await displaySuccessAndRedirect();
+        return;
+      }
+      sessionToken = authResponse.data["session_token"];
+    }
+
+    setSuccess(t(Translations.settings.logoutAllDevicesSuccess));
+    dispatch(setRefreshToken(refreshToken));
+    dispatch(setToken(sessionToken));
+    setTimeout(() => setSuccess(null), 5000);
   };
 
   return (
@@ -145,6 +207,11 @@ const Settings: React.FC = () => {
                   style={{ marginBottom: "20px" }}
                 />
               )}
+            </Row>
+            <Row justify="center" style={{ paddingBottom: "20px" }}>
+              <Button onClick={onLogoutAllDevices} danger>
+                {t(Translations.settings.logoutAllDevices)}
+              </Button>
             </Row>
             <Row justify="center">
               <Button
