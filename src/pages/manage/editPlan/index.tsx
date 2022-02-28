@@ -346,7 +346,7 @@ const EditPlan: React.FC = () => {
                             key={item.id}
                             item={{ ...item }}
                             index={index}
-                            details={false}
+                            details
                             exercises={exercises}
                             openState={openState}
                             setOpenState={setOpenState}
