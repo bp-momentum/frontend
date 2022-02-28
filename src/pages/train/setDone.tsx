@@ -61,12 +61,7 @@ const SetDone: React.FC<setDoneProps> = ({ ...props }) => {
   }
 
   return (
-    <TrainLayout
-      loadingExercise={false}
-      error={false}
-      exercise={exercise}
-      initialCollapsed={initialCollapsed}
-    >
+    <TrainLayout exercise={exercise} initialCollapsed={initialCollapsed}>
       <div
         style={{
           overflowY: "auto",

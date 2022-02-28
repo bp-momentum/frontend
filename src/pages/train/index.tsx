@@ -68,9 +68,7 @@ const Train: React.FC<TrainProps> = ({ rawExercise }) => {
         <>
           {subPage === "training" && (
             <Training
-              loadingExercise={false}
               exercise={exercise}
-              error={false}
               setSubPage={setSubPage}
               stats={stats}
               initialCollapsed={initialCollapsed}
