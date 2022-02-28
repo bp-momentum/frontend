@@ -3,15 +3,12 @@ import { Content, Header } from "antd/lib/layout/layout";
 import {
   HomeTwoTone,
   SettingTwoTone,
-  StockOutlined,
-  UserOutlined,
   CrownTwoTone,
   BarsOutlined,
   TeamOutlined,
   CalendarOutlined,
 } from "@ant-design/icons";
 import React from "react";
-import SubMenu from "antd/lib/menu/SubMenu";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import Translations from "../localization/translations";
@@ -92,11 +89,7 @@ const Container: React.FC<containerProps> = ({ ...props }) => {
             {t(Translations.tabBar.home)}
           </Menu.Item>
           {(isTrainer || isAdmin) && (
-            <SubMenu
-              key="manage"
-              title={t(Translations.tabBar.manage)}
-              icon={<SettingTwoTone twoToneColor={color} />}
-            >
+            <>
               <Menu.Item
                 key="manage_users"
                 icon={<TeamOutlined style={{ color: color }} />}
@@ -111,7 +104,7 @@ const Container: React.FC<containerProps> = ({ ...props }) => {
                   {t(Translations.tabBar.plans)}
                 </Menu.Item>
               )}
-            </SubMenu>
+            </>
           )}
           {!(isTrainer || isAdmin) && (
             <Menu.Item
@@ -122,25 +115,13 @@ const Container: React.FC<containerProps> = ({ ...props }) => {
             </Menu.Item>
           )}
           {isUser && (
-            <SubMenu
+            <Menu.Item
+              key="profile_overview"
+              icon={<BarsOutlined style={{ color: color }} />}
               style={{ marginLeft: "auto" }}
-              key="profile"
-              icon={<UserOutlined style={{ color: color }} />}
-              title={t(Translations.tabBar.profile)}
             >
-              <Menu.Item
-                key="profile_overview"
-                icon={<BarsOutlined style={{ color: color }} />}
-              >
-                {t(Translations.tabBar.overview)}
-              </Menu.Item>
-              <Menu.Item
-                key="profile_stats"
-                icon={<StockOutlined style={{ color: color }} />}
-              >
-                {t(Translations.tabBar.statistics)}
-              </Menu.Item>
-            </SubMenu>
+              {t(Translations.tabBar.overview)}
+            </Menu.Item>
           )}
           <Menu.Item
             key="settings"

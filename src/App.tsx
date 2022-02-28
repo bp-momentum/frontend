@@ -99,25 +99,52 @@ const App: React.FC = () => {
   }
 
   const isUser = token && helper.getAccountType(token) === "user";
+  const isTrainer = token && helper.getAccountType(token) === "trainer";
+  const isAdmin = token && helper.getAccountType(token) === "admin";
 
-  return (
-    <Routes>
-      {/* TODO(JUL14N): set propper routing */}
-      <Route path="/" element={isUser ? <Exercises /> : <Home />} />
-      <Route path="/train/:exercisePlanId" element={<Train />} />
-      <Route path="/exercises" element={<Exercises />} />
-      <Route path="/leaderboard" element={<Leaderboard />} />
-      {isUser && <Route path="/profile" element={<Profile />} />}
-      <Route path="/settings" element={<Settings />} />
-      <Route path="/manage">
-        {/* TODO: route to 404 maybe? */}
-        <Route path="plans" element={<ManagePlans />} />
-        <Route path="plans/:planId" element={<EditPlan />} />
-        <Route path="users" element={<Users />} />
-      </Route>
-      <Route path="*" element={<Error404 />} />
-    </Routes>
-  );
+  if (isUser) {
+    return (
+      <Routes>
+        <Route path="/" element={<Exercises />} />
+        <Route path="/train/:exercisePlanId" element={<Train />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="*" element={<Error404 />} />
+      </Routes>
+    );
+  }
+
+  if (isTrainer) {
+    return (
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/manage">
+          <Route path="plans" element={<ManagePlans />} />
+          <Route path="plans/:planId" element={<EditPlan />} />
+          <Route path="users" element={<Users />} />
+        </Route>
+        <Route path="*" element={<Error404 />} />
+      </Routes>
+    );
+  }
+
+  if (isAdmin) {
+    return (
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/manage">
+          <Route path="users" element={<Users />} />
+        </Route>
+        <Route path="*" element={<Error404 />} />
+      </Routes>
+    );
+  }
+
+  return <Error404 />;
 };
 
 export default LocalizedApp;
