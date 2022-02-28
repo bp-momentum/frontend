@@ -1,11 +1,11 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import "../i18n";
-import { store } from "../redux/store";
-import Leaderboard from "./leaderboard";
+import "../../i18n";
+import { store } from "../../redux/store";
+import Leaderboard from "./index";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
-import api from "../util/api";
+import api from "../../util/api";
 
 const LeaderboardWrapper: React.FC = () => {
   return (
