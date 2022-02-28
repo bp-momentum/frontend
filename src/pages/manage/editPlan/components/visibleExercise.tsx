@@ -5,7 +5,7 @@ import Translations from "../../../../localization/translations";
 import { exerciseIdToName } from "../functions";
 
 interface visibleExerciseProps {
-  card: ExerciseData2;
+  card: BasicExerciseData;
   details: boolean;
   collapsed: boolean;
   exercises: Exercise[];
@@ -15,7 +15,7 @@ interface visibleExerciseProps {
  * The actual exercise card component
  * If details is set it will show the data of the exercise instance
  * If collapsed is set it will show a collapsed version of the card
- * @param {card: ExerciseData, details: boolean, collapsed: boolean} props
+ * @param {card: BasicExerciseData, details: boolean, collapsed: boolean} props
  * @returns a card with the given data
  */
 const VisibleExercise: React.FC<visibleExerciseProps> = ({ ...props }) => {
