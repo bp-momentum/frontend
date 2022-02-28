@@ -115,7 +115,6 @@ const WebcamStreamCapture: React.FC<webcamStreamCaptureProps> = ({
           height: "100%",
           backdropFilter: active ? "none" : "blur(50px)",
           borderRadius: "30px",
-          border: "1px solid red",
           padding: "15px 20px",
         }}
       >
