@@ -217,6 +217,7 @@ const Training: React.FC<trainingProps> = ({ ...props }) => {
           style={{
             width: "100%",
             maxWidth: "min(64%, 500px)",
+            marginTop: "20px",
           }}
         >
           <Progress

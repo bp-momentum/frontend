@@ -92,7 +92,7 @@ const WebcamStreamCapture: React.FC<webcamStreamCaptureProps> = ({
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        margin: "5px",
+        margin: "10px",
       }}
     >
       <Webcam
@@ -118,7 +118,7 @@ const WebcamStreamCapture: React.FC<webcamStreamCaptureProps> = ({
           backdropFilter: active ? "none" : "blur(50px)",
           borderRadius: "30px",
           padding: "15px 20px",
-          border: "1px solid #fff",
+          border: "2px solid #fff",
         }}
       >
         <div
