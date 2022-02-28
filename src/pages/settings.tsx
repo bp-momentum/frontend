@@ -114,7 +114,7 @@ const Settings: React.FC = () => {
      * This happens with a 5-second delay.
      */
     const displaySuccessAndRedirect = async () => {
-      setSuccess(t(Translations.settings.logoutAllDevicesSuccessSelf));
+      setSuccess(t(Translations.settings.logoutAllDevicesSuccessLogin));
       setTimeout(() => setSuccess(null), 5000);
       await new Promise((resolve) => setTimeout(resolve, 5000)); // sleep for 2 Seconds
       dispatch(unsetRefreshToken());

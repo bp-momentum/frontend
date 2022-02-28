@@ -93,7 +93,7 @@ const Translations = {
     successfullyDeletedAccount: "settings.successfully-deleted-account",
     logoutAllDevices: "settings.logout-all-devices.title",
     logoutAllDevicesSuccess: "settings.logout-all-devices.success",
-    logoutAllDevicesSuccessSelf: "settings.logout-all-devices.success-self",
+    logoutAllDevicesSuccessLogin: "settings.logout-all-devices.success-login",
     logoutAllDevicesModalTitle: "settings.logout-all-devices.modal.title",
     logoutAllDevicesModalMessage: "settings.logout-all-devices.modal.message",
     logoutAllDevicesModalConfirm: "settings.logout-all-devices.modal.confirm",

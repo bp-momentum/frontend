@@ -92,7 +92,7 @@
     "logout-all-devices": {
       "title": "Logout all devices",
       "success": "Successfully logged out all other devices from your account!",
-      "success-self": "Successfully logged out all devices from your account! You need to login again!",
+      "success-login": "Successfully logged out all devices from your account! You need to login again!",
       "modal": {
         "title": "Logout all devices",
         "message": "Are you sure you want to logout all other accounts from your account?",

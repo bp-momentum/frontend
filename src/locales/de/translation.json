@@ -92,7 +92,7 @@
     "logout-all-devices": {
       "title": "Alle Geräte ausloggen",
       "success": "Alle anderen Geräte wurden erfolgreich aus deinem Account ausgeloggt!",
-      "success-self": "Alle Geräte wurden erfolgreich aus deinem Account ausgeloggt! Du musst dich erneut einloggen!",
+      "success-login": "Alle Geräte wurden erfolgreich aus deinem Account ausgeloggt! Du musst dich erneut einloggen!",
       "modal": {
         "title": "Alle Geräte ausloggen",
         "message": "Bist du dir sicher, dass du alle anderen Geräte aus deinem Account ausloggen möchtest?",
