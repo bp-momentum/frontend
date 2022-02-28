@@ -12,7 +12,7 @@ import ProfileSider from "./components/profile_sider";
 import TrainerCard from "./components/cards/trainer_card";
 import {
   DoneExercise,
-  getApproximateExerciseDurationSeconds,
+  getApproximateExerciseDurationMinutes,
 } from "../../api/done_exercise";
 import ActivityCalendarCard from "./components/cards/activity_calendar_card";
 import DailySummaryCard from "./components/cards/daily_summary_card";
@@ -57,7 +57,7 @@ const Profile: React.FC = () => {
     let trainedTodayReal = 0;
     let trainDayGoal = 0;
     for (const exercise of doneExercises) {
-      const duration = getApproximateExerciseDurationSeconds(exercise);
+      const duration = getApproximateExerciseDurationMinutes(exercise);
       if (exercise.date === todayDayName) {
         trainDayGoal += duration;
         if (exercise.done) {
@@ -72,8 +72,8 @@ const Profile: React.FC = () => {
       avatarId: profile.data.avatar ?? "",
       dailyRating: dailyRating,
       doneExercises: doneExercises,
-      minutesTrainedGoal: Math.ceil(trainDayGoal / 60),
-      minutesTrained: Math.ceil(trainedTodayReal / 60),
+      minutesTrainedGoal: trainDayGoal,
+      minutesTrained: trainedTodayReal,
       motivation: profile.data.motivation ?? "",
       trainerAddress: trainerContact.data.address ?? "",
       trainerEmail: trainerContact.data.email ?? "",
