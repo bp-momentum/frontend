@@ -53,6 +53,7 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
   const flipCard = () => {
     if (userFlipped) {
       setUserFlipped(false);
+      setPopoverVisible(false);
     } else {
       resetEditFields();
       setUserFlipped(true);
@@ -188,7 +189,7 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
                         alt="Avatar"
                         onClick={() => {
                           setNewAvatarId(id);
-                          flipCard();
+                          setPopoverVisible(false);
                         }}
                         key={id}
                         src={Helper.getAvatarUrl(id)}
