@@ -113,7 +113,7 @@ const Container: React.FC<containerProps> = ({ ...props }) => {
               )}
             </SubMenu>
           )}
-          {!(isTrainer || isAdmin) && (
+          {!isAdmin && (
             <Menu.Item
               key="leaderboard"
               icon={<CrownTwoTone twoToneColor={color} />}

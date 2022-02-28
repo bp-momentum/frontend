@@ -70,6 +70,8 @@ const Leaderboard: React.FC = () => {
 
   const uname = Helper.getUserName(api.token);
 
+  const isTrainer = Helper.getAccountType(api.token) === "trainer";
+
   const rankColors = ["#f5c842", "#c8c8c8", "#C17913"];
 
   const tableColumns = [
@@ -206,7 +208,13 @@ const Leaderboard: React.FC = () => {
                 dataSource={entries}
                 columns={tableColumns}
                 rowKey={(entry) => entry.username}
-                pagination={false}
+                pagination={
+                  isTrainer
+                    ? {
+                        pageSize: 5,
+                      }
+                    : false
+                }
               />
             )}
           </div>
