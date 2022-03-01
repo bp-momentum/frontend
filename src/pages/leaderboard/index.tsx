@@ -60,11 +60,13 @@ const Leaderboard: React.FC = () => {
     let isMounted = true;
     // load user specific leaderboard
     loadData().then((data) => {
-      if (isMounted) {
-        if (data.error) message.error(data.error);
-        setEntries(data.data);
-        setLoading(false);
+      if (!isMounted) return;
+      if (data.error) {
+        message.error(data.error);
+        return;
       }
+      setEntries(data.data);
+      setLoading(false);
     });
     return () => {
       isMounted = false;

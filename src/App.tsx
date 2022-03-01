@@ -2,7 +2,6 @@ import "./styles/App.css";
 import React, { useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { useAppSelector } from "./redux/hooks";
-import api from "./util/api";
 import Helper from "./util/helper";
 
 import Home from "./pages/home/home";
@@ -63,11 +62,6 @@ const LocalizedApp: React.FC = () => {
 const App: React.FC = () => {
   const token = useAppSelector((state) => state.token.token);
   const refreshToken = useAppSelector((state) => state.token.refreshToken);
-
-  useEffect(() => {
-    api.setToken(token || "");
-    api.setRefreshToken(refreshToken || "");
-  }, [refreshToken, token]);
 
   const useQuery = new URLSearchParams(useLocation().search);
   const new_user_token = useQuery.get("new_user_token");
