@@ -5,11 +5,11 @@ import { useAppSelector } from "./redux/hooks";
 import api from "./util/api";
 import Helper from "./util/helper";
 
-import Home from "./pages/home";
+import Home from "./pages/home/home";
 import Login from "./pages/login";
-import Register from "./pages/register";
-import AutoLogin from "./pages/autoLogin";
-import Settings from "./pages/settings";
+import Register from "./pages/register/register";
+import AutoLogin from "./pages/login/autoLogin";
+import Settings from "./pages/settings/settings";
 import EditPlan from "./pages/manage/editPlan";
 import ManagePlans from "./pages/manage/plans";
 import Exercises from "./pages/exercises";
@@ -24,7 +24,7 @@ import { ConfigProvider } from "antd";
 import { Locale } from "antd/lib/locale-provider";
 import { useTranslation } from "react-i18next";
 import moment from "moment";
-import ResetForm from "./pages/resetPw";
+import ResetForm from "./pages/reset_password/resetPw";
 
 // initialize available languages of moment library
 import "moment/locale/de";

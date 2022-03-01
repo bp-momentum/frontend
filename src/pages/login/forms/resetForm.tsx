@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 
 interface loginProps {
   onFinish: (values: Record<string, never>) => void;
-  onFinishFailed: (errorInfo: any) => void;
+  onFinishFailed: (errorInfo: unknown) => void;
   loading: boolean;
   error: null | string | undefined;
   setForm: (form: "login" | "reset") => void;
