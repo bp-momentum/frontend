@@ -79,6 +79,9 @@ const Translations = {
     user: "tab-bar.user",
     plans: "tab-bar.plans",
     manage: "tab-bar.manage",
+    logout: "tab-bar.logout",
+    confirmLogout: "tab-bar.confirm-logout",
+    confirmLogoutContent: "tab-bar.confirm-logout-content",
   },
   settings: {
     accountSettings: "settings.account-settings",
