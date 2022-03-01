@@ -54,7 +54,7 @@
   },
   "reset-pw": {
     "title": "Passwort zurücksetzen",
-    "subtitle": "Gib dein altes Passwort ein und wähle ein Neues.",
+    "subtitle": "Wähle ein neues Passwort.",
     "old-password": "Altes Passwort",
     "new-password": "Neues Passwort",
     "repeat-password": "Passwort wiederholen",
