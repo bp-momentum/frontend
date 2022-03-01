@@ -32,7 +32,14 @@ class Api {
         response = this.executePost(route);
         break;
     }
-
+    response.then((response) => {
+      if (response.success) {
+        return;
+      }
+      if (response.description === "Token is not valid") {
+        // TODO: Redirect to login
+      }
+    });
     return response.catch((error) => {
       console.error(error);
       return {
