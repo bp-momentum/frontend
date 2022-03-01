@@ -123,6 +123,7 @@ const App: React.FC = () => {
         <Route path="/" element={<Home />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/settings/change_password" element={<ChangePassword />} />
         <Route path="/manage">
           <Route path="plans" element={<ManagePlans />} />
           <Route path="plans/:planId" element={<EditPlan />} />
@@ -138,6 +139,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/settings/change_password" element={<ChangePassword />} />
         <Route path="/manage">
           <Route path="users" element={<Users />} />
         </Route>
