@@ -11,6 +11,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import tokenReducer from "./token/tokenSlice";
+import changeReducer from "./changes/changeSlice";
 import exercisesReducer, { exerciseApi } from "./exercises/exerciseSlice";
 import { setupListeners } from "@reduxjs/toolkit/query";
 
@@ -22,6 +23,7 @@ const persistConfig = {
 
 const appReducer = combineReducers({
   token: tokenReducer,
+  changes: changeReducer,
   [exerciseApi.reducerPath]: exercisesReducer,
 });
 

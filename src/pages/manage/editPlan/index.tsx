@@ -14,6 +14,8 @@ import Day from "./components/day";
 import { reorder } from "./functions";
 import _ from "lodash";
 import { useTranslation } from "react-i18next";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import { setPlanChanges } from "../../../redux/changes/changeSlice";
 
 const { Sider, Content } = Layout;
 const { confirm } = Modal;
@@ -61,7 +63,13 @@ const EditPlan: React.FC = () => {
   // WARN: Watch out React Router DOM v6 had breaking changes.
   const navigate = useNavigate();
 
-  const [hasChanged, setHasChanged] = React.useState<false | string>(false);
+  const hasChanged = useAppSelector((state) => state.changes.planChanges);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setPlanChanges(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   /**
    * Resolve a string in the form of either a weekday or "store" to the correct getter and setter of the state
@@ -194,8 +202,7 @@ const EditPlan: React.FC = () => {
     )
       return;
 
-    if (!hasChanged)
-      setHasChanged(t(Translations.common.confirmLeaveChanges) as string);
+    if (!hasChanged) dispatch(setPlanChanges(true));
 
     // reorder the lists
     const { join, leave } = reorder(
@@ -243,7 +250,7 @@ const EditPlan: React.FC = () => {
         navigate(`../plans/${response.data.plan_id}`, { replace: true });
       }
       message.success(t(Translations.planEditor.saveSuccess));
-      setHasChanged(false);
+      dispatch(setPlanChanges(false));
     });
   };
 
@@ -296,7 +303,11 @@ const EditPlan: React.FC = () => {
     <Container
       currentPage="manage"
       color="blue"
-      confirmLeaveMessage={hasChanged}
+      confirmLeaveMessage={
+        hasChanged
+          ? (t(Translations.common.confirmLeaveChanges) as string)
+          : false
+      }
     >
       <Layout
         style={{
