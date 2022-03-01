@@ -28,7 +28,7 @@ code {
   align-items: center;
 }
 
-.ant-btn-sm:not(.no-font-fix-button-weirdness) {
+.ant-btn-sm:not(.no-font-fix-button-weirdness), .ant-select-item-option-content {
   height: 26px !important;
   padding-top: 0 !important;
   padding-bottom: 0 !important;
