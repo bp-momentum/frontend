@@ -76,7 +76,10 @@
     "statistics": "Statistiken",
     "user": "Benutzer",
     "plans": "Pläne",
-    "manage": "Verwalten"
+    "manage": "Verwalten",
+    "logout": "Logout",
+    "confirm-logout": "Ausloggen",
+    "confirm-logout-content": "Möchtest du dich wirklich ausloggen?"
   },
   "settings": {
     "account-settings": "Account Einstellungen",

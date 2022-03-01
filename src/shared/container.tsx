@@ -7,13 +7,14 @@ import {
   BarsOutlined,
   TeamOutlined,
   CalendarOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
 import React from "react";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import Translations from "../localization/translations";
 import { MenuInfo } from "rc-menu/lib/interface";
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import helper from "../util/helper";
 import { ExclamationCircleOutlined } from "@ant-design/icons/lib";
 
@@ -56,6 +57,7 @@ const Container: React.FC<containerProps> = ({ ...props }) => {
   const color = props.color || "blue";
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
   const handleClick = (e: MenuInfo) => {
     if (confimLeave) {
@@ -64,12 +66,33 @@ const Container: React.FC<containerProps> = ({ ...props }) => {
         icon: <ExclamationCircleOutlined />,
         content: t(Translations.common.confirmLeaveContent),
         onOk() {
-          navigate(pageToRoute[e.key as pages]);
+          executeClick(e);
         },
       });
     } else {
+      executeClick(e);
+    }
+  };
+
+  const executeClick = (e: MenuInfo) => {
+    if (e.key === "logout") {
+      confirmLogout();
+    } else {
       navigate(pageToRoute[e.key as pages]);
     }
+  };
+
+  const confirmLogout = () => {
+    confirm({
+      title: t(Translations.tabBar.confirmLogout),
+      icon: <ExclamationCircleOutlined />,
+      content: t(Translations.tabBar.confirmLogoutContent),
+      okType: "danger",
+      onOk() {
+        dispatch({ type: "USER_LOGOUT" });
+        navigate("/");
+      },
+    });
   };
 
   const token = useAppSelector((state) => state.token.token);
@@ -129,6 +152,12 @@ const Container: React.FC<containerProps> = ({ ...props }) => {
             icon={<SettingTwoTone twoToneColor={color} />}
           >
             {t(Translations.tabBar.settings)}
+          </Menu.Item>
+          <Menu.Item
+            key="logout"
+            icon={<LogoutOutlined style={{ color: color }} />}
+          >
+            {t(Translations.tabBar.logout)}
           </Menu.Item>
         </Menu>
       </Header>
