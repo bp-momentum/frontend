@@ -17,12 +17,14 @@ const exercisePlanIdToExercise = async (planId: number) => {
     message.error(response.description);
     return [];
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return response.data.exercises.find((e: any) => {
     return e.exercise_plan_id === planId;
   });
 };
 
 interface TrainProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   rawExercise: Record<string, any>;
 }
 
@@ -58,6 +60,7 @@ const Train: React.FC<TrainProps> = ({ rawExercise }) => {
     return () => {
       isMounted = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, rawExercise.repeats_per_set, rawExercise.sets]);
 
   return (
