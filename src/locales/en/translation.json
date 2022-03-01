@@ -76,7 +76,10 @@
     "statistics": "Stats",
     "user": "Users",
     "plans": "Plans",
-    "manage": "Manage"
+    "manage": "Manage",
+    "logout": "Logout",
+    "confirm-logout": "Logout",
+    "confirm-logout-content": "Do you really want to log out?"
   },
   "settings": {
     "account-settings": "Account Settings",
