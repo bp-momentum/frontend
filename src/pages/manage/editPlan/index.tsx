@@ -243,6 +243,7 @@ const EditPlan: React.FC = () => {
         navigate(`../plans/${response.data.plan_id}`, { replace: true });
       }
       message.success(t(Translations.planEditor.saveSuccess));
+      setHasChanged(false);
     });
   };
 
