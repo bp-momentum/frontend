@@ -1,14 +1,14 @@
 import { Alert, Button, Checkbox, Col, Form, Input, Row, Space } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import React from "react";
-import api from "../util/api";
-import Routes from "../util/routes";
-import { useAppDispatch } from "../redux/hooks";
-import { setRefreshToken, setToken } from "../redux/token/tokenSlice";
+import api from "../../util/api";
+import Routes from "../../util/routes";
+import { useAppDispatch } from "../../redux/hooks";
+import { setRefreshToken, setToken } from "../../redux/token/tokenSlice";
 import { useNavigate } from "react-router";
-import Translations from "../localization/translations";
+import Translations from "../../localization/translations";
 import { useTranslation } from "react-i18next";
-import Helper from "../util/helper";
+import Helper from "../../util/helper";
 
 export interface registerProps {
   registerToken: string;

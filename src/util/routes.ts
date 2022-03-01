@@ -447,6 +447,17 @@ const Routes = {
   },
 
   /**
+   * Logs the user out of all other devices
+   */
+  logoutAllDevices: (): Route => {
+    return {
+      route: "/api/logoutdevices",
+      needsAuth: true,
+      method: "POST",
+    };
+  },
+
+  /**
    * Change the user's password
    */
   changePassword: (props: { password: string; newPassword: string }): Route => {
