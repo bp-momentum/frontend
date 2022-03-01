@@ -9,6 +9,8 @@ import SetDone from "./setDone";
 import ExerciseDone from "./exerciseDone";
 import { useGetExerciseByIdQuery } from "../../redux/exercises/exerciseSlice";
 import { message } from "antd";
+import Translations from "../../localization/translations";
+import { t } from "i18next";
 
 const exercisePlanIdToExercise = async (planId: number) => {
   const response = await api.execute(Routes.getDoneExercises());
@@ -63,8 +65,13 @@ const Train: React.FC<TrainProps> = ({ rawExercise }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, rawExercise.repeats_per_set, rawExercise.sets]);
 
+  const leaveMessage =
+    subPage !== "exerciseDone"
+      ? t(Translations.common.confirmLeaveProgress)
+      : false;
+
   return (
-    <Container confimLeave={subPage !== "exerciseDone"}>
+    <Container confirmLeaveMessage={leaveMessage}>
       {isLoading || !exercise ? (
         <div>Loading...</div>
       ) : (

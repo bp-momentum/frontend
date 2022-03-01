@@ -3,6 +3,8 @@ import { Card, InputNumber, Space, Tooltip } from "antd";
 import { t } from "i18next";
 import Translations from "../../../../localization/translations";
 import { exerciseIdToName } from "../functions";
+import { useAppDispatch } from "../../../../redux/hooks";
+import { setPlanChanges } from "../../../../redux/changes/changeSlice";
 
 interface visibleExerciseProps {
   card: BasicExerciseData;
@@ -21,6 +23,8 @@ interface visibleExerciseProps {
 const VisibleExercise: React.FC<visibleExerciseProps> = ({ ...props }) => {
   const { card, details, collapsed, exercises } = props;
 
+  const dispatch = useAppDispatch();
+
   const [, redraw] = React.useState({});
   /**
    * Change the number of sets of this exercise instance and redraw the card
@@ -28,6 +32,7 @@ const VisibleExercise: React.FC<visibleExerciseProps> = ({ ...props }) => {
    */
   const changeSets = (value: number) => {
     card.sets = value;
+    dispatch(setPlanChanges(true));
     redraw({});
   };
   /**
@@ -36,6 +41,7 @@ const VisibleExercise: React.FC<visibleExerciseProps> = ({ ...props }) => {
    */
   const changeRepeats = (value: number) => {
     card.repeats = value;
+    dispatch(setPlanChanges(true));
     redraw({});
   };
 

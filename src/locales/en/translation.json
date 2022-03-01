@@ -6,7 +6,8 @@
   },
   "common": {
     "confirm-leave": "Are you sure you want to leave?",
-    "confirm-leave-content": "If you leave, you will lose all your progress!"
+    "confirm-leave-progress": "If you leave, you will lose all your progress!",
+    "confirm-leave-changes": "If you leave, you will lose all your changes!"
   },
   "user": {
     "username": "Username",

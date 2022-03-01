@@ -6,7 +6,8 @@
   },
   "common": {
     "confirm-leave": "Willst du die Seite wirklich verlassen?",
-    "confirm-leave-content": "Wenn du die Seite verlässt, geht all dein Fortschritt verloren."
+    "confirm-leave-progress": "Wenn du die Seite verlässt, geht all dein Fortschritt verloren.",
+    "confirm-leave-changes": "Wenn du die Seite verlässt, gehen alle deine Änderungen verloren."
   },
   "user": {
     "username": "Benutzername",

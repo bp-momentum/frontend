@@ -3,7 +3,6 @@ import { Layout, Row, Space, Button, Modal, Input, message, Spin } from "antd";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 import Container from "../../../shared/container";
 import DeleteOutlined from "@ant-design/icons/lib/icons/DeleteOutlined";
-import { t } from "i18next";
 import Translations from "../../../localization/translations";
 import { Header } from "antd/lib/layout/layout";
 import api from "../../../util/api";
@@ -14,6 +13,9 @@ import Exercise from "./components/exercise";
 import Day from "./components/day";
 import { reorder } from "./functions";
 import _ from "lodash";
+import { useTranslation } from "react-i18next";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import { setPlanChanges } from "../../../redux/changes/changeSlice";
 
 const { Sider, Content } = Layout;
 const { confirm } = Modal;
@@ -24,6 +26,8 @@ const { confirm } = Modal;
  * @returns the plan editor component
  */
 const EditPlan: React.FC = () => {
+  const { t } = useTranslation();
+
   // the plans name
   const [name, setName] = React.useState("");
   // internal counter for unique ids
@@ -58,6 +62,14 @@ const EditPlan: React.FC = () => {
 
   // WARN: Watch out React Router DOM v6 had breaking changes.
   const navigate = useNavigate();
+
+  const hasChanged = useAppSelector((state) => state.changes.planChanges);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setPlanChanges(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   /**
    * Resolve a string in the form of either a weekday or "store" to the correct getter and setter of the state
@@ -184,6 +196,23 @@ const EditPlan: React.FC = () => {
       return;
     }
 
+    // source and destination are the same
+    // thus no reordering
+    if (
+      result.destination.droppableId === result.source.droppableId &&
+      result.destination.index === result.source.index
+    )
+      return;
+
+    // disallow store reordering
+    if (
+      result.source.droppableId === "store" &&
+      result.destination.droppableId === "store"
+    )
+      return;
+
+    if (!hasChanged) dispatch(setPlanChanges(true));
+
     // reorder the lists
     const { join, leave } = reorder(
       DropToState(result.source.droppableId).get,
@@ -230,6 +259,7 @@ const EditPlan: React.FC = () => {
         navigate(`../plans/${response.data.plan_id}`, { replace: true });
       }
       message.success(t(Translations.planEditor.saveSuccess));
+      dispatch(setPlanChanges(false));
     });
   };
 
@@ -279,7 +309,15 @@ const EditPlan: React.FC = () => {
   };
 
   return (
-    <Container currentPage="manage" color="blue">
+    <Container
+      currentPage="manage"
+      color="blue"
+      confirmLeaveMessage={
+        hasChanged
+          ? (t(Translations.common.confirmLeaveChanges) as string)
+          : false
+      }
+    >
       <Layout
         style={{
           height: "100%",
