@@ -86,6 +86,7 @@
     "logout": "Logout",
     "change-language": "Change your language!",
     "danger-zone": "Danger Zone",
+    "security": "Security",
     "delete-account": "Delete Account",
     "delete-modal-title": "Account Deletion",
     "delete-modal-msg": "Are you sure you want to delete your account? This action is irreversible.",
@@ -102,6 +103,20 @@
         "confirm": "Logout",
         "cancel": "Cancel"
       }
+    },
+    "change-password": {
+      "button-title": "Change password",
+      "title": "Change password",
+      "subtitle": "Enter your old password and choose a new one!",
+      "same-password": "Please enter a new password!",
+      "password": "Current password",
+      "new-password": "New password",
+      "new-password-repeat": "Repeat new password",
+      "enter-password": "Please enter your current password!",
+      "enter-new-password": "Please enter a new password!",
+      "enter-new-password-repeat": "Please enter the new password again!",
+      "submit": "Change",
+      "success": "Your password was successfully changed!"
     }
   },
   "plan-manager": {
