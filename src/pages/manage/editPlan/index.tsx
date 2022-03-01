@@ -196,7 +196,7 @@ const EditPlan: React.FC = () => {
       return;
     }
 
-    // sourcse and destination are the same
+    // source and destination are the same
     // thus no reordering
     if (
       result.destination.droppableId === result.source.droppableId &&
