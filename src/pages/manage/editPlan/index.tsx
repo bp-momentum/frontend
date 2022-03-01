@@ -5,7 +5,6 @@ import Container from "../../../shared/container";
 import DeleteOutlined from "@ant-design/icons/lib/icons/DeleteOutlined";
 import Translations from "../../../localization/translations";
 import { Header } from "antd/lib/layout/layout";
-import api from "../../../util/api";
 import Routes from "../../../util/routes";
 import { useNavigate, useParams } from "react-router-dom";
 import { LoadingOutlined } from "@ant-design/icons";
@@ -16,6 +15,7 @@ import _ from "lodash";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { setPlanChanges } from "../../../redux/changes/changeSlice";
+import useApi from "../../../util/api";
 
 const { Sider, Content } = Layout;
 const { confirm } = Modal;
@@ -65,6 +65,8 @@ const EditPlan: React.FC = () => {
 
   const hasChanged = useAppSelector((state) => state.changes.planChanges);
   const dispatch = useAppDispatch();
+
+  const api = useApi();
 
   useEffect(() => {
     dispatch(setPlanChanges(false));

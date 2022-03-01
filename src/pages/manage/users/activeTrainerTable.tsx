@@ -1,36 +1,12 @@
 import { Button, Input, message, Popconfirm, Table } from "antd";
 import React, { createRef, useEffect, useState } from "react";
-import api from "../../../util/api";
 import Routes from "../../../util/routes";
 import { getColumnSearchProps } from "./tableSearch";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { AlignType } from "rc-table/lib/interface";
 import Translations from "../../../localization/translations";
 import { t } from "i18next";
-
-const fetchUsers = async () => {
-  const response = await api.execute(Routes.getTrainers());
-
-  if (!response) return [];
-
-  if (!response.success) {
-    message.error(response.description);
-    return [];
-  }
-
-  const userList: User[] = [];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  response.data.trainers.forEach((user: Record<string, any>) => {
-    userList.push({
-      key: user.id,
-      name: user.username,
-      last_login: user.last_login || (
-        <i>{t(Translations.userManagement.never)}</i>
-      ),
-    });
-  });
-  return userList;
-};
+import useApi from "../../../util/api";
 
 interface User {
   key: string;
@@ -46,6 +22,32 @@ const ActiveTrainerTable: React.FC = () => {
   const redraw = () => draw({});
 
   const [isMounted, setIsMounted] = useState(true);
+
+  const api = useApi();
+
+  const fetchUsers = async () => {
+    const response = await api.execute(Routes.getTrainers());
+
+    if (!response) return [];
+
+    if (!response.success) {
+      message.error(response.description);
+      return [];
+    }
+
+    const userList: User[] = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    response.data.trainers.forEach((user: Record<string, any>) => {
+      userList.push({
+        key: user.id,
+        name: user.username,
+        last_login: user.last_login || (
+          <i>{t(Translations.userManagement.never)}</i>
+        ),
+      });
+    });
+    return userList;
+  };
 
   const loadData = () => {
     fetchUsers().then((users) => {

@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import "../../styles/Leaderboard.css";
 import { Layout, message, Spin, Table } from "antd";
 import Container from "../../shared/container";
-import api from "../../util/api";
 import Routes from "../../util/routes";
 import Translations from "../../localization/translations";
 import { t } from "i18next";
@@ -12,6 +11,7 @@ import Helper from "../../util/helper";
 import Crown from "../../static/crown.svg";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useAppSelector } from "../../redux/hooks";
+import useApi from "../../util/api";
 
 interface LeaderboardEntry {
   rank: number;
@@ -22,29 +22,6 @@ interface LeaderboardEntry {
   accuracy: number;
 }
 
-const loadData = async (): Promise<{
-  data: LeaderboardEntry[];
-  error: string | undefined;
-}> => {
-  const response = await api.execute(Routes.getLeaderboard({ count: 10 }));
-  if (!response.success) {
-    return { error: response.description, data: [] };
-  }
-  const entries: LeaderboardEntry[] = [];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  response.data.leaderboard.forEach((entry: Record<string, any>) => {
-    entries.push({
-      rank: entry.rank,
-      username: entry.username,
-      score: entry.score.toFixed(0),
-      speed: entry.speed,
-      intensity: entry.intensity,
-      accuracy: entry.cleanliness,
-    });
-  });
-  return { data: entries, error: undefined };
-};
-
 /**
  * The leaderboard contains 10 entries (or less, if there are only < 10 users)
  * Shown are the player themselves and 9 surrounding players with their rank and score
@@ -53,6 +30,31 @@ const loadData = async (): Promise<{
 const Leaderboard: React.FC = () => {
   const [entries, setEntries] = React.useState<LeaderboardEntry[]>([]);
   const [loading, setLoading] = React.useState(true);
+
+  const api = useApi();
+
+  const loadData = async (): Promise<{
+    data: LeaderboardEntry[];
+    error: string | undefined;
+  }> => {
+    const response = await api.execute(Routes.getLeaderboard({ count: 10 }));
+    if (!response.success) {
+      return { error: response.description, data: [] };
+    }
+    const entries: LeaderboardEntry[] = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    response.data.leaderboard.forEach((entry: Record<string, any>) => {
+      entries.push({
+        rank: entry.rank,
+        username: entry.username,
+        score: entry.score.toFixed(0),
+        speed: entry.speed,
+        intensity: entry.intensity,
+        accuracy: entry.cleanliness,
+      });
+    });
+    return { data: entries, error: undefined };
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -67,6 +69,7 @@ const Leaderboard: React.FC = () => {
     return () => {
       isMounted = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const token = useAppSelector((state) => state.token.token);

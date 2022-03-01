@@ -1,6 +1,5 @@
 import { Row, Col, Space, message } from "antd";
 import React from "react";
-import api from "../../util/api";
 import Routes from "../../util/routes";
 import { useAppDispatch } from "../../redux/hooks";
 import { setRefreshToken, setToken } from "../../redux/token/tokenSlice";
@@ -8,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import Translations from "../../localization/translations";
 import LoginForm from "./forms/loginForm";
 import ResetForm from "./forms/resetForm";
+import useApi from "../../util/api";
 
 const Login: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -16,6 +16,8 @@ const Login: React.FC = () => {
   const { t } = useTranslation();
 
   const [form, setForm] = React.useState<"login" | "reset">("login");
+
+  const api = useApi();
 
   const onLogin = async (values: Record<string, never>) => {
     const username = values["username"];
