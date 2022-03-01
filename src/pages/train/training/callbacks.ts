@@ -1,3 +1,5 @@
+import React from "react";
+
 const totalPointsCalculation = (
   intensity: number,
   accuracy: number,
@@ -19,7 +21,7 @@ const calculatePoints = (points: Points[], set: number): dataEntryType[] => {
     points.reduce((acc, curr) => acc + curr.speed, 0) / points.length
   );
 
-  const pts: dataEntryType[] = [
+  return [
     {
       type: "Intensity",
       set: set.toString(),
@@ -36,8 +38,6 @@ const calculatePoints = (points: Points[], set: number): dataEntryType[] => {
       performance: speed,
     },
   ];
-
-  return pts;
 };
 
 export const initCallback = (

@@ -1,10 +1,10 @@
 import React from "react";
-import { useAppSelector } from "../redux/hooks";
-import Container from "../shared/container";
-import helper from "../util/helper";
+import { useAppSelector } from "../../redux/hooks";
+import Container from "../../shared/container";
+import helper from "../../util/helper";
 import { Col, Row, Space } from "antd";
 import { useTranslation } from "react-i18next";
-import Translations from "../localization/translations";
+import Translations from "../../localization/translations";
 
 const Home: React.FC = () => {
   const token = useAppSelector((state) => state.token.token);

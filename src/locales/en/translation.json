@@ -88,7 +88,18 @@
     "delete-modal-msg": "Are you sure you want to delete your account? This action is irreversible.",
     "delete-modal-confirm": "Delete Account",
     "delete-modal-cancel": "Cancel",
-    "successfully-deleted-account": "Account Deletion was successful! You will be logged out shortly."
+    "successfully-deleted-account": "Account Deletion was successful! You will be logged out shortly.",
+    "logout-all-devices": {
+      "title": "Logout all devices",
+      "success": "Successfully logged out all other devices from your account!",
+      "success-login": "Successfully logged out all devices from your account! You need to login again!",
+      "modal": {
+        "title": "Logout all devices",
+        "message": "Are you sure you want to logout all other accounts from your account?",
+        "confirm": "Logout",
+        "cancel": "Cancel"
+      }
+    }
   },
   "plan-manager": {
     "new-plan": "New Plan",
