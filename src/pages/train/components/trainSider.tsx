@@ -1,19 +1,15 @@
-import { Spin } from "antd";
 import React from "react";
-import { LoadingOutlined } from "@ant-design/icons";
 import Translations from "../../../localization/translations";
 import { t } from "i18next";
 import Paper from "../../../shared/paper";
 
 interface trainSiderProps {
-  loading: boolean;
-  error: boolean;
   collapsed: boolean;
   exercise?: ExerciseData;
 }
 
 const TrainSider: React.FC<trainSiderProps> = ({ ...props }) => {
-  const { loading, exercise, collapsed, error } = props;
+  const { exercise, collapsed } = props;
 
   return (
     <>
@@ -49,48 +45,19 @@ const TrainSider: React.FC<trainSiderProps> = ({ ...props }) => {
           padding: "40px 0",
         }}
       >
-        {loading || error ? (
-          <div
-            style={{
-              height: "100%",
-              width: "100%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "column",
-            }}
-          >
-            {error ? (
-              <div>{t(Translations.planManager.error)}</div>
-            ) : (
-              <>
-                <Spin
-                  indicator={
-                    <LoadingOutlined
-                      style={{ fontSize: 24, color: "white" }}
-                      spin
-                    />
-                  }
-                />
-                <div>{t(Translations.planManager.loading)}</div>
-              </>
-            )}
-          </div>
-        ) : (
-          <Paper
-            padding={60}
-            backdropColor="#466995"
-            lineColor="#A1C7DA"
-            totalWidth={500}
-            title={
-              <span style={{ fontSize: "40px", lineHeight: "47.145px" }}>
-                {t(Translations.training.instructions)}
-              </span>
-            }
-          >
-            {exercise?.description || ""}
-          </Paper>
-        )}
+        <Paper
+          padding={60}
+          backdropColor="#466995"
+          lineColor="#A1C7DA"
+          totalWidth={500}
+          title={
+            <span style={{ fontSize: "40px", lineHeight: "47.145px" }}>
+              {t(Translations.training.instructions)}
+            </span>
+          }
+        >
+          {exercise?.description || ""}
+        </Paper>
 
         {exercise?.videoPath && (
           <video

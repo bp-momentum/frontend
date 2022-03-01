@@ -26,13 +26,19 @@ const SetDone: React.FC<setDoneProps> = ({ ...props }) => {
   const { t } = useTranslation();
 
   useEffect(() => {
+    let isMounted = true;
     if (remainingSeconds === 0) {
       setSubPage("training");
       return;
     }
     setTimeout(() => {
+      if (!isMounted) return;
       setRemainingSeconds(remainingSeconds - 1);
     }, 1000);
+
+    return () => {
+      isMounted = false;
+    };
   });
 
   const getTypeKey = (type: dataEntryType) => {
@@ -54,12 +60,7 @@ const SetDone: React.FC<setDoneProps> = ({ ...props }) => {
   }
 
   return (
-    <TrainLayout
-      loadingExercise={false}
-      error={false}
-      exercise={exercise}
-      initialCollapsed={initialCollapsed}
-    >
+    <TrainLayout exercise={exercise} initialCollapsed={initialCollapsed}>
       <div
         style={{
           overflowY: "auto",

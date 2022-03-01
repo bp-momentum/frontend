@@ -19,6 +19,48 @@ import Translations from "../../../localization/translations";
 
 const { Option } = Select;
 
+const fetchUsers = async () => {
+  const response = await api.execute(Routes.getTrainerUsers());
+
+  if (!response) return [];
+
+  if (!response.success) {
+    message.error(response.description);
+    return [];
+  }
+
+  const userList: User[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  response.data.users.forEach((user: Record<string, any>) => {
+    userList.push({
+      key: user.id,
+      name: user.username,
+      trainingplan: user.plan,
+      thisweeksactivity: user.done_exercises || 0,
+      last_login: user.last_login || (
+        <i>{t(Translations.userManagement.never)}</i>
+      ),
+    });
+  });
+  return userList;
+};
+
+const fetchPlans = async () => {
+  const response = await api.execute(Routes.getTrainingPlans());
+  if (!response) return [];
+
+  if (!response.success) {
+    message.error(response.description);
+    return [];
+  }
+  const planList: Plan[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  response.data.plans.forEach((plan: Record<string, any>) => {
+    planList.push({ id: plan.id, name: plan.name });
+  });
+  return planList;
+};
+
 interface User {
   key: string;
   name: string;
@@ -29,79 +71,34 @@ interface User {
 
 const ActiveUserTable: React.FC = () => {
   const searchInput = createRef<Input>();
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
   const [data, setData] = useState<User[]>([]);
   const [plans, setPlans] = React.useState<Plan[]>([]);
-  const [, draw] = useState({});
+  const [isMounted, setIsMounted] = useState(true);
 
-  const redraw = () => draw({});
+  const loadData = () => {
+    Promise.all([fetchUsers(), fetchPlans()]).then(([users, plans]) => {
+      if (!isMounted) return;
+      setData(users);
+      setPlans(plans);
+    });
+  };
 
   const deleteUser = async (id: string) => {
     api.execute(Routes.deleteUser({ userId: id })).then(() => {
       message.success(t(Translations.userManagement.userDeleted));
-      setLoading(true);
+      loadData();
     });
   };
 
   useEffect(() => {
-    if (!error) return;
-    message.error(t(Translations.errors.unknownError));
-  }, [error]);
+    loadData();
 
-  const fetchUsers = async () => {
-    const response = await api.execute(Routes.getTrainerUsers());
-
-    if (!response.success) {
-      setError(true);
-      return [];
-    }
-    const userList: User[] = [];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    response.data.users.forEach((user: Record<string, any>) => {
-      userList.push({
-        key: user.id,
-        name: user.username,
-        trainingplan: user.plan,
-        thisweeksactivity: user.done_exercises || 0,
-        last_login: user.last_login || (
-          <i>{t(Translations.userManagement.never)}</i>
-        ),
-      });
-    });
-    return userList;
-  };
-
-  const fetchPlans = async () => {
-    const response = await api.execute(Routes.getTrainingPlans());
-    if (!response.success) {
-      setError(true);
-      return [];
-    }
-    const planList: Plan[] = [];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    response.data.plans.forEach((plan: Record<string, any>) => {
-      planList.push({ id: plan.id, name: plan.name });
-    });
-    return planList;
-  };
-
-  useEffect(() => {
-    let isMounted = true;
-    // load all the plans the user has access to from the API
-    if (loading) {
-      Promise.all([fetchUsers(), fetchPlans()]).then(([users, plans]) => {
-        if (!isMounted) return;
-        setLoading(false);
-        setData(users);
-        setPlans(plans);
-      });
-    }
     return () => {
       // clean up
-      isMounted = false;
+      setIsMounted(false);
     };
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const columns = [
     {
@@ -111,7 +108,7 @@ const ActiveUserTable: React.FC = () => {
       ...getColumnSearchProps(
         "name",
         searchInput,
-        redraw,
+        loadData,
         t(Translations.userManagement.SearchName)
       ),
     },
