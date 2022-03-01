@@ -6,7 +6,8 @@ const Translations = {
   },
   common: {
     confirmLeave: "common.confirm-leave",
-    confirmLeaveContent: "common.confirm-leave-content",
+    confirmLeaveProgress: "common.confirm-leave-progress",
+    confirmLeaveChanges: "common.confirm-leave-changes",
   },
   user: {
     username: "user.username",

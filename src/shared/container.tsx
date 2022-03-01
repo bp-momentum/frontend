@@ -24,7 +24,7 @@ export interface containerProps {
   children: React.ReactNode;
   currentPage?: "home" | "settings" | "leaderboard" | "profile" | "manage"; // highlightable menu items
   color?: "red" | "gold" | "blue";
-  confimLeave?: boolean;
+  confirmLeaveMessage?: false | string;
 }
 
 type pages =
@@ -53,18 +53,18 @@ const pageToRoute: pagesToRouteType = {
 };
 
 const Container: React.FC<containerProps> = ({ ...props }) => {
-  const { children, currentPage, confimLeave } = props;
+  const { children, currentPage, confirmLeaveMessage } = props;
   const color = props.color || "blue";
   const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
   const handleClick = (e: MenuInfo) => {
-    if (confimLeave) {
+    if (confirmLeaveMessage) {
       confirm({
         title: t(Translations.common.confirmLeave),
         icon: <ExclamationCircleOutlined />,
-        content: t(Translations.common.confirmLeaveContent),
+        content: confirmLeaveMessage,
         onOk() {
           executeClick(e);
         },
