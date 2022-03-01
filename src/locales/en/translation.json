@@ -102,7 +102,18 @@
       }
     },
     "change-password": {
-      "button-title": "Change password"
+      "button-title": "Change password",
+      "title": "Change password",
+      "subtitle": "Enter your old password and choose a new one!",
+      "same-password": "Please enter a new password!",
+      "password": "Current password",
+      "new-password": "New password",
+      "new-password-repeat": "Repeat new password",
+      "enter-password": "Please enter your current password!",
+      "enter-new-password": "Please enter a new password!",
+      "enter-new-password-repeat": "Please enter the new password again!",
+      "submit": "Change",
+      "success": "Your password was successfully changed!"
     }
   },
   "plan-manager": {

@@ -105,6 +105,18 @@ const Translations = {
     },
     changePassword: {
       buttonTitle: "settings.change-password.button-title",
+      title: "settings.change-password.title",
+      subtitle: "settings.change-password.subtitle",
+      samePassword: "settings.change-password.same-password",
+      currentPassword: "settings.change-password.password",
+      newPassword: "settings.change-password.new-password",
+      newPasswordRepeat: "settings.change-password.new-password-repeat",
+      enterPassword: "settings.change-password.enter-password",
+      enterNewPassword: "settings.change-password.enter-new-password",
+      enterNewPasswordRepeat:
+        "settings.change-password.enter-new-password-repeat",
+      submit: "settings.change-password.submit",
+      success: "settings.change-password.success",
     },
   },
   planManager: {

@@ -152,7 +152,7 @@ const Settings: React.FC = () => {
   };
 
   const onChangePassword = async () => {
-    console.log("Change Password!");
+    navigate("/settings/change_password");
   };
 
   return (

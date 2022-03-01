@@ -33,6 +33,7 @@ import "moment/locale/en-gb";
 // import available languages from ant locales
 import deDE from "antd/lib/locale-provider/de_DE";
 import enGB from "antd/lib/locale-provider/en_GB";
+import ChangePassword from "./pages/change_password/change_password";
 
 const LocalizedApp: React.FC = () => {
   const [locale, setLocale] = React.useState<Locale>(deDE);
@@ -110,6 +111,7 @@ const App: React.FC = () => {
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/settings/change_password" element={<ChangePassword />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
     );
