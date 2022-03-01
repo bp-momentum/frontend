@@ -13,7 +13,7 @@
     "@types/react": "^17.0.39",
     "@types/react-beautiful-dnd": "^13.1.2",
     "@types/react-webcam": "^3.0.0",
-    "antd": "^4.18.8",
+    "antd": "^4.18.9",
     "buffer": "^6.0.3",
     "i18next": "^21.6.12",
     "i18next-browser-languagedetector": "^6.1.3",
