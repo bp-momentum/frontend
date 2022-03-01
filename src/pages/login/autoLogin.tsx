@@ -4,11 +4,7 @@ import React, { useEffect } from "react";
 import api from "../../util/api";
 import Routes from "../../util/routes";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import {
-  setToken,
-  unsetRefreshToken,
-  unsetToken,
-} from "../../redux/token/tokenSlice";
+import { setToken } from "../../redux/token/tokenSlice";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import Translations from "../../localization/translations";
@@ -20,8 +16,7 @@ const AutoLogin: React.FC = () => {
   const { t } = useTranslation();
 
   const removeToken = () => {
-    dispatch(unsetRefreshToken());
-    dispatch(unsetToken());
+    dispatch({ type: "USER_LOGOUT" });
     api.setToken("");
     api.setRefreshToken("");
     return navigate("");
@@ -45,7 +40,8 @@ const AutoLogin: React.FC = () => {
 
   useEffect(() => {
     checkLogin().catch(() => removeToken());
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Space

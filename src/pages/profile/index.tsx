@@ -36,10 +36,8 @@ const Profile: React.FC = () => {
   );
 
   useEffect(() => {
-    if (!profileData) {
-      loadProfile().catch((e) => message.error(e));
-    }
-  });
+    loadProfile().catch((e) => message.error(e));
+  }, []);
 
   const loadProfile = async () => {
     const results = await Promise.all([

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import PlusOutlined from "@ant-design/icons/lib/icons/PlusOutlined";
-import { Button, Col, Layout, Row, Spin } from "antd";
+import { Button, Col, Layout, message, Row, Spin } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import { useNavigate } from "react-router";
 import Container from "../../shared/container";
@@ -12,6 +12,21 @@ import Translations from "../../localization/translations";
 import { t } from "i18next";
 import { Plan } from "../../api/plan";
 
+const fetchPlans = async () => {
+  const response = await api.execute(Routes.getTrainingPlans());
+  if (!response) return [];
+  if (!response.success) {
+    message.error(response.description);
+    return [];
+  }
+  const planList: Plan[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  response.data.plans.forEach((plan: Record<string, any>) => {
+    planList.push({ id: plan.id, name: plan.name });
+  });
+  return planList;
+};
+
 /**
  * Consists of a list of all the plans the user has access to.
  * @returns The page for managing plans.
@@ -20,31 +35,21 @@ const ManagePlans: React.FC = () => {
   const navigate = useNavigate();
   const [plans, setPlans] = React.useState<Plan[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
-  const [error, setError] = React.useState<boolean>(false);
 
   useEffect(() => {
     let isMounted = true;
     // load all the plans the user has access to from the API
-    if (loading)
-      api.execute(Routes.getTrainingPlans()).then((response) => {
-        if (!isMounted) return;
-        if (!response.success) {
-          setError(true);
-          return;
-        }
-        const planList: Plan[] = [];
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        response.data.plans.forEach((plan: Record<string, any>) => {
-          planList.push({ id: plan.id, name: plan.name });
-        });
-        setPlans(planList);
+    fetchPlans().then((data) => {
+      if (isMounted) {
+        setPlans(data);
         setLoading(false);
-      });
+      }
+    });
     return () => {
       // clean up
       isMounted = false;
     };
-  });
+  }, []);
 
   return (
     <Container color="blue" currentPage="manage">
@@ -67,16 +72,10 @@ const ManagePlans: React.FC = () => {
               flexDirection: "column",
             }}
           >
-            {error ? (
-              <div>{t(Translations.planManager.error)}</div>
-            ) : (
-              <>
-                <Spin
-                  indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
-                />
-                <div>{t(Translations.planManager.loading)}</div>
-              </>
-            )}
+            <Spin
+              indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />}
+            />
+            <div>{t(Translations.planManager.loading)}</div>
           </div>
         ) : (
           <Content style={{ padding: "70px 100px", display: "flex" }}>
