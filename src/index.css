@@ -35,3 +35,8 @@ code {
   line-height: 24px !important;
   align-items: center;
 }
+
+.ant-select-arrow, .ant-select-clear {
+  height: 20px !important;
+  margin-top: -10px !important;
+}

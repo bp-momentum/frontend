@@ -42,6 +42,13 @@ const fetchUsers = async () => {
       ),
     });
   });
+
+  userList.sort((a, b) => {
+    if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+    if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+    return 0;
+  });
+
   return userList;
 };
 
@@ -91,6 +98,7 @@ const ActiveUserTable: React.FC = () => {
   };
 
   useEffect(() => {
+    setIsMounted(true);
     loadData();
 
     return () => {
@@ -123,7 +131,7 @@ const ActiveUserTable: React.FC = () => {
           placeholder={t(Translations.userManagement.selectPlan)}
           optionFilterProp="children"
           defaultValue={text}
-          style={{ minWidth: "100px" }}
+          style={{ width: "200px" }}
           allowClear={true}
           onChange={async (value: string) => {
             api
@@ -137,15 +145,8 @@ const ActiveUserTable: React.FC = () => {
                 if (!response.success) {
                   message.error(response.description);
                 }
+                loadData();
               });
-          }}
-          filterOption={(input, option) => {
-            if (!option || !option.children) return false;
-            return (
-              (option.children as unknown as string)
-                .toLowerCase()
-                .indexOf(input.toLowerCase()) >= 0
-            );
           }}
         >
           {plans.map((plan: Plan) => (
