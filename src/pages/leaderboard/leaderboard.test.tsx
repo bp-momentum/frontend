@@ -5,7 +5,6 @@ import { store } from "../../redux/store";
 import Leaderboard from "./index";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
-import api from "../../util/api";
 
 const LeaderboardWrapper: React.FC = () => {
   return (
@@ -21,7 +20,6 @@ const LeaderboardWrapper: React.FC = () => {
 
 describe("<Leaderboard />", () => {
   test("The leaderboard (table) should be visible with rows 'rank', 'name' and 'score'", async () => {
-    api.token = ".eyJhY2NvdW50X3R5cGUiOiJ1c2VyIn0=.";
     render(<LeaderboardWrapper />);
 
     const table = await screen.findByTestId("leaderboard", undefined, {
@@ -46,8 +44,6 @@ describe("<Leaderboard />", () => {
   });
 
   test("The leaderboard entries fetched from the db should be correctly displayed inside the leaderboard", async () => {
-    api.token = ".eyJhY2NvdW50X3R5cGUiOiJ1c2VyIn0=.";
-
     render(<LeaderboardWrapper />);
 
     const leaderboard = await screen.findByTestId("leaderboard", undefined, {

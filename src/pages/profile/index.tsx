@@ -6,7 +6,6 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { setRefreshToken, setToken } from "../../redux/token/tokenSlice";
 import Helper from "../../util/helper";
 import "../../styles/profile.css";
-import api from "../../util/api";
 import Routes from "../../util/routes";
 import ProfileSider from "./components/profile_sider";
 import TrainerCard from "./components/cards/trainer_card";
@@ -19,6 +18,7 @@ import DailySummaryCard from "./components/cards/daily_summary_card";
 import UserCard from "./components/cards/user_card";
 import ProfileLoadingView from "./components/profile_loading_view";
 import { useNavigate } from "react-router";
+import useApi from "../../util/api";
 
 function mergeData<Type>(data: Type, newData: Record<string, unknown>): Type {
   return {
@@ -35,8 +35,11 @@ const Profile: React.FC = () => {
     null
   );
 
+  const api = useApi();
+
   useEffect(() => {
     loadProfile().catch((e) => message.error(e));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadProfile = async () => {

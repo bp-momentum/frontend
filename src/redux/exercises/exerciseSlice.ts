@@ -1,12 +1,12 @@
 import { Exercise } from "../../api/exercise";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import api from "../../util/api";
+import { serverUrl } from "../../util/api";
 import { store } from "../store";
 
 export const exerciseApi = createApi({
   reducerPath: "exerciseApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: api.serverUrl,
+    baseUrl: serverUrl,
     prepareHeaders: (headers, { getState }) => {
       headers.set(
         "Session-Token",
