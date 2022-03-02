@@ -1,5 +1,4 @@
 import React, { createRef, useEffect } from "react";
-import api from "../../util/api";
 import Routes from "../../util/routes";
 import Container from "../../shared/container";
 import { Row, Layout, message } from "antd";
@@ -10,11 +9,14 @@ import { useAppSelector } from "../../redux/hooks";
 import { Emoji } from "react-apple-emojis";
 import "../../styles/home.css";
 import Day from "./components/day";
+import useApi from "../../util/api";
 
 const { Content } = Layout;
 
 const Exercises: React.FC = () => {
   const [exercises, setExercises] = React.useState<Exercise[]>([]);
+
+  const api = useApi();
 
   useEffect(() => {
     let isMounted = true;

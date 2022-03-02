@@ -12,7 +12,7 @@ import "../../../styles/train.css";
 import Translations from "../../../localization/translations";
 import { t } from "i18next";
 import WebcamStreamCapture from "../components/webcamStreamCapture";
-import api, { ApiSocketConnection } from "../../../util/api";
+import useApi, { ApiSocketConnection } from "../../../util/api";
 import TrainLayout from "../components/trainLayout";
 import {
   doneCallback,
@@ -68,6 +68,8 @@ const Training: React.FC<trainingProps> = ({ ...props }) => {
   const addPtsRef = createRef<HTMLSpanElement>();
 
   const { exercisePlanId } = useParams();
+
+  const api = useApi();
 
   useEffect(() => {
     totalPoints.current = feedback.totalPoints;

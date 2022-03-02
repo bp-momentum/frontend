@@ -13,7 +13,6 @@ import {
   Select,
   Space,
 } from "antd";
-import Api from "../../util/api";
 import Routes from "../../util/routes";
 import {
   setRefreshToken,
@@ -25,12 +24,14 @@ import { ExclamationCircleOutlined } from "@ant-design/icons";
 import Translations from "../../localization/translations";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import api from "../../util/api";
+import useApi from "../../util/api";
 
 const Settings: React.FC = () => {
   const navigate = useNavigate();
   const [error, setError] = React.useState<null | string>();
   const [success, setSuccess] = React.useState<null | string>();
+
+  const api = useApi();
 
   const dispatch = useAppDispatch();
   const { t, i18n } = useTranslation();
@@ -65,7 +66,7 @@ const Settings: React.FC = () => {
 
   const onConfirmDeleteAccount = async () => {
     setError(null);
-    const response = await Api.execute(Routes.deleteAccount());
+    const response = await api.execute(Routes.deleteAccount());
     console.log(response);
 
     if (!response) return;
@@ -103,7 +104,7 @@ const Settings: React.FC = () => {
 
   const onConfirmLogoutAllDevices = async () => {
     setError(null);
-    const response = await Api.execute(Routes.logoutAllDevices());
+    const response = await api.execute(Routes.logoutAllDevices());
     if (!response || !response.success) {
       setError(t(response.description ?? Translations.errors.unknownError));
       return;
@@ -132,7 +133,7 @@ const Settings: React.FC = () => {
 
     // if we have a refresh token but no session token, we need to authenticate again to get a fresh session token
     if (!sessionToken) {
-      const authResponse = await Api.execute(
+      const authResponse = await api.execute(
         Routes.auth({ refreshToken: refreshToken })
       );
 

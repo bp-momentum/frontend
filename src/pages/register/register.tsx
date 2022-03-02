@@ -1,7 +1,6 @@
 import { Alert, Button, Checkbox, Col, Form, Input, Row, Space } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import React from "react";
-import api from "../../util/api";
 import Routes from "../../util/routes";
 import { useAppDispatch } from "../../redux/hooks";
 import { setRefreshToken, setToken } from "../../redux/token/tokenSlice";
@@ -9,6 +8,7 @@ import { useNavigate } from "react-router";
 import Translations from "../../localization/translations";
 import { useTranslation } from "react-i18next";
 import Helper from "../../util/helper";
+import useApi from "../../util/api";
 
 export interface registerProps {
   registerToken: string;
@@ -19,6 +19,8 @@ const Register: React.FC<registerProps> = ({ ...props }) => {
   const navigate = useNavigate();
   const [error, setError] = React.useState<null | string>();
   const { t } = useTranslation();
+
+  const api = useApi();
 
   const onFinish = async (values: Record<string, never>) => {
     setError(null);
