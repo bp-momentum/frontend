@@ -40,6 +40,7 @@ const Users: React.FC = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            overflow: "auto",
           }}
         >
           <h1 style={{ fontSize: "40px", margin: "30px 0px" }}>

@@ -35,7 +35,6 @@ const CreateUser: React.FC<createUserProps> = ({ ...props }) => {
         email: email,
       })
     );
-    console.log(response);
 
     if (!response) return;
 
@@ -45,7 +44,6 @@ const CreateUser: React.FC<createUserProps> = ({ ...props }) => {
     }
 
     form.resetFields();
-    console.log(form);
     setSuccess(t(Translations.createUser.successfullyCreatedUser));
     setUpdateValue(updateValue + 1);
     setTimeout(() => setSuccess(null), 5000);

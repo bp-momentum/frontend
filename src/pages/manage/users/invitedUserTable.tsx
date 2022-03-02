@@ -55,7 +55,11 @@ const InvitedUserTable: React.FC<invitedUserTableProps> = ({ ...props }) => {
         email: invite.email || <i>{t(Translations.userManagement.noEmail)}</i>,
       });
     });
-
+    userList.sort((a, b) => {
+      if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+      if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+      return 0;
+    });
     return userList;
   };
 
