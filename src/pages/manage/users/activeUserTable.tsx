@@ -10,63 +10,14 @@ import {
 } from "antd";
 import React, { createRef, useEffect, useState } from "react";
 import { Plan } from "../../../api/plan";
-import api from "../../../util/api";
 import Routes from "../../../util/routes";
 import { getColumnSearchProps } from "./tableSearch";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { t } from "i18next";
 import Translations from "../../../localization/translations";
+import useApi from "../../../util/api";
 
 const { Option } = Select;
-
-const fetchUsers = async () => {
-  const response = await api.execute(Routes.getTrainerUsers());
-
-  if (!response) return [];
-
-  if (!response.success) {
-    message.error(response.description);
-    return [];
-  }
-
-  const userList: User[] = [];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  response.data.users.forEach((user: Record<string, any>) => {
-    userList.push({
-      key: user.id,
-      name: user.username,
-      trainingplan: user.plan,
-      thisweeksactivity: user.done_exercises || 0,
-      last_login: user.last_login || (
-        <i>{t(Translations.userManagement.never)}</i>
-      ),
-    });
-  });
-
-  userList.sort((a, b) => {
-    if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
-    if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
-    return 0;
-  });
-
-  return userList;
-};
-
-const fetchPlans = async () => {
-  const response = await api.execute(Routes.getTrainingPlans());
-  if (!response) return [];
-
-  if (!response.success) {
-    message.error(response.description);
-    return [];
-  }
-  const planList: Plan[] = [];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  response.data.plans.forEach((plan: Record<string, any>) => {
-    planList.push({ id: plan.id, name: plan.name });
-  });
-  return planList;
-};
 
 interface User {
   key: string;
@@ -81,6 +32,50 @@ const ActiveUserTable: React.FC = () => {
   const [data, setData] = useState<User[]>([]);
   const [plans, setPlans] = React.useState<Plan[]>([]);
   const [isMounted, setIsMounted] = useState(true);
+
+  const api = useApi();
+
+  const fetchUsers = async () => {
+    const response = await api.execute(Routes.getTrainerUsers());
+
+    if (!response) return [];
+
+    if (!response.success) {
+      message.error(response.description);
+      return [];
+    }
+
+    const userList: User[] = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    response.data.users.forEach((user: Record<string, any>) => {
+      userList.push({
+        key: user.id,
+        name: user.username,
+        trainingplan: user.plan,
+        thisweeksactivity: user.done_exercises || 0,
+        last_login: user.last_login || (
+          <i>{t(Translations.userManagement.never)}</i>
+        ),
+      });
+    });
+    return userList;
+  };
+
+  const fetchPlans = async () => {
+    const response = await api.execute(Routes.getTrainingPlans());
+    if (!response) return [];
+
+    if (!response.success) {
+      message.error(response.description);
+      return [];
+    }
+    const planList: Plan[] = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    response.data.plans.forEach((plan: Record<string, any>) => {
+      planList.push({ id: plan.id, name: plan.name });
+    });
+    return planList;
+  };
 
   const loadData = () => {
     Promise.all([fetchUsers(), fetchPlans()]).then(([users, plans]) => {
@@ -165,9 +160,7 @@ const ActiveUserTable: React.FC = () => {
         <Tooltip
           title={Math.round((text * 100 + Number.EPSILON) * 100) / 100 + " %"}
         >
-          <Progress percent={text * 100} showInfo={false}>
-            {" "}
-          </Progress>
+          <Progress percent={text * 100} showInfo={false} />
         </Tooltip>
       ),
     },

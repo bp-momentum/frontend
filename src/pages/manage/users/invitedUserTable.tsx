@@ -6,42 +6,19 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import api from "../../../util/api";
 import Routes from "../../../util/routes";
 import { getColumnSearchProps } from "./tableSearch";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { AlignType } from "rc-table/lib/interface";
 import Translations from "../../../localization/translations";
 import { t } from "i18next";
+import useApi from "../../../util/api";
 
 interface User {
   key: string;
   name: string;
   email: string;
 }
-
-const fetchUsers = async () => {
-  const response = await api.execute(Routes.getInvited());
-
-  if (!response) return [];
-
-  if (!response.success) {
-    message.error(response.description);
-    return [];
-  }
-
-  const userList: User[] = [];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  response.data.invited.forEach((invite: Record<string, any>) => {
-    userList.push({
-      key: invite.id,
-      name: `${invite.first_name} ${invite.last_name}`,
-      email: invite.email || <i>{t(Translations.userManagement.noEmail)}</i>,
-    });
-  });
-
-  return userList;
-};
 
 interface invitedUserTableProps {
   updateValue: number;
@@ -56,6 +33,31 @@ const InvitedUserTable: React.FC<invitedUserTableProps> = ({ ...props }) => {
   const [isMounted, setIsMounted] = useState(true);
 
   const [update, setUpdate] = useState(updateValue);
+
+  const api = useApi();
+
+  const fetchUsers = async () => {
+    const response = await api.execute(Routes.getInvited());
+
+    if (!response) return [];
+
+    if (!response.success) {
+      message.error(response.description);
+      return [];
+    }
+
+    const userList: User[] = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    response.data.invited.forEach((invite: Record<string, any>) => {
+      userList.push({
+        key: invite.id,
+        name: `${invite.first_name} ${invite.last_name}`,
+        email: invite.email || <i>{t(Translations.userManagement.noEmail)}</i>,
+      });
+    });
+
+    return userList;
+  };
 
   const loadData = () => {
     fetchUsers().then((users) => {

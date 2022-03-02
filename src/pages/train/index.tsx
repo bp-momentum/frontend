@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import Container from "../../shared/container";
-import api from "../../util/api";
 import Routes from "../../util/routes";
 import "../../styles/train.css";
 import { useParams } from "react-router-dom";
@@ -11,19 +10,7 @@ import { useGetExerciseByIdQuery } from "../../redux/exercises/exerciseSlice";
 import { message } from "antd";
 import Translations from "../../localization/translations";
 import { t } from "i18next";
-
-const exercisePlanIdToExercise = async (planId: number) => {
-  const response = await api.execute(Routes.getDoneExercises());
-  if (!response) return [];
-  if (!response.success) {
-    message.error(response.description);
-    return [];
-  }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return response.data.exercises.find((e: any) => {
-    return e.exercise_plan_id === planId;
-  });
-};
+import useApi from "../../util/api";
 
 interface TrainProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -105,6 +92,21 @@ const Wrapper = () => {
   const [exercise, setExercise] = useState({ id: -1 });
 
   const { exercisePlanId } = useParams();
+
+  const api = useApi();
+
+  const exercisePlanIdToExercise = async (planId: number) => {
+    const response = await api.execute(Routes.getDoneExercises());
+    if (!response) return [];
+    if (!response.success) {
+      message.error(response.description);
+      return [];
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return response.data.exercises.find((e: any) => {
+      return e.exercise_plan_id === planId;
+    });
+  };
 
   useEffect(() => {
     let isMounted = true;

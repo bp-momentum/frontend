@@ -1,11 +1,11 @@
 import { Alert, Button, Col, Form, Input, Row, Space } from "antd";
 import { LockOutlined } from "@ant-design/icons";
 import React from "react";
-import api from "../../util/api";
 import Routes from "../../util/routes";
 import { useNavigate } from "react-router";
 import Translations from "../../localization/translations";
 import { useTranslation } from "react-i18next";
+import useApi from "../../util/api";
 
 export interface resetPwProps {
   resetToken: string;
@@ -15,6 +15,8 @@ const ResetPw: React.FC<resetPwProps> = ({ resetToken }) => {
   const navigate = useNavigate();
   const [error, setError] = React.useState<null | string>();
   const { t } = useTranslation();
+
+  const api = useApi();
 
   const onFinish = async (values: Record<string, never>) => {
     setError(null);

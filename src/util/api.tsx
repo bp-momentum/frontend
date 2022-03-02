@@ -1,38 +1,46 @@
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { Route } from "./routes";
+import { unsetRefreshToken, unsetToken } from "../redux/token/tokenSlice";
+import { message } from "antd";
+import { useTranslation } from "react-i18next";
+import Translations from "../localization/translations";
 
-class Api {
-  serverUrl = "https://bp-api.geoscribble.de/";
-  token = "";
-  refreshToken = "";
+export const serverUrl = "https://bp-api.geoscribble.de/";
 
-  setToken(token: string): void {
-    this.token = token;
-  }
+const useApi = () => {
+  const token = useAppSelector((state) => state.token.token) ?? "";
+  const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
-  setRefreshToken(refreshToken: string): void {
-    this.refreshToken = refreshToken;
-  }
-
-  execute = async (route: Route): Promise<ApiResponse> => {
+  const execute = async (route: Route): Promise<ApiResponse> => {
     /**
      * Wait for a token on authorized requests
      * Wait a max of 5 seconds
      */
     let i = 0;
-    while (route.needsAuth && this.token === "" && ++i < 50) {
+    while (route.needsAuth && token === "" && ++i < 50) {
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
 
     let response;
     switch (route.method) {
       case "GET":
-        response = this.executeGet(route);
+        response = executeGet(route);
         break;
       case "POST":
-        response = this.executePost(route);
+        response = executePost(route);
         break;
     }
-
+    response.then((response) => {
+      if (response.success) {
+        return;
+      }
+      if (response.description === "Token is not valid") {
+        message.error(t(Translations.errors.loggedOut));
+        dispatch(unsetToken());
+        dispatch(unsetRefreshToken());
+      }
+    });
     return response.catch((error) => {
       console.error(error);
       return {
@@ -43,109 +51,111 @@ class Api {
     });
   };
 
-  executeGet = (route: Route): Promise<ApiResponse> => {
+  const executeGet = (route: Route): Promise<ApiResponse> => {
     if (route.needsAuth) {
-      return this.getWithAuth(route.route);
+      return getWithAuth(route.route);
     } else {
-      return this.get(route.route);
+      return get(route.route);
     }
   };
 
-  get = (route: string): Promise<ApiResponse> => {
-    return fetch(this.parseRoute(route), {
+  const get = (route: string): Promise<ApiResponse> => {
+    return fetch(parseRoute(route), {
       method: "GET",
     }).then((r) => r.json());
   };
 
-  getWithAuth = (route: string): Promise<ApiResponse> => {
-    return fetch(this.parseRoute(route), {
+  const getWithAuth = (route: string): Promise<ApiResponse> => {
+    return fetch(parseRoute(route), {
       method: "GET",
-      headers: { "Session-Token": this.token },
+      headers: { "Session-Token": token },
     }).then((r) => r.json());
   };
 
-  executePost = (route: Route): Promise<ApiResponse> => {
+  const executePost = (route: Route): Promise<ApiResponse> => {
     if (route.needsAuth) {
       if (route.body == null) {
-        return this.postWithAuth(route.route);
+        return postWithAuth(route.route);
       } else {
-        return this.postWithAuthAndBody(route.route, route.body);
+        return postWithAuthAndBody(route.route, route.body);
       }
     } else {
       if (route.body == null) {
-        return this.post(route.route);
+        return post(route.route);
       } else {
-        return this.postWithBody(route.route, route.body);
+        return postWithBody(route.route, route.body);
       }
     }
   };
 
-  post = (route: string): Promise<ApiResponse> => {
-    return fetch(this.parseRoute(route), {
+  const post = (route: string): Promise<ApiResponse> => {
+    return fetch(parseRoute(route), {
       method: "POST",
     }).then((r) => r.json());
   };
 
-  postWithBody = (
+  const postWithBody = (
     route: string,
     body: Record<string, unknown>
   ): Promise<ApiResponse> => {
-    return fetch(this.parseRoute(route), {
+    return fetch(parseRoute(route), {
       method: "POST",
       body: JSON.stringify(body),
       headers: { "Content-Type": "application/json" },
     }).then((r) => r.json());
   };
 
-  postWithAuth = (route: string): Promise<ApiResponse> => {
-    return fetch(this.parseRoute(route), {
+  const postWithAuth = (route: string): Promise<ApiResponse> => {
+    return fetch(parseRoute(route), {
       method: "POST",
-      headers: { "Session-Token": this.token },
+      headers: { "Session-Token": token },
     }).then((r) => r.json());
   };
 
-  postWithAuthAndBody = (
+  const postWithAuthAndBody = (
     route: string,
     body: Record<string, unknown>
   ): Promise<ApiResponse> => {
-    return fetch(this.parseRoute(route), {
+    return fetch(parseRoute(route), {
       method: "POST",
       body: JSON.stringify(body),
       headers: {
-        "Session-Token": this.token,
+        "Session-Token": token,
         "Content-Type": "application/json",
       },
     }).then((r) => r.json());
   };
 
-  parseRoute = (route: string): string => {
+  const parseRoute = (route: string): string => {
     if (route.startsWith("/")) {
       route = route.substring(1);
     }
-    if (this.serverUrl.endsWith("/")) {
-      return this.serverUrl + route;
+    if (serverUrl.endsWith("/")) {
+      return serverUrl + route;
     } else {
-      return this.serverUrl + "/" + route;
+      return serverUrl + "/" + route;
     }
   };
 
-  openSocket = async (): Promise<ApiSocketConnection> => {
+  const openSocket = async (): Promise<ApiSocketConnection> => {
     /**
      * Wait for a token on authorized requests
      * Wait a max of 5 seconds
      */
     let i = 0;
-    while (this.token === "" && ++i < 50) {
+    while (token === "" && ++i < 50) {
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
 
-    const str = this.serverUrl
+    const str = serverUrl
       .replace(/http:\/\//, "ws://")
       .replace(/https:\/\//, "wss://");
 
-    return new ApiSocketConnection(this.token, str);
+    return new ApiSocketConnection(token, str);
   };
-}
+
+  return { execute, openSocket };
+};
 
 export class ApiSocketConnection {
   readonly token: string;
@@ -207,4 +217,4 @@ interface WebsocketResponse extends ApiResponse {
   message_type: string;
 }
 
-export default new Api();
+export default useApi;

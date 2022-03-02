@@ -1,10 +1,10 @@
 import { Alert, Button, Form, Input } from "antd";
 import { MailOutlined } from "@ant-design/icons";
 import React, { Dispatch, SetStateAction } from "react";
-import Api from "../../../util/api";
 import Routes from "../../../util/routes";
 import { useTranslation } from "react-i18next";
 import Translations from "../../../localization/translations";
+import useApi from "../../../util/api";
 
 interface createUserProps {
   updateValue: number;
@@ -20,20 +20,21 @@ const CreateUser: React.FC<createUserProps> = ({ ...props }) => {
 
   const [form] = Form.useForm();
 
+  const api = useApi();
+
   const onFinish = async (values: Record<string, never>) => {
     const firstName = values["first_name"];
     const lastName = values["last_name"];
     const email = values["email_address"];
 
     setError(null);
-    const response = await Api.execute(
+    const response = await api.execute(
       Routes.createUser({
         firstName: firstName,
         lastName: lastName,
         email: email,
       })
     );
-    console.log(response);
 
     if (!response) return;
 
@@ -43,7 +44,6 @@ const CreateUser: React.FC<createUserProps> = ({ ...props }) => {
     }
 
     form.resetFields();
-    console.log(form);
     setSuccess(t(Translations.createUser.successfullyCreatedUser));
     setUpdateValue(updateValue + 1);
     setTimeout(() => setSuccess(null), 5000);

@@ -1,13 +1,13 @@
 import { Row, Col, Space, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import React, { useEffect } from "react";
-import api from "../../util/api";
 import Routes from "../../util/routes";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { setToken } from "../../redux/token/tokenSlice";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import Translations from "../../localization/translations";
+import useApi from "../../util/api";
 
 const AutoLogin: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -15,10 +15,10 @@ const AutoLogin: React.FC = () => {
   const refreshToken = useAppSelector((state) => state.token.refreshToken);
   const { t } = useTranslation();
 
+  const api = useApi();
+
   const removeToken = () => {
     dispatch({ type: "USER_LOGOUT" });
-    api.setToken("");
-    api.setRefreshToken("");
     return navigate("");
   };
 

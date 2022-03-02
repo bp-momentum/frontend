@@ -5,27 +5,12 @@ import { Content } from "antd/lib/layout/layout";
 import { useNavigate } from "react-router";
 import Container from "../../shared/container";
 import { Shapes } from "../../shared/shapes";
-import api from "../../util/api";
 import Routes from "../../util/routes";
 import { LoadingOutlined } from "@ant-design/icons";
 import Translations from "../../localization/translations";
 import { t } from "i18next";
 import { Plan } from "../../api/plan";
-
-const fetchPlans = async () => {
-  const response = await api.execute(Routes.getTrainingPlans());
-  if (!response) return [];
-  if (!response.success) {
-    message.error(response.description);
-    return [];
-  }
-  const planList: Plan[] = [];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  response.data.plans.forEach((plan: Record<string, any>) => {
-    planList.push({ id: plan.id, name: plan.name });
-  });
-  return planList;
-};
+import useApi from "../../util/api";
 
 /**
  * Consists of a list of all the plans the user has access to.
@@ -35,6 +20,23 @@ const ManagePlans: React.FC = () => {
   const navigate = useNavigate();
   const [plans, setPlans] = React.useState<Plan[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
+
+  const api = useApi();
+
+  const fetchPlans = async () => {
+    const response = await api.execute(Routes.getTrainingPlans());
+    if (!response) return [];
+    if (!response.success) {
+      message.error(response.description);
+      return [];
+    }
+    const planList: Plan[] = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    response.data.plans.forEach((plan: Record<string, any>) => {
+      planList.push({ id: plan.id, name: plan.name });
+    });
+    return planList;
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -49,6 +51,7 @@ const ManagePlans: React.FC = () => {
       // clean up
       isMounted = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
