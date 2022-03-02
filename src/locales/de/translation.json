@@ -2,6 +2,7 @@
   "errors": {
     "internal-server-error": "Interner Server Error!",
     "unknown-error": "Ein unbekannter Fehler ist aufgetreten!",
+    "logged-out": "Du wurdest automatisch abgemeldet. Bitte melde dich erneut an!",
     "empty": "Keine Daten vorhanden!"
   },
   "common": {

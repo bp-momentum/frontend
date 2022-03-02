@@ -1,10 +1,16 @@
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { Route } from "./routes";
+import { unsetRefreshToken, unsetToken } from "../redux/token/tokenSlice";
+import { message } from "antd";
+import { useTranslation } from "react-i18next";
+import Translations from "../localization/translations";
 
 export const serverUrl = "https://bp-api.geoscribble.de/";
 
 const useApi = () => {
   const token = useAppSelector((state) => state.token.token) ?? "";
+  const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const execute = async (route: Route): Promise<ApiResponse> => {
     /**
@@ -30,7 +36,9 @@ const useApi = () => {
         return;
       }
       if (response.description === "Token is not valid") {
-        // TODO: Redirect to login
+        message.error(t(Translations.errors.loggedOut));
+        dispatch(unsetToken());
+        dispatch(unsetRefreshToken());
       }
     });
     return response.catch((error) => {

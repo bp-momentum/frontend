@@ -2,6 +2,7 @@ const Translations = {
   errors: {
     unknownError: "errors.unknown-error",
     internalServerError: "errors.internal-server-error",
+    loggedOut: "errors.logged-out",
     empty: "errors.empty",
   },
   common: {
