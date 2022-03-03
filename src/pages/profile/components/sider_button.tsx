@@ -1,5 +1,4 @@
 import { Col, Row } from "antd";
-import Text from "antd/lib/typography/Text";
 import React from "react";
 
 interface siderButtonProps {
@@ -7,7 +6,9 @@ interface siderButtonProps {
   image: string;
   title: string;
   rotation: number;
+  backgroundColor: string;
   color: string;
+  className?: string;
 }
 
 const SiderButton: React.FC<siderButtonProps> = ({ ...props }) => {
@@ -18,23 +19,32 @@ const SiderButton: React.FC<siderButtonProps> = ({ ...props }) => {
         style={{
           marginBottom: "40px",
           cursor: "pointer",
-          backgroundColor: props.color,
-          width: "140px",
-          height: "140px",
-          borderRadius: "20px",
-          color: "black",
           transform: `rotate(${props.rotation}deg)`,
           justifyContent: "center",
         }}
       >
-        <Col style={{ paddingTop: "10px" }}>
-          <Row justify="center">
-            <img src={props.image} height={82} alt={`${props.title} Icon`} />
-          </Row>
-          <Row justify="center">
-            <Text style={{ fontSize: "26" }}>{props.title}</Text>
-          </Row>
-        </Col>
+        <div
+          className={props.className}
+          style={{
+            backgroundColor: props.backgroundColor,
+            width: "140px",
+            height: "140px",
+            borderRadius: "20px",
+          }}
+        >
+          <Col style={{ paddingTop: "10px" }}>
+            <Row justify="center">
+              <img src={props.image} height={82} alt={`${props.title} Icon`} />
+            </Row>
+            <Row justify="center">
+              <span
+                style={{ fontSize: 18, color: props.color, marginTop: "3px" }}
+              >
+                {props.title}
+              </span>
+            </Row>
+          </Col>
+        </div>
       </div>
     </Row>
   );

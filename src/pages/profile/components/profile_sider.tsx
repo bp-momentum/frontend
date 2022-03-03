@@ -1,14 +1,17 @@
 import { Col, Layout, Row } from "antd";
 import SiderButton from "./sider_button";
 import React from "react";
+import "../../../styles/ProfileSider.css";
 
 const { Sider } = Layout;
 
 interface profileSiderProps {
   onClickFriends: VoidFunction;
   onClickAchievements: VoidFunction;
+  onClickProfile: VoidFunction;
   avatarUrl: string;
   username: string;
+  selected: "profile" | "friends" | "achievements" | "loading";
 }
 
 const ProfileSider: React.FC<profileSiderProps> = ({ ...props }) => {
@@ -19,24 +22,37 @@ const ProfileSider: React.FC<profileSiderProps> = ({ ...props }) => {
         backgroundColor: "#466995",
         color: "white",
         height: "100%",
-        position: "fixed",
       }}
     >
       <Col>
         {props.avatarUrl.length !== 0 && (
           <Row justify="center">
-            <img
-              alt="Avatar"
-              key={props.avatarUrl}
-              src={props.avatarUrl}
+            <div
+              onClick={() => props.onClickProfile()}
+              className={`hoverable ${
+                props.selected === "profile" ? "selected" : ""
+              }`}
               style={{
-                height: "160px",
-                padding: "20px 10px 0 10px",
-                marginTop: "20px",
-                clipPath: "circle(80px at center)",
                 backgroundColor: "#626FE5",
+                borderRadius: "50%",
+                height: "160px",
+                width: "160px",
+                cursor: "pointer",
+                padding: "20px 10px 0 10px",
+                overflow: "hidden",
+                marginTop: "20px",
               }}
-            />
+            >
+              <img
+                alt="Avatar"
+                key={props.avatarUrl}
+                src={props.avatarUrl}
+                style={{
+                  height: "100%",
+                  width: "100%",
+                }}
+              />
+            </div>
           </Row>
         )}
         <Row justify="center">
@@ -57,7 +73,11 @@ const ProfileSider: React.FC<profileSiderProps> = ({ ...props }) => {
           image="friends_image.png"
           title="Freunde"
           rotation={-5.5}
-          color="#FFE14D"
+          backgroundColor="#FFE14D"
+          color="#000"
+          className={`hoverable ${
+            props.selected === "friends" ? "selected" : ""
+          }`}
         />
 
         <SiderButton
@@ -65,7 +85,11 @@ const ProfileSider: React.FC<profileSiderProps> = ({ ...props }) => {
           image="achievements_image.png"
           title="Errungenschaften"
           rotation={3}
-          color="#9713FF"
+          backgroundColor="#9713FF"
+          color="#fff"
+          className={`hoverable ${
+            props.selected === "achievements" ? "selected" : ""
+          }`}
         />
       </Col>
     </Sider>
