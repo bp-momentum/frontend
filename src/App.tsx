@@ -4,11 +4,11 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import { useAppSelector } from "./redux/hooks";
 import Helper from "./util/helper";
 
-import Home from "./pages/home/home";
+import Home from "./pages/home";
 import Login from "./pages/login";
-import Register from "./pages/register/register";
+import Register from "./pages/register";
 import AutoLogin from "./pages/login/autoLogin";
-import Settings from "./pages/settings/settings";
+import Settings from "./pages/settings";
 import EditPlan from "./pages/manage/editPlan";
 import ManagePlans from "./pages/manage/plans";
 import Exercises from "./pages/exercises";
@@ -23,7 +23,7 @@ import { ConfigProvider } from "antd";
 import { Locale } from "antd/lib/locale-provider";
 import { useTranslation } from "react-i18next";
 import moment from "moment";
-import ResetForm from "./pages/reset_password/resetPw";
+import ResetForm from "./pages/reset_password";
 
 // initialize available languages of moment library
 import "moment/locale/de";
@@ -32,7 +32,7 @@ import "moment/locale/en-gb";
 // import available languages from ant locales
 import deDE from "antd/lib/locale-provider/de_DE";
 import enGB from "antd/lib/locale-provider/en_GB";
-import ChangePassword from "./pages/change_password/change_password";
+import ChangePassword from "./pages/change_password";
 
 const LocalizedApp: React.FC = () => {
   const [locale, setLocale] = React.useState<Locale>(deDE);

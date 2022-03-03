@@ -4,6 +4,8 @@ import { useAppSelector } from "@redux/hooks";
 import useApi from "@util/api";
 import Helper from "@util/helper";
 import Routes from "@util/routes";
+import { Content } from "antd/lib/layout/layout";
+import { Row } from "antd";
 
 interface Friend {
   username: string;
@@ -75,8 +77,11 @@ const SubPageFriends: React.FC = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Friends</h1>
+    <Content style={{ height: "100%", overflow: "auto", padding: "30px" }}>
+      <Row>
+        <h1>Friends</h1>
+      </Row>
+
       <div>
         <h2>Friends</h2>
         <ul>
@@ -101,7 +106,7 @@ const SubPageFriends: React.FC = () => {
           ))}
         </ul>
       </div>
-    </div>
+    </Content>
   );
 };
 
