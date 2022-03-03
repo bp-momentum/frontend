@@ -141,4 +141,11 @@ nock(serverUrl)
         },
       ],
     },
+  })
+  .get("/api/getFriendRequests")
+  .reply(200, {
+    success: true,
+    data: {
+      requests: [],
+    },
   });
