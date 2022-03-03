@@ -1,10 +1,10 @@
 import { Tooltip } from "antd";
 import { t } from "i18next";
 import React, { MutableRefObject } from "react";
-import Translations from "../../localization/translations";
-import Graph from "../../shared/graph";
+import Translations from "@localization/translations";
+import Graph from "@shared/graph";
 import { StarFilled } from "@ant-design/icons";
-import continue_arrow from "../../static/continue_arrow.png";
+import continue_arrow from "@static/continue_arrow.png";
 import { useNavigate } from "react-router-dom";
 
 interface exerciseDoneProps {

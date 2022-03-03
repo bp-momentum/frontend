@@ -1,10 +1,10 @@
 import { Alert, Button, Form, Input } from "antd";
 import { MailOutlined } from "@ant-design/icons";
 import React, { Dispatch, SetStateAction } from "react";
-import Routes from "../../../util/routes";
+import Routes from "@util/routes";
 import { useTranslation } from "react-i18next";
-import Translations from "../../../localization/translations";
-import useApi from "../../../util/api";
+import Translations from "@localization/translations";
+import useApi from "@util/api";
 
 interface createUserProps {
   updateValue: number;

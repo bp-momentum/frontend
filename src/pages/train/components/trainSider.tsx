@@ -1,7 +1,7 @@
 import React from "react";
-import Translations from "../../../localization/translations";
+import Translations from "@localization/translations";
 import { t } from "i18next";
-import Paper from "../../../shared/paper";
+import Paper from "@shared/paper";
 
 interface trainSiderProps {
   collapsed: boolean;

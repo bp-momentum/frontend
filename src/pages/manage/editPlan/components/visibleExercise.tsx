@@ -1,10 +1,10 @@
 import React from "react";
 import { Card, InputNumber, Space, Tooltip } from "antd";
 import { t } from "i18next";
-import Translations from "../../../../localization/translations";
+import Translations from "@localization/translations";
 import { exerciseIdToName } from "../functions";
-import { useAppDispatch } from "../../../../redux/hooks";
-import { setPlanChanges } from "../../../../redux/changes/changeSlice";
+import { useAppDispatch } from "@redux/hooks";
+import { setPlanChanges } from "@redux/changes/changeSlice";
 
 interface visibleExerciseProps {
   card: BasicExerciseData;

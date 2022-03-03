@@ -8,11 +8,11 @@ import React, {
   useRef,
   useState,
 } from "react";
-import "../../../styles/train.css";
-import Translations from "../../../localization/translations";
+import "@styles/train.css";
+import Translations from "@localization/translations";
 import { t } from "i18next";
 import WebcamStreamCapture from "../components/webcamStreamCapture";
-import useApi, { ApiSocketConnection } from "../../../util/api";
+import useApi, { ApiSocketConnection } from "@util/api";
 import TrainLayout from "../components/trainLayout";
 import {
   doneCallback,

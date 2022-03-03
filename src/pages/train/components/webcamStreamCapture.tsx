@@ -6,8 +6,8 @@ import React, {
   useState,
 } from "react";
 import Webcam from "react-webcam";
-import useWindowDimensions from "../../../hooks/windowDimension";
-import { ApiSocketConnection } from "../../../util/api";
+import useWindowDimensions from "@hooks/windowDimension";
+import { ApiSocketConnection } from "@util/api";
 import { PlayCircleOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 

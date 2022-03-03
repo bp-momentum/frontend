@@ -1,9 +1,9 @@
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "@redux/hooks";
 import { Route } from "./routes";
-import { unsetRefreshToken, unsetToken } from "../redux/token/tokenSlice";
+import { unsetRefreshToken, unsetToken } from "@redux/token/tokenSlice";
 import { message } from "antd";
 import { useTranslation } from "react-i18next";
-import Translations from "../localization/translations";
+import Translations from "@localization/translations";
 
 export const serverUrl = "https://bp-api.geoscribble.de/";
 

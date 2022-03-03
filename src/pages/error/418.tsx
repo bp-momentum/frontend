@@ -1,9 +1,9 @@
 import Layout, { Content } from "antd/lib/layout/layout";
 import { t } from "i18next";
 import React from "react";
-import Translations from "../../localization/translations";
-import Container from "../../shared/container";
-import Error from "../../static/_(.svg";
+import Translations from "@localization/translations";
+import Container from "@shared/container";
+import Error from "@static/_(.svg";
 
 const Error404: React.FC = () => {
   return (

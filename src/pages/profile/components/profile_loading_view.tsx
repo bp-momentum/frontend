@@ -1,6 +1,6 @@
 import { Col, Row, Spin } from "antd";
 import { Content } from "antd/lib/layout/layout";
-import Translations from "../../../localization/translations";
+import Translations from "@localization/translations";
 import { LoadingOutlined } from "@ant-design/icons";
 import React from "react";
 import { useTranslation } from "react-i18next";

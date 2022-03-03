@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import "../../i18n";
-import { store } from "../../redux/store";
+import "@/i18n";
+import { store } from "@redux/store";
 import ManagePlans from "./plans";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";

@@ -1,11 +1,11 @@
 import { Card, Col, Popover, Row } from "antd";
 import Text from "antd/lib/typography/Text";
-import Translations from "../../../../../../localization/translations";
+import Translations from "@localization/translations";
 import { EditOutlined, SaveOutlined } from "@ant-design/icons";
 import ReactCardFlip from "react-card-flip";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import Helper from "../../../../../../util/helper";
+import Helper from "@util/helper";
 import { FaPen } from "react-icons/fa";
 
 interface userCardProps {

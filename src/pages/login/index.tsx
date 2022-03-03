@@ -1,13 +1,13 @@
 import { Row, Col, Space, message } from "antd";
 import React from "react";
-import Routes from "../../util/routes";
-import { useAppDispatch } from "../../redux/hooks";
-import { setRefreshToken, setToken } from "../../redux/token/tokenSlice";
+import Routes from "@util/routes";
+import { useAppDispatch } from "@redux/hooks";
+import { setRefreshToken, setToken } from "@redux/token/tokenSlice";
 import { useTranslation } from "react-i18next";
-import Translations from "../../localization/translations";
+import Translations from "@localization/translations";
 import LoginForm from "./forms/loginForm";
 import ResetForm from "./forms/resetForm";
-import useApi from "../../util/api";
+import useApi from "@util/api";
 
 const Login: React.FC = () => {
   const dispatch = useAppDispatch();

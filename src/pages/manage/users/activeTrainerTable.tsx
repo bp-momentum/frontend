@@ -1,12 +1,12 @@
 import { Button, Input, message, Popconfirm, Table } from "antd";
 import React, { createRef, useEffect, useState } from "react";
-import Routes from "../../../util/routes";
+import Routes from "@util/routes";
 import { getColumnSearchProps } from "./tableSearch";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { AlignType } from "rc-table/lib/interface";
-import Translations from "../../../localization/translations";
+import Translations from "@localization/translations";
 import { t } from "i18next";
-import useApi from "../../../util/api";
+import useApi from "@util/api";
 
 interface User {
   key: string;

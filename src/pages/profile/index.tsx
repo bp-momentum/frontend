@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
-import Container from "../../shared/container";
+import Container from "@shared/container";
 import { Layout, message } from "antd";
-import { useAppSelector } from "../../redux/hooks";
-import Helper from "../../util/helper";
-import "../../styles/profile.css";
-import Routes from "../../util/routes";
+import { useAppSelector } from "@redux/hooks";
+import Helper from "@util/helper";
+import "@styles/profile.css";
+import Routes from "@util/routes";
 import ProfileSider from "./components/profile_sider";
 import {
   DoneExercise,
   getApproximateExerciseDurationMinutes,
-} from "../../api/done_exercise";
-import useApi from "../../util/api";
+} from "@api/done_exercise";
+import useApi from "@util/api";
 import SubPageProfile from "./sub_pages/profile";
 import ProfileLoadingView from "./components/profile_loading_view";
 import SubPageFriends from "./sub_pages/friends";

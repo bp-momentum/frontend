@@ -1,5 +1,5 @@
 import { Buffer } from "buffer";
-import Translations from "../localization/translations";
+import Translations from "@localization/translations";
 
 const Helper = {
   getAccountType: (token: string): "user" | "trainer" | "admin" => {

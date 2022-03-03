@@ -1,16 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
-import Container from "../../shared/container";
-import Routes from "../../util/routes";
-import "../../styles/train.css";
+import Container from "@shared/container";
+import Routes from "@util/routes";
+import "@styles/train.css";
 import { useParams } from "react-router-dom";
 import Training from "./training";
 import SetDone from "./setDone";
 import ExerciseDone from "./exerciseDone";
-import { useGetExerciseByIdQuery } from "../../redux/exercises/exerciseSlice";
+import { useGetExerciseByIdQuery } from "@redux/exercises/exerciseSlice";
 import { message } from "antd";
-import Translations from "../../localization/translations";
+import Translations from "@localization/translations";
 import { t } from "i18next";
-import useApi from "../../util/api";
+import useApi from "@util/api";
 
 interface TrainProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

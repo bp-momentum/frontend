@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { Layout, Row, Space, Button, Modal, Input, message, Spin } from "antd";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
-import Container from "../../../shared/container";
+import Container from "@shared/container";
 import DeleteOutlined from "@ant-design/icons/lib/icons/DeleteOutlined";
-import Translations from "../../../localization/translations";
+import Translations from "@localization/translations";
 import { Header } from "antd/lib/layout/layout";
-import Routes from "../../../util/routes";
+import Routes from "@util/routes";
 import { useNavigate, useParams } from "react-router-dom";
 import { LoadingOutlined } from "@ant-design/icons";
 import Exercise from "./components/exercise";
@@ -13,9 +13,9 @@ import Day from "./components/day";
 import { reorder } from "./functions";
 import _ from "lodash";
 import { useTranslation } from "react-i18next";
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import { setPlanChanges } from "../../../redux/changes/changeSlice";
-import useApi from "../../../util/api";
+import { useAppDispatch, useAppSelector } from "@redux/hooks";
+import { setPlanChanges } from "@redux/changes/changeSlice";
+import useApi from "@util/api";
 
 const { Sider, Content } = Layout;
 const { confirm } = Modal;

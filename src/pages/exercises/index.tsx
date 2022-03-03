@@ -1,15 +1,15 @@
 import React, { createRef, useEffect } from "react";
-import Routes from "../../util/routes";
-import Container from "../../shared/container";
+import Routes from "@util/routes";
+import Container from "@shared/container";
 import { Row, Layout, message } from "antd";
-import Translations from "../../localization/translations";
+import Translations from "@localization/translations";
 import { t } from "i18next";
-import Helper from "../../util/helper";
-import { useAppSelector } from "../../redux/hooks";
+import Helper from "@util/helper";
+import { useAppSelector } from "@redux/hooks";
 import { Emoji } from "react-apple-emojis";
-import "../../styles/home.css";
+import "@styles/home.css";
 import Day from "./components/day";
-import useApi from "../../util/api";
+import useApi from "@util/api";
 
 const { Content } = Layout;
 

@@ -1,7 +1,7 @@
 import { Col, Layout, Row } from "antd";
 import SiderButton from "./sider_button";
 import React from "react";
-import "../../../styles/ProfileSider.css";
+import "@styles/ProfileSider.css";
 
 const { Sider } = Layout;
 

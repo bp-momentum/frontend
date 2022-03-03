@@ -1,11 +1,11 @@
 import { Alert, Button, Col, Form, Input, Row, Space } from "antd";
 import { LockOutlined } from "@ant-design/icons";
 import React from "react";
-import Routes from "../../util/routes";
+import Routes from "@util/routes";
 import { useNavigate } from "react-router";
-import Translations from "../../localization/translations";
+import Translations from "@localization/translations";
 import { useTranslation } from "react-i18next";
-import useApi from "../../util/api";
+import useApi from "@util/api";
 
 export interface resetPwProps {
   resetToken: string;

@@ -12,10 +12,10 @@ import {
 import React from "react";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
-import Translations from "../localization/translations";
+import Translations from "@localization/translations";
 import { MenuInfo } from "rc-menu/lib/interface";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import helper from "../util/helper";
+import { useAppDispatch, useAppSelector } from "@redux/hooks";
+import helper from "@util/helper";
 import { ExclamationCircleOutlined } from "@ant-design/icons/lib";
 
 const { confirm } = Modal;

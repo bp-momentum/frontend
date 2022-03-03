@@ -1,17 +1,17 @@
 import React, { useEffect } from "react";
-import "../../styles/Leaderboard.css";
+import "@styles/Leaderboard.css";
 import { Layout, message, Spin, Table } from "antd";
-import Container from "../../shared/container";
-import Routes from "../../util/routes";
-import Translations from "../../localization/translations";
+import Container from "@shared/container";
+import Routes from "@util/routes";
+import Translations from "@localization/translations";
 import { t } from "i18next";
 import { Content } from "antd/lib/layout/layout";
 import Stars from "./components/stars";
-import Helper from "../../util/helper";
-import Crown from "../../static/crown.svg";
+import Helper from "@util/helper";
+import Crown from "@static/crown.svg";
 import { LoadingOutlined } from "@ant-design/icons";
-import { useAppSelector } from "../../redux/hooks";
-import useApi from "../../util/api";
+import { useAppSelector } from "@redux/hooks";
+import useApi from "@util/api";
 
 interface LeaderboardEntry {
   rank: number;

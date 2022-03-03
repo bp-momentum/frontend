@@ -1,5 +1,5 @@
 import Text from "antd/lib/typography/Text";
-import Translations from "../../../../../../localization/translations";
+import Translations from "@localization/translations";
 import { Calendar, Card, Col, Popover, Row } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import React from "react";
@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import {
   useGetDoneExercisesInMonthQuery,
   useGetExerciseByIdQuery,
-} from "../../../../../../redux/exercises/exerciseSlice";
+} from "@redux/exercises/exerciseSlice";
 
 interface dateCellProps {
   month: number;

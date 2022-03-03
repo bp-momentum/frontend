@@ -1,5 +1,5 @@
 import React from "react";
-import pin from "../static/pin.png";
+import pin from "@static/pin.png";
 
 interface paperProps {
   title: React.ReactNode;

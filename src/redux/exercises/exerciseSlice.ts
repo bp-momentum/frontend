@@ -1,6 +1,6 @@
-import { Exercise } from "../../api/exercise";
+import { Exercise } from "@api/exercise";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { serverUrl } from "../../util/api";
+import { serverUrl } from "@util/api";
 import { store } from "../store";
 
 export const exerciseApi = createApi({
@@ -37,6 +37,7 @@ export const exerciseApi = createApi({
         return undefined;
       },
     }),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     getDoneExercisesInMonth: builder.query<any, Record<string, number>>({
       query(date) {
         return {
