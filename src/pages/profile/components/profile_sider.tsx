@@ -2,6 +2,7 @@ import { Col, Layout, Row } from "antd";
 import SiderButton from "./sider_button";
 import React from "react";
 import "@styles/ProfileSider.css";
+import { useAppSelector } from "@/redux/hooks";
 
 const { Sider } = Layout;
 
@@ -15,6 +16,9 @@ interface profileSiderProps {
 }
 
 const ProfileSider: React.FC<profileSiderProps> = ({ ...props }) => {
+  const hasRequests =
+    useAppSelector((state) => state.friends.friendRequests).length > 0;
+
   return (
     <Sider
       data-testid="profile-sider"
@@ -77,6 +81,8 @@ const ProfileSider: React.FC<profileSiderProps> = ({ ...props }) => {
           color="#000"
           className={`hoverable ${
             props.selected === "friends" ? "selected" : ""
+          } ${
+            hasRequests && props.selected !== "friends" ? "notification" : ""
           }`}
         />
 

@@ -9,7 +9,7 @@ import {
   CalendarOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import Translations from "@localization/translations";
@@ -17,6 +17,10 @@ import { MenuInfo } from "rc-menu/lib/interface";
 import { useAppDispatch, useAppSelector } from "@redux/hooks";
 import helper from "@util/helper";
 import { ExclamationCircleOutlined } from "@ant-design/icons/lib";
+import useApi from "@/util/api";
+import Routes from "@/util/routes";
+import { setFriendRequests } from "@/redux/friends/friendSlice";
+import Helper from "@util/helper";
 
 const { confirm } = Modal;
 
@@ -100,6 +104,23 @@ const Container: React.FC<containerProps> = ({ ...props }) => {
   const isAdmin = token && helper.getAccountType(token) === "admin";
   const isTrainer = token && helper.getAccountType(token) === "trainer";
 
+  const api = useApi();
+  const username = token && Helper.getUserName(token);
+
+  const friendsToFriend = (friends: { friend1: string; friend2: string }) => {
+    return friends.friend1 === username ? friends.friend2 : friends.friend1;
+  };
+
+  const hasRequests =
+    useAppSelector((state) => state.friends.friendRequests).length > 0;
+
+  useEffect(() => {
+    api.execute(Routes.getFriendRequests()).then((data) => {
+      dispatch(setFriendRequests(data.data.requests.map(friendsToFriend)));
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Layout style={{ height: "100%", position: "absolute", width: "100%" }}>
       <Header style={{ backgroundColor: "#fff" }}>
@@ -143,7 +164,14 @@ const Container: React.FC<containerProps> = ({ ...props }) => {
               icon={<BarsOutlined style={{ color: color }} />}
               style={{ marginLeft: "auto" }}
             >
-              {t(Translations.tabBar.profile)}
+              <span
+                className={
+                  hasRequests && currentPage !== "profile" ? "notification" : ""
+                }
+                style={{ position: "relative", paddingTop: 3, paddingRight: 3 }}
+              >
+                {t(Translations.tabBar.profile)}
+              </span>
             </Menu.Item>
           )}
           <Menu.Item
