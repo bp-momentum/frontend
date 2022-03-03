@@ -14,13 +14,14 @@ import { Button } from "antd";
 interface webcamStreamCaptureProps {
   webSocketRef: RefObject<ApiSocketConnection>;
   active: boolean;
+  cameraShown: boolean;
 }
 
 const WebcamStreamCapture: React.FC<webcamStreamCaptureProps> = ({
   children,
   ...props
 }) => {
-  const { webSocketRef, active } = props;
+  const { webSocketRef, active, cameraShown } = props;
 
   const webcamRef = useRef<Webcam>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -115,11 +116,12 @@ const WebcamStreamCapture: React.FC<webcamStreamCaptureProps> = ({
           maxHeight: Math.max((height - 230) * 0.8, 200),
           width: "100%",
           height: "100%",
-          backdropFilter: active ? "none" : "blur(50px)",
-          WebkitBackdropFilter: active ? "none" : "blur(50px)",
+          backdropFilter: active && cameraShown ? "none" : "blur(50px)",
+          WebkitBackdropFilter: active && cameraShown ? "none" : "blur(50px)",
           borderRadius: "30px",
           padding: "15px 20px",
           border: "2px solid #fff",
+          minWidth: "100px",
         }}
       >
         <div

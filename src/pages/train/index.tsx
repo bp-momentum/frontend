@@ -29,6 +29,7 @@ const Train: React.FC<TrainProps> = ({ rawExercise }) => {
   });
 
   const [subPage, setSubPage] = useState<subPage>("training");
+  const [cameraShown, setCameraShown] = useState(true);
 
   const { data, isLoading } = useGetExerciseByIdQuery(rawExercise.id);
 
@@ -69,6 +70,8 @@ const Train: React.FC<TrainProps> = ({ rawExercise }) => {
               setSubPage={setSubPage}
               stats={stats}
               initialCollapsed={initialCollapsed}
+              setCameraShown={setCameraShown}
+              cameraShown={cameraShown}
             />
           )}
           {subPage === "setDone" && (

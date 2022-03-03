@@ -22,6 +22,7 @@ import {
 } from "./callbacks";
 import _ from "lodash";
 import { useParams } from "react-router-dom";
+import { MdVideocam, MdVideocamOff } from "react-icons/md";
 
 const playRandomAudio = () => {
   const audioCDN = "https://cdn.geoscribble.de/sounds/";
@@ -42,11 +43,20 @@ interface trainingProps {
   stats: MutableRefObject<statsType>;
   setSubPage: Dispatch<SetStateAction<subPage>>;
   initialCollapsed: MutableRefObject<boolean>;
+  setCameraShown: Dispatch<SetStateAction<boolean>>;
+  cameraShown: boolean;
 }
 
 const Training: React.FC<trainingProps> = ({ ...props }) => {
   // deconstruct props
-  const { exercise, stats, setSubPage, initialCollapsed } = props;
+  const {
+    exercise,
+    stats,
+    setSubPage,
+    initialCollapsed,
+    setCameraShown,
+    cameraShown,
+  } = props;
 
   const [progress, setProgress] = useState(0); // repeats done per repeats to do in percent
   const [active, setActive] = useState(false); // whether sending video to server
@@ -199,7 +209,11 @@ const Training: React.FC<trainingProps> = ({ ...props }) => {
             className="training-progress"
           />
         </div>
-        <WebcamStreamCapture webSocketRef={webSocketRef} active={active}>
+        <WebcamStreamCapture
+          webSocketRef={webSocketRef}
+          active={active}
+          cameraShown={cameraShown}
+        >
           <div
             style={{
               position: "relative",
@@ -228,6 +242,26 @@ const Training: React.FC<trainingProps> = ({ ...props }) => {
             >
               {feedback.totalPoints}
             </span>
+
+            <div
+              onClick={() => setCameraShown(!cameraShown)}
+              style={{
+                marginRight: "-5px",
+                marginLeft: "auto",
+                width: "50px",
+                height: "50px",
+                borderRadius: "50%",
+                backgroundColor: "white",
+                padding: "5px",
+                cursor: "pointer",
+              }}
+            >
+              {cameraShown ? (
+                <MdVideocamOff color="red" size="40px" />
+              ) : (
+                <MdVideocam color="black" size="40px" />
+              )}
+            </div>
           </div>
           <span
             style={{
