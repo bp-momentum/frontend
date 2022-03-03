@@ -1,6 +1,6 @@
 import { Card, Col, Row } from "antd";
 import RatingStars from "../rating_stars";
-import Translations from "../../../../localization/translations";
+import Translations from "../../../../../../localization/translations";
 import Text from "antd/lib/typography/Text";
 import { ShareAltOutlined } from "@ant-design/icons";
 import React from "react";
@@ -8,9 +8,9 @@ import { useTranslation } from "react-i18next";
 import {
   DoneExercise,
   getApproximateExerciseDurationMinutes,
-} from "../../../../api/done_exercise";
-import Helper from "../../../../util/helper";
-import { useGetExerciseByIdQuery } from "../../../../redux/exercises/exerciseSlice";
+} from "../../../../../../api/done_exercise";
+import Helper from "../../../../../../util/helper";
+import { useGetExerciseByIdQuery } from "../../../../../../redux/exercises/exerciseSlice";
 
 interface dailySummaryCardProps {
   rating: number;

@@ -1,9 +1,9 @@
 import message from "antd/lib/message";
 import React, { useEffect } from "react";
-import { useAppSelector } from "../../../redux/hooks";
-import useApi from "../../../util/api";
-import Helper from "../../../util/helper";
-import Routes from "../../../util/routes";
+import { useAppSelector } from "../../../../redux/hooks";
+import useApi from "../../../../util/api";
+import Helper from "../../../../util/helper";
+import Routes from "../../../../util/routes";
 
 interface Friend {
   username: string;

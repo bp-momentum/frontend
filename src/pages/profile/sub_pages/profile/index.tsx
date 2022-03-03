@@ -1,15 +1,15 @@
 import { Col, message, Row } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import React from "react";
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import { setRefreshToken, setToken } from "../../../redux/token/tokenSlice";
-import useApi from "../../../util/api";
-import Helper from "../../../util/helper";
-import Routes from "../../../util/routes";
-import ActivityCalendarCard from "../components/cards/activity_calendar_card";
-import DailySummaryCard from "../components/cards/daily_summary_card";
-import TrainerCard from "../components/cards/trainer_card";
-import UserCard from "../components/cards/user_card";
+import { useAppDispatch, useAppSelector } from "../../../../redux/hooks";
+import { setRefreshToken, setToken } from "../../../../redux/token/tokenSlice";
+import useApi from "../../../../util/api";
+import Helper from "../../../../util/helper";
+import Routes from "../../../../util/routes";
+import ActivityCalendarCard from "./components/cards/activity_calendar_card";
+import DailySummaryCard from "./components/cards/daily_summary_card";
+import TrainerCard from "./components/cards/trainer_card";
+import UserCard from "./components/cards/user_card";
 
 function mergeData<Type>(data: Type, newData: Record<string, unknown>): Type {
   return {
