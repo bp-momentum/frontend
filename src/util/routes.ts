@@ -471,6 +471,95 @@ const Routes = {
       },
     };
   },
+
+  /**
+   * get Friends
+   */
+  getFriends: (): Route => {
+    return {
+      route: "/api/getfriends",
+      needsAuth: true,
+      method: "GET",
+    };
+  },
+
+  /**
+   * get Friend Requests
+   */
+  getFriendRequests: (): Route => {
+    return {
+      route: "/api/getFriendRequests",
+      needsAuth: true,
+      method: "GET",
+    };
+  },
+
+  /**
+   * get Friend Requests
+   */
+  getSentFriendRequests: (): Route => {
+    return {
+      route: "/api/getpendingfriendrequests",
+      needsAuth: true,
+      method: "GET",
+    };
+  },
+
+  /**
+   * add Friend
+   */
+  addFriend: (props: { friendId: string }): Route => {
+    return {
+      route: "/api/addFriend",
+      needsAuth: true,
+      method: "POST",
+      body: {
+        username: props.friendId,
+      },
+    };
+  },
+
+  /**
+   * accept Friend Request
+   */
+  acceptFriendRequest: (props: { friendId: string }): Route => {
+    return {
+      route: "/api/acceptfriendrequest",
+      needsAuth: true,
+      method: "POST",
+      body: {
+        username: props.friendId,
+      },
+    };
+  },
+
+  /**
+   * decline Friend Request
+   */
+  declineFriendRequest: (props: { friendId: string }): Route => {
+    return {
+      route: "/api/declinefriendrequest",
+      needsAuth: true,
+      method: "POST",
+      body: {
+        username: props.friendId,
+      },
+    };
+  },
+
+  /**
+   * remove Friend
+   */
+  removeFriend: (props: { friendId: string }): Route => {
+    return {
+      route: "/api/removefriend",
+      needsAuth: true,
+      method: "POST",
+      body: {
+        username: props.friendId,
+      },
+    };
+  },
 };
 
 export default Routes;
