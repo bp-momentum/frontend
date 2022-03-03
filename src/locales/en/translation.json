@@ -240,6 +240,8 @@
     "medal_bronze": "Bronze Medal",
     "medal_silver": "Silver Medal",
     "medal_gold": "Gold Medal",
-    "back-home": "Back to Home"
+    "back-home": "Back to Home",
+    "click-to-start": "Click here to start!",
+    "check-visibility": "Attention: Always try to stay inside of the camera frame!"
   }
 }

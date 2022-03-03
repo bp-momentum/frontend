@@ -282,6 +282,9 @@ const Training: React.FC<trainingProps> = ({ ...props }) => {
             {isFeedbackNew && <>+{feedback.addedPoints}</>}
           </span>
         </WebcamStreamCapture>
+        <h1 style={{ color: "white", fontSize: "25px", paddingTop: "10px" }}>
+          {t(Translations.training.checkVisibility)}
+        </h1>
       </div>
     </TrainLayout>
   );
