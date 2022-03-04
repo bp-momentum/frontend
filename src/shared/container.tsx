@@ -104,17 +104,27 @@ const Container: React.FC<containerProps> = ({ ...props }) => {
   const isAdmin = token && helper.getAccountType(token) === "admin";
   const isTrainer = token && helper.getAccountType(token) === "trainer";
 
-  const api = useApi();
-  const username = token && Helper.getUserName(token);
-
-  const friendsToFriend = (friends: { friend1: string; friend2: string }) => {
-    return friends.friend1 === username ? friends.friend2 : friends.friend1;
-  };
-
   const hasRequests =
     useAppSelector((state) => state.friends.friendRequests).length > 0;
 
+  const api = useApi();
+  const username = token && Helper.getUserName(token);
+
+  const friendsToFriend = (friends: {
+    friend1: string;
+    friend2: string;
+    id: number;
+  }) => {
+    return {
+      username:
+        friends.friend1 === username ? friends.friend2 : friends.friend1,
+      id: friends.id,
+    };
+  };
+
   useEffect(() => {
+    if (!isUser) return;
+
     api.execute(Routes.getFriendRequests()).then((data) => {
       dispatch(setFriendRequests(data.data.requests.map(friendsToFriend)));
     });

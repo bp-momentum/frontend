@@ -26,9 +26,10 @@ const ProfileSider: React.FC<profileSiderProps> = ({ ...props }) => {
         backgroundColor: "#466995",
         color: "white",
         height: "100%",
+        overflow: "auto",
       }}
     >
-      <Col>
+      <Col style={{ height: "100%" }}>
         {props.avatarUrl.length !== 0 && (
           <Row justify="center">
             <div
@@ -42,7 +43,7 @@ const ProfileSider: React.FC<profileSiderProps> = ({ ...props }) => {
                 height: "160px",
                 width: "160px",
                 cursor: "pointer",
-                padding: "20px 10px 0 10px",
+                padding: "20px 10px 0px 10px",
                 overflow: "hidden",
                 marginTop: "20px",
               }}

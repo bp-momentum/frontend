@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface Friend {
   username: string;
+  id?: number;
 }
 
 interface FriendState {

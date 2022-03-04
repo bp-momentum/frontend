@@ -550,13 +550,13 @@ const Routes = {
   /**
    * remove Friend
    */
-  removeFriend: (props: { friendId: string }): Route => {
+  removeFriend: (props: { friendId: number }): Route => {
     return {
       route: "/api/removefriend",
       needsAuth: true,
       method: "POST",
       body: {
-        username: props.friendId,
+        id: props.friendId,
       },
     };
   },

@@ -1,8 +1,8 @@
-import "./styles/App.css";
+import "@styles/App.css";
 import React, { useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
-import { useAppSelector } from "./redux/hooks";
-import Helper from "./util/helper";
+import { useAppSelector } from "@redux/hooks";
+import Helper from "@util/helper";
 
 import Home from "./pages/home";
 import Login from "./pages/login";
@@ -16,7 +16,6 @@ import Leaderboard from "./pages/leaderboard";
 import Train from "./pages/train";
 import Error404 from "./pages/error/404";
 import Error418 from "./pages/error/418";
-import helper from "./util/helper";
 import Users from "./pages/manage/users";
 import Profile from "./pages/profile";
 import { ConfigProvider } from "antd";
@@ -93,9 +92,9 @@ const App: React.FC = () => {
     return <AutoLogin />;
   }
 
-  const isUser = token && helper.getAccountType(token) === "user";
-  const isTrainer = token && helper.getAccountType(token) === "trainer";
-  const isAdmin = token && helper.getAccountType(token) === "admin";
+  const isUser = token && Helper.getAccountType(token) === "user";
+  const isTrainer = token && Helper.getAccountType(token) === "trainer";
+  const isAdmin = token && Helper.getAccountType(token) === "admin";
 
   if (isUser) {
     return (
