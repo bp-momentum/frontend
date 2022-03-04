@@ -260,9 +260,9 @@ const Training: React.FC<trainingProps> = ({ ...props }) => {
                 }}
               >
                 {cameraShown ? (
-                  <MdVideocamOff color="red" size="40px" />
-                ) : (
                   <MdVideocam color="black" size="40px" />
+                ) : (
+                  <MdVideocamOff color="red" size="40px" />
                 )}
               </div>
             )}
