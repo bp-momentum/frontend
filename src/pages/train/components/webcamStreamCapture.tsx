@@ -9,22 +9,27 @@ import Webcam from "react-webcam";
 import useWindowDimensions from "../../../hooks/windowDimension";
 import { ApiSocketConnection } from "../../../util/api";
 import { PlayCircleOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import { Button, Tooltip } from "antd";
+import Translations from "../../../localization/translations";
+import { useTranslation } from "react-i18next";
 
 interface webcamStreamCaptureProps {
   webSocketRef: RefObject<ApiSocketConnection>;
   active: boolean;
+  cameraShown: boolean;
 }
 
 const WebcamStreamCapture: React.FC<webcamStreamCaptureProps> = ({
   children,
   ...props
 }) => {
-  const { webSocketRef, active } = props;
+  const { webSocketRef, active, cameraShown } = props;
 
   const webcamRef = useRef<Webcam>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const [capturing, setCapturing] = useState(false);
+
+  const { t } = useTranslation();
 
   const sendChunks = useCallback(
     (data: Blob): void => {
@@ -115,11 +120,14 @@ const WebcamStreamCapture: React.FC<webcamStreamCaptureProps> = ({
           maxHeight: Math.max((height - 230) * 0.8, 200),
           width: "100%",
           height: "100%",
-          backdropFilter: active ? "none" : "blur(50px)",
-          WebkitBackdropFilter: active ? "none" : "blur(50px)",
+          backdropFilter:
+            !cameraShown || (capturing && !active) ? "blur(50px)" : "none",
+          WebkitBackdropFilter:
+            !cameraShown || (capturing && !active) ? "blur(50px)" : "none",
           borderRadius: "30px",
           padding: "15px 20px",
           border: "2px solid #fff",
+          minWidth: "100px",
         }}
       >
         <div
@@ -133,22 +141,27 @@ const WebcamStreamCapture: React.FC<webcamStreamCaptureProps> = ({
         </div>
       </div>
       {!capturing && (
-        <Button
-          onClick={handleStartCaptureClick}
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            borderRadius: "10px",
-            padding: "10px",
-            height: "inherit",
-            width: "inherit",
-            fontSize: "30px",
-          }}
-          icon={<PlayCircleOutlined style={{ fontSize: "30px" }} />}
-          className="no-font-fix-button-weirdness"
-        />
+        <Tooltip
+          title={t(Translations.training.clickToStart)}
+          defaultVisible={true}
+        >
+          <Button
+            onClick={handleStartCaptureClick}
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              borderRadius: "10px",
+              padding: "10px",
+              height: "inherit",
+              width: "inherit",
+              fontSize: "30px",
+            }}
+            icon={<PlayCircleOutlined style={{ fontSize: "30px" }} />}
+            className="no-font-fix-button-weirdness"
+          />
+        </Tooltip>
       )}
     </div>
   );

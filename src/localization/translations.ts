@@ -236,6 +236,8 @@ const Translations = {
     currentSet: "training.current-set",
     medal: "training.medal",
     backHome: "training.back-home",
+    clickToStart: "training.click-to-start",
+    checkVisibility: "training.check-visibility",
   },
   trainerProfile: {
     title: "trainer-profile.title",

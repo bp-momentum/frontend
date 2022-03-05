@@ -240,7 +240,9 @@
     "medal_bronze": "Bronze Medaille",
     "medal_silver": "Silber Medaille",
     "medal_gold": "Gold Medaille",
-    "back-home": "Zurück zur Übersicht"
+    "back-home": "Zurück zur Übersicht",
+    "click-to-start": "Klicke hier um zu starten!",
+    "check-visibility": "Achtung: Versuche immer im Kameraausschnitt zu bleiben!"
   },
   "trainer-profile": {
     "title": "Hallo, {{name}}",
