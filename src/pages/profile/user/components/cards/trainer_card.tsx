@@ -35,17 +35,21 @@ const TrainerCard: React.FC<trainerCardProps> = ({ ...props }) => {
           <br />
           {props.address.replaceAll(", ", "\n")}
           <br />
-          <ButtonContact
-            type={ContactType.phone}
-            contact={props.phone}
-            label={props.phone}
-          />
+          {props.phone.length > 0 && (
+            <ButtonContact
+              type={ContactType.phone}
+              contact={props.phone}
+              label={props.phone}
+            />
+          )}
           <br />
-          <ButtonContact
-            type={ContactType.email}
-            contact={props.email}
-            label={props.email}
-          />
+          {props.email.length > 0 && (
+            <ButtonContact
+              type={ContactType.email}
+              contact={props.email}
+              label={props.email}
+            />
+          )}
         </Text>
       </Row>
     </Card>
