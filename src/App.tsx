@@ -18,7 +18,7 @@ import Error404 from "./pages/error/404";
 import Error418 from "./pages/error/418";
 import helper from "./util/helper";
 import Users from "./pages/manage/users";
-import Profile from "./pages/profile";
+import Profile from "./pages/profile/user";
 import { ConfigProvider } from "antd";
 import { Locale } from "antd/lib/locale-provider";
 import { useTranslation } from "react-i18next";

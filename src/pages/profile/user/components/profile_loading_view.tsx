@@ -1,9 +1,9 @@
 import { Col, Layout, Row, Spin } from "antd";
 import ProfileSider from "./profile_sider";
 import { Content } from "antd/lib/layout/layout";
-import Translations from "../../../localization/translations";
+import Translations from "../../../../localization/translations";
 import { LoadingOutlined } from "@ant-design/icons";
-import Container from "../../../shared/container";
+import Container from "../../../../shared/container";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
