@@ -34,7 +34,6 @@ const Login: React.FC = () => {
         password: password,
       })
     );
-    console.log(response);
 
     if (!response) {
       setLoading(false);
@@ -47,7 +46,6 @@ const Login: React.FC = () => {
       return;
     }
 
-    console.log("Logged in successfully!");
     const token = response.data["session_token"];
     const refreshToken = response.data["refresh_token"];
 
