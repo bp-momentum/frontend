@@ -60,7 +60,6 @@ const Training: React.FC<trainingProps> = ({ ...props }) => {
 
   const [progress, setProgress] = useState(0); // repeats done per repeats to do in percent
   const [active, setActive] = useState(false); // whether sending video to server
-  const [setDone, setSetDone] = useState(false);
   const [currentSet, setCurrentSet] = useState(stats.current.set);
   const [isFeedbackNew, setIsFeedbackNew] = useState(false);
   const [feedback, setFeedback] = useState<feedback>({
@@ -162,7 +161,6 @@ const Training: React.FC<trainingProps> = ({ ...props }) => {
           playRandomAudio();
           break;
         case "end_set":
-          setSetDone(true);
           endCallback(stats.current, setActive, setSubPage, points.current);
           break;
         case "exercise_complete":
@@ -267,17 +265,6 @@ const Training: React.FC<trainingProps> = ({ ...props }) => {
               </div>
             )}
           </div>
-          <span
-            style={{
-              position: "absolute",
-              left: feedback?.x,
-              top: feedback?.y,
-              color: "white",
-              fontSize: "1.5rem",
-            }}
-          >
-            {setDone && t(Translations.training.done)}
-          </span>
           <span
             style={{
               position: "absolute",

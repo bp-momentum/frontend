@@ -238,7 +238,6 @@ const Translations = {
     backHome: "training.back-home",
     clickToStart: "training.click-to-start",
     checkVisibility: "training.check-visibility",
-    done: "training.done",
   },
 };
 
