@@ -325,7 +325,7 @@ const Routes = {
 
   /**
    * Get trainer's contact information.
-   * This can only be called by an user.
+   * This can only be called by a user or trainer.
    */
   getTrainerContact: (): Route => {
     return {
