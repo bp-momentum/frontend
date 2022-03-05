@@ -117,6 +117,7 @@ const CreateUser: React.FC<createUserProps> = ({ ...props }) => {
           {
             required: true,
             message: t(Translations.createUser.enterEmail),
+            type: "email",
           },
         ]}
       >
