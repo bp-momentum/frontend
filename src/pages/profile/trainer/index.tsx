@@ -102,7 +102,7 @@ const TrainerProfile: React.FC = () => {
           <Col>
             <Form
               name="trainer_contact"
-              labelCol={{ span: 10 }}
+              labelCol={{ span: 8 }}
               wrapperCol={{ span: 24 }}
               labelAlign="left"
               initialValues={{ remember: true }}
