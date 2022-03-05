@@ -1,7 +1,7 @@
 import React from "react";
 
-const Profile: React.FC = () => {
+const TrainerProfile: React.FC = () => {
   return <></>;
 };
 
-export default Profile;
+export default TrainerProfile;

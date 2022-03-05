@@ -27,7 +27,7 @@ function mergeData<Type>(data: Type, newData: Record<string, unknown>): Type {
   };
 }
 
-const Profile: React.FC = () => {
+const UserProfile: React.FC = () => {
   const token = useAppSelector((state) => state.token.token);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -199,4 +199,4 @@ const Profile: React.FC = () => {
   );
 };
 
-export default Profile;
+export default UserProfile;
