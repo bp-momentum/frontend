@@ -1,16 +1,16 @@
 import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
-import { store } from "../../redux/store";
+import { store } from "../../../redux/store";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React from "react";
-import Profile from "./index";
+import UserProfile from "./index";
 
 const ProfileWrapper: React.FC = () => {
   return (
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Profile />} />
+          <Route path="/" element={<UserProfile />} />
         </Routes>
       </BrowserRouter>
     </Provider>

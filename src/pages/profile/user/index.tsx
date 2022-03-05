@@ -1,24 +1,24 @@
 import React, { useEffect } from "react";
-import Container from "../../shared/container";
+import Container from "../../../shared/container";
 import { Col, Layout, message, Row } from "antd";
 import { Content } from "antd/lib/layout/layout";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { setRefreshToken, setToken } from "../../redux/token/tokenSlice";
-import Helper from "../../util/helper";
-import "../../styles/profile.css";
-import Routes from "../../util/routes";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import { setRefreshToken, setToken } from "../../../redux/token/tokenSlice";
+import Helper from "../../../util/helper";
+import "../../../styles/profile.css";
+import Routes from "../../../util/routes";
 import ProfileSider from "./components/profile_sider";
 import TrainerCard from "./components/cards/trainer_card";
 import {
   DoneExercise,
   getApproximateExerciseDurationMinutes,
-} from "../../api/done_exercise";
+} from "../../../api/done_exercise";
 import ActivityCalendarCard from "./components/cards/activity_calendar_card";
 import DailySummaryCard from "./components/cards/daily_summary_card";
 import UserCard from "./components/cards/user_card";
 import ProfileLoadingView from "./components/profile_loading_view";
 import { useNavigate } from "react-router";
-import useApi from "../../util/api";
+import useApi from "../../../util/api";
 
 function mergeData<Type>(data: Type, newData: Record<string, unknown>): Type {
   return {
@@ -27,7 +27,7 @@ function mergeData<Type>(data: Type, newData: Record<string, unknown>): Type {
   };
 }
 
-const Profile: React.FC = () => {
+const UserProfile: React.FC = () => {
   const token = useAppSelector((state) => state.token.token);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -199,4 +199,4 @@ const Profile: React.FC = () => {
   );
 };
 
-export default Profile;
+export default UserProfile;

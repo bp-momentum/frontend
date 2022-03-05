@@ -325,7 +325,7 @@ const Routes = {
 
   /**
    * Get trainer's contact information.
-   * This can only be called by an user.
+   * This can only be called by a user or trainer.
    */
   getTrainerContact: (): Route => {
     return {
@@ -468,6 +468,60 @@ const Routes = {
       body: {
         password: props.password,
         new_password: props.newPassword,
+      },
+    };
+  },
+
+  /**
+   * Change the contact address of the logged in trainer.
+   */
+  changeLocation: (props: {
+    street: string;
+    postalCode: string;
+    country: string;
+    city: string;
+    houseNr: string;
+    addressAddition: string;
+  }): Route => {
+    return {
+      route: "/api/changelocation",
+      method: "POST",
+      needsAuth: true,
+      body: {
+        street: props.street,
+        postal_code: props.postalCode,
+        country: props.country,
+        city: props.city,
+        house_nr: props.houseNr,
+        address_add: props.addressAddition,
+      },
+    };
+  },
+
+  /**
+   * Change the contact telephone number of the logged in trainer.
+   */
+  changeTelephone: (props: { telephone: string }): Route => {
+    return {
+      route: "/api/changetelephone",
+      method: "POST",
+      needsAuth: true,
+      body: {
+        telephone: props.telephone,
+      },
+    };
+  },
+
+  /**
+   * Change the academic title of the logged in trainer.
+   */
+  changeAcademia: (props: { academia: string }): Route => {
+    return {
+      route: "/api/changeacademia",
+      method: "POST",
+      needsAuth: true,
+      body: {
+        academia: props.academia,
       },
     };
   },

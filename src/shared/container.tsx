@@ -96,7 +96,6 @@ const Container: React.FC<containerProps> = ({ ...props }) => {
   };
 
   const token = useAppSelector((state) => state.token.token);
-  const isUser = token && helper.getAccountType(token) === "user";
   const isAdmin = token && helper.getAccountType(token) === "admin";
   const isTrainer = token && helper.getAccountType(token) === "trainer";
 
@@ -137,7 +136,7 @@ const Container: React.FC<containerProps> = ({ ...props }) => {
               {t(Translations.tabBar.leaderboard)}
             </Menu.Item>
           )}
-          {isUser && (
+          {!isAdmin && (
             <Menu.Item
               key="profile_overview"
               icon={<BarsOutlined style={{ color: color }} />}
@@ -148,7 +147,7 @@ const Container: React.FC<containerProps> = ({ ...props }) => {
           )}
           <Menu.Item
             key="settings"
-            style={isUser ? {} : { marginLeft: "auto" }}
+            style={!isAdmin ? {} : { marginLeft: "auto" }}
             icon={<SettingTwoTone twoToneColor={color} />}
           >
             {t(Translations.tabBar.settings)}

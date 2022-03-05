@@ -243,5 +243,20 @@
     "back-home": "Back to Home",
     "click-to-start": "Click here to start!",
     "check-visibility": "Attention: Always try to stay inside of the camera frame!"
+  },
+  "trainer-profile": {
+    "title": "Hello, {{name}}",
+    "subtitle": "Here you can change your contact information. It will only be shown to your patients.",
+    "submit": "Save",
+    "academia": "Academic Title",
+    "telephone": "Telephone",
+    "street": "Street",
+    "city": "City",
+    "country": "Country",
+    "house-nr": "House Nr.",
+    "address-addition": "Address Addition",
+    "postal-code": "ZIP code",
+    "email": "Email: {{email}}",
+    "success": "Your information was successfully updated!"
   }
 }
