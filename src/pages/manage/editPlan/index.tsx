@@ -469,7 +469,6 @@ const EditPlan: React.FC = () => {
                   <Input
                     placeholder={t(Translations.planEditor.unnamed)}
                     value={name}
-                    max={50}
                     bordered={false}
                     onChange={(change) => {
                       setName(change.target.value);
