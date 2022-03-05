@@ -136,11 +136,6 @@ const TrainerProfile: React.FC = () => {
               <Form.Item
                 label={t(Translations.trainerProfile.academia)}
                 name="academia"
-                rules={[
-                  {
-                    required: false,
-                  },
-                ]}
               >
                 <Input value={data?.academia} />
               </Form.Item>
@@ -148,11 +143,6 @@ const TrainerProfile: React.FC = () => {
               <Form.Item
                 label={t(Translations.trainerProfile.telephone)}
                 name="telephone"
-                rules={[
-                  {
-                    required: false,
-                  },
-                ]}
               >
                 <Input value={data?.telephone} type="tel" />
               </Form.Item>
@@ -160,11 +150,6 @@ const TrainerProfile: React.FC = () => {
               <Form.Item
                 label={t(Translations.trainerProfile.street)}
                 name="street"
-                rules={[
-                  {
-                    required: false,
-                  },
-                ]}
               >
                 <Input value={data?.street} />
               </Form.Item>
@@ -172,11 +157,6 @@ const TrainerProfile: React.FC = () => {
               <Form.Item
                 label={t(Translations.trainerProfile.houseNr)}
                 name="house_nr"
-                rules={[
-                  {
-                    required: false,
-                  },
-                ]}
               >
                 <Input value={data?.house_nr} />
               </Form.Item>
@@ -184,11 +164,6 @@ const TrainerProfile: React.FC = () => {
               <Form.Item
                 label={t(Translations.trainerProfile.country)}
                 name="country"
-                rules={[
-                  {
-                    required: false,
-                  },
-                ]}
               >
                 <Input value={data?.country} />
               </Form.Item>
@@ -196,11 +171,6 @@ const TrainerProfile: React.FC = () => {
               <Form.Item
                 label={t(Translations.trainerProfile.postalCode)}
                 name="postal_code"
-                rules={[
-                  {
-                    required: false,
-                  },
-                ]}
               >
                 <Input value={data?.postal_code} />
               </Form.Item>
@@ -208,11 +178,6 @@ const TrainerProfile: React.FC = () => {
               <Form.Item
                 label={t(Translations.trainerProfile.city)}
                 name="city"
-                rules={[
-                  {
-                    required: false,
-                  },
-                ]}
               >
                 <Input value={data?.city} />
               </Form.Item>
@@ -220,11 +185,6 @@ const TrainerProfile: React.FC = () => {
               <Form.Item
                 label={t(Translations.trainerProfile.addressAddition)}
                 name="address_add"
-                rules={[
-                  {
-                    required: false,
-                  },
-                ]}
               >
                 <Input value={data?.address_addition} />
               </Form.Item>
