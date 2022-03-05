@@ -241,5 +241,19 @@
     "medal_silver": "Silver Medal",
     "medal_gold": "Gold Medal",
     "back-home": "Back to Home"
+  },
+  "trainer-profile": {
+    "title": "Hello, {{name}}",
+    "subtitle": "Here you can change your contact information. It will only be shown to your patients.",
+    "submit": "Save",
+    "academia": "Academic Title",
+    "telephone": "Telephone",
+    "street": "Street",
+    "city": "City",
+    "country": "Country",
+    "house-nr": "House Nr.",
+    "address-addition": "Address Addition",
+    "postal-code": "ZIP code",
+    "success": "Your information was successfully updated!"
   }
 }

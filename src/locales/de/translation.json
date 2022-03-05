@@ -241,5 +241,19 @@
     "medal_silver": "Silber Medaille",
     "medal_gold": "Gold Medaille",
     "back-home": "Zurück zur Übersicht"
+  },
+  "trainer-profile": {
+    "title": "Hallo, {{name}}",
+    "subtitle": "Hier können Sie Ihre Kontaktdaten ändern. Diese werden nur Ihren Patient:innen angezeigt.",
+    "submit": "Speichern",
+    "academia": "Akademischer Titel",
+    "telephone": "Telefon",
+    "street": "Straße",
+    "city": "Stadt",
+    "country": "Land",
+    "house-nr": "Hausnr.",
+    "address-addition": "Adresszusatz",
+    "postal-code": "PLZ",
+    "success": "Die Informationen wurden erfolgreich aktualisiert!"
   }
 }
