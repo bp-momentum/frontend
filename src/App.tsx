@@ -66,10 +66,7 @@ const App: React.FC = () => {
 
   const useQuery = new URLSearchParams(useLocation().search);
   const new_user_token = useQuery.get("new_user_token");
-
   const reset_token = useQuery.get("reset_token");
-
-  // It is probably enough to just pass the token to Register directly as a prop
 
   if (new_user_token && reset_token) {
     return <Error418 />;
