@@ -256,6 +256,7 @@
     "house-nr": "House Nr.",
     "address-addition": "Address Addition",
     "postal-code": "ZIP code",
+    "email": "Email: {{email}}",
     "success": "Your information was successfully updated!"
   }
 }

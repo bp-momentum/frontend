@@ -256,6 +256,7 @@
     "house-nr": "Hausnr.",
     "address-addition": "Adresszusatz",
     "postal-code": "PLZ",
+    "email": "E-Mail: {{email}}",
     "success": "Die Informationen wurden erfolgreich aktualisiert!"
   }
 }

@@ -251,6 +251,7 @@ const Translations = {
     houseNr: "trainer-profile.house-nr",
     addressAddition: "trainer-profile.address-addition",
     postalCode: "trainer-profile.postal-code",
+    email: "trainer-profile.email",
     success: "trainer-profile.success",
   },
 };

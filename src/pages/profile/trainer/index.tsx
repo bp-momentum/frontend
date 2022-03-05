@@ -99,6 +99,11 @@ const TrainerProfile: React.FC = () => {
             {t(Translations.trainerProfile.title, { name: data?.name })}
           </Row>
           <Row justify="center">{t(Translations.trainerProfile.subtitle)}</Row>
+          {data?.email && (
+            <Row justify="center">
+              {t(Translations.trainerProfile.email, { email: data?.email })}
+            </Row>
+          )}
         </Col>
         <Row justify="center">
           <Col>
