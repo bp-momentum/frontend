@@ -15,6 +15,7 @@ import changeReducer from "./changes/changeSlice";
 import friendReducer from "./friends/friendSlice";
 import exercisesReducer, { exerciseApi } from "./exercises/exerciseSlice";
 import { setupListeners } from "@reduxjs/toolkit/query";
+import friendApiReducer, { friendApi } from "./friends/friendApiSlice";
 
 const persistConfig = {
   key: "root",
@@ -27,6 +28,7 @@ const appReducer = combineReducers({
   changes: changeReducer,
   friends: friendReducer,
   [exerciseApi.reducerPath]: exercisesReducer,
+  [friendApi.reducerPath]: friendApiReducer,
 });
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -50,7 +52,9 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(exerciseApi.middleware),
+    })
+      .concat(exerciseApi.middleware)
+      .concat(friendApi.middleware),
   devTools: true,
 });
 

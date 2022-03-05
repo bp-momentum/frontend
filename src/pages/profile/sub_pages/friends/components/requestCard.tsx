@@ -1,5 +1,6 @@
 import React from "react";
 import { MdPersonAdd, MdPersonRemove } from "react-icons/md";
+import Container from "./container";
 
 interface IncomingProps {
   username: string;
@@ -66,19 +67,7 @@ export const OutgoingRequestCard: React.FC<OutgoingProps> = ({
   onCancel,
 }) => {
   return (
-    <div
-      style={{
-        border: "1px solid black",
-        padding: "10px 20px",
-        borderRadius: "10px",
-        boxShadow: "0px 0px 5px black",
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        minWidth: "250px",
-        height: "60px",
-      }}
-    >
+    <Container size={{ width: "250px", height: "60px" }}>
       <span
         style={{
           textOverflow: "ellipsis",
@@ -95,6 +84,6 @@ export const OutgoingRequestCard: React.FC<OutgoingProps> = ({
         size={25}
         onClick={onCancel}
       />
-    </div>
+    </Container>
   );
 };

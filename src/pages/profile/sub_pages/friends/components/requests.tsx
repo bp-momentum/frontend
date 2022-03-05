@@ -14,6 +14,32 @@ const Requests: React.FC<Props> = ({ reloadFriends }) => {
   const sentRequests = useAppSelector((state) => state.friends.sentRequests);
   const api = useApi();
 
+  const acceptFriend = (id: number) => {
+    api
+      .execute(Routes.acceptFriendRequest({ friendId: id }))
+      .then((response) => {
+        if (!response) return;
+        if (!response.success) {
+          message.error(response.description);
+          return;
+        }
+        reloadFriends();
+      });
+  };
+
+  const declineFriend = (id: number) => {
+    api
+      .execute(Routes.declineFriendRequest({ friendId: id }))
+      .then((response) => {
+        if (!response) return;
+        if (!response.success) {
+          message.error(response.description);
+          return;
+        }
+        message.success(response.description);
+      });
+  };
+
   const removeFriend = (id: number) => {
     api.execute(Routes.removeFriend({ friendId: id })).then((response) => {
       if (!response) return;
@@ -35,11 +61,13 @@ const Requests: React.FC<Props> = ({ reloadFriends }) => {
             <IncomingRequestCard
               username={request.username}
               onAccept={() => {
-                console.log("accepted");
+                if (!request.id) return;
+                acceptFriend(request.id);
+                reloadFriends();
               }}
               onDecline={() => {
                 if (!request.id) return;
-                removeFriend(request.id);
+                declineFriend(request.id);
                 reloadFriends();
               }}
             />

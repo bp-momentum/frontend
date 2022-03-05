@@ -37,8 +37,6 @@ type pages =
   | "settings"
   | "leaderboard"
   | "profile"
-  | "profile_overview"
-  | "profile_stats"
   | "manage_users"
   | "manage_plans"; // navigable pages
 type pagesToRouteType = {
@@ -49,8 +47,6 @@ const pageToRoute: pagesToRouteType = {
   settings: "/settings",
   leaderboard: "/leaderboard",
   profile: "/profile",
-  profile_overview: "/profile",
-  profile_stats: "/profile/stats",
   manage: "/manage",
   manage_users: "/manage/users",
   manage_plans: "/manage/plans",
@@ -170,7 +166,7 @@ const Container: React.FC<containerProps> = ({ ...props }) => {
           )}
           {isUser && (
             <Menu.Item
-              key="profile_overview"
+              key="profile"
               icon={<BarsOutlined style={{ color: color }} />}
               style={{ marginLeft: "auto" }}
             >

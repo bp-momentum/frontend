@@ -90,6 +90,12 @@ const SubPageFriends: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const delayedLoadFriends = useCallback(() => {
+    setTimeout(() => {
+      loadFriends();
+    }, 100);
+  }, [loadFriends]);
+
   return (
     <Content style={{ height: "100%", overflow: "auto", padding: "30px" }}>
       <Row justify="center">
@@ -121,9 +127,11 @@ const SubPageFriends: React.FC = () => {
       </Row>
 
       <Row justify="center" style={{ marginTop: "50px" }}>
-        {tab === "friends" && <ActiveFriends />}
-        {tab === "requests" && <Requests reloadFriends={loadFriends} />}
-        {tab === "add" && <AddFriend reloadFriends={loadFriends} />}
+        {tab === "friends" && (
+          <ActiveFriends reloadFriends={delayedLoadFriends} />
+        )}
+        {tab === "requests" && <Requests reloadFriends={delayedLoadFriends} />}
+        {tab === "add" && <AddFriend reloadFriends={delayedLoadFriends} />}
       </Row>
     </Content>
   );

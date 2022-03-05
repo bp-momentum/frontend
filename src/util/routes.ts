@@ -522,13 +522,13 @@ const Routes = {
   /**
    * accept Friend Request
    */
-  acceptFriendRequest: (props: { friendId: string }): Route => {
+  acceptFriendRequest: (props: { friendId: number }): Route => {
     return {
       route: "/api/acceptfriendrequest",
       needsAuth: true,
       method: "POST",
       body: {
-        username: props.friendId,
+        id: props.friendId,
       },
     };
   },
@@ -536,13 +536,13 @@ const Routes = {
   /**
    * decline Friend Request
    */
-  declineFriendRequest: (props: { friendId: string }): Route => {
+  declineFriendRequest: (props: { friendId: number }): Route => {
     return {
       route: "/api/declinefriendrequest",
       needsAuth: true,
       method: "POST",
       body: {
-        username: props.friendId,
+        id: props.friendId,
       },
     };
   },

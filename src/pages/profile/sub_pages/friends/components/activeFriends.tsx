@@ -1,10 +1,32 @@
 import { useAppSelector } from "@/redux/hooks";
-import { Col, Row } from "antd";
-import React from "react";
+import { Col, message, Row } from "antd";
+import React, { useState } from "react";
 import sad from "@static/sad.svg";
+import FriendCard from "./friendCard";
+import Routes from "@/util/routes";
+import useApi from "@/util/api";
+import BigFriendCard from "./bigFriendCard";
 
-const ActiveFriends: React.FC = () => {
+interface Props {
+  reloadFriends: VoidFunction;
+}
+
+const ActiveFriends: React.FC<Props> = ({ reloadFriends }) => {
   const friends = useAppSelector((state) => state.friends.friends);
+  const api = useApi();
+
+  const [selectedFriend, setSelectedFriend] = useState<string | null>(null);
+
+  const removeFriend = (id: number) => {
+    api.execute(Routes.removeFriend({ friendId: id })).then((response) => {
+      if (!response) return;
+      if (!response.success) {
+        message.error(response.description);
+        return;
+      }
+      message.success(response.description);
+    });
+  };
 
   if (!friends || friends.length === 0)
     return (
@@ -16,15 +38,36 @@ const ActiveFriends: React.FC = () => {
       </Col>
     );
 
+  if (selectedFriend) {
+    return (
+      <Row>
+        <BigFriendCard
+          reloadFriends={reloadFriends}
+          username={selectedFriend}
+          onClose={() => setSelectedFriend(null)}
+        />
+      </Row>
+    );
+  }
+
   return (
-    <div>
-      <h2>Active Friends</h2>
-      <div>
-        {friends.map((friend) => (
-          <div key={friend.username}>{friend.username}</div>
-        ))}
-      </div>
-    </div>
+    <Row>
+      {friends.map((friend) => (
+        <Col key={friend.username}>
+          <FriendCard
+            username={friend.username}
+            onRemove={() => {
+              if (!friend.id) return;
+              removeFriend(friend.id);
+              reloadFriends();
+            }}
+            onClick={() => {
+              setSelectedFriend(friend.username);
+            }}
+          />
+        </Col>
+      ))}
+    </Row>
   );
 };
 
