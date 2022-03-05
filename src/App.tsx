@@ -17,7 +17,7 @@ import Train from "./pages/train";
 import Error404 from "./pages/error/404";
 import Error418 from "./pages/error/418";
 import Users from "./pages/manage/users";
-import Profile from "./pages/profile";
+import UserProfile from "./pages/profile/user";
 import { ConfigProvider } from "antd";
 import { Locale } from "antd/lib/locale-provider";
 import { useTranslation } from "react-i18next";
@@ -32,6 +32,7 @@ import "moment/locale/en-gb";
 import deDE from "antd/lib/locale-provider/de_DE";
 import enGB from "antd/lib/locale-provider/en_GB";
 import ChangePassword from "./pages/change_password";
+import TrainerProfile from "./pages/profile/trainer";
 
 const LocalizedApp: React.FC = () => {
   const [locale, setLocale] = React.useState<Locale>(deDE);
@@ -64,10 +65,7 @@ const App: React.FC = () => {
 
   const useQuery = new URLSearchParams(useLocation().search);
   const new_user_token = useQuery.get("new_user_token");
-
   const reset_token = useQuery.get("reset_token");
-
-  // It is probably enough to just pass the token to Register directly as a prop
 
   if (new_user_token && reset_token) {
     return <Error418 />;
@@ -102,7 +100,7 @@ const App: React.FC = () => {
         <Route path="/" element={<Exercises />} />
         <Route path="/train/:exercisePlanId" element={<Train />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile" element={<UserProfile />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/settings/change_password" element={<ChangePassword />} />
         <Route path="*" element={<Error404 />} />
@@ -115,6 +113,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/profile" element={<TrainerProfile />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/settings/change_password" element={<ChangePassword />} />
         <Route path="/manage">

@@ -236,6 +236,23 @@ const Translations = {
     currentSet: "training.current-set",
     medal: "training.medal",
     backHome: "training.back-home",
+    clickToStart: "training.click-to-start",
+    checkVisibility: "training.check-visibility",
+  },
+  trainerProfile: {
+    title: "trainer-profile.title",
+    subtitle: "trainer-profile.subtitle",
+    submit: "trainer-profile.submit",
+    academia: "trainer-profile.academia",
+    telephone: "trainer-profile.telephone",
+    street: "trainer-profile.street",
+    city: "trainer-profile.city",
+    country: "trainer-profile.country",
+    houseNr: "trainer-profile.house-nr",
+    addressAddition: "trainer-profile.address-addition",
+    postalCode: "trainer-profile.postal-code",
+    email: "trainer-profile.email",
+    success: "trainer-profile.success",
   },
 };
 
