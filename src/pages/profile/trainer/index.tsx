@@ -11,6 +11,7 @@ const TrainerProfile: React.FC = () => {
   const [edited, setEdited] = React.useState(false);
   const [error, setError] = React.useState<null | string>();
   const [success, setSuccess] = React.useState<null | string>(null);
+  const [form] = Form.useForm();
   const { t } = useTranslation();
   const api = useApi();
 
@@ -27,6 +28,7 @@ const TrainerProfile: React.FC = () => {
       );
       return;
     }
+    form.setFieldsValue({ ...response.data });
     setData(response.data as TrainerContact);
   };
 
@@ -112,8 +114,8 @@ const TrainerProfile: React.FC = () => {
                 setError(null);
                 setEdited(true);
               }}
-              autoComplete="off"
               style={{ width: "350px" }}
+              form={form}
             >
               {error && (
                 <Alert
@@ -137,56 +139,56 @@ const TrainerProfile: React.FC = () => {
                 label={t(Translations.trainerProfile.academia)}
                 name="academia"
               >
-                <Input value={data?.academia} />
+                <Input />
               </Form.Item>
 
               <Form.Item
                 label={t(Translations.trainerProfile.telephone)}
                 name="telephone"
               >
-                <Input value={data?.telephone} type="tel" />
+                <Input type="tel" />
               </Form.Item>
 
               <Form.Item
                 label={t(Translations.trainerProfile.street)}
                 name="street"
               >
-                <Input value={data?.street} />
+                <Input />
               </Form.Item>
 
               <Form.Item
                 label={t(Translations.trainerProfile.houseNr)}
                 name="house_nr"
               >
-                <Input value={data?.house_nr} />
+                <Input />
               </Form.Item>
 
               <Form.Item
                 label={t(Translations.trainerProfile.country)}
                 name="country"
               >
-                <Input value={data?.country} />
+                <Input />
               </Form.Item>
 
               <Form.Item
                 label={t(Translations.trainerProfile.postalCode)}
                 name="postal_code"
               >
-                <Input value={data?.postal_code} />
+                <Input />
               </Form.Item>
 
               <Form.Item
                 label={t(Translations.trainerProfile.city)}
                 name="city"
               >
-                <Input value={data?.city} />
+                <Input />
               </Form.Item>
 
               <Form.Item
                 label={t(Translations.trainerProfile.addressAddition)}
-                name="address_add"
+                name="address_addition"
               >
-                <Input value={data?.address_addition} />
+                <Input />
               </Form.Item>
 
               <Form.Item>
