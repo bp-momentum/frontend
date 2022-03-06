@@ -10,7 +10,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import Translations from "../../localization/translations";
 import { t } from "i18next";
 import { Plan } from "../../api/plan";
-import useApi from "../../util/api";
+import useApi from "../../hooks/api";
 
 /**
  * Consists of a list of all the plans the user has access to.

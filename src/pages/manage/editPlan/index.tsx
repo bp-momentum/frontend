@@ -15,7 +15,7 @@ import _ from "lodash";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { setPlanChanges } from "../../../redux/changes/changeSlice";
-import useApi from "../../../util/api";
+import useApi from "../../../hooks/api";
 
 const { Sider, Content } = Layout;
 const { confirm } = Modal;

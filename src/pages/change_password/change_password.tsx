@@ -8,7 +8,7 @@ import Translations from "../../localization/translations";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch } from "../../redux/hooks";
 import Container from "../../shared/container";
-import useApi from "../../util/api";
+import useApi from "../../hooks/api";
 
 const ChangePassword: React.FC = () => {
   const navigate = useNavigate();

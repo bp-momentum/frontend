@@ -4,7 +4,7 @@ import React, { Dispatch, SetStateAction } from "react";
 import Routes from "../../../util/routes";
 import { useTranslation } from "react-i18next";
 import Translations from "../../../localization/translations";
-import useApi from "../../../util/api";
+import useApi from "../../../hooks/api";
 
 interface createUserProps {
   updateValue: number;

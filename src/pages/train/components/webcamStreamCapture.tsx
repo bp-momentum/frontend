@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import Webcam from "react-webcam";
 import useWindowDimensions from "../../../hooks/windowDimension";
-import { ApiSocketConnection } from "../../../util/api";
+import { ApiSocketConnection } from "../../../hooks/api";
 import { PlayCircleOutlined } from "@ant-design/icons";
 import { Button, Tooltip } from "antd";
 import Translations from "../../../localization/translations";

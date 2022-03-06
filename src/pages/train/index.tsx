@@ -10,7 +10,7 @@ import { useGetExerciseByIdQuery } from "../../redux/exercises/exerciseSlice";
 import { message } from "antd";
 import Translations from "../../localization/translations";
 import { t } from "i18next";
-import useApi from "../../util/api";
+import useApi from "../../hooks/api";
 
 interface TrainProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

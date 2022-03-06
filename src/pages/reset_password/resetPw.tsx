@@ -5,7 +5,7 @@ import Routes from "../../util/routes";
 import { useNavigate } from "react-router";
 import Translations from "../../localization/translations";
 import { useTranslation } from "react-i18next";
-import useApi from "../../util/api";
+import useApi from "../../hooks/api";
 
 export interface resetPwProps {
   resetToken: string;

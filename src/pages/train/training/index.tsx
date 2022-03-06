@@ -12,7 +12,7 @@ import "../../../styles/train.css";
 import Translations from "../../../localization/translations";
 import { t } from "i18next";
 import WebcamStreamCapture from "../components/webcamStreamCapture";
-import useApi, { ApiSocketConnection } from "../../../util/api";
+import useApi, { ApiSocketConnection } from "../../../hooks/api";
 import TrainLayout from "../components/trainLayout";
 import {
   doneCallback,
@@ -20,20 +20,18 @@ import {
   initCallback,
   statsCallback,
 } from "./callbacks";
-import _ from "lodash";
 import { useParams } from "react-router-dom";
 import { MdVideocam, MdVideocamOff } from "react-icons/md";
+import config from "../../../config";
 
 const playRandomAudio = () => {
-  const audioCDN = "https://cdn.geoscribble.de/sounds/";
-  const audioFiles = _.range(16);
-  const audioExtension = ".wav";
+  const audioFiles = config.soundsPerCategory.good;
 
-  const audio = new Audio(
-    `${audioCDN}${
-      audioFiles[Math.floor(Math.random() * audioFiles.length)]
-    }${audioExtension}`
-  );
+  const fileId = Math.floor(Math.random() * audioFiles.length);
+  const category = "";
+  const url = config.audioUrlFormatter(fileId, category);
+
+  const audio = new Audio(url);
   audio.volume = 0.2;
   audio.play();
 };

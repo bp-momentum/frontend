@@ -18,7 +18,8 @@ import DailySummaryCard from "./components/cards/daily_summary_card";
 import UserCard from "./components/cards/user_card";
 import ProfileLoadingView from "./components/profile_loading_view";
 import { useNavigate } from "react-router";
-import useApi from "../../../util/api";
+import useApi from "../../../hooks/api";
+import config from "../../../config";
 
 function mergeData<Type>(data: Type, newData: Record<string, unknown>): Type {
   return {
@@ -148,7 +149,7 @@ const UserProfile: React.FC = () => {
         <ProfileSider
           onClickFriends={onClickFriends}
           onClickAchievements={onClickAchievements}
-          avatarUrl={Helper.getAvatarUrl(profileData.avatarId)}
+          avatarUrl={config.avatarUrlFormatter(profileData.avatarId)}
           username={Helper.getUserName(token ?? "")}
         />
         <Content style={{ paddingLeft: "200px" }}>

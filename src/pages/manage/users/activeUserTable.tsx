@@ -15,7 +15,7 @@ import { getColumnSearchProps } from "./tableSearch";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { t } from "i18next";
 import Translations from "../../../localization/translations";
-import useApi from "../../../util/api";
+import useApi from "../../../hooks/api";
 
 const { Option } = Select;
 

@@ -24,7 +24,7 @@ import { ExclamationCircleOutlined } from "@ant-design/icons";
 import Translations from "../../localization/translations";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import useApi from "../../util/api";
+import useApi from "../../hooks/api";
 
 const Settings: React.FC = () => {
   const navigate = useNavigate();
