@@ -41,6 +41,7 @@ const calculatePoints = (points: Points[], set: number): dataEntryType[] => {
 };
 
 export const initCallback = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: Record<string, any>,
   stats: React.MutableRefObject<statsType>,
   setCurrentSet: React.Dispatch<React.SetStateAction<number>>
@@ -50,6 +51,7 @@ export const initCallback = (
 };
 
 export const statsCallback = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: Record<string, any>,
   points: Points[],
   setProgress: React.Dispatch<React.SetStateAction<number>>,
