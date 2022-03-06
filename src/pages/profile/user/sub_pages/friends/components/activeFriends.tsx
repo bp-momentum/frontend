@@ -1,11 +1,11 @@
 import { useAppSelector } from "@redux/hooks";
 import { Col, message, Row } from "antd";
 import React, { useState } from "react";
-import sad from "@static/sad.svg";
 import FriendCard from "./friendCard";
 import Routes from "@util/routes";
 import useApi from "@hooks/api";
 import BigFriendCard from "./bigFriendCard";
+import EmptyDataRender from "@/shared/emptyDataRender";
 
 interface Props {
   reloadFriends: VoidFunction;
@@ -32,9 +32,8 @@ const ActiveFriends: React.FC<Props> = ({ reloadFriends }) => {
     return (
       <Col>
         <Row justify="center">
-          <img src={sad} width={150} alt="Sad face" />
+          <EmptyDataRender customText="No frens" />
         </Row>
-        <Row justify="center">No frens</Row>
       </Col>
     );
 

@@ -4,6 +4,7 @@ import Routes from "@util/routes";
 import { Col, message, Row } from "antd";
 import React from "react";
 import { IncomingRequestCard, OutgoingRequestCard } from "./requestCard";
+import EmptyDataRender from "@/shared/emptyDataRender";
 
 interface Props {
   reloadFriends: VoidFunction;
@@ -53,9 +54,15 @@ const Requests: React.FC<Props> = ({ reloadFriends }) => {
 
   return (
     <>
-      <Col style={{ width: "250px", margin: "0 25px" }}>
-        <Row justify="center">Incoming Requests</Row>
-        {requests.length === 0 && <Row justify="center">No requests</Row>}
+      <Col style={{ width: "270px", margin: "0 25px", paddingBottom: "20px" }}>
+        <Row justify="center" style={{ marginBottom: 30 }}>
+          <span style={{ fontSize: 25 }}>Incoming Requests</span>
+        </Row>
+        {requests.length === 0 && (
+          <Row justify="center">
+            <EmptyDataRender customText="No one wants to be your friend!" />
+          </Row>
+        )}
         {requests.map((request) => (
           <Row key={request.username} justify="center">
             <IncomingRequestCard
@@ -74,11 +81,15 @@ const Requests: React.FC<Props> = ({ reloadFriends }) => {
           </Row>
         ))}
       </Col>
-      <Col style={{ width: "250px", margin: "0 25px" }}>
-        <Row justify="center">Outgoing Requests</Row>
+      <Col style={{ width: "270px", margin: "0 25px" }}>
+        <Row justify="center" style={{ marginBottom: 30 }}>
+          <span style={{ fontSize: 25 }}>Outgoing Requests</span>
+        </Row>
         {!sentRequests ||
           (sentRequests.length === 0 && (
-            <Row justify="center">No requests</Row>
+            <Row justify="center">
+              <EmptyDataRender customText="You apparently don't want friends!" />
+            </Row>
           ))}
         {sentRequests &&
           sentRequests.map((request) => (

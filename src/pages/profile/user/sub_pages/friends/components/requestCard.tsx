@@ -14,19 +14,7 @@ export const IncomingRequestCard: React.FC<IncomingProps> = ({
   onDecline,
 }) => {
   return (
-    <div
-      style={{
-        border: "1px solid black",
-        padding: "10px 20px",
-        borderRadius: "10px",
-        boxShadow: "0px 0px 5px black",
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        minWidth: "250px",
-        height: "60px",
-      }}
-    >
+    <Container size={{ width: 250, height: 60 }}>
       <span
         style={{
           textOverflow: "ellipsis",
@@ -53,7 +41,7 @@ export const IncomingRequestCard: React.FC<IncomingProps> = ({
         size={25}
         onClick={onDecline}
       />
-    </div>
+    </Container>
   );
 };
 
