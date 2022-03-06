@@ -13,7 +13,7 @@ import { EmojiProvider } from "react-apple-emojis";
 import emojiData from "react-apple-emojis/lib/data.json";
 import { MultiProvider } from "react-pendulum";
 import { ConfigProvider } from "antd";
-import customizeRenderEmpty from "@shared/emptyDataRender";
+import EmptyDataRender from "@shared/emptyDataRender";
 import "@util/i18n";
 
 ReactDOM.render(
@@ -24,7 +24,7 @@ ReactDOM.render(
         <PersistGate loading={null} persistor={persistor} />,
         <HashRouter />,
         <EmojiProvider data={emojiData} />,
-        <ConfigProvider renderEmpty={customizeRenderEmpty} />,
+        <ConfigProvider renderEmpty={() => <EmptyDataRender />} />,
       ]}
     >
       <LocalizedApp />

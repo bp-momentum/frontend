@@ -3,11 +3,15 @@ import { Empty } from "antd";
 import { t } from "i18next";
 import Translations from "@localization/translations";
 
-const EmptyDataRender: React.FC = () => {
+interface Props {
+  customText?: string;
+}
+
+const EmptyDataRender: React.FC<Props> = ({ customText }) => {
   return (
     <div style={{ textAlign: "center", paddingTop: "10px" }}>
       {Empty.PRESENTED_IMAGE_SIMPLE}
-      <p>{t(Translations.errors.empty)}</p>
+      <p>{!customText ? t(Translations.errors.empty) : customText}</p>
     </div>
   );
 };
