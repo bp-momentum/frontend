@@ -1,6 +1,6 @@
 import React from "react";
 import { render, waitFor, screen, fireEvent } from "@testing-library/react";
-import "@/i18n";
+import "@/util/i18n";
 import { store } from "@redux/store";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";

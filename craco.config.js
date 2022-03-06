@@ -14,5 +14,12 @@ module.exports = {
       "@hooks": path.resolve(__dirname, "src/hooks"),
       "@api": path.resolve(__dirname, "src/api"),
     },
+    configure: (webpackConfig) => {
+      // other stuff with webpackConfig
+      return {
+        ...webpackConfig,
+        ignoreWarnings: [/Failed to parse source map/],
+      };
+    },
   },
 };
