@@ -56,7 +56,7 @@ const CreateUser: React.FC<createUserProps> = ({ ...props }) => {
   return (
     <Form
       form={form}
-      name="login"
+      name="create_user"
       labelCol={{ span: 16 }}
       wrapperCol={{ span: 24 }}
       initialValues={{ remember: true }}
@@ -117,6 +117,7 @@ const CreateUser: React.FC<createUserProps> = ({ ...props }) => {
           {
             required: true,
             message: t(Translations.createUser.enterEmail),
+            type: "email",
           },
         ]}
       >

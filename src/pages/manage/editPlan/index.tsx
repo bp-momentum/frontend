@@ -254,7 +254,9 @@ const EditPlan: React.FC = () => {
 
     api.execute(Routes.saveTrainingPlan(data)).then((response) => {
       if (!response.success) {
-        message.error(t(Translations.planEditor.saveError));
+        message.error(
+          response.description ?? t(Translations.planEditor.saveError)
+        );
         return;
       }
       if (response.data.plan_id !== planId) {
