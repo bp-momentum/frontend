@@ -19,7 +19,7 @@ const ResetForm: React.FC<loginProps> = ({ ...props }) => {
 
   return (
     <Form
-      name="login"
+      name="reset"
       initialValues={{ remember: true }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}

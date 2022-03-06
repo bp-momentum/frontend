@@ -10,11 +10,12 @@ import {
   DoneExercise,
   getApproximateExerciseDurationMinutes,
 } from "@api/done_exercise";
-import useApi from "@util/api";
+import useApi from "@hooks/api";
 import SubPageProfile from "./sub_pages/profile";
 import ProfileLoadingView from "./components/profile_loading_view";
 import SubPageFriends from "./sub_pages/friends";
 import SubPageAchievements from "./sub_pages/achievements";
+import config from "@/config";
 
 const Profile: React.FC = () => {
   const token = useAppSelector((state) => state.token.token);
@@ -94,17 +95,16 @@ const Profile: React.FC = () => {
           onClickFriends={onClickFriends}
           onClickAchievements={onClickAchievements}
           onClickProfile={onClickProfile}
-          avatarUrl={
-            (profileData && Helper.getAvatarUrl(profileData.avatarId)) || ""
-          }
+          avatarUrl={config.avatarUrlFormatter(
+            profileData ? profileData.avatarId : 0
+          )}
           username={Helper.getUserName(token ?? "")}
           selected={subPage}
         />
         {subPage === "loading" && <ProfileLoadingView />}
-        {subPage === "profile" && (
+        {subPage === "profile" && profileData && (
           <SubPageProfile
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            profileData={profileData!}
+            profileData={profileData}
             setProfileData={setProfileData}
           />
         )}

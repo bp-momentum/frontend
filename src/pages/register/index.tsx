@@ -8,7 +8,7 @@ import { useNavigate } from "react-router";
 import Translations from "@localization/translations";
 import { useTranslation } from "react-i18next";
 import Helper from "@util/helper";
-import useApi from "@util/api";
+import useApi from "@hooks/api";
 
 export interface registerProps {
   registerToken: string;

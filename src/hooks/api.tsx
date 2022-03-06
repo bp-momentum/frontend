@@ -1,11 +1,12 @@
-import { useAppDispatch, useAppSelector } from "@redux/hooks";
-import { Route } from "./routes";
-import { unsetRefreshToken, unsetToken } from "@redux/token/tokenSlice";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { Route } from "../util/routes";
+import { unsetRefreshToken, unsetToken } from "../redux/token/tokenSlice";
 import { message } from "antd";
 import { useTranslation } from "react-i18next";
-import Translations from "@localization/translations";
+import Translations from "../localization/translations";
+import config from "../config";
 
-export const serverUrl = "https://bp-api.geoscribble.de/";
+export const serverUrl = config.backendUrl;
 
 const useApi = () => {
   const token = useAppSelector((state) => state.token.token) ?? "";
@@ -13,15 +14,6 @@ const useApi = () => {
   const { t } = useTranslation();
 
   const execute = async (route: Route): Promise<ApiResponse> => {
-    /**
-     * Wait for a token on authorized requests
-     * Wait a max of 5 seconds
-     */
-    let i = 0;
-    while (route.needsAuth && token === "" && ++i < 50) {
-      await new Promise((resolve) => setTimeout(resolve, 100));
-    }
-
     let response;
     switch (route.method) {
       case "GET":
@@ -138,20 +130,7 @@ const useApi = () => {
   };
 
   const openSocket = async (): Promise<ApiSocketConnection> => {
-    /**
-     * Wait for a token on authorized requests
-     * Wait a max of 5 seconds
-     */
-    let i = 0;
-    while (token === "" && ++i < 50) {
-      await new Promise((resolve) => setTimeout(resolve, 100));
-    }
-
-    const str = serverUrl
-      .replace(/http:\/\//, "ws://")
-      .replace(/https:\/\//, "wss://");
-
-    return new ApiSocketConnection(token, str);
+    return new ApiSocketConnection(token, config.websocketUrl);
   };
 
   return { execute, openSocket };

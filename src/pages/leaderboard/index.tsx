@@ -11,7 +11,7 @@ import Helper from "@util/helper";
 import Crown from "@static/crown.svg";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useAppSelector } from "@redux/hooks";
-import useApi from "@util/api";
+import useApi from "@hooks/api";
 
 interface LeaderboardEntry {
   rank: number;

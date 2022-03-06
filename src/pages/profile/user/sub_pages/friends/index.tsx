@@ -1,7 +1,7 @@
 import message from "antd/lib/message";
 import React, { useCallback, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@redux/hooks";
-import useApi from "@util/api";
+import useApi from "@hooks/api";
 import Helper from "@util/helper";
 import Routes from "@util/routes";
 import { Content } from "antd/lib/layout/layout";

@@ -1,12 +1,12 @@
+import config from "@/config";
 import { Friend } from "@api/friend";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { serverUrl } from "@util/api";
 import { store } from "../store";
 
 export const friendApi = createApi({
   reducerPath: "friendApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: serverUrl,
+    baseUrl: config.backendUrl,
     prepareHeaders: (headers, { getState }) => {
       headers.set(
         "Session-Token",

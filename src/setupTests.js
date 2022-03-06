@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import nock from "nock";
-import { serverUrl } from "./util/api";
+import { serverUrl } from "./hooks/api";
 
 jest.setTimeout(20000);
 

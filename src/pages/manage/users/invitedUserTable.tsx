@@ -12,7 +12,7 @@ import { QuestionCircleOutlined } from "@ant-design/icons";
 import { AlignType } from "rc-table/lib/interface";
 import Translations from "@localization/translations";
 import { t } from "i18next";
-import useApi from "@util/api";
+import useApi from "@hooks/api";
 
 interface User {
   key: string;

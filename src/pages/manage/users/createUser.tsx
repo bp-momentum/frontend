@@ -4,7 +4,7 @@ import React, { Dispatch, SetStateAction } from "react";
 import Routes from "@util/routes";
 import { useTranslation } from "react-i18next";
 import Translations from "@localization/translations";
-import useApi from "@util/api";
+import useApi from "@hooks/api";
 
 interface createUserProps {
   updateValue: number;
@@ -56,7 +56,7 @@ const CreateUser: React.FC<createUserProps> = ({ ...props }) => {
   return (
     <Form
       form={form}
-      name="login"
+      name="create_user"
       labelCol={{ span: 16 }}
       wrapperCol={{ span: 24 }}
       initialValues={{ remember: true }}
@@ -117,6 +117,7 @@ const CreateUser: React.FC<createUserProps> = ({ ...props }) => {
           {
             required: true,
             message: t(Translations.createUser.enterEmail),
+            type: "email",
           },
         ]}
       >

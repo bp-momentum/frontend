@@ -83,11 +83,6 @@ const Helper = {
     return Helper.getWeek(new Date());
   },
 
-  availableAvatarIds: Array.from(Array(50).keys()).map((n) => n + 1),
-  getAvatarUrl: (id: number): string => {
-    return `https://cdn.geoscribble.de/avatars/avatar_${id}.png`;
-  },
-
   maxUsernameLength: 50,
   checkUsername: (username: string): string | undefined => {
     if (username.length === 0) {

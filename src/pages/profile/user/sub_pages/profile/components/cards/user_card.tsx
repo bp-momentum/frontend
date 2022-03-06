@@ -7,6 +7,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import Helper from "@util/helper";
 import { FaPen } from "react-icons/fa";
+import config from "@/config";
 
 interface userCardProps {
   avatarId: number;
@@ -99,8 +100,8 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
             <img
               alt="Avatar"
               data-testid="user-avatar"
-              key={Helper.getAvatarUrl(props.avatarId)}
-              src={Helper.getAvatarUrl(props.avatarId)}
+              key={props.avatarId}
+              src={config.avatarUrlFormatter(props.avatarId)}
               style={{
                 height: "100px",
                 padding: "20px 10px 0 10px",
@@ -183,7 +184,7 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
               title={t(Translations.profile.selectNewAvatar)}
               content={
                 <Row gutter={16}>
-                  {Helper.availableAvatarIds.map((id) => {
+                  {config.avatarRange.map((id) => {
                     return (
                       <img
                         alt="Avatar"
@@ -192,7 +193,7 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
                           setPopoverVisible(false);
                         }}
                         key={id}
-                        src={Helper.getAvatarUrl(id)}
+                        src={config.avatarUrlFormatter(id)}
                         style={{
                           height: "60px",
                           padding: "10px 5px 0 5px",
@@ -218,7 +219,7 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
                     setPopoverVisible(!popoverVisible);
                   }}
                   key={newAvatarId}
-                  src={Helper.getAvatarUrl(newAvatarId)}
+                  src={config.avatarUrlFormatter(newAvatarId)}
                   style={{
                     cursor: "pointer",
                     height: "100px",

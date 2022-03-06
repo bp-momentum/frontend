@@ -15,7 +15,7 @@ import _ from "lodash";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "@redux/hooks";
 import { setPlanChanges } from "@redux/changes/changeSlice";
-import useApi from "@util/api";
+import useApi from "@hooks/api";
 
 const { Sider, Content } = Layout;
 const { confirm } = Modal;
@@ -254,7 +254,9 @@ const EditPlan: React.FC = () => {
 
     api.execute(Routes.saveTrainingPlan(data)).then((response) => {
       if (!response.success) {
-        message.error(t(Translations.planEditor.saveError));
+        message.error(
+          response.description ?? t(Translations.planEditor.saveError)
+        );
         return;
       }
       if (response.data.plan_id !== planId) {

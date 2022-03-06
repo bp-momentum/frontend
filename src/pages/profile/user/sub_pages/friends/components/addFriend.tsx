@@ -1,10 +1,10 @@
 import { Button, Form, Input, message } from "antd";
 import React from "react";
 import { UserOutlined } from "@ant-design/icons";
-import Translations from "@/localization/translations";
+import Translations from "@localization/translations";
 import { useTranslation } from "react-i18next";
-import useApi from "@/util/api";
-import Routes from "@/util/routes";
+import useApi from "@hooks/api";
+import Routes from "@util/routes";
 
 interface Props {
   reloadFriends: VoidFunction;

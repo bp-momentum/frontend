@@ -1,6 +1,6 @@
-import { useAppSelector } from "@/redux/hooks";
-import useApi from "@/util/api";
-import Routes from "@/util/routes";
+import { useAppSelector } from "@redux/hooks";
+import useApi from "@hooks/api";
+import Routes from "@util/routes";
 import { Col, message, Row } from "antd";
 import React from "react";
 import { IncomingRequestCard, OutgoingRequestCard } from "./requestCard";

@@ -1,6 +1,6 @@
-import Translations from "@/localization/translations";
-import { useGetFriendByIdQuery } from "@/redux/friends/friendApiSlice";
-import Helper from "@/util/helper";
+import config from "@/config";
+import Translations from "@localization/translations";
+import { useGetFriendByIdQuery } from "@redux/friends/friendApiSlice";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { MdPersonRemove } from "react-icons/md";
@@ -58,7 +58,7 @@ const FriendCard: React.FC<Props> = ({ username, onRemove, onClick }) => {
         <img
           alt="Avatar"
           key={data.avatar}
-          src={Helper.getAvatarUrl(data.avatar)}
+          src={config.avatarUrlFormatter(data.avatar)}
           style={{
             height: "100%",
             width: "100%",

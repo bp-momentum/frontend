@@ -1,10 +1,10 @@
-import { useAppSelector } from "@/redux/hooks";
+import { useAppSelector } from "@redux/hooks";
 import { Col, message, Row } from "antd";
 import React, { useState } from "react";
 import sad from "@static/sad.svg";
 import FriendCard from "./friendCard";
-import Routes from "@/util/routes";
-import useApi from "@/util/api";
+import Routes from "@util/routes";
+import useApi from "@hooks/api";
 import BigFriendCard from "./bigFriendCard";
 
 interface Props {

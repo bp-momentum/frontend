@@ -24,7 +24,7 @@ import { ExclamationCircleOutlined } from "@ant-design/icons";
 import Translations from "@localization/translations";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import useApi from "@util/api";
+import useApi from "@hooks/api";
 
 const Settings: React.FC = () => {
   const navigate = useNavigate();
@@ -58,29 +58,21 @@ const Settings: React.FC = () => {
       onOk() {
         onConfirmDeleteAccount().catch(message.error);
       },
-      onCancel() {
-        console.log("Cancelled Account Deletion");
-      },
     });
   }
 
   const onConfirmDeleteAccount = async () => {
     setError(null);
     const response = await api.execute(Routes.deleteAccount());
-    console.log(response);
-
     if (!response) return;
-
     if (!response.success) {
       setError(t(response.description ?? Translations.errors.unknownError));
       return;
     }
+
     setSuccess(t(Translations.settings.successfullyDeletedAccount));
-
     setTimeout(() => setSuccess(null), 5000);
-
     await new Promise((resolve) => setTimeout(resolve, 5000)); // sleep for 5 Seconds
-
     dispatch(unsetRefreshToken());
     dispatch(unsetToken());
   };
@@ -95,9 +87,6 @@ const Settings: React.FC = () => {
       cancelText: t(Translations.settings.logoutAllDevices.modal.cancel),
       onOk() {
         onConfirmLogoutAllDevices().catch(message.error);
-      },
-      onCancel() {
-        console.log("Cancelled Logout All Devices");
       },
     });
   }

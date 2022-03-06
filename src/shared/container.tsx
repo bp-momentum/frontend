@@ -17,8 +17,8 @@ import { MenuInfo } from "rc-menu/lib/interface";
 import { useAppDispatch, useAppSelector } from "@redux/hooks";
 import helper from "@util/helper";
 import { ExclamationCircleOutlined } from "@ant-design/icons/lib";
-import useApi from "@/util/api";
-import Routes from "@/util/routes";
+import useApi from "@hooks/api";
+import Routes from "@util/routes";
 import { setFriendRequests } from "@/redux/friends/friendSlice";
 import Helper from "@util/helper";
 

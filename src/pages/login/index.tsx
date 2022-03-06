@@ -7,7 +7,8 @@ import { useTranslation } from "react-i18next";
 import Translations from "@localization/translations";
 import LoginForm from "./forms/loginForm";
 import ResetForm from "./forms/resetForm";
-import useApi from "@util/api";
+import useApi from "@hooks/api";
+import config from "../../config";
 
 const Login: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -34,7 +35,6 @@ const Login: React.FC = () => {
         password: password,
       })
     );
-    console.log(response);
 
     if (!response) {
       setLoading(false);
@@ -47,7 +47,6 @@ const Login: React.FC = () => {
       return;
     }
 
-    console.log("Logged in successfully!");
     const token = response.data["session_token"];
     const refreshToken = response.data["refresh_token"];
 
@@ -64,7 +63,7 @@ const Login: React.FC = () => {
       .execute(
         Routes.requestPasswordReset({
           username,
-          url: window.location.origin + "/#",
+          url: config.frontendUrl,
         })
       )
       .then((response) => {
