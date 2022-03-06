@@ -1,6 +1,6 @@
 import { Exercise } from "../../api/exercise";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { serverUrl } from "../../util/api";
+import { serverUrl } from "../../hooks/api";
 import { store } from "../store";
 
 export const exerciseApi = createApi({

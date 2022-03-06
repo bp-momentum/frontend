@@ -7,7 +7,7 @@ import { setToken } from "../../redux/token/tokenSlice";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import Translations from "../../localization/translations";
-import useApi from "../../util/api";
+import useApi from "../../hooks/api";
 
 const AutoLogin: React.FC = () => {
   const dispatch = useAppDispatch();

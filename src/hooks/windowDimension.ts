@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import debounce from "lodash/debounce";
 
-function useWindowDimensions(delay = 100) {
+const useWindowDimensions = (delay = 100) => {
   function getSize() {
     return {
       width: window.innerWidth,
@@ -22,6 +22,6 @@ function useWindowDimensions(delay = 100) {
   }, [delay]);
 
   return windowSize;
-}
+};
 
 export default useWindowDimensions;

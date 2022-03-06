@@ -9,7 +9,7 @@ import { useAppSelector } from "../../redux/hooks";
 import { Emoji } from "react-apple-emojis";
 import "../../styles/home.css";
 import Day from "./components/day";
-import useApi from "../../util/api";
+import useApi from "../../hooks/api";
 
 const { Content } = Layout;
 
