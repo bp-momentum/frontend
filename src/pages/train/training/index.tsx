@@ -22,13 +22,13 @@ import {
 } from "./callbacks";
 import { useParams } from "react-router-dom";
 import { MdVideocam, MdVideocamOff } from "react-icons/md";
-import config from "../../../config";
+import config from "@/config";
 
-const playRandomAudio = () => {
-  const audioFiles = config.soundsPerCategory.good;
+const playRandomSound = (category: audioCategory) => {
+  const audioFiles = config.soundsPerCategory[category];
 
-  const fileId = Math.floor(Math.random() * audioFiles.length);
-  const category = "";
+  const file = Math.floor(Math.random() * audioFiles.length);
+  const fileId = audioFiles[file];
   const url = config.audioUrlFormatter(fileId, category);
 
   const audio = new Audio(url);
@@ -76,6 +76,8 @@ const Training: React.FC<trainingProps> = ({ ...props }) => {
   const addPtsRef = createRef<HTMLSpanElement>();
 
   const { exercisePlanId } = useParams();
+
+  const audioFeedbackChance = useRef(1);
 
   const api = useApi();
 
@@ -146,17 +148,18 @@ const Training: React.FC<trainingProps> = ({ ...props }) => {
           setActive(true);
           break;
         case "statistics":
-          statsCallback(
-            message.data,
-            points.current,
+          statsCallback({
+            data: message.data,
+            points: points.current,
+            repeats: exercise?.repeatsPerSet || 1,
             setProgress,
-            exercise?.repeatsPerSet || 1,
             currentRepeat,
             setFeedback,
             totalPoints,
-            setIsFeedbackNew
-          );
-          playRandomAudio();
+            setIsFeedbackNew,
+            playRandomSound,
+            audioFeedbackChance,
+          });
           break;
         case "end_set":
           endCallback(stats.current, setActive, setSubPage, points.current);
