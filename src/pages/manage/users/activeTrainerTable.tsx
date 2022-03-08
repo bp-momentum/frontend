@@ -1,4 +1,4 @@
-import { Button, Input, message, Popconfirm, Table } from "antd";
+import { Button, InputRef, message, Popconfirm, Table } from "antd";
 import React, { createRef, useEffect, useState } from "react";
 import Routes from "../../../util/routes";
 import { getColumnSearchProps } from "./tableSearch";
@@ -15,7 +15,7 @@ interface User {
 }
 
 const ActiveTrainerTable: React.FC = () => {
-  const searchInput = createRef<Input>();
+  const searchInput = createRef<InputRef>();
   const [data, setData] = useState<User[]>([]);
   const [, draw] = useState({});
 
