@@ -1,6 +1,7 @@
 import {
   Button,
   Input,
+  InputRef,
   message,
   Popconfirm,
   Progress,
@@ -28,7 +29,7 @@ interface User {
 }
 
 const ActiveUserTable: React.FC = () => {
-  const searchInput = createRef<Input>();
+  const searchInput = createRef<InputRef>();
   const [data, setData] = useState<User[]>([]);
   const [plans, setPlans] = React.useState<Plan[]>([]);
   const [isMounted, setIsMounted] = useState(true);
