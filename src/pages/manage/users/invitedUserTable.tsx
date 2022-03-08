@@ -1,4 +1,4 @@
-import { Button, Input, message, Popconfirm, Table } from "antd";
+import { Button, Input, InputRef, message, Popconfirm, Table } from "antd";
 import React, {
   createRef,
   Dispatch,
@@ -28,7 +28,7 @@ interface invitedUserTableProps {
 const InvitedUserTable: React.FC<invitedUserTableProps> = ({ ...props }) => {
   const { updateValue } = props;
 
-  const searchInput = createRef<Input>();
+  const searchInput = createRef<InputRef>();
   const [data, setData] = useState<User[]>([]);
   const [isMounted, setIsMounted] = useState(true);
 

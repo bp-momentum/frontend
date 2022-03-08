@@ -1,4 +1,4 @@
-import { Button, Input, Space } from "antd";
+import { Button, Input, InputRef, Space } from "antd";
 import React, { RefObject } from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import Translations from "../../../localization/translations";
@@ -6,7 +6,7 @@ import { t } from "i18next";
 
 export const getColumnSearchProps = (
   dataIndex: string,
-  searchInput: RefObject<Input>,
+  searchInput: RefObject<InputRef>,
   redraw: () => void,
   searchText: string
 ) => ({
