@@ -614,6 +614,17 @@ const Routes = {
       },
     };
   },
+
+  /**
+   * Get the logged-in user's achievements.
+   */
+  getAchievements: (): Route => {
+    return {
+      route: "/api/getachievements",
+      needsAuth: true,
+      method: "GET",
+    };
+  },
 };
 
 export default Routes;
