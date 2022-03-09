@@ -1,5 +1,6 @@
 import React from "react";
 import Container from "@/pages/profile/user/sub_pages/friends/components/container";
+import Medal from "@shared/medal";
 
 interface medalCardProps {
   type: "gold" | "silver" | "bronze";
@@ -20,6 +21,7 @@ const MedalCard: React.FC<medalCardProps> = ({ ...props }) => {
           overflow: "hidden",
         }}
       >
+        <Medal type={type} size="50px" />
         {count + "x " + exercise + " " + type}
       </span>
     </Container>

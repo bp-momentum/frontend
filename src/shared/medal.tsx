@@ -5,10 +5,11 @@ import { Tooltip } from "antd";
 interface medalProps {
   type: "gold" | "silver" | "bronze" | "none";
   tooltipText?: string;
+  size?: string;
 }
 
 const Medal: React.FC<medalProps> = ({ ...props }) => {
-  const { type, tooltipText } = props;
+  const { type, tooltipText, size } = props;
 
   const medalColor = {
     gold: "#f5c842",
@@ -27,8 +28,8 @@ const Medal: React.FC<medalProps> = ({ ...props }) => {
   const medal = (
     <div
       style={{
-        width: "90px",
-        height: "90px",
+        width: size ?? "90px",
+        height: size ?? "90px",
         borderRadius: "50%",
         background: medalColor[type],
         marginBottom: "30px",
