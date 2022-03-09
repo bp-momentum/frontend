@@ -2,9 +2,11 @@ import React, { useEffect } from "react";
 import useApi from "@hooks/api";
 import Routes from "@util/routes";
 import { Achievement } from "@api/achievement";
-import { message } from "antd";
+import { Col, message, Row } from "antd";
 import { useTranslation } from "react-i18next";
 import Translations from "@localization/translations";
+import AchievementCard from "./achievementCard";
+import HiddenAchievementCard from "@/pages/profile/user/sub_pages/achievements/components/hiddenAchievementCard";
 
 const Achievements: React.FC = () => {
   const api = useApi();
@@ -32,7 +34,16 @@ const Achievements: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <>Achievements</>;
+  return (
+    <Row>
+      {achievements.map((achievement) => (
+        <Col key={achievement.name}>
+          <AchievementCard achievement={achievement} />
+        </Col>
+      ))}
+      <HiddenAchievementCard count={unachievedHiddenAchievements} />
+    </Row>
+  );
 };
 
 export default Achievements;

@@ -8,7 +8,7 @@ class config {
   //                     all domains
   // ====================================================
   // URL of the backend server
-  backendUrl = "https://bp-api.geoscribble.de/";
+  backendUrl = "https://bp-test-api.geoscribble.de/";
   // URL of the backend websocket server
   websocketUrl = "wss://bp-api.geoscribble.de/";
   // URL of the cdn server
