@@ -24,7 +24,7 @@ const Achievements: React.FC = () => {
       );
       return;
     }
-    console.log(response);
+    console.log(response); // TODO remove
     setUnachievedHiddenAchievements(response.data.nr_unachieved_hidden);
     setAchievements(response.data.achievements);
   };
