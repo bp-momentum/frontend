@@ -1,11 +1,10 @@
-import { Tooltip } from "antd";
 import { t } from "i18next";
 import React, { MutableRefObject } from "react";
 import Translations from "@localization/translations";
 import Graph from "@shared/graph";
-import { StarFilled } from "@ant-design/icons";
 import continue_arrow from "@static/continue_arrow.png";
 import { useNavigate } from "react-router-dom";
+import Medal from "@shared/medal";
 
 interface exerciseDoneProps {
   stats: MutableRefObject<statsType>;
@@ -35,20 +34,6 @@ const ExerciseDone: React.FC<exerciseDoneProps> = ({ ...props }) => {
       ? "bronze"
       : "none";
 
-  const medalColor = {
-    gold: "#f5c842",
-    silver: "#c8c8c8",
-    bronze: "#C17913",
-    none: "#fff",
-  };
-
-  const medalDarkerColor = {
-    gold: "#a8892d",
-    silver: "#7b7b7b",
-    bronze: "#74490b",
-    none: "#ddd",
-  };
-
   return (
     <div
       style={{
@@ -64,30 +49,12 @@ const ExerciseDone: React.FC<exerciseDoneProps> = ({ ...props }) => {
       <h1 style={{ color: "white", fontSize: "60px" }}>{exercise?.title}</h1>
 
       {medalType && (
-        <Tooltip
-          title={t(Translations.training.medal, {
+        <Medal
+          type={medalType}
+          tooltipText={t(Translations.training.medal, {
             context: medalType === "none" ? null : medalType,
           })}
-        >
-          <div
-            style={{
-              width: "90px",
-              height: "90px",
-              borderRadius: "50%",
-              background: medalColor[medalType],
-              marginBottom: "30px",
-              border: `10px solid ${medalDarkerColor[medalType]}`,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              opacity: medalType === "none" ? 0.2 : 1,
-            }}
-          >
-            <StarFilled
-              style={{ color: "black", opacity: 0.2, fontSize: 50 }}
-            />
-          </div>
-        </Tooltip>
+        />
       )}
       <div
         style={{
@@ -102,7 +69,7 @@ const ExerciseDone: React.FC<exerciseDoneProps> = ({ ...props }) => {
           overflow: "hidden",
         }}
       >
-        <div style={{ width: 1100, height: 185 }}></div>
+        <div style={{ width: 1100, height: 185 }} />
         <div style={{ width: 100, margin: "55px 20px" }}>
           <div
             style={{
