@@ -625,6 +625,17 @@ const Routes = {
       method: "GET",
     };
   },
+
+  /**
+   * Get the logged-in user's medals.
+   */
+  getMedals: (): Route => {
+    return {
+      route: "/api/getmedals",
+      needsAuth: true,
+      method: "GET",
+    };
+  },
 };
 
 export default Routes;
