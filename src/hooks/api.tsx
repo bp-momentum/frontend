@@ -1,6 +1,6 @@
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { Route } from "../util/routes";
-import { unsetRefreshToken, unsetToken } from "../redux/token/tokenSlice";
+import { useAppDispatch, useAppSelector } from "@redux/hooks";
+import { Route } from "@util/routes";
+import { unsetRefreshToken, unsetToken } from "@redux/token/tokenSlice";
 import { message } from "antd";
 import { useTranslation } from "react-i18next";
 import Translations from "../localization/translations";
