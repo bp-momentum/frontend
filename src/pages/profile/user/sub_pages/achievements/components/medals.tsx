@@ -5,7 +5,7 @@ import Routes from "@util/routes";
 import Translations from "@localization/translations";
 import { useTranslation } from "react-i18next";
 import { Medal } from "@api/medal";
-import MedalCard from "@api/medalCard";
+import MedalCard from "@/pages/profile/user/sub_pages/achievements/components/medalCard";
 
 const Medals: React.FC = () => {
   const api = useApi();
