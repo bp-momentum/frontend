@@ -43,7 +43,7 @@ const Achievements: React.FC = () => {
           span={10}
           style={{
             paddingBottom: "30px",
-            minWidth: "336px",
+            minWidth: "366px",
             justifyContent: "center",
             display: "flex",
           }}
@@ -57,7 +57,7 @@ const Achievements: React.FC = () => {
           span={10}
           style={{
             paddingBottom: "30px",
-            minWidth: "336px",
+            minWidth: "366px",
             justifyContent: "center",
             display: "flex",
           }}

@@ -10,7 +10,7 @@ const HiddenAchievementCard: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <Container size={{ width: "320px", height: "120px" }}>
+    <Container size={{ width: "350px", height: "130px" }}>
       <Row>
         <div style={{ marginTop: "auto", marginBottom: "auto" }}>
           <Medal type="unknown" size="small" />
@@ -20,7 +20,7 @@ const HiddenAchievementCard: React.FC = () => {
             {t(Translations.achievements.hiddenTitle)}
           </Text>
           <br />
-          <div style={{ width: "200px" }}>
+          <div style={{ width: "230px" }}>
             {t(Translations.achievements.hiddenDescription)}
           </div>
         </Col>

@@ -23,7 +23,7 @@ const getProgress = (achievement: Achievement) => {
   }
   const done = parseInt(progressSplit[0]);
   const max = parseInt(progressSplit[1]);
-  return done / max;
+  return (done / max) * 100;
 };
 
 export { isDone, getProgress };

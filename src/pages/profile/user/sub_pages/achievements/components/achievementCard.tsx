@@ -1,7 +1,7 @@
 import React from "react";
-import { Achievement } from "@api/achievement";
+import { Achievement, getProgress, isDone } from "@api/achievement";
 import Container from "@/pages/profile/user/sub_pages/friends/components/container";
-import { Col, Row } from "antd";
+import { Col, Progress, Row } from "antd";
 import Medal from "@shared/medal";
 import Text from "antd/lib/typography/Text";
 
@@ -13,7 +13,7 @@ const AchievementCard: React.FC<achievementCardProps> = ({ ...props }) => {
   const { achievement } = props;
 
   return (
-    <Container size={{ width: "320px", height: "120px" }}>
+    <Container size={{ width: "350px", height: "130px" }}>
       <Row>
         <div style={{ marginTop: "auto", marginBottom: "auto" }}>
           {achievement.icon && (
@@ -29,7 +29,15 @@ const AchievementCard: React.FC<achievementCardProps> = ({ ...props }) => {
         <Col style={{ marginLeft: "20px", overflow: "hidden" }}>
           <Text style={{ fontSize: 25 }}>{achievement.name}</Text>
           <br />
-          <div style={{ width: "200px" }}>{achievement.description}</div>
+          <div style={{ width: "230px" }}>{achievement.description}</div>
+          <Progress
+            style={{ marginTop: "5px", marginBottom: "5px" }}
+            type="line"
+            size="small"
+            format={(percent, success) => `${Math.round(percent ?? 0)}%`}
+            status={isDone(achievement) ? "success" : "normal"}
+            percent={isDone(achievement) ? 1 : getProgress(achievement)}
+          />
         </Col>
       </Row>
     </Container>
