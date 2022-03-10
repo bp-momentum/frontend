@@ -21,7 +21,7 @@ const MedalCard: React.FC<medalCardProps> = ({ ...props }) => {
           overflow: "hidden",
         }}
       >
-        <Medal type={type} size="50px" />
+        <Medal type={type} size="small" />
         {count + "x " + exercise + " " + type}
       </span>
     </Container>

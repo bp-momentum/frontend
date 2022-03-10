@@ -50,6 +50,7 @@ const ExerciseDone: React.FC<exerciseDoneProps> = ({ ...props }) => {
 
       {medalType && (
         <Medal
+          size="large"
           type={medalType}
           tooltipText={t(Translations.training.medal, {
             context: medalType === "none" ? null : medalType,
