@@ -89,7 +89,7 @@ const Container: React.FC<containerProps> = ({ ...props }) => {
       content: t(Translations.tabBar.confirmLogoutContent),
       okType: "danger",
       async onOk() {
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // sleep for 5 Seconds
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // sleep for 1 second
         dispatch({ type: "USER_LOGOUT" });
         navigate("/");
       },
