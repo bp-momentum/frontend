@@ -260,6 +260,7 @@
     "success": "Die Informationen wurden erfolgreich aktualisiert!"
   },
   "medals": {
+    "button-title": "Medaillen",
     "title_gold": "Gold {{exercise}}",
     "title_silver": "Silber {{exercise}}",
     "title_bronze": "Bronze {{exercise}}",
@@ -269,6 +270,7 @@
     "no-medals": "Du hast noch keine Medaille verdient!"
   },
   "achievements": {
+    "button-title": "Errungenschaften",
     "hidden-title": "Versteckt",
     "hidden-description": "Niemand weiß, was hier zu tun ist!"
   }

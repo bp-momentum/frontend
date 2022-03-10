@@ -255,11 +255,13 @@ const Translations = {
     success: "trainer-profile.success",
   },
   medals: {
+    buttonTitle: "medals.button-title",
     medalTitle: "medals.title",
     amount: "medals.amount",
     noMedals: "medals.no-medals",
   },
   achievements: {
+    buttonTitle: "achievements.button-title",
     hiddenTitle: "achievements.hidden-title",
     hiddenDescription: "achievements.hidden-description",
   },

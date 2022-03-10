@@ -4,11 +4,14 @@ import { Row } from "antd";
 import ToggleButton from "@/pages/profile/user/components/toggleButton";
 import Achievements from "@/pages/profile/user/sub_pages/achievements/components/achievements";
 import Medals from "@/pages/profile/user/sub_pages/achievements/components/medals";
+import { useTranslation } from "react-i18next";
+import Translations from "@localization/translations";
 
 const SubPageAchievements: React.FC = () => {
   const [tab, setTab] = React.useState<"achievements" | "medals">(
     "achievements"
   );
+  const { t } = useTranslation();
 
   return (
     <Content style={{ height: "100%", overflow: "auto", padding: "30px" }}>
@@ -19,7 +22,7 @@ const SubPageAchievements: React.FC = () => {
           }}
           toggled={tab === "achievements"}
         >
-          Achievements
+          {t(Translations.achievements.buttonTitle)}
         </ToggleButton>
         <ToggleButton
           onClick={() => {
@@ -27,7 +30,7 @@ const SubPageAchievements: React.FC = () => {
           }}
           toggled={tab === "medals"}
         >
-          Medals
+          {t(Translations.medals.buttonTitle)}
         </ToggleButton>
       </Row>
 
