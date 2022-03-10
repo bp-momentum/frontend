@@ -25,6 +25,10 @@ const AchievementCard: React.FC<achievementCardProps> = ({ ...props }) => {
               width="50px"
               height="50px"
               alt="Achievement Icon"
+              style={{
+                filter: isDone(achievement) ? undefined : "grayscale(100%)",
+                borderRadius: "50%",
+              }}
             />
           )}
           {!achievement.icon && <Medal type="unknown" size="small" />}
