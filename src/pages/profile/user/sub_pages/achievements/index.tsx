@@ -31,10 +31,8 @@ const SubPageAchievements: React.FC = () => {
         </ToggleButton>
       </Row>
 
-      <Row justify="center" style={{ marginTop: "50px" }}>
-        {tab === "achievements" && <Achievements />}
-        {tab === "medals" && <Medals />}
-      </Row>
+      {tab === "achievements" && <Achievements />}
+      {tab === "medals" && <Medals />}
     </Content>
   );
 };

@@ -21,6 +21,11 @@ const Medals: React.FC = () => {
       );
       return;
     }
+    response.data.medals.forEach((a: Medal) => {
+      a.gold += 1;
+      a.silver += 1;
+      a.bronze += 1;
+    });
     setMedals(response.data.medals);
   };
   useEffect(() => {
@@ -29,14 +34,19 @@ const Medals: React.FC = () => {
   }, []);
 
   return (
-    <Row gutter={16} justify="center" style={{ margin: 0 }}>
+    <Row gutter={16} justify="center" style={{ marginTop: "50px" }}>
       {medals
         .filter((medal) => medal.gold > 0)
         .map((medal) => (
           <Col
             key={medal.exercise + "-gold"}
             span={10}
-            style={{ paddingBottom: "30px", minWidth: "320px" }}
+            style={{
+              paddingBottom: "30px",
+              minWidth: "336px",
+              justifyContent: "center",
+              display: "flex",
+            }}
           >
             <MedalCard
               type="gold"
@@ -51,7 +61,12 @@ const Medals: React.FC = () => {
           <Col
             key={medal.exercise + "-silver"}
             span={10}
-            style={{ paddingBottom: "30px", minWidth: "320px" }}
+            style={{
+              paddingBottom: "30px",
+              minWidth: "336px",
+              display: "flex",
+              justifyContent: "center",
+            }}
           >
             <MedalCard
               type="silver"
@@ -66,7 +81,12 @@ const Medals: React.FC = () => {
           <Col
             key={medal.exercise + "-bronze"}
             span={10}
-            style={{ paddingBottom: "30px", minWidth: "320px" }}
+            style={{
+              paddingBottom: "30px",
+              minWidth: "336px",
+              display: "flex",
+              justifyContent: "center",
+            }}
           >
             <MedalCard
               type="bronze"
