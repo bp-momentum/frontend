@@ -2,7 +2,7 @@ import React from "react";
 import Container from "@/pages/profile/user/sub_pages/friends/components/container";
 import Medal from "@shared/medal";
 import { Col, Row } from "antd";
-import Text from "antd/es/typography/Text";
+import Text from "antd/lib/typography/Text";
 import { useTranslation } from "react-i18next";
 import Translations from "@localization/translations";
 
