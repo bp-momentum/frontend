@@ -17,7 +17,7 @@ const MedalCard: React.FC<medalCardProps> = ({ ...props }) => {
   const { t } = useTranslation();
 
   return (
-    <Container size={{ width: "300px", height: "90px" }}>
+    <Container size={{ width: "320px", height: "120px" }}>
       <Row>
         <div style={{ marginTop: "auto", marginBottom: "auto" }}>
           <Medal type={type} size="small" />
@@ -30,9 +30,9 @@ const MedalCard: React.FC<medalCardProps> = ({ ...props }) => {
             })}
           </Text>
           <br />
-          <Text style={{ width: "50px", overflow: "hidden" }}>
+          <div style={{ width: "200px" }}>
             {t(Translations.medals.amount, { count: count })}
-          </Text>
+          </div>
         </Col>
       </Row>
     </Container>

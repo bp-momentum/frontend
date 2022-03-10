@@ -36,7 +36,7 @@ const Medals: React.FC = () => {
           <Col
             key={medal.exercise + "-gold"}
             span={10}
-            style={{ paddingBottom: "30px", minWidth: "300px" }}
+            style={{ paddingBottom: "30px", minWidth: "320px" }}
           >
             <MedalCard
               type="gold"
@@ -51,7 +51,7 @@ const Medals: React.FC = () => {
           <Col
             key={medal.exercise + "-silver"}
             span={10}
-            style={{ paddingBottom: "30px", minWidth: "300px" }}
+            style={{ paddingBottom: "30px", minWidth: "320px" }}
           >
             <MedalCard
               type="silver"
@@ -66,7 +66,7 @@ const Medals: React.FC = () => {
           <Col
             key={medal.exercise + "-bronze"}
             span={10}
-            style={{ paddingBottom: "30px", minWidth: "300px" }}
+            style={{ paddingBottom: "30px", minWidth: "320px" }}
           >
             <MedalCard
               type="bronze"
