@@ -260,9 +260,9 @@
     "success": "Die Informationen wurden erfolgreich aktualisiert!"
   },
   "medals": {
-    "title_gold": "Goldener {{exercise}}",
-    "title_silver": "Silberner {{exercise}}",
-    "title_bronze": "Bronzener {{exercise}}",
+    "title_gold": "Gold {{exercise}}",
+    "title_silver": "Silber {{exercise}}",
+    "title_bronze": "Bronze {{exercise}}",
     "title_none": "{{exercise}}",
     "amount_one": "Du hast diese Medaille ein mal verdient!",
     "amount_other": "Du hast diese Medaille {{count}}x verdient!"

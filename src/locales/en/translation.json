@@ -260,7 +260,7 @@
     "success": "Your information was successfully updated!"
   },
   "medals": {
-    "title_gold": "Golden {{exercise}}",
+    "title_gold": "Gold {{exercise}}",
     "title_silver": "Silver {{exercise}}",
     "title_bronze": "Bronze {{exercise}}",
     "title_none": "{{exercise}}",
