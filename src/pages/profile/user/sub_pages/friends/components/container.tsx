@@ -7,9 +7,11 @@ interface Props {
     width: number | string;
     height: number | string;
   };
+  backgroundColor?: string;
 }
 
-const Container: React.FC<Props> = ({ onClick, children, size }) => {
+const Container: React.FC<Props> = ({ ...props }) => {
+  const { onClick, children, size, backgroundColor } = props;
   return (
     <div
       onClick={onClick}
@@ -24,6 +26,7 @@ const Container: React.FC<Props> = ({ onClick, children, size }) => {
         width: size.width,
         height: size.height,
         position: "relative",
+        backgroundColor: backgroundColor,
       }}
     >
       {children}

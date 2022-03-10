@@ -13,7 +13,10 @@ const AchievementCard: React.FC<achievementCardProps> = ({ ...props }) => {
   const { achievement } = props;
 
   return (
-    <Container size={{ width: "350px", height: "130px" }}>
+    <Container
+      size={{ width: "350px", height: "130px" }}
+      backgroundColor={isDone(achievement) ? undefined : "#E4E4E4"}
+    >
       <Row>
         <div style={{ marginTop: "auto", marginBottom: "auto" }}>
           {achievement.icon && (

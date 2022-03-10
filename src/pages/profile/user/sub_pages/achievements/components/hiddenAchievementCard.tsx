@@ -10,7 +10,10 @@ const HiddenAchievementCard: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <Container size={{ width: "350px", height: "130px" }}>
+    <Container
+      size={{ width: "350px", height: "130px" }}
+      backgroundColor="#E4E4E4"
+    >
       <Row>
         <div style={{ marginTop: "auto", marginBottom: "auto" }}>
           <Medal type="unknown" size="small" />
