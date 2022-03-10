@@ -257,6 +257,7 @@ const Translations = {
   medals: {
     medalTitle: "medals.title",
     amount: "medals.amount",
+    noMedals: "medals.no-medals",
   },
 };
 

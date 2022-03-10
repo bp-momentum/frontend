@@ -6,6 +6,7 @@ import Translations from "@localization/translations";
 import { useTranslation } from "react-i18next";
 import { Medal } from "@api/medal";
 import MedalCard from "@/pages/profile/user/sub_pages/achievements/components/medalCard";
+import EmptyDataRender from "@shared/emptyDataRender";
 
 const Medals: React.FC = () => {
   const api = useApi();
@@ -27,6 +28,15 @@ const Medals: React.FC = () => {
     loadMedals().catch(message.error);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (!medals || medals.length === 0)
+    return (
+      <Col style={{ marginTop: "50px" }}>
+        <Row justify="center">
+          <EmptyDataRender customText={t(Translations.medals.noMedals)} />
+        </Row>
+      </Col>
+    );
 
   return (
     <Row gutter={16} justify="center" style={{ marginTop: "50px" }}>
