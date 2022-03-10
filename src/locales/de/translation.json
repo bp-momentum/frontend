@@ -267,5 +267,9 @@
     "amount_one": "Du hast diese Medaille ein mal verdient!",
     "amount_other": "Du hast diese Medaille {{count}}x verdient!",
     "no-medals": "Du hast noch keine Medaille verdient!"
+  },
+  "achievements": {
+    "hidden-title": "Versteckt",
+    "hidden-description": "Niemand weiß, was hier zu tun ist!"
   }
 }

@@ -259,6 +259,10 @@ const Translations = {
     amount: "medals.amount",
     noMedals: "medals.no-medals",
   },
+  achievements: {
+    hiddenTitle: "achievements.hidden-title",
+    hiddenDescription: "achievements.hidden-description",
+  },
 };
 
 export default Translations;

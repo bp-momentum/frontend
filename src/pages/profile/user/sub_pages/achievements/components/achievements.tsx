@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import Translations from "@localization/translations";
 import AchievementCard from "./achievementCard";
 import HiddenAchievementCard from "@/pages/profile/user/sub_pages/achievements/components/hiddenAchievementCard";
+import _ from "lodash";
 
 const Achievements: React.FC = () => {
   const api = useApi();
@@ -35,13 +36,35 @@ const Achievements: React.FC = () => {
   }, []);
 
   return (
-    <Row>
+    <Row gutter={16} justify="center" style={{ marginTop: "50px" }}>
       {achievements.map((achievement) => (
-        <Col key={achievement.name}>
+        <Col
+          key={achievement.name}
+          span={10}
+          style={{
+            paddingBottom: "30px",
+            minWidth: "336px",
+            justifyContent: "center",
+            display: "flex",
+          }}
+        >
           <AchievementCard achievement={achievement} />
         </Col>
       ))}
-      <HiddenAchievementCard count={unachievedHiddenAchievements} />
+      {_.range(unachievedHiddenAchievements).map((key) => (
+        <Col
+          key={"hidden-" + key}
+          span={10}
+          style={{
+            paddingBottom: "30px",
+            minWidth: "336px",
+            justifyContent: "center",
+            display: "flex",
+          }}
+        >
+          <HiddenAchievementCard />
+        </Col>
+      ))}
     </Row>
   );
 };

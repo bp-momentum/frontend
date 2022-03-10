@@ -1,9 +1,9 @@
 import React from "react";
-import { StarFilled } from "@ant-design/icons";
+import { QuestionOutlined, StarFilled } from "@ant-design/icons";
 import { Tooltip } from "antd";
 
 interface medalProps {
-  type: "gold" | "silver" | "bronze" | "none";
+  type: "gold" | "silver" | "bronze" | "none" | "unknown";
   size: "small" | "large";
   tooltipText?: string;
 }
@@ -16,6 +16,7 @@ const Medal: React.FC<medalProps> = ({ ...props }) => {
     silver: "#c8c8c8",
     bronze: "#C17913",
     none: "#fff",
+    unknown: "#C4C4C4",
   };
 
   const medalDarkerColor = {
@@ -23,6 +24,7 @@ const Medal: React.FC<medalProps> = ({ ...props }) => {
     silver: "#7b7b7b",
     bronze: "#74490b",
     none: "#ddd",
+    unknown: "#aaa",
   };
 
   const medalSize = {
@@ -60,9 +62,16 @@ const Medal: React.FC<medalProps> = ({ ...props }) => {
         opacity: type === "none" ? 0.2 : 1,
       }}
     >
-      <StarFilled
-        style={{ color: "black", opacity: 0.2, fontSize: iconSize[size] }}
-      />
+      {type !== "unknown" && (
+        <StarFilled
+          style={{ color: "black", opacity: 0.2, fontSize: iconSize[size] }}
+        />
+      )}
+      {type === "unknown" && (
+        <QuestionOutlined
+          style={{ color: "black", opacity: 0.2, fontSize: iconSize[size] }}
+        />
+      )}
     </div>
   );
 

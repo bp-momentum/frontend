@@ -6,7 +6,7 @@ export interface Achievement {
   level: number;
   progress: string;
   hidden: boolean;
-  icon: string;
+  icon?: string;
 }
 
 const isDone = (achievement: Achievement) => {
