@@ -21,11 +21,6 @@ const Medals: React.FC = () => {
       );
       return;
     }
-    response.data.medals.forEach((a: Medal) => {
-      a.gold += 1;
-      a.silver += 1;
-      a.bronze += 1;
-    });
     setMedals(response.data.medals);
   };
   useEffect(() => {
