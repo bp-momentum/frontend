@@ -216,7 +216,9 @@
     "points": "{{points}} points",
     "username-empty": "Your username cannot be empty!",
     "username-too-long": "Your username is too long! (max. {{max}} characters)",
-    "username-not-allowed": "Your username uses illegal characters!"
+    "username-not-allowed": "Your username uses illegal characters!",
+    "friends": "Friends",
+    "achievements": "Achievements"
   },
   "error-page": {
     "404-text": "We don't have that!",
@@ -258,5 +260,30 @@
     "postal-code": "ZIP code",
     "email": "Email: {{email}}",
     "success": "Your information was successfully updated!"
+  },
+  "friends": {
+    "last-online-today": "today",
+    "last-online-yesterday": "yesterday",
+    "last-online-days-ago_one": "{{count}} day ago",
+    "last-online-days-ago": "{{count}} days ago",
+    "last-online-weeks-ago_one": "{{count}} week ago",
+    "last-online-weeks-ago": "{{count}} weeks ago",
+    "last-online-months-ago_one": "{{count}} month ago",
+    "last-online-months-ago": "{{count}} months ago",
+    "last-online-years-ago_one": "{{count}} year ago",
+    "last-online-years-ago": "{{count}} years ago",
+    "friends": "Friends",
+    "requests": "Requests",
+    "add-friend": "Add Friend",
+    "outgoing-requests": "Outgoing Requests",
+    "incoming-requests": "Incoming Requests",
+    "no-incoming": "No incoming requests",
+    "no-outgoing": "No outgoing requests",
+    "last-active": "Last active",
+    "motivation": "Motivation",
+    "level": "Level",
+    "last-achievements": "Last Achievements",
+    "no-achievements": "No achievements yet",
+    "current-streak": "Current Streak"
   }
 }

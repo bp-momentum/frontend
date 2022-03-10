@@ -42,41 +42,42 @@ const FriendCard: React.FC<Props> = ({ username, onRemove, onClick }) => {
 
   return (
     <Container onClick={onClick} size={{ width: "280px", height: "90px" }}>
-      <div
-        style={{
-          backgroundColor: "#626FE5",
-          borderRadius: "50%",
-          height: "50px",
-          width: "50px",
-          cursor: "pointer",
-          padding: "6.25px 3.125px 0px 3.125px",
-          overflow: "hidden",
-          marginRight: "20px",
-          border: "1px solid gray",
-        }}
-      >
-        <img
-          alt="Avatar"
-          key={data.avatar}
-          src={config.avatarUrlFormatter(data.avatar)}
+      <div style={{ cursor: "pointer", display: "flex", alignItems: "center" }}>
+        <div
           style={{
-            height: "100%",
-            width: "100%",
+            backgroundColor: "#626FE5",
+            borderRadius: "50%",
+            height: "50px",
+            width: "50px",
+            padding: "6.25px 3.125px 0px 3.125px",
+            overflow: "hidden",
+            marginRight: "20px",
+            border: "1px solid gray",
           }}
-        />
+        >
+          <img
+            alt="Avatar"
+            key={data.avatar}
+            src={config.avatarUrlFormatter(data.avatar)}
+            style={{
+              height: "100%",
+              width: "100%",
+            }}
+          />
+        </div>
+        <span
+          style={{
+            textOverflow: "ellipsis",
+            width: "140px",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+          }}
+        >
+          {username}
+          <br />
+          <span style={{ fontSize: 16 }}>{data.motivation}</span>
+        </span>
       </div>
-      <span
-        style={{
-          textOverflow: "ellipsis",
-          width: "140px",
-          whiteSpace: "nowrap",
-          overflow: "hidden",
-        }}
-      >
-        {username}
-        <br />
-        <span style={{ fontSize: 16 }}>{data.motivation}</span>
-      </span>
       <MdPersonRemove
         style={{ cursor: "pointer", marginLeft: "auto" }}
         className="hoverRed"

@@ -216,7 +216,9 @@
     "points": "{{points}} Punkte",
     "username-empty": "Dein Nutzername darf nicht leer sein!",
     "username-too-long": "Dein Nutzername ist zu lang! ({{max}} Zeichen maximal)",
-    "username-not-allowed": "Dein Nutzername verwendet verbotene Zeichen!"
+    "username-not-allowed": "Dein Nutzername verwendet verbotene Zeichen!",
+    "friends": "Freunde",
+    "achievements": "Errugnenschaften"
   },
   "error-page": {
     "404-text": "Des hamma net!",
@@ -258,5 +260,30 @@
     "postal-code": "PLZ",
     "email": "E-Mail: {{email}}",
     "success": "Die Informationen wurden erfolgreich aktualisiert!"
+  },
+  "friends": {
+    "last-online-today": "heute",
+    "last-online-yesterday": "gestern",
+    "last-online-days-ago_one": "vor {{count}}em Tag",
+    "last-online-days-ago": "vor {{count}} Tagen",
+    "last-online-weeks-ago_one": "vor {{count}}er Woche",
+    "last-online-weeks-ago": "vor {{count}} Wochen",
+    "last-online-months-ago_one": "vor {{count}}em Monat",
+    "last-online-months-ago": "vor {{count}} Monaten",
+    "last-online-years-ago_one": "vor {{count}}em Jahr",
+    "last-online-years-ago": "vor {{count}} Jahren",
+    "friends": "Freunde",
+    "requests": "Anfragen",
+    "add-friend": "Freund hinzufügen",
+    "outgoing-requests": "Ausgehende Anfragen",
+    "incoming-requests": "Eingehende Anfragen",
+    "no-incoming": "Keine eingehenden Anfragen",
+    "no-outgoing": "Keine ausgehenden Anfragen",
+    "last-active": "Zuletzt aktiv",
+    "motivation": "Motivation",
+    "level": "Level",
+    "last-achievements": "Letzte Errugnenschaften",
+    "no-achievements": "Keine Errugnenschaften",
+    "current-streak": "Aktuelle Streak"
   }
 }

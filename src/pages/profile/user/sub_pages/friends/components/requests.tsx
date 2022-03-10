@@ -5,6 +5,8 @@ import { Col, message, Row } from "antd";
 import React from "react";
 import { IncomingRequestCard, OutgoingRequestCard } from "./requestCard";
 import EmptyDataRender from "@/shared/emptyDataRender";
+import { useTranslation } from "react-i18next";
+import Translations from "@/localization/translations";
 
 interface Props {
   reloadFriends: VoidFunction;
@@ -14,6 +16,8 @@ const Requests: React.FC<Props> = ({ reloadFriends }) => {
   const requests = useAppSelector((state) => state.friends.friendRequests);
   const sentRequests = useAppSelector((state) => state.friends.sentRequests);
   const api = useApi();
+
+  const { t } = useTranslation();
 
   const acceptFriend = (id: number) => {
     api
@@ -56,11 +60,13 @@ const Requests: React.FC<Props> = ({ reloadFriends }) => {
     <>
       <Col style={{ width: "270px", margin: "0 25px", paddingBottom: "20px" }}>
         <Row justify="center" style={{ marginBottom: 30 }}>
-          <span style={{ fontSize: 25 }}>Incoming Requests</span>
+          <span style={{ fontSize: 25 }}>
+            {t(Translations.friends.incomingRequests)}
+          </span>
         </Row>
         {requests.length === 0 && (
           <Row justify="center">
-            <EmptyDataRender customText="No one wants to be your friend!" />
+            <EmptyDataRender customText={t(Translations.friends.noIncoming)} />
           </Row>
         )}
         {requests.map((request) => (
@@ -83,12 +89,16 @@ const Requests: React.FC<Props> = ({ reloadFriends }) => {
       </Col>
       <Col style={{ width: "270px", margin: "0 25px" }}>
         <Row justify="center" style={{ marginBottom: 30 }}>
-          <span style={{ fontSize: 25 }}>Outgoing Requests</span>
+          <span style={{ fontSize: 25 }}>
+            {t(Translations.friends.outgoingRequests)}
+          </span>
         </Row>
         {!sentRequests ||
           (sentRequests.length === 0 && (
             <Row justify="center">
-              <EmptyDataRender customText="You apparently don't want friends!" />
+              <EmptyDataRender
+                customText={t(Translations.friends.noOutgoing)}
+              />
             </Row>
           ))}
         {sentRequests &&

@@ -269,8 +269,8 @@ const Training: React.FC<trainingProps> = ({ ...props }) => {
           <span
             style={{
               position: "absolute",
-              left: feedback?.x,
-              top: feedback?.y,
+              left: `${feedback?.x}%`,
+              top: `${feedback?.y}%`,
               color: "#466995",
               textShadow:
                 "-1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff",

@@ -15,6 +15,8 @@ import {
 import ActiveFriends from "./components/activeFriends";
 import Requests from "./components/requests";
 import AddFriend from "./components/addFriend";
+import { useTranslation } from "react-i18next";
+import Translations from "@/localization/translations";
 
 const SubPageFriends: React.FC = () => {
   const api = useApi();
@@ -23,6 +25,8 @@ const SubPageFriends: React.FC = () => {
   const [tab, setTab] = React.useState<"friends" | "requests" | "add">(
     "friends"
   );
+
+  const { t } = useTranslation();
 
   const token = useAppSelector((state) => state.token.token);
   const username = Helper.getUserName(token ?? "");
@@ -105,7 +109,7 @@ const SubPageFriends: React.FC = () => {
           }}
           toggled={tab === "friends"}
         >
-          Friends
+          {t(Translations.friends.friends)}
         </ToggleButton>
         <ToggleButton
           onClick={() => {
@@ -114,7 +118,7 @@ const SubPageFriends: React.FC = () => {
           toggled={tab === "requests"}
           highlighted={requests.length > 0}
         >
-          Requests
+          {t(Translations.friends.requests)}
         </ToggleButton>
         <ToggleButton
           onClick={() => {
@@ -122,7 +126,7 @@ const SubPageFriends: React.FC = () => {
           }}
           toggled={tab === "add"}
         >
-          Add Friend
+          {t(Translations.friends.addFriend)}
         </ToggleButton>
       </Row>
 
