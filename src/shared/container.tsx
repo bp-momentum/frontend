@@ -88,7 +88,8 @@ const Container: React.FC<containerProps> = ({ ...props }) => {
       icon: <ExclamationCircleOutlined />,
       content: t(Translations.tabBar.confirmLogoutContent),
       okType: "danger",
-      onOk() {
+      async onOk() {
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // sleep for 5 Seconds
         dispatch({ type: "USER_LOGOUT" });
         navigate("/");
       },
