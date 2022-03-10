@@ -258,5 +258,13 @@
     "postal-code": "ZIP code",
     "email": "Email: {{email}}",
     "success": "Your information was successfully updated!"
+  },
+  "medals": {
+    "title_gold": "Golden {{exercise}}",
+    "title_silver": "Silver {{exercise}}",
+    "title_bronze": "Bronze {{exercise}}",
+    "title_none": "{{exercise}}",
+    "amount_one": "You earned this medal one time!",
+    "amount_other": "You earned this medal {{count}} times!"
   }
 }

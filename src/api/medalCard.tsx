@@ -3,6 +3,8 @@ import Container from "@/pages/profile/user/sub_pages/friends/components/contain
 import Medal from "@shared/medal";
 import { Col, Row } from "antd";
 import Text from "antd/es/typography/Text";
+import { useTranslation } from "react-i18next";
+import Translations from "@localization/translations";
 
 interface medalCardProps {
   type: "gold" | "silver" | "bronze";
@@ -12,6 +14,7 @@ interface medalCardProps {
 
 const MedalCard: React.FC<medalCardProps> = ({ ...props }) => {
   const { type, count, exercise } = props;
+  const { t } = useTranslation();
 
   return (
     <Container size={{ width: "300px", height: "90px" }}>
@@ -20,10 +23,15 @@ const MedalCard: React.FC<medalCardProps> = ({ ...props }) => {
           <Medal type={type} size="small" />
         </div>
         <Col style={{ marginLeft: "20px", overflow: "hidden" }}>
-          <Text style={{ fontSize: 25 }}>{exercise}</Text>
+          <Text style={{ fontSize: 25 }}>
+            {t(Translations.medals.medalTitle, {
+              context: type,
+              exercise: exercise,
+            })}
+          </Text>
           <br />
           <Text style={{ width: "50px", overflow: "hidden" }}>
-            You earned this {count} times!
+            {t(Translations.medals.amount, { count: count })}
           </Text>
         </Col>
       </Row>

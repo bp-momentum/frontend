@@ -254,6 +254,10 @@ const Translations = {
     email: "trainer-profile.email",
     success: "trainer-profile.success",
   },
+  medals: {
+    medalTitle: "medals.title",
+    amount: "medals.amount",
+  },
 };
 
 export default Translations;
