@@ -29,11 +29,15 @@ const Medals: React.FC = () => {
   }, []);
 
   return (
-    <Row>
+    <Row gutter={16} justify="center" style={{ margin: 0 }}>
       {medals
         .filter((medal) => medal.gold > 0)
         .map((medal) => (
-          <Col key={medal.exercise + "-gold"}>
+          <Col
+            key={medal.exercise + "-gold"}
+            span={10}
+            style={{ paddingBottom: "30px", minWidth: "300px" }}
+          >
             <MedalCard
               type="gold"
               exercise={medal.exercise}
@@ -44,7 +48,11 @@ const Medals: React.FC = () => {
       {medals
         .filter((medal) => medal.silver > 0)
         .map((medal) => (
-          <Col key={medal.exercise + "-silver"}>
+          <Col
+            key={medal.exercise + "-silver"}
+            span={10}
+            style={{ paddingBottom: "30px", minWidth: "300px" }}
+          >
             <MedalCard
               type="silver"
               exercise={medal.exercise}
@@ -55,7 +63,11 @@ const Medals: React.FC = () => {
       {medals
         .filter((medal) => medal.bronze > 0)
         .map((medal) => (
-          <Col key={medal.exercise + "-bronze"}>
+          <Col
+            key={medal.exercise + "-bronze"}
+            span={10}
+            style={{ paddingBottom: "30px", minWidth: "300px" }}
+          >
             <MedalCard
               type="bronze"
               exercise={medal.exercise}
