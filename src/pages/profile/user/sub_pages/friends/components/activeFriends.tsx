@@ -41,7 +41,6 @@ const ActiveFriends: React.FC<Props> = ({ reloadFriends }) => {
     return (
       <Row>
         <BigFriendCard
-          reloadFriends={reloadFriends}
           username={selectedFriend}
           onClose={() => setSelectedFriend(null)}
         />

@@ -3,6 +3,8 @@ import SiderButton from "./sider_button";
 import React from "react";
 import "@styles/ProfileSider.css";
 import { useAppSelector } from "@/redux/hooks";
+import Translations from "@/localization/translations";
+import { useTranslation } from "react-i18next";
 
 const { Sider } = Layout;
 
@@ -16,6 +18,8 @@ interface profileSiderProps {
 }
 
 const ProfileSider: React.FC<profileSiderProps> = ({ ...props }) => {
+  const { t } = useTranslation();
+
   const hasRequests =
     useAppSelector((state) => state.friends.friendRequests).length > 0;
 
@@ -76,7 +80,7 @@ const ProfileSider: React.FC<profileSiderProps> = ({ ...props }) => {
         <SiderButton
           onClick={() => props.onClickFriends()}
           image="friends_image.png"
-          title="Freunde"
+          title={t(Translations.profile.friends)}
           rotation={-5.5}
           backgroundColor="#FFE14D"
           color="#000"
@@ -90,7 +94,7 @@ const ProfileSider: React.FC<profileSiderProps> = ({ ...props }) => {
         <SiderButton
           onClick={() => props.onClickAchievements()}
           image="achievements_image.png"
-          title="Errungenschaften"
+          title={t(Translations.profile.achievements)}
           rotation={3}
           backgroundColor="#9713FF"
           color="#fff"

@@ -1,10 +1,10 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { Empty } from "antd";
 import { t } from "i18next";
 import Translations from "@localization/translations";
 
 interface Props {
-  customText?: string;
+  customText?: ReactNode;
 }
 
 const EmptyDataRender: React.FC<Props> = ({ customText }) => {

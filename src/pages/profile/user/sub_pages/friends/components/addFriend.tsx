@@ -29,15 +29,7 @@ const AddFriend: React.FC<Props> = ({ reloadFriends }) => {
 
   return (
     <Form onFinish={addFriend}>
-      <Form.Item
-        name="username"
-        rules={[
-          {
-            required: true,
-            message: "Please input your username!",
-          },
-        ]}
-      >
+      <Form.Item name="username">
         <Input
           prefix={<UserOutlined className="site-form-item-icon" />}
           placeholder={t(Translations.user.username)}
@@ -50,7 +42,7 @@ const AddFriend: React.FC<Props> = ({ reloadFriends }) => {
           htmlType="submit"
           style={{ display: "block", margin: "auto", width: "100%" }}
         >
-          Add Fren
+          {t(Translations.friends.addFriend)}
         </Button>
       </Form.Item>
     </Form>
