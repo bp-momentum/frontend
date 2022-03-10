@@ -16,10 +16,12 @@ test("Check routes", () => {
   expect(Routes.getExercises().method).toBe("GET");
   expect(Routes.getExercises().needsAuth).toBe(true);
   expect(
-    Routes.createUser({ email: "", firstName: "", lastName: "" }).needsAuth
+    Routes.createUser({ email: "", firstName: "", lastName: "", url: "" })
+      .needsAuth
   ).toBe(true);
   expect(
-    Routes.createUser({ email: "", firstName: "", lastName: "" }).method
+    Routes.createUser({ email: "", firstName: "", lastName: "", url: "" })
+      .method
   ).toBe("POST");
   expect(Routes.assignPlanToUser({ username: "", planId: "" }).needsAuth).toBe(
     true
