@@ -284,7 +284,8 @@
     "level": "Level",
     "last-achievements": "Last Achievements",
     "no-achievements": "No achievements yet",
-    "current-streak": "Current Streak"
+    "current-streak": "Current Streak",
+    "no-friends": "No friends yet"
   },
   "medals": {
     "button-title": "Medals",

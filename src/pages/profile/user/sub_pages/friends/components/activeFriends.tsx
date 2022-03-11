@@ -6,6 +6,8 @@ import Routes from "@util/routes";
 import useApi from "@hooks/api";
 import BigFriendCard from "./bigFriendCard";
 import EmptyDataRender from "@/shared/emptyDataRender";
+import Translations from "@/localization/translations";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   reloadFriends: VoidFunction;
@@ -14,6 +16,8 @@ interface Props {
 const ActiveFriends: React.FC<Props> = ({ reloadFriends }) => {
   const friends = useAppSelector((state) => state.friends.friends);
   const api = useApi();
+
+  const { t } = useTranslation();
 
   const [selectedFriend, setSelectedFriend] = useState<string | null>(null);
 
@@ -32,7 +36,7 @@ const ActiveFriends: React.FC<Props> = ({ reloadFriends }) => {
     return (
       <Col>
         <Row justify="center">
-          <EmptyDataRender customText="No frens" />
+          <EmptyDataRender customText={t(Translations.friends.noFriends)} />
         </Row>
       </Col>
     );
