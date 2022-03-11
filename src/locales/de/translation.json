@@ -218,7 +218,7 @@
     "username-too-long": "Dein Nutzername ist zu lang! ({{max}} Zeichen maximal)",
     "username-not-allowed": "Dein Nutzername verwendet verbotene Zeichen!",
     "friends": "Freunde",
-    "achievements": "Errugnenschaften"
+    "achievements": "Errungenschaften"
   },
   "error-page": {
     "404-text": "Des hamma net!",
@@ -282,8 +282,8 @@
     "last-active": "Zuletzt aktiv",
     "motivation": "Motivation",
     "level": "Level",
-    "last-achievements": "Letzte Errugnenschaften",
-    "no-achievements": "Keine Errugnenschaften",
+    "last-achievements": "Letzte Errungenschaften",
+    "no-achievements": "Keine Errungenschaften",
     "current-streak": "Aktuelle Streak"
   }
 }
