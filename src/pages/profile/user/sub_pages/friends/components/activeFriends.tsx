@@ -49,7 +49,7 @@ const ActiveFriends: React.FC<Props> = ({ reloadFriends }) => {
   }
 
   return (
-    <Row>
+    <Row gutter={[20, 20]} wrap justify="center">
       {friends.map((friend) => (
         <Col key={friend.username}>
           <FriendCard

@@ -70,7 +70,11 @@ const Requests: React.FC<Props> = ({ reloadFriends }) => {
           </Row>
         )}
         {requests.map((request) => (
-          <Row key={request.username} justify="center">
+          <Row
+            key={request.username}
+            justify="center"
+            style={{ marginBottom: "10px", marginTop: "10px" }}
+          >
             <IncomingRequestCard
               username={request.username}
               onAccept={() => {
@@ -103,7 +107,11 @@ const Requests: React.FC<Props> = ({ reloadFriends }) => {
           ))}
         {sentRequests &&
           sentRequests.map((request) => (
-            <Row key={request.username} justify="center">
+            <Row
+              key={request.username}
+              justify="center"
+              style={{ marginBottom: "10px", marginTop: "10px" }}
+            >
               <OutgoingRequestCard
                 username={request.username}
                 onCancel={() => {

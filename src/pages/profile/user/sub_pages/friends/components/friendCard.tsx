@@ -82,7 +82,10 @@ const FriendCard: React.FC<Props> = ({ username, onRemove, onClick }) => {
         style={{ cursor: "pointer", marginLeft: "auto" }}
         className="hoverRed"
         size={25}
-        onClick={onRemove}
+        onClick={(event) => {
+          event.stopPropagation();
+          onRemove();
+        }}
       />
     </Container>
   );
