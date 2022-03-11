@@ -135,7 +135,7 @@ const Day: React.FC<dayProps> = ({ ...props }) => {
                     ? "success"
                     : "normal"
                 }
-                format={(percent, success) =>
+                format={(percent) =>
                   `${Math.ceil(((percent || 0) / 100) * exercises.length)} / ${
                     exercises.length
                   }`

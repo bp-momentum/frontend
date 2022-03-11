@@ -285,5 +285,20 @@
     "last-achievements": "Letzte Errungenschaften",
     "no-achievements": "Keine Errungenschaften",
     "current-streak": "Aktuelle Streak"
+  },
+  "medals": {
+    "button-title": "Medaillen",
+    "title_gold": "Gold {{exercise}}",
+    "title_silver": "Silber {{exercise}}",
+    "title_bronze": "Bronze {{exercise}}",
+    "title_none": "{{exercise}}",
+    "amount_one": "Du hast diese Medaille ein mal verdient!",
+    "amount_other": "Du hast diese Medaille {{count}}x verdient!",
+    "no-medals": "Du hast noch keine Medaille verdient!"
+  },
+  "achievements": {
+    "button-title": "Errungenschaften",
+    "hidden-title": "Versteckt",
+    "hidden-description": "Niemand weiß, was hier zu tun ist!"
   }
 }
