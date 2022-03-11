@@ -50,6 +50,7 @@ const Routes = {
     firstName: string;
     lastName: string;
     email: string;
+    url: string;
   }): Route => {
     return {
       route: "/api/createuser",
@@ -59,6 +60,7 @@ const Routes = {
         first_name: props.firstName,
         last_name: props.lastName,
         email_address: props.email,
+        url: props.url,
       },
     };
   },

@@ -72,7 +72,7 @@ const Settings: React.FC = () => {
 
     setSuccess(t(Translations.settings.successfullyDeletedAccount));
     setTimeout(() => setSuccess(null), 5000);
-    await new Promise((resolve) => setTimeout(resolve, 5000)); // sleep for 5 Seconds
+    await new Promise((resolve) => setTimeout(resolve, 5000)); // sleep for 5 seconds
     dispatch(unsetRefreshToken());
     dispatch(unsetToken());
   };
