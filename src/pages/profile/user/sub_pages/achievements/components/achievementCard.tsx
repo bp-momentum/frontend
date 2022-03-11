@@ -41,7 +41,7 @@ const AchievementCard: React.FC<achievementCardProps> = ({ ...props }) => {
             style={{ marginTop: "5px", marginBottom: "5px" }}
             type="line"
             size="small"
-            format={() => achievement.progress}
+            format={() => (isDone(achievement) ? "" : achievement.progress)}
             status={isDone(achievement) ? "success" : "normal"}
             percent={isDone(achievement) ? 1 : getProgress(achievement)}
           />
