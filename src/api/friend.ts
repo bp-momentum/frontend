@@ -4,7 +4,10 @@ export interface Friend {
   level_progress: string;
   avatar: number;
   motivation: string;
-  last_achievements: [];
+  last_achievements: {
+    name: string;
+    icon: string;
+  }[];
   last_login: string;
   streak: number;
 }

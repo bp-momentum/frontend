@@ -10,6 +10,7 @@ import { MdClose } from "react-icons/md";
 import Container from "./container";
 import "@styles/friends.css";
 import Helper from "@/util/helper";
+import Medal from "@shared/medal";
 
 interface Props {
   username: string;
@@ -115,14 +116,41 @@ const BigFriendCard: React.FC<Props> = ({ onClose, username }) => {
               {t(Translations.friends.lastAchievements)}
             </span>
           </Row>
-          <Row justify="center">
-            <EmptyDataRender
-              customText={
-                <span className="text">
-                  {t(Translations.friends.noAchievements)}
-                </span>
-              }
-            />
+          <Row justify="center" gutter={10}>
+            {data.last_achievements.length === 0 ? (
+              <EmptyDataRender
+                customText={
+                  <span className="text">
+                    {t(Translations.friends.noAchievements)}
+                  </span>
+                }
+              />
+            ) : (
+              data.last_achievements.map((achievement) => (
+                <Col
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                  key={achievement.name}
+                >
+                  {achievement.icon && (
+                    <img
+                      src={achievement.icon}
+                      width="50px"
+                      height="50px"
+                      alt="Achievement Icon"
+                      style={{
+                        borderRadius: "50%",
+                      }}
+                    />
+                  )}
+                  {!achievement.icon && <Medal type="unknown" size="small" />}
+                  <span className="text">{achievement.name}</span>
+                </Col>
+              ))
+            )}
           </Row>
           <Row justify="center">
             <span
@@ -130,7 +158,7 @@ const BigFriendCard: React.FC<Props> = ({ onClose, username }) => {
               style={{ display: "flex", alignItems: "center" }}
             >
               {t(Translations.friends.currentStreak)}:
-              <span style={{ margin: "10px" }}>21</span>
+              <span style={{ margin: "10px" }}>{data.streak}</span>
               <Emoji name="fire" width={40} />
             </span>
           </Row>
