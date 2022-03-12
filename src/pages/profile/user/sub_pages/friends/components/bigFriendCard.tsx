@@ -93,20 +93,24 @@ const BigFriendCard: React.FC<Props> = ({ onClose, username }) => {
             </span>
           </Row>
           <Row
-            style={{ display: "flex", alignItems: "center" }}
+            style={{ display: "flex", alignItems: "center", padding: "10px" }}
             justify="center"
           >
-            <span className="text">Lvl {data.level}</span>
+            <span className="text">
+              {t(Translations.profile.level, { level: data.level })}
+            </span>
             <Tooltip title={`${data.level_progress} XP`}>
               <Progress
                 // eslint-disable-next-line no-eval
                 percent={eval(data.level_progress)}
                 status="active"
                 showInfo={false}
-                style={{ width: "60%", marginLeft: "5px", marginRight: "5px" }}
+                style={{ flex: 1, marginLeft: "5px", marginRight: "5px" }}
               />
             </Tooltip>
-            <span className="text">Lvl {data.level + 1}</span>
+            <span className="text">
+              {t(Translations.profile.level, { level: data.level + 1 })}
+            </span>
           </Row>
         </Col>
         <Col style={{ width: "50%" }}>
