@@ -1,4 +1,4 @@
-import { Card, Col, Popover, Row } from "antd";
+import { Card, Col, Popover, Progress, Row } from "antd";
 import Text from "antd/lib/typography/Text";
 import Translations from "@localization/translations";
 import { EditOutlined, SaveOutlined } from "@ant-design/icons";
@@ -14,6 +14,8 @@ interface userCardProps {
   username: string;
   accountCreated: number;
   motivation: string;
+  level: number;
+  progress: string;
   saveNewUsername: (u: string) => void;
   saveNewMotivation: (m: string) => void;
   saveNewAvatarId: (a: number) => void;
@@ -90,6 +92,7 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
               marginTop: "-20px",
               marginRight: "-20px",
               cursor: "pointer",
+              position: "absolute",
             }}
             onClick={() => flipCard()}
             data-testid="edit-profile"
@@ -121,6 +124,33 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
                     })
                   : t(Translations.profile.activeShortly)}
               </Text>
+              <Row
+                style={{ display: "flex", alignItems: "center" }}
+                justify="center"
+              >
+                <Progress
+                  // eslint-disable-next-line no-eval
+                  percent={eval(props.progress)}
+                  status="active"
+                  showInfo={false}
+                  style={{
+                    width: "180px",
+                    marginRight: "5px",
+                  }}
+                />
+                <span className="text">
+                  {t(Translations.profile.level, { level: props.level })}
+                </span>
+              </Row>
+              <div
+                className="text"
+                style={{
+                  fontSize: 13,
+                  width: "180px",
+                  marginTop: "-8px",
+                  textAlign: "center",
+                }}
+              >{`${props.progress} XP`}</div>
             </Col>
           </Row>
           {props.motivation && (

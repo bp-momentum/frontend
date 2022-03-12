@@ -218,7 +218,8 @@
     "username-too-long": "Dein Nutzername ist zu lang! ({{max}} Zeichen maximal)",
     "username-not-allowed": "Dein Nutzername verwendet verbotene Zeichen!",
     "friends": "Freunde",
-    "achievements": "Errungenschaften"
+    "achievements": "Errungenschaften",
+    "level": "Lvl {{level}}"
   },
   "error-page": {
     "404-text": "Des hamma net!",

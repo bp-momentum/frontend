@@ -10,6 +10,7 @@ import ActivityCalendarCard from "./components/cards/activity_calendar_card";
 import DailySummaryCard from "./components/cards/daily_summary_card";
 import TrainerCard from "./components/cards/trainer_card";
 import UserCard from "./components/cards/user_card";
+import { ProfileData } from "@/pages/profile/user/types";
 
 function mergeData<Type>(data: Type, newData: Record<string, unknown>): Type {
   return {
@@ -89,6 +90,8 @@ const SubPageProfile: React.FC<Props> = ({ profileData, setProfileData }) => {
             username={Helper.getUserName(token ?? "")}
             accountCreated={profileData.accountCreated}
             motivation={profileData.motivation}
+            level={profileData.level}
+            progress={profileData.levelProgress}
             saveNewUsername={saveUsername}
             saveNewMotivation={saveMotivation}
             saveNewAvatarId={saveNewAvatar}
