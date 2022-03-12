@@ -86,7 +86,7 @@ const SubPageFriends: React.FC = () => {
           dispatch(setSentRequests(invited.pending.map(friendsToFriend)));
       }
     );
-    checkForFriendsAchievement();
+    checkForFriendsAchievement().catch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [api, dispatch, username]);
 
@@ -103,13 +103,13 @@ const SubPageFriends: React.FC = () => {
   };
 
   useEffect(() => {
-    loadFriends();
+    loadFriends().catch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const delayedLoadFriends = useCallback(() => {
     setTimeout(() => {
-      loadFriends();
+      loadFriends().catch();
     }, 100);
   }, [loadFriends]);
 
