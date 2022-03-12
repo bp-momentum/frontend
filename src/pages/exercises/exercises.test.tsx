@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import { store } from "@redux/store";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React from "react";
-import Exercises from "./index";
+import Exercises from ".";
 import { EmojiProvider } from "react-apple-emojis";
 import emojiData from "react-apple-emojis/lib/data.json";
 

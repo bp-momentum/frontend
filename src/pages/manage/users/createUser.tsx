@@ -5,7 +5,7 @@ import Routes from "@util/routes";
 import { useTranslation } from "react-i18next";
 import Translations from "@localization/translations";
 import useApi from "@hooks/api";
-import config from "@/config";
+import config from "@config";
 
 interface createUserProps {
   updateValue: number;

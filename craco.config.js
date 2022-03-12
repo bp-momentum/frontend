@@ -4,7 +4,6 @@ const path = require("path");
 module.exports = {
   webpack: {
     alias: {
-      "@": path.resolve(__dirname, "src"),
       "@util": path.resolve(__dirname, "src/util"),
       "@redux": path.resolve(__dirname, "src/redux"),
       "@styles": path.resolve(__dirname, "src/styles"),
@@ -13,6 +12,8 @@ module.exports = {
       "@localization": path.resolve(__dirname, "src/localization"),
       "@hooks": path.resolve(__dirname, "src/hooks"),
       "@api": path.resolve(__dirname, "src/api"),
+      "@config": path.resolve(__dirname, "src/config"),
+      "@pages": path.resolve(__dirname, "src/pages"),
     },
     configure: (webpackConfig) => {
       // other stuff with webpackConfig

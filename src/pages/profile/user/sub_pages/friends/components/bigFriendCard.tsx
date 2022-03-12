@@ -1,5 +1,5 @@
-import config from "@/config";
-import EmptyDataRender from "@/shared/emptyDataRender";
+import config from "@config";
+import EmptyDataRender from "@shared/emptyDataRender";
 import Translations from "@localization/translations";
 import { useGetFriendByIdQuery } from "@redux/friends/friendApiSlice";
 import { Col, Progress, Row, Tooltip } from "antd";
@@ -7,9 +7,9 @@ import React from "react";
 import { Emoji } from "react-apple-emojis";
 import { useTranslation } from "react-i18next";
 import { MdClose } from "react-icons/md";
-import Container from "./container";
+import Container from "../../../components/container";
 import "@styles/friends.css";
-import Helper from "@/util/helper";
+import Helper from "@util/helper";
 import Medal from "@shared/medal";
 
 interface Props {
@@ -30,7 +30,6 @@ const BigFriendCard: React.FC<Props> = ({ onClose, username }) => {
   }
 
   if (isError || !data) {
-    console.log(error);
     return (
       <Container size={{ width: "280px", height: "90px" }}>
         {error && error.toString()}

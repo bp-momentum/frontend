@@ -1,10 +1,10 @@
-import config from "@/config";
+import config from "@config";
 import Translations from "@localization/translations";
 import { useGetFriendByIdQuery } from "@redux/friends/friendApiSlice";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { MdPersonRemove } from "react-icons/md";
-import Container from "./container";
+import Container from "../../../components/container";
 
 interface Props {
   username: string;
@@ -32,7 +32,6 @@ const FriendCard: React.FC<Props> = ({ username, onRemove, onClick }) => {
   }
 
   if (isError || !data) {
-    console.log(error);
     return (
       <Container size={{ width: "280px", height: "90px" }}>
         {error && error.toString()}

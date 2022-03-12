@@ -19,7 +19,7 @@ import helper from "@util/helper";
 import { ExclamationCircleOutlined } from "@ant-design/icons/lib";
 import useApi from "@hooks/api";
 import Routes from "@util/routes";
-import { setFriendRequests } from "@/redux/friends/friendSlice";
+import { setFriendRequests } from "@redux/friends/friendSlice";
 import Helper from "@util/helper";
 
 const { confirm } = Modal;

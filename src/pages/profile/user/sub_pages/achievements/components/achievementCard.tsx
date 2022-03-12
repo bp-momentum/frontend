@@ -1,6 +1,6 @@
 import React from "react";
 import { Achievement, getProgress, isDone } from "@api/achievement";
-import Container from "@/pages/profile/user/sub_pages/friends/components/container";
+import Container from "../../../components/container";
 import { Col, Progress, Row } from "antd";
 import Medal from "@shared/medal";
 import Text from "antd/lib/typography/Text";

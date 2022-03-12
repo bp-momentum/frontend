@@ -4,7 +4,7 @@ import { unsetRefreshToken, unsetToken } from "@redux/token/tokenSlice";
 import { message } from "antd";
 import { useTranslation } from "react-i18next";
 import Translations from "@localization/translations";
-import config from "@/config";
+import config from "@config";
 
 const useApi = () => {
   const token = useAppSelector((state) => state.token.token) ?? "";

@@ -1,4 +1,4 @@
-import config from "@/config";
+import config from "@config";
 import { Friend } from "@api/friend";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { store } from "../store";

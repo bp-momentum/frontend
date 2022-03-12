@@ -6,7 +6,7 @@ import { Col, message, Row } from "antd";
 import { useTranslation } from "react-i18next";
 import Translations from "@localization/translations";
 import AchievementCard from "./achievementCard";
-import HiddenAchievementCard from "@/pages/profile/user/sub_pages/achievements/components/hiddenAchievementCard";
+import HiddenAchievementCard from "@pages/profile/user/sub_pages/achievements/components/hiddenAchievementCard";
 import _ from "lodash";
 
 const Achievements: React.FC = () => {

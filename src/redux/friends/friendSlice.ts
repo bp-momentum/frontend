@@ -18,7 +18,7 @@ const initialState: FriendState = {
 };
 
 export const friendSlice = createSlice({
-  name: "token",
+  name: "friend",
   initialState,
   reducers: {
     setFriendRequests: (state, action: PayloadAction<Friend[]>) => {

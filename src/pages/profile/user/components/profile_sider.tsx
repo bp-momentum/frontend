@@ -2,8 +2,8 @@ import { Col, Layout, Row } from "antd";
 import SiderButton from "./sider_button";
 import React from "react";
 import "@styles/ProfileSider.css";
-import { useAppSelector } from "@/redux/hooks";
-import Translations from "@/localization/translations";
+import { useAppSelector } from "@redux/hooks";
+import Translations from "@localization/translations";
 import { useTranslation } from "react-i18next";
 
 const { Sider } = Layout;

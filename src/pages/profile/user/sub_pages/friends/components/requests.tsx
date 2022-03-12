@@ -4,9 +4,9 @@ import Routes from "@util/routes";
 import { Col, message, Row } from "antd";
 import React from "react";
 import { IncomingRequestCard, OutgoingRequestCard } from "./requestCard";
-import EmptyDataRender from "@/shared/emptyDataRender";
+import EmptyDataRender from "@shared/emptyDataRender";
 import { useTranslation } from "react-i18next";
-import Translations from "@/localization/translations";
+import Translations from "@localization/translations";
 
 interface Props {
   reloadFriends: VoidFunction;
