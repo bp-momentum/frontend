@@ -220,7 +220,7 @@ const Leaderboard: React.FC = () => {
                 data-testid="leaderboard"
                 dataSource={entries}
                 columns={tableColumns}
-                rowKey={(entry) => entry.username}
+                rowKey={(entry) => entry.rank}
                 pagination={
                   isTrainer
                     ? {
