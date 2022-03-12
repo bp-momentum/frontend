@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import nock from "nock";
-import { backendUrl } from "@config";
+import config from "@config";
 
 jest.setTimeout(20000);
 
@@ -14,7 +14,7 @@ global.matchMedia =
   };
 
 // Test API responses
-nock(backendUrl)
+nock(config.backendUrl)
   .persist()
   .defaultReplyHeaders({
     "access-control-allow-origin": "*",
