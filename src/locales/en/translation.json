@@ -288,7 +288,8 @@
     "last-achievements": "Last Achievements",
     "no-achievements": "No achievements yet",
     "current-streak": "Current Streak",
-    "no-friends": "No friends yet"
+    "no-friends": "No friends yet",
+    "new-achievement": "Congratulations! You unlocked a new achievement!"
   },
   "medals": {
     "button-title": "Medals",

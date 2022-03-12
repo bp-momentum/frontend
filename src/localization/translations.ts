@@ -279,6 +279,7 @@ const Translations = {
     noAchievements: "friends.no-achievements",
     currentStreak: "friends.current-streak",
     noFriends: "friends.no-friends",
+    newAchievement: "friends.new-achievement",
   },
   medals: {
     buttonTitle: "medals.button-title",

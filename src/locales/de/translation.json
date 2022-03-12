@@ -288,7 +288,8 @@
     "last-achievements": "Letzte Errungenschaften",
     "no-achievements": "Keine Errungenschaften",
     "current-streak": "Aktuelle Streak",
-    "no-friends": "Keine Freunde"
+    "no-friends": "Keine Freunde",
+    "new-achievement": "Herzlichen Glückwunsch! Du hast eine neue Errungenschaft freigeschaltet!"
   },
   "medals": {
     "button-title": "Medaillen",
