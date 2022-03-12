@@ -161,8 +161,22 @@ const BigFriendCard: React.FC<Props> = ({ onClose, username }) => {
               style={{ display: "flex", alignItems: "center" }}
             >
               {t(Translations.friends.currentStreak)}:
-              <span style={{ margin: "10px" }}>{data.streak}</span>
-              <Emoji name="fire" width={40} />
+              <span style={{ margin: "10px" }}>{data.days}</span>
+              <div style={{ height: "40px", position: "relative" }}>
+                <Emoji name="fire" width={40} />
+                <div
+                  style={{
+                    position: "absolute",
+                    height: `${100 - data.flame_height * 100}%`,
+                    right: "0px",
+                    width: "100%",
+                    background: "#BDBDBD",
+                    mixBlendMode: "hue",
+                    left: "0px",
+                    top: "0px",
+                  }}
+                />
+              </div>
             </span>
           </Row>
         </Col>

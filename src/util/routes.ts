@@ -674,6 +674,17 @@ const Routes = {
       method: "GET",
     };
   },
+
+  /**
+   * get the streak
+   */
+  getStreak: (): Route => {
+    return {
+      route: "/api/getstreak",
+      needsAuth: true,
+      method: "GET",
+    };
+  },
 };
 
 export default Routes;
