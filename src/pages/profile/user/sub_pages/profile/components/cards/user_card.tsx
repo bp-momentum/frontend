@@ -86,11 +86,11 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
         }}
       >
         <Col>
-          <Text
+          <span
             style={{
               float: "right",
+              right: "-10px",
               marginTop: "-20px",
-              marginRight: "-20px",
               cursor: "pointer",
               position: "absolute",
             }}
@@ -98,7 +98,7 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
             data-testid="edit-profile"
           >
             {t(Translations.profile.edit)} <EditOutlined />
-          </Text>
+          </span>
           <Row>
             <img
               alt="Avatar"
@@ -177,8 +177,10 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
           <Row
             style={{
               float: "right",
+              position: "absolute",
+              right: "0",
               marginTop: "-20px",
-              marginRight: "-20px",
+              marginRight: "-10px",
             }}
           >
             <Text
