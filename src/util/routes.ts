@@ -326,6 +326,20 @@ const Routes = {
   },
 
   /**
+   * Get user's level information.
+   */
+  getUserLevel: (props: { username: string }): Route => {
+    return {
+      route: "/api/getuserlevel",
+      method: "POST",
+      needsAuth: true,
+      body: {
+        username: props.username,
+      },
+    };
+  },
+
+  /**
    * Get trainer's contact information.
    * This can only be called by a user or trainer.
    */

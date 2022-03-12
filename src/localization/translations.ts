@@ -218,6 +218,7 @@ const Translations = {
     usernameNotAllowed: "profile.username-not-allowed",
     friends: "profile.friends",
     achievements: "profile.achievements",
+    level: "profile.level",
   },
   errorPage: {
     err404Text: "error-page.404-text",

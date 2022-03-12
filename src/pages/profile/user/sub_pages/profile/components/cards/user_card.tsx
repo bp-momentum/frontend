@@ -1,4 +1,4 @@
-import { Card, Col, Popover, Row } from "antd";
+import { Card, Col, Popover, Progress, Row } from "antd";
 import Text from "antd/lib/typography/Text";
 import Translations from "@localization/translations";
 import { EditOutlined, SaveOutlined } from "@ant-design/icons";
@@ -14,6 +14,8 @@ interface userCardProps {
   username: string;
   accountCreated: number;
   motivation: string;
+  level: number;
+  progress: string;
   saveNewUsername: (u: string) => void;
   saveNewMotivation: (m: string) => void;
   saveNewAvatarId: (a: number) => void;
@@ -84,18 +86,21 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
         }}
       >
         <Col>
-          <Text
+          <span
             style={{
               float: "right",
+              right: "-10px",
               marginTop: "-20px",
-              marginRight: "-20px",
               cursor: "pointer",
+              position: "absolute",
+              fontSize: 16,
             }}
             onClick={() => flipCard()}
             data-testid="edit-profile"
           >
-            {t(Translations.profile.edit)} <EditOutlined />
-          </Text>
+            {t(Translations.profile.edit)}{" "}
+            <EditOutlined style={{ fontSize: 16 }} />
+          </span>
           <Row>
             <img
               alt="Avatar"
@@ -121,6 +126,33 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
                     })
                   : t(Translations.profile.activeShortly)}
               </Text>
+              <Row
+                style={{ display: "flex", alignItems: "center" }}
+                justify="center"
+              >
+                <Progress
+                  // eslint-disable-next-line no-eval
+                  percent={eval(props.progress)}
+                  status="active"
+                  showInfo={false}
+                  style={{
+                    width: "180px",
+                    marginRight: "5px",
+                  }}
+                />
+                <span className="text">
+                  {t(Translations.profile.level, { level: props.level })}
+                </span>
+              </Row>
+              <div
+                className="text"
+                style={{
+                  fontSize: 13,
+                  width: "180px",
+                  marginTop: "-8px",
+                  textAlign: "center",
+                }}
+              >{`${props.progress} XP`}</div>
             </Col>
           </Row>
           {props.motivation && (
@@ -147,14 +179,17 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
           <Row
             style={{
               float: "right",
+              position: "absolute",
+              right: "0",
               marginTop: "-20px",
-              marginRight: "-20px",
+              marginRight: "-10px",
             }}
           >
             <Text
               style={{
                 cursor: "pointer",
                 paddingRight: "15px",
+                fontSize: 16,
               }}
               onClick={async () => {
                 flipCard();
@@ -165,6 +200,7 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
             <Text
               style={{
                 cursor: "pointer",
+                fontSize: 16,
               }}
               onClick={async () => {
                 await props.saveNewUsername(newUsername);
@@ -173,7 +209,8 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
                 flipCard();
               }}
             >
-              {t(Translations.profile.save)} <SaveOutlined />
+              {t(Translations.profile.save)}{" "}
+              <SaveOutlined style={{ fontSize: 16 }} />
             </Text>
           </Row>
           <Row>

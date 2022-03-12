@@ -6,8 +6,6 @@ import { useTranslation } from "react-i18next";
 import Translations from "@localization/translations";
 import config from "@config";
 
-export const serverUrl = config.backendUrl;
-
 const useApi = () => {
   const token = useAppSelector((state) => state.token.token) ?? "";
   const dispatch = useAppDispatch();
@@ -122,10 +120,10 @@ const useApi = () => {
     if (route.startsWith("/")) {
       route = route.substring(1);
     }
-    if (serverUrl.endsWith("/")) {
-      return serverUrl + route;
+    if (config.backendUrl.endsWith("/")) {
+      return config.backendUrl + route;
     } else {
-      return serverUrl + "/" + route;
+      return config.backendUrl + "/" + route;
     }
   };
 
