@@ -32,7 +32,6 @@ export const friendApi = createApi({
         data: Friend;
         description: string;
       }) {
-        console.log(response);
         if (response.success) {
           return response.data;
         }
