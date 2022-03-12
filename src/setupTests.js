@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import nock from "nock";
-import { serverUrl } from "./hooks/api";
+import { serverUrl } from "@hooks/api";
 
 jest.setTimeout(20000);
 
@@ -147,5 +147,13 @@ nock(serverUrl)
     success: true,
     data: {
       requests: [],
+    },
+  })
+  .post("/api/getuserlevel")
+  .reply(200, {
+    success: true,
+    data: {
+      level: 0,
+      progress: "1/1",
     },
   });
