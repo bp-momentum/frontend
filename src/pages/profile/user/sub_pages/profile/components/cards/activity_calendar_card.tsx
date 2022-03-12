@@ -43,8 +43,6 @@ const DateCell: React.FC<dateCellProps> = ({ ...props }) => {
   const doneExercises = daysExercises.filter((e) => e.done ?? e.points !== 0);
   const openExercises = daysExercises.filter((e) => !e.done ?? e.points === 0);
 
-  console.log(doneExercises);
-
   const allDone = openExercises.length === 0;
   const nothingDone = doneExercises.length === 0;
   const percent =
