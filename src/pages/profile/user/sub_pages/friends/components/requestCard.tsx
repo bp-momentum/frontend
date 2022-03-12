@@ -1,6 +1,6 @@
 import React from "react";
 import { MdPersonAdd, MdPersonRemove } from "react-icons/md";
-import Container from "./container";
+import Container from "../../../components/container";
 
 interface IncomingProps {
   username: string;

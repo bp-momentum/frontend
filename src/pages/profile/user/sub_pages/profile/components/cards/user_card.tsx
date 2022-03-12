@@ -7,7 +7,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import Helper from "@util/helper";
 import { FaPen } from "react-icons/fa";
-import config from "@/config";
+import config from "@config";
 
 interface userCardProps {
   avatarId: number;

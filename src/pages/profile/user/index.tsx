@@ -15,7 +15,7 @@ import SubPageProfile from "./sub_pages/profile";
 import ProfileLoadingView from "./components/profile_loading_view";
 import SubPageFriends from "./sub_pages/friends";
 import SubPageAchievements from "./sub_pages/achievements";
-import config from "@/config";
+import config from "@config";
 
 const Profile: React.FC = () => {
   const token = useAppSelector((state) => state.token.token);

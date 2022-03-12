@@ -1,5 +1,5 @@
 import React from "react";
-import Container from "@/pages/profile/user/sub_pages/friends/components/container";
+import Container from "../../../components/container";
 import { Col, Row } from "antd";
 import Text from "antd/lib/typography/Text";
 import Medal from "@shared/medal";

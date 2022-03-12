@@ -5,8 +5,8 @@ import FriendCard from "./friendCard";
 import Routes from "@util/routes";
 import useApi from "@hooks/api";
 import BigFriendCard from "./bigFriendCard";
-import EmptyDataRender from "@/shared/emptyDataRender";
-import Translations from "@/localization/translations";
+import EmptyDataRender from "@shared/emptyDataRender";
+import Translations from "@localization/translations";
 import { useTranslation } from "react-i18next";
 
 interface Props {

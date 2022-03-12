@@ -11,12 +11,12 @@ import {
   setFriendRequests,
   setFriends,
   setSentRequests,
-} from "@/redux/friends/friendSlice";
+} from "@redux/friends/friendSlice";
 import ActiveFriends from "./components/activeFriends";
 import Requests from "./components/requests";
 import AddFriend from "./components/addFriend";
 import { useTranslation } from "react-i18next";
-import Translations from "@/localization/translations";
+import Translations from "@localization/translations";
 
 const SubPageFriends: React.FC = () => {
   const api = useApi();

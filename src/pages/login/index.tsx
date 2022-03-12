@@ -8,7 +8,7 @@ import Translations from "@localization/translations";
 import LoginForm from "./forms/loginForm";
 import ResetForm from "./forms/resetForm";
 import useApi from "@hooks/api";
-import config from "../../config";
+import config from "@config";
 
 const Login: React.FC = () => {
   const dispatch = useAppDispatch();

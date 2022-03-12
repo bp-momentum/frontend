@@ -22,7 +22,7 @@ import {
 } from "./callbacks";
 import { useParams } from "react-router-dom";
 import { MdVideocam, MdVideocamOff } from "react-icons/md";
-import config from "@/config";
+import config from "@config";
 
 const playRandomSound = (category: audioCategory) => {
   const audioFiles = config.soundsPerCategory[category];

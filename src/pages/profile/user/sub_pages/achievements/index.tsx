@@ -1,9 +1,9 @@
 import React from "react";
 import { Content } from "antd/lib/layout/layout";
 import { Row } from "antd";
-import ToggleButton from "@/pages/profile/user/components/toggleButton";
-import Achievements from "@/pages/profile/user/sub_pages/achievements/components/achievements";
-import Medals from "@/pages/profile/user/sub_pages/achievements/components/medals";
+import ToggleButton from "@pages/profile/user/components/toggleButton";
+import Achievements from "@pages/profile/user/sub_pages/achievements/components/achievements";
+import Medals from "@pages/profile/user/sub_pages/achievements/components/medals";
 import { useTranslation } from "react-i18next";
 import Translations from "@localization/translations";
 

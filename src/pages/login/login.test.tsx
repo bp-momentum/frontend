@@ -4,7 +4,7 @@ import React from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { store } from "@redux/store";
-import Login from "./index";
+import Login from ".";
 
 const LoginWrapper: React.FC = () => (
   <Provider store={store}>
