@@ -33,15 +33,17 @@ const DateCell: React.FC<dateCellProps> = ({ ...props }) => {
     exercise_plan_id: number;
     id: number;
     points: number | null;
-    done: boolean;
+    done: boolean | undefined;
   }[] = data ? data.data.done : [];
 
   const daysExercises = exercises.filter((e) => {
     const d = new Date(e.date * 1000);
     return d.toDateString() === props.date.toDateString();
   });
-  const doneExercises = daysExercises.filter((e) => e.done);
-  const openExercises = daysExercises.filter((e) => !e.done);
+  const doneExercises = daysExercises.filter((e) => e.done ?? e.points !== 0);
+  const openExercises = daysExercises.filter((e) => !e.done ?? e.points === 0);
+
+  console.log(doneExercises);
 
   const allDone = openExercises.length === 0;
   const nothingDone = doneExercises.length === 0;
@@ -108,7 +110,7 @@ const DateCell: React.FC<dateCellProps> = ({ ...props }) => {
                 key={e.id}
                 id={e.id}
                 points={e.points}
-                done={e.done}
+                done={e.done ?? e.points !== 0}
               />
             );
           })}
