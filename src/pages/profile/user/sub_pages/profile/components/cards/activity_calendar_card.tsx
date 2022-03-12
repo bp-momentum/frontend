@@ -1,13 +1,19 @@
 import Text from "antd/lib/typography/Text";
 import Translations from "@localization/translations";
 import { Calendar, Card, Col, Popover, Row } from "antd";
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import {
+  LeftOutlined,
+  RightOutlined,
+  CheckOutlined,
+  CloseOutlined,
+} from "@ant-design/icons";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import {
   useGetDoneExercisesInMonthQuery,
   useGetExerciseByIdQuery,
 } from "@redux/exercises/exerciseSlice";
+import { round } from "lodash";
 
 interface dateCellProps {
   month: number;
@@ -26,13 +32,23 @@ const DateCell: React.FC<dateCellProps> = ({ ...props }) => {
     date: number;
     exercise_plan_id: number;
     id: number;
-    points: number;
+    points: number | null;
+    done: boolean | undefined;
   }[] = data ? data.data.done : [];
 
-  const doneExercises = exercises.filter((e) => {
+  const daysExercises = exercises.filter((e) => {
     const d = new Date(e.date * 1000);
     return d.toDateString() === props.date.toDateString();
   });
+  const doneExercises = daysExercises.filter((e) => e.done ?? e.points !== 0);
+  const openExercises = daysExercises.filter((e) => !e.done ?? e.points === 0);
+
+  const allDone = openExercises.length === 0;
+  const nothingDone = doneExercises.length === 0;
+  const percent =
+    daysExercises.length === 0
+      ? 0
+      : round((doneExercises.length / daysExercises.length) * 100);
 
   const isToday = (): boolean => {
     return props.date.toDateString() === new Date().toDateString();
@@ -42,10 +58,16 @@ const DateCell: React.FC<dateCellProps> = ({ ...props }) => {
     if (props.month !== props.currentMonth) {
       return "gray";
     }
-    if (doneExercises.length !== 0) {
+    if (daysExercises.length === 0) {
+      return "black";
+    }
+    if (allDone) {
       return "green";
     }
-    return "black";
+    if (nothingDone) {
+      return "red";
+    }
+    return "orange";
   };
 
   const text = (
@@ -67,7 +89,7 @@ const DateCell: React.FC<dateCellProps> = ({ ...props }) => {
     </div>
   );
 
-  if (doneExercises.length === 0) {
+  if (daysExercises.length === 0) {
     return text;
   }
 
@@ -75,19 +97,21 @@ const DateCell: React.FC<dateCellProps> = ({ ...props }) => {
     <Popover
       color={"white"}
       trigger="click"
-      title={<Text>{props.date.toLocaleDateString()}</Text>}
+      title={
+        <Text>{props.date.toLocaleDateString() + " - " + percent + "%"}</Text>
+      }
       content={
         <Col>
-          <ul
-            style={{
-              paddingLeft: "10px",
-              marginBottom: "5px",
-            }}
-          >
-            {doneExercises.map((e) => {
-              return <ExerciseName key={e.id} id={e.id} points={e.points} />;
-            })}
-          </ul>
+          {daysExercises.map((e) => {
+            return (
+              <ExerciseName
+                key={e.id}
+                id={e.id}
+                points={e.points}
+                done={e.done ?? e.points !== 0}
+              />
+            );
+          })}
         </Col>
       }
     >
@@ -96,27 +120,36 @@ const DateCell: React.FC<dateCellProps> = ({ ...props }) => {
   );
 };
 
-const ExerciseName = (props: { id: number; points: number }): JSX.Element => {
+const ExerciseName = (props: {
+  id: number;
+  points: number | null;
+  done: boolean;
+}): JSX.Element => {
   const { data, isLoading, isError, error } = useGetExerciseByIdQuery(props.id);
   const { t } = useTranslation();
-
+  const text =
+    data?.title +
+    (props.done
+      ? ": " + t(Translations.profile.points, { points: props.points })
+      : "");
   return (
-    <li>
-      <span style={{ whiteSpace: "nowrap" }}>
-        <Col>
-          <Text>
-            {isLoading
-              ? t(Translations.exercises.loading)
-              : isError
-              ? error
-              : data?.title +
-                ": " +
-                t(Translations.profile.points, { points: props.points })}
-          </Text>
-          <br />
-        </Col>
-      </span>
-    </li>
+    <span style={{ whiteSpace: "nowrap" }}>
+      <Col>
+        <Text>
+          {props.done ? (
+            <CheckOutlined style={{ color: "green", paddingRight: "5px" }} />
+          ) : (
+            <CloseOutlined style={{ color: "red", paddingRight: "5px" }} />
+          )}
+          {isLoading
+            ? t(Translations.exercises.loading)
+            : isError
+            ? error
+            : text}
+        </Text>
+        <br />
+      </Col>
+    </span>
   );
 };
 
