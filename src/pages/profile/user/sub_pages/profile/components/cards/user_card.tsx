@@ -93,6 +93,7 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
               marginTop: "-20px",
               cursor: "pointer",
               position: "absolute",
+              fontSize: 16,
             }}
             onClick={() => flipCard()}
             data-testid="edit-profile"
@@ -187,6 +188,7 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
               style={{
                 cursor: "pointer",
                 paddingRight: "15px",
+                fontSize: 16,
               }}
               onClick={async () => {
                 flipCard();
@@ -197,6 +199,7 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
             <Text
               style={{
                 cursor: "pointer",
+                fontSize: 16,
               }}
               onClick={async () => {
                 await props.saveNewUsername(newUsername);
@@ -205,7 +208,8 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
                 flipCard();
               }}
             >
-              {t(Translations.profile.save)} <SaveOutlined />
+              {t(Translations.profile.save)}{" "}
+              <SaveOutlined style={{ fontSize: 16 }} />
             </Text>
           </Row>
           <Row>
