@@ -652,6 +652,28 @@ const Routes = {
       method: "GET",
     };
   },
+
+  /**
+   * Checks it the logged-in user unlocked the friends achievement.
+   */
+  loadFriendAchievement: (): Route => {
+    return {
+      route: "/api/loadfriendachievements",
+      needsAuth: true,
+      method: "GET",
+    };
+  },
+
+  /**
+   * Checks it the logged-in user unlocked new achievements from exercises.
+   */
+  loadExerciseAchievements: (): Route => {
+    return {
+      route: "/api/loadexerciseachievements",
+      needsAuth: true,
+      method: "GET",
+    };
+  },
 };
 
 export default Routes;

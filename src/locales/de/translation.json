@@ -245,7 +245,9 @@
     "medal_gold": "Gold Medaille",
     "back-home": "Zurück zur Übersicht",
     "click-to-start": "Klicke hier um zu starten!",
-    "check-visibility": "Achtung: Versuche immer im Kameraausschnitt zu bleiben!"
+    "check-visibility": "Achtung: Versuche immer im Kameraausschnitt zu bleiben!",
+    "new-achievements_one": "Herzlichen Glückwunsch! Du hast eine neue Errungenschaft freigeschaltet!",
+    "new-achievements_other": "Herzlichen Glückwunsch! Du hast {{count}} neue Errungenschaften freigeschaltet!"
   },
   "trainer-profile": {
     "title": "Hallo, {{name}}",

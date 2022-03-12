@@ -241,6 +241,7 @@ const Translations = {
     backHome: "training.back-home",
     clickToStart: "training.click-to-start",
     checkVisibility: "training.check-visibility",
+    newAchievements: "training.new-achievements",
   },
   trainerProfile: {
     title: "trainer-profile.title",
