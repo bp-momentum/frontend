@@ -1,7 +1,7 @@
 import React from "react";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import Container from "../../shared/container";
-import helper from "../../util/helper";
+import { useAppDispatch, useAppSelector } from "@redux/hooks";
+import Container from "@shared/container";
+import helper from "@util/helper";
 import {
   Alert,
   Button,
@@ -13,18 +13,18 @@ import {
   Select,
   Space,
 } from "antd";
-import Routes from "../../util/routes";
+import Routes from "@util/routes";
 import {
   setRefreshToken,
   setToken,
   unsetRefreshToken,
   unsetToken,
-} from "../../redux/token/tokenSlice";
+} from "@redux/token/tokenSlice";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
-import Translations from "../../localization/translations";
+import Translations from "@localization/translations";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import useApi from "../../hooks/api";
+import useApi from "@hooks/api";
 
 const Settings: React.FC = () => {
   const navigate = useNavigate();

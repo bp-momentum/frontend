@@ -2,8 +2,8 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
 import LanguageDetector from "i18next-browser-languagedetector";
-import translationEN from "./locales/en/translation.json";
-import translationDE from "./locales/de/translation.json";
+import translationEN from "../locales/en/translation.json";
+import translationDE from "../locales/de/translation.json";
 
 const resources = {
   en: {
@@ -14,7 +14,7 @@ const resources = {
   },
 };
 
-const indefiniteArticle = function (phrase) {
+const indefiniteArticle = function (phrase: string) {
   // Getting the first word
   const match = /\w+/.exec(phrase);
   if (!match) return "an";
@@ -23,7 +23,7 @@ const indefiniteArticle = function (phrase) {
 
   // Specific start of words that should be preceded by 'an'
   const alt_cases = ["honest", "hour", "hono"];
-  for (let i in alt_cases) {
+  for (const i in alt_cases) {
     if (l_word.indexOf(alt_cases[i]) === 0) return "an";
   }
 
@@ -49,7 +49,7 @@ const indefiniteArticle = function (phrase) {
     /^uni([^nmd]|mo)/,
     /^u[bcfhjkqrst][aeiou]/,
   ];
-  for (let i in regexes) {
+  for (const i in regexes) {
     if (l_word.match(regexes[i])) return "a";
   }
 
@@ -70,7 +70,7 @@ const indefiniteArticle = function (phrase) {
   return "a";
 };
 
-const getEnglishArticle = function (value, capitalize) {
+const getEnglishArticle = function (value: string, capitalize: boolean) {
   const article = indefiniteArticle(value);
   if (article.length === 1) {
     return capitalize ? article.toUpperCase() : article;
@@ -90,6 +90,7 @@ i18n
     interpolation: {
       escapeValue: false,
       format: function (value, format, lng) {
+        if (format === undefined) return;
         if (lng !== "en") return value;
         if (!format.startsWith("en-handle-an")) return value;
         return (

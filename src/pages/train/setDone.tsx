@@ -7,11 +7,11 @@ import React, {
 } from "react";
 import TrainLayout from "./components/trainLayout";
 import { Col, Row } from "antd";
-import Paper from "../../shared/paper";
+import Paper from "@shared/paper";
 import { FaCheck } from "react-icons/fa";
-import continue_arrow from "../../static/continue_arrow.png";
+import continue_arrow from "@static/continue_arrow.png";
 import { useTranslation } from "react-i18next";
-import Translations from "../../localization/translations";
+import Translations from "@localization/translations";
 
 interface setDoneProps {
   stats: MutableRefObject<statsType>;

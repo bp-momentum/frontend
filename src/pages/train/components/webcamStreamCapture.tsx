@@ -6,11 +6,11 @@ import React, {
   useState,
 } from "react";
 import Webcam from "react-webcam";
-import useWindowDimensions from "../../../hooks/windowDimension";
-import { ApiSocketConnection } from "../../../hooks/api";
+import useWindowDimensions from "@hooks/windowDimension";
+import { ApiSocketConnection } from "@hooks/api";
 import { PlayCircleOutlined } from "@ant-design/icons";
 import { Button, Tooltip } from "antd";
-import Translations from "../../../localization/translations";
+import Translations from "@localization/translations";
 import { useTranslation } from "react-i18next";
 
 interface webcamStreamCaptureProps {

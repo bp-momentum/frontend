@@ -1,12 +1,10 @@
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { Route } from "../util/routes";
-import { unsetRefreshToken, unsetToken } from "../redux/token/tokenSlice";
+import { useAppDispatch, useAppSelector } from "@redux/hooks";
+import { Route } from "@util/routes";
+import { unsetRefreshToken, unsetToken } from "@redux/token/tokenSlice";
 import { message } from "antd";
 import { useTranslation } from "react-i18next";
-import Translations from "../localization/translations";
-import config from "../config";
-
-export const serverUrl = config.backendUrl;
+import Translations from "@localization/translations";
+import config from "@config";
 
 const useApi = () => {
   const token = useAppSelector((state) => state.token.token) ?? "";
@@ -122,10 +120,10 @@ const useApi = () => {
     if (route.startsWith("/")) {
       route = route.substring(1);
     }
-    if (serverUrl.endsWith("/")) {
-      return serverUrl + route;
+    if (config.backendUrl.endsWith("/")) {
+      return config.backendUrl + route;
     } else {
-      return serverUrl + "/" + route;
+      return config.backendUrl + "/" + route;
     }
   };
 

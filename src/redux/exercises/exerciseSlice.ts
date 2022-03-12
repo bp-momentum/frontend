@@ -1,12 +1,12 @@
-import { Exercise } from "../../api/exercise";
+import config from "@config";
+import { Exercise } from "@api/exercise";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { serverUrl } from "../../hooks/api";
 import { store } from "../store";
 
 export const exerciseApi = createApi({
   reducerPath: "exerciseApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: serverUrl,
+    baseUrl: config.backendUrl,
     prepareHeaders: (headers, { getState }) => {
       headers.set(
         "Session-Token",
@@ -37,6 +37,7 @@ export const exerciseApi = createApi({
         return undefined;
       },
     }),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     getDoneExercisesInMonth: builder.query<any, Record<string, number>>({
       query(date) {
         return {

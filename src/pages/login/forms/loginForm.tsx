@@ -1,6 +1,6 @@
 import React from "react";
 import { Alert, Button, Checkbox, Form, Input } from "antd";
-import Translations from "../../../localization/translations";
+import Translations from "@localization/translations";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 

@@ -1,5 +1,5 @@
 import { Buffer } from "buffer";
-import Translations from "../localization/translations";
+import Translations from "@localization/translations";
 
 const Helper = {
   getAccountType: (token: string): "user" | "trainer" | "admin" => {
@@ -93,6 +93,56 @@ const Helper = {
       return Translations.profile.usernameNotAllowed;
     } else {
       return undefined;
+    }
+  },
+
+  /**
+   * Display whether a user was last online today, yesterday, a few days ago, some weeks ago or a long time ago.
+   * @param dateString
+   * @returns
+   */
+  getLastActiveFromDateString: (
+    dateString: string
+  ): { str: string; count: number } => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+    const daysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+    const weeksAgo = new Date(now.getTime() - 4 * 7 * 24 * 60 * 60 * 1000);
+    const monthsAgo = new Date(now.getTime() - 4 * 30 * 24 * 60 * 60 * 1000);
+    const yearsAgo = new Date(now.getTime() - 4 * 365 * 24 * 60 * 60 * 1000);
+    if (date.getTime() < yearsAgo.getTime()) {
+      return {
+        str: Translations.friends.lastOnlineYearsAgo,
+        count: Math.round(
+          (now.getTime() - date.getTime()) / (365 * 24 * 60 * 60 * 1000)
+        ),
+      };
+    } else if (date.getTime() < monthsAgo.getTime()) {
+      return {
+        str: Translations.friends.lastOnlineMonthsAgo,
+        count: Math.round(
+          (now.getTime() - date.getTime()) / (30 * 24 * 60 * 60 * 1000)
+        ),
+      };
+    } else if (date.getTime() < weeksAgo.getTime()) {
+      return {
+        str: Translations.friends.lastOnlineWeeksAgo,
+        count: Math.round(
+          (now.getTime() - date.getTime()) / (7 * 24 * 60 * 60 * 1000)
+        ),
+      };
+    } else if (date.getTime() < daysAgo.getTime()) {
+      return {
+        str: Translations.friends.lastOnlineDaysAgo,
+        count: Math.round(
+          (now.getTime() - date.getTime()) / (24 * 60 * 60 * 1000)
+        ),
+      };
+    } else if (date.getTime() < yesterday.getTime()) {
+      return { str: Translations.friends.lastOnlineYesterday, count: -1 };
+    } else {
+      return { str: Translations.friends.lastOnlineToday, count: -1 };
     }
   },
 };

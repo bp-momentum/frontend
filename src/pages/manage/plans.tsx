@@ -3,14 +3,14 @@ import PlusOutlined from "@ant-design/icons/lib/icons/PlusOutlined";
 import { Button, Col, Layout, message, Row, Spin } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import { useNavigate } from "react-router";
-import Container from "../../shared/container";
-import { Shapes } from "../../shared/shapes";
-import Routes from "../../util/routes";
+import Container from "@shared/container";
+import { Shapes } from "@shared/shapes";
+import Routes from "@util/routes";
 import { LoadingOutlined } from "@ant-design/icons";
-import Translations from "../../localization/translations";
+import Translations from "@localization/translations";
 import { t } from "i18next";
-import { Plan } from "../../api/plan";
-import useApi from "../../hooks/api";
+import { Plan } from "@api/plan";
+import useApi from "@hooks/api";
 
 /**
  * Consists of a list of all the plans the user has access to.

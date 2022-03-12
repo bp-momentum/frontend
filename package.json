@@ -5,16 +5,16 @@
   "homepage": ".",
   "dependencies": {
     "@ant-design/plots": "^1.0.9",
+    "@craco/craco": "^6.4.3",
     "@reduxjs/toolkit": "^1.8.0",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",
-    "@testing-library/user-event": "^13.5.0",
     "@types/lodash": "^4.14.179",
     "@types/react": "^17.0.40",
     "@types/react-beautiful-dnd": "^13.1.2",
     "@types/react-webcam": "^3.0.0",
     "antd": "^4.19.1",
-    "buffer": "^6.0.3",
+    "craco": "^0.0.3",
     "i18next": "^21.6.14",
     "i18next-browser-languagedetector": "^6.1.3",
     "lodash": "^4.17.21",
@@ -39,10 +39,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "craco eject"
   },
   "eslintConfig": {
     "extends": [
@@ -65,5 +65,19 @@
   "devDependencies": {
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.5.1"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "^@util/(.*)$": "<rootDir>/src/util/$1",
+      "^@redux/(.*)$": "<rootDir>/src/redux/$1",
+      "^@styles/(.*)$": "<rootDir>/src/styles/$1",
+      "^@static/(.*)$": "<rootDir>/src/static/$1",
+      "^@shared/(.*)$": "<rootDir>/src/shared/$1",
+      "^@localization/(.*)$": "<rootDir>/src/localization/$1",
+      "^@hooks/(.*)$": "<rootDir>/src/hooks/$1",
+      "^@api/(.*)$": "<rootDir>/src/api/$1",
+      "^@config$": "<rootDir>/src/config",
+      "^@pages/(.*)$": "<rootDir>/src/pages/$1"
+    }
   }
 }

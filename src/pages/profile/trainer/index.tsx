@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import Container from "../../../shared/container";
+import Container from "@shared/container";
 import { Alert, Button, Col, Form, Input, Row, Space, message } from "antd";
-import Translations from "../../../localization/translations";
+import Translations from "@localization/translations";
 import { useTranslation } from "react-i18next";
-import Routes from "../../../util/routes";
-import useApi from "../../../hooks/api";
+import Routes from "@util/routes";
+import useApi from "@hooks/api";
 
 const TrainerProfile: React.FC = () => {
   const [data, setData] = React.useState<null | TrainerContact>(null);

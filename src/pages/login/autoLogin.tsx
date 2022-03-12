@@ -1,13 +1,13 @@
 import { Row, Col, Space, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import React, { useEffect } from "react";
-import Routes from "../../util/routes";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { setToken } from "../../redux/token/tokenSlice";
+import Routes from "@util/routes";
+import { useAppDispatch, useAppSelector } from "@redux/hooks";
+import { setToken } from "@redux/token/tokenSlice";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
-import Translations from "../../localization/translations";
-import useApi from "../../hooks/api";
+import Translations from "@localization/translations";
+import useApi from "@hooks/api";
 
 const AutoLogin: React.FC = () => {
   const dispatch = useAppDispatch();

@@ -1,9 +1,7 @@
 import { Card, Row } from "antd";
 import Text from "antd/lib/typography/Text";
-import Translations from "../../../../../localization/translations";
-import ButtonContact, {
-  ContactType,
-} from "../../../../../shared/button_contact";
+import Translations from "@localization/translations";
+import ButtonContact, { ContactType } from "@shared/button_contact";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
@@ -35,21 +33,17 @@ const TrainerCard: React.FC<trainerCardProps> = ({ ...props }) => {
           <br />
           {props.address.replaceAll(", ", "\n")}
           <br />
-          {props.phone.length > 0 && (
-            <ButtonContact
-              type={ContactType.phone}
-              contact={props.phone}
-              label={props.phone}
-            />
-          )}
+          <ButtonContact
+            type={ContactType.phone}
+            contact={props.phone}
+            label={props.phone}
+          />
           <br />
-          {props.email.length > 0 && (
-            <ButtonContact
-              type={ContactType.email}
-              contact={props.email}
-              label={props.email}
-            />
-          )}
+          <ButtonContact
+            type={ContactType.email}
+            contact={props.email}
+            label={props.email}
+          />
         </Text>
       </Row>
     </Card>

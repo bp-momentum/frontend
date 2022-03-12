@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import nock from "nock";
-import { serverUrl } from "./hooks/api";
+import config from "@config";
 
 jest.setTimeout(20000);
 
@@ -14,7 +14,7 @@ global.matchMedia =
   };
 
 // Test API responses
-nock(serverUrl)
+nock(config.backendUrl)
   .persist()
   .defaultReplyHeaders({
     "access-control-allow-origin": "*",
@@ -140,5 +140,20 @@ nock(serverUrl)
           points: 0,
         },
       ],
+    },
+  })
+  .get("/api/getFriendRequests")
+  .reply(200, {
+    success: true,
+    data: {
+      requests: [],
+    },
+  })
+  .post("/api/getuserlevel")
+  .reply(200, {
+    success: true,
+    data: {
+      level: 0,
+      progress: "1/1",
     },
   });

@@ -1,6 +1,5 @@
 import {
   Button,
-  Input,
   InputRef,
   message,
   Popconfirm,
@@ -10,13 +9,13 @@ import {
   Tooltip,
 } from "antd";
 import React, { createRef, useEffect, useState } from "react";
-import { Plan } from "../../../api/plan";
-import Routes from "../../../util/routes";
+import { Plan } from "@api/plan";
+import Routes from "@util/routes";
 import { getColumnSearchProps } from "./tableSearch";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { t } from "i18next";
-import Translations from "../../../localization/translations";
-import useApi from "../../../hooks/api";
+import Translations from "@localization/translations";
+import useApi from "@hooks/api";
 
 const { Option } = Select;
 

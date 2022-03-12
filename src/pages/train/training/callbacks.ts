@@ -1,3 +1,4 @@
+import config from "@config";
 import React from "react";
 
 const totalPointsCalculation = (
@@ -41,6 +42,7 @@ const calculatePoints = (points: Points[], set: number): dataEntryType[] => {
 };
 
 export const initCallback = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: Record<string, any>,
   stats: React.MutableRefObject<statsType>,
   setCurrentSet: React.Dispatch<React.SetStateAction<number>>
@@ -49,16 +51,30 @@ export const initCallback = (
   stats.current.set = data.current_set + 1;
 };
 
-export const statsCallback = (
-  data: Record<string, any>,
-  points: Points[],
-  setProgress: React.Dispatch<React.SetStateAction<number>>,
-  repeats: number,
-  currentRepeat: React.MutableRefObject<number>,
-  setFeedback: React.Dispatch<React.SetStateAction<feedback>>,
-  totalPoints: React.MutableRefObject<number>,
-  setIsFeedbackNew: React.Dispatch<React.SetStateAction<boolean>>
-): void => {
+export const statsCallback = ({
+  data,
+  points,
+  setProgress,
+  repeats,
+  currentRepeat,
+  setFeedback,
+  totalPoints,
+  setIsFeedbackNew,
+  playRandomSound,
+  audioFeedbackChance,
+}: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: Record<string, any>;
+  points: Points[];
+  setProgress: React.Dispatch<React.SetStateAction<number>>;
+  repeats: number;
+  currentRepeat: React.MutableRefObject<number>;
+  setFeedback: React.Dispatch<React.SetStateAction<feedback>>;
+  totalPoints: React.MutableRefObject<number>;
+  setIsFeedbackNew: React.Dispatch<React.SetStateAction<boolean>>;
+  playRandomSound: (category: audioCategory) => void;
+  audioFeedbackChance: React.MutableRefObject<number>;
+}): void => {
   const total = totalPointsCalculation(
     data.intensity,
     data.cleanliness,
@@ -80,6 +96,20 @@ export const statsCallback = (
     totalPoints: totalPoints.current + total,
   });
   setIsFeedbackNew(true);
+  if (Math.random() < audioFeedbackChance.current) {
+    if (total <= config.audioThresholds.good * 100) {
+      playRandomSound("good");
+    } else if (total <= config.audioThresholds.better * 100) {
+      playRandomSound("better");
+    } else if (total <= config.audioThresholds.best * 100) {
+      playRandomSound("best");
+    } else {
+      playRandomSound("perfect");
+    }
+    audioFeedbackChance.current = 0.2;
+  } else {
+    audioFeedbackChance.current += 0.2;
+  }
 };
 
 export const endCallback = (

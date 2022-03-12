@@ -1,14 +1,14 @@
 import { Alert, Button, Col, Form, Input, Row, Space } from "antd";
 import { LockOutlined } from "@ant-design/icons";
 import React from "react";
-import Routes from "../../util/routes";
-import { setRefreshToken, setToken } from "../../redux/token/tokenSlice";
+import Routes from "@util/routes";
+import { setRefreshToken, setToken } from "@redux/token/tokenSlice";
 import { useNavigate } from "react-router";
-import Translations from "../../localization/translations";
+import Translations from "@localization/translations";
 import { useTranslation } from "react-i18next";
-import { useAppDispatch } from "../../redux/hooks";
-import Container from "../../shared/container";
-import useApi from "../../hooks/api";
+import { useAppDispatch } from "@redux/hooks";
+import Container from "@shared/container";
+import useApi from "@hooks/api";
 
 const ChangePassword: React.FC = () => {
   const navigate = useNavigate();

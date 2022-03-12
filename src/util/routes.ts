@@ -326,6 +326,20 @@ const Routes = {
   },
 
   /**
+   * Get user's level information.
+   */
+  getUserLevel: (props: { username: string }): Route => {
+    return {
+      route: "/api/getuserlevel",
+      method: "POST",
+      needsAuth: true,
+      body: {
+        username: props.username,
+      },
+    };
+  },
+
+  /**
    * Get trainer's contact information.
    * This can only be called by a user or trainer.
    */
@@ -475,6 +489,95 @@ const Routes = {
   },
 
   /**
+   * get Friends
+   */
+  getFriends: (): Route => {
+    return {
+      route: "/api/getfriends",
+      needsAuth: true,
+      method: "GET",
+    };
+  },
+
+  /**
+   * get Friend Requests
+   */
+  getFriendRequests: (): Route => {
+    return {
+      route: "/api/getFriendRequests",
+      needsAuth: true,
+      method: "GET",
+    };
+  },
+
+  /**
+   * get Friend Requests
+   */
+  getSentFriendRequests: (): Route => {
+    return {
+      route: "/api/getpendingfriendrequests",
+      needsAuth: true,
+      method: "GET",
+    };
+  },
+
+  /**
+   * add Friend
+   */
+  addFriend: (props: { friendId: string }): Route => {
+    return {
+      route: "/api/addFriend",
+      needsAuth: true,
+      method: "POST",
+      body: {
+        username: props.friendId,
+      },
+    };
+  },
+
+  /**
+   * accept Friend Request
+   */
+  acceptFriendRequest: (props: { friendId: number }): Route => {
+    return {
+      route: "/api/acceptfriendrequest",
+      needsAuth: true,
+      method: "POST",
+      body: {
+        id: props.friendId,
+      },
+    };
+  },
+
+  /**
+   * decline Friend Request
+   */
+  declineFriendRequest: (props: { friendId: number }): Route => {
+    return {
+      route: "/api/declinefriendrequest",
+      needsAuth: true,
+      method: "POST",
+      body: {
+        id: props.friendId,
+      },
+    };
+  },
+
+  /**
+   * remove Friend
+   */
+  removeFriend: (props: { friendId: number }): Route => {
+    return {
+      route: "/api/removefriend",
+      needsAuth: true,
+      method: "POST",
+      body: {
+        id: props.friendId,
+      },
+    };
+  },
+
+  /**
    * Change the contact address of the logged in trainer.
    */
   changeLocation: (props: {
@@ -525,6 +628,28 @@ const Routes = {
       body: {
         academia: props.academia,
       },
+    };
+  },
+
+  /**
+   * Get the logged-in user's achievements.
+   */
+  getAchievements: (): Route => {
+    return {
+      route: "/api/getachievements",
+      needsAuth: true,
+      method: "GET",
+    };
+  },
+
+  /**
+   * Get the logged-in user's medals.
+   */
+  getMedals: (): Route => {
+    return {
+      route: "/api/getmedals",
+      needsAuth: true,
+      method: "GET",
     };
   },
 };

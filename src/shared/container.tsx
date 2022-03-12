@@ -9,14 +9,18 @@ import {
   CalendarOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
-import Translations from "../localization/translations";
+import Translations from "@localization/translations";
 import { MenuInfo } from "rc-menu/lib/interface";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import helper from "../util/helper";
+import { useAppDispatch, useAppSelector } from "@redux/hooks";
+import helper from "@util/helper";
 import { ExclamationCircleOutlined } from "@ant-design/icons/lib";
+import useApi from "@hooks/api";
+import Routes from "@util/routes";
+import { setFriendRequests } from "@redux/friends/friendSlice";
+import Helper from "@util/helper";
 
 const { confirm } = Modal;
 
@@ -33,8 +37,6 @@ type pages =
   | "settings"
   | "leaderboard"
   | "profile"
-  | "profile_overview"
-  | "profile_stats"
   | "manage_users"
   | "manage_plans"; // navigable pages
 type pagesToRouteType = {
@@ -45,8 +47,6 @@ const pageToRoute: pagesToRouteType = {
   settings: "/settings",
   leaderboard: "/leaderboard",
   profile: "/profile",
-  profile_overview: "/profile",
-  profile_stats: "/profile/stats",
   manage: "/manage",
   manage_users: "/manage/users",
   manage_plans: "/manage/plans",
@@ -97,8 +97,36 @@ const Container: React.FC<containerProps> = ({ ...props }) => {
   };
 
   const token = useAppSelector((state) => state.token.token);
+  const isUser = token && helper.getAccountType(token) === "user";
   const isAdmin = token && helper.getAccountType(token) === "admin";
   const isTrainer = token && helper.getAccountType(token) === "trainer";
+
+  const hasRequests =
+    useAppSelector((state) => state.friends.friendRequests).length > 0;
+
+  const api = useApi();
+  const username = token && Helper.getUserName(token);
+
+  const friendsToFriend = (friends: {
+    friend1: string;
+    friend2: string;
+    id: number;
+  }) => {
+    return {
+      username:
+        friends.friend1 === username ? friends.friend2 : friends.friend1,
+      id: friends.id,
+    };
+  };
+
+  useEffect(() => {
+    if (!isUser) return;
+
+    api.execute(Routes.getFriendRequests()).then((data) => {
+      dispatch(setFriendRequests(data.data.requests.map(friendsToFriend)));
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Layout style={{ height: "100%", position: "absolute", width: "100%" }}>
@@ -139,11 +167,18 @@ const Container: React.FC<containerProps> = ({ ...props }) => {
           )}
           {!isAdmin && (
             <Menu.Item
-              key="profile_overview"
+              key="profile"
               icon={<BarsOutlined style={{ color: color }} />}
               style={{ marginLeft: "auto" }}
             >
-              {t(Translations.tabBar.profile)}
+              <span
+                className={
+                  hasRequests && currentPage !== "profile" ? "notification" : ""
+                }
+                style={{ position: "relative", paddingTop: 3, paddingRight: 3 }}
+              >
+                {t(Translations.tabBar.profile)}
+              </span>
             </Menu.Item>
           )}
           <Menu.Item

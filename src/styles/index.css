@@ -40,3 +40,35 @@ code {
   height: 20px !important;
   margin-top: -10px !important;
 }
+
+.notification::after {
+  position: absolute;
+  content: '';
+  top: -5px;
+  right: -5px;
+  width: 15px;
+  height: 15px;
+  background: #d90436;
+  border-radius: 50%;
+  animation: notification-animation ease-in-out 2s infinite;
+}
+
+.hoverGreen:hover {
+  color: #07bb16;
+}
+
+.hoverRed:hover {
+  color: #d90436;
+}
+
+@keyframes notification-animation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

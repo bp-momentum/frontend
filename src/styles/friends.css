@@ -1,0 +1,14 @@
+.friendNameHeader {
+  font-size: larger;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+.friendHeader {
+  font-size: large;
+  font-weight: bold;
+}
+
+.text {
+  font-size: medium;
+}

@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
-import { store } from "../../../redux/store";
+import { store } from "@redux/store";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React from "react";
-import UserProfile from "./index";
+import UserProfile from ".";
 
 const ProfileWrapper: React.FC = () => {
   return (

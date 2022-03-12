@@ -2,7 +2,7 @@ import React from "react";
 import { Col, Row } from "antd";
 import { Droppable } from "react-beautiful-dnd";
 import { t } from "i18next";
-import Translations from "../../../../localization/translations";
+import Translations from "@localization/translations";
 import Exercise from "../components/exercise";
 
 interface dayProps {

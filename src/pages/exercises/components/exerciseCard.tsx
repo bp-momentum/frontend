@@ -1,10 +1,10 @@
 import React from "react";
 import { Tooltip } from "antd";
-import Translations from "../../../localization/translations";
+import Translations from "@localization/translations";
 import { t } from "i18next";
-import "../../../styles/home.css";
+import "@styles/home.css";
 import { useNavigate } from "react-router-dom";
-import { useGetExerciseByIdQuery } from "../../../redux/exercises/exerciseSlice";
+import { useGetExerciseByIdQuery } from "@redux/exercises/exerciseSlice";
 
 interface exerciseCardProps {
   exercise: Exercise;

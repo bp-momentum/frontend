@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import React, { useState } from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { store } from "../../../redux/store";
+import { store } from "@redux/store";
 import InvitedUserTable from "./invitedUserTable";
 
 const InvitedUserTableWrapper: React.FC = () => {

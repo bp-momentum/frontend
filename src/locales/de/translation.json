@@ -216,7 +216,10 @@
     "points": "{{points}} Punkte",
     "username-empty": "Dein Nutzername darf nicht leer sein!",
     "username-too-long": "Dein Nutzername ist zu lang! ({{max}} Zeichen maximal)",
-    "username-not-allowed": "Dein Nutzername verwendet verbotene Zeichen!"
+    "username-not-allowed": "Dein Nutzername verwendet verbotene Zeichen!",
+    "friends": "Freunde",
+    "achievements": "Errungenschaften",
+    "level": "Lvl {{level}}"
   },
   "error-page": {
     "404-text": "Des hamma net!",
@@ -258,5 +261,46 @@
     "postal-code": "PLZ",
     "email": "E-Mail: {{email}}",
     "success": "Die Informationen wurden erfolgreich aktualisiert!"
+  },
+  "friends": {
+    "last-online-today": "heute",
+    "last-online-yesterday": "gestern",
+    "last-online-days-ago_one": "vor einem Tag",
+    "last-online-days-ago": "vor {{count}} Tagen",
+    "last-online-weeks-ago_one": "vor einer Woche",
+    "last-online-weeks-ago": "vor {{count}} Wochen",
+    "last-online-months-ago_one": "vor einem Monat",
+    "last-online-months-ago": "vor {{count}} Monaten",
+    "last-online-years-ago_one": "vor einem Jahr",
+    "last-online-years-ago": "vor {{count}} Jahren",
+    "friends": "Freunde",
+    "requests": "Anfragen",
+    "add-friend": "Freund hinzufügen",
+    "outgoing-requests": "Ausgehende Anfragen",
+    "incoming-requests": "Eingehende Anfragen",
+    "no-incoming": "Keine eingehenden Anfragen",
+    "no-outgoing": "Keine ausgehenden Anfragen",
+    "last-active": "Zuletzt aktiv",
+    "motivation": "Motivation",
+    "level": "Level",
+    "last-achievements": "Letzte Errungenschaften",
+    "no-achievements": "Keine Errungenschaften",
+    "current-streak": "Aktuelle Streak",
+    "no-friends": "Keine Freunde"
+  },
+  "medals": {
+    "button-title": "Medaillen",
+    "title_gold": "Gold {{exercise}}",
+    "title_silver": "Silber {{exercise}}",
+    "title_bronze": "Bronze {{exercise}}",
+    "title_none": "{{exercise}}",
+    "amount_one": "Du hast diese Medaille ein mal verdient!",
+    "amount_other": "Du hast diese Medaille {{count}}x verdient!",
+    "no-medals": "Du hast noch keine Medaille verdient!"
+  },
+  "achievements": {
+    "button-title": "Errungenschaften",
+    "hidden-title": "Versteckt",
+    "hidden-description": "Niemand weiß, was hier zu tun ist!"
   }
 }

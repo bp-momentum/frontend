@@ -33,13 +33,23 @@ class config {
   // File extension of the audio files
   #audioFileExtension = ".wav";
   // specif URL for a given audio file in a given category
-  audioUrlFormatter = (id: number, category: string) =>
+  audioUrlFormatter = (id: string, category: string) =>
     `${this.cdnUrl}sounds/${category}/${id}${this.#audioFileExtension}`;
   // all available audio files by category
-  soundsPerCategory = {
-    good: _.range(16),
-    better: [""],
-    best: [""],
+  soundsPerCategory: Record<audioCategory, string[]> = {
+    good: ["good", "keep_it_up", "way_to_go"],
+    better: ["NICE", "RIGHT_ON", "there_you_go", "WOUW", "WOW", "YEAH"],
+    best: ["AMAZING", "EXCELLENT", "INCREDIBLE", "LOOKS_GREAT", "THERE_IT_IS"],
+    perfect: ["GREAT_AIR", "NICE_JUMP"],
+  };
+  // all audio category thresholds
+  // This is the upper bound for the audio category.
+  // If the audio score is lower than a categories value, an audio file from this category is played.
+  audioThresholds: Record<audioCategory, number> = {
+    good: 0.5,
+    better: 0.7,
+    best: 0.9,
+    perfect: 1,
   };
 }
 

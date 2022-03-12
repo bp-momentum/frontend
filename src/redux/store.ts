@@ -12,8 +12,10 @@ import {
 import storage from "redux-persist/lib/storage";
 import tokenReducer from "./token/tokenSlice";
 import changeReducer from "./changes/changeSlice";
+import friendReducer from "./friends/friendSlice";
 import exercisesReducer, { exerciseApi } from "./exercises/exerciseSlice";
 import { setupListeners } from "@reduxjs/toolkit/query";
+import friendApiReducer, { friendApi } from "./friends/friendApiSlice";
 
 const persistConfig = {
   key: "root",
@@ -24,9 +26,12 @@ const persistConfig = {
 const appReducer = combineReducers({
   token: tokenReducer,
   changes: changeReducer,
+  friends: friendReducer,
   [exerciseApi.reducerPath]: exercisesReducer,
+  [friendApi.reducerPath]: friendApiReducer,
 });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const rootReducer = (state: any, action: any) => {
   if (action.type === "USER_LOGOUT") {
     // for all keys defined in your persistConfig(s)
@@ -47,7 +52,9 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(exerciseApi.middleware),
+    })
+      .concat(exerciseApi.middleware)
+      .concat(friendApi.middleware),
   devTools: true,
 });
 

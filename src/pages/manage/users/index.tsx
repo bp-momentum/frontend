@@ -1,9 +1,9 @@
 import { Layout } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import React from "react";
-import Container from "../../../shared/container";
+import Container from "@shared/container";
 import { Tabs } from "antd";
-import "../../../styles/users.css";
+import "@styles/users.css";
 import ActiveUserTable from "./activeUserTable";
 import InvitedUserTable from "./invitedUserTable";
 import CreateUser from "./createUser";
@@ -12,12 +12,12 @@ import {
   FormOutlined,
   RocketOutlined,
 } from "@ant-design/icons";
-import Helper from "../../../util/helper";
-import { useAppSelector } from "../../../redux/hooks";
+import Helper from "@util/helper";
+import { useAppSelector } from "@redux/hooks";
 import { Navigate } from "react-router-dom";
 import ActiveTrainerTable from "./activeTrainerTable";
 import { t } from "i18next";
-import Translations from "../../../localization/translations";
+import Translations from "@localization/translations";
 
 const { TabPane } = Tabs;
 

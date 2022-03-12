@@ -1,42 +1,34 @@
 import React, { useEffect } from "react";
-import Container from "../../../shared/container";
-import { Col, Layout, message, Row } from "antd";
-import { Content } from "antd/lib/layout/layout";
-import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
-import { setRefreshToken, setToken } from "../../../redux/token/tokenSlice";
-import Helper from "../../../util/helper";
-import "../../../styles/profile.css";
-import Routes from "../../../util/routes";
+import Container from "@shared/container";
+import { Layout, message } from "antd";
+import { useAppSelector } from "@redux/hooks";
+import Helper from "@util/helper";
+import "@styles/profile.css";
+import Routes from "@util/routes";
 import ProfileSider from "./components/profile_sider";
-import TrainerCard from "./components/cards/trainer_card";
 import {
   DoneExercise,
   getApproximateExerciseDurationMinutes,
-} from "../../../api/done_exercise";
-import ActivityCalendarCard from "./components/cards/activity_calendar_card";
-import DailySummaryCard from "./components/cards/daily_summary_card";
-import UserCard from "./components/cards/user_card";
+} from "@api/done_exercise";
+import useApi from "@hooks/api";
+import SubPageProfile from "./sub_pages/profile";
 import ProfileLoadingView from "./components/profile_loading_view";
-import { useNavigate } from "react-router";
-import useApi from "../../../hooks/api";
-import config from "../../../config";
+import SubPageFriends from "./sub_pages/friends";
+import SubPageAchievements from "./sub_pages/achievements";
+import config from "@config";
+import { ProfileData } from "@pages/profile/user/types";
 
-function mergeData<Type>(data: Type, newData: Record<string, unknown>): Type {
-  return {
-    ...data,
-    ...newData,
-  };
-}
-
-const UserProfile: React.FC = () => {
+const Profile: React.FC = () => {
   const token = useAppSelector((state) => state.token.token);
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const api = useApi();
+
   const [profileData, setProfileData] = React.useState<ProfileData | null>(
     null
   );
 
-  const api = useApi();
+  const [subPage, setSubPage] = React.useState<
+    "profile" | "friends" | "achievements" | "loading"
+  >("loading");
 
   useEffect(() => {
     loadProfile().catch((e) => message.error(e));
@@ -48,11 +40,15 @@ const UserProfile: React.FC = () => {
       api.execute(Routes.getProfile()),
       api.execute(Routes.getTrainerContact()),
       api.execute(Routes.getDoneExercises()),
+      api.execute(
+        Routes.getUserLevel({ username: Helper.getUserName(token ?? "") })
+      ),
     ]);
 
     const profile = results[0];
     const trainerContact = results[1];
     const exercises = results[2];
+    const level = results[3];
 
     const todayDayName = Helper.getCurrentDayName();
     const doneExercises: DoneExercise[] = exercises.data.exercises ?? [];
@@ -81,66 +77,22 @@ const UserProfile: React.FC = () => {
       trainerEmail: trainerContact.data.email ?? "",
       trainerName: trainerContact.data.name ?? "",
       trainerPhone: trainerContact.data.telephone ?? "",
+      level: level.data.level ?? 0,
+      levelProgress: level.data.progress ?? "",
     });
+    setSubPage("profile");
   };
 
-  if (!profileData) {
-    return <ProfileLoadingView />;
-  }
-
-  const saveUsername = async (newUsername: string) => {
-    if (newUsername === Helper.getUserName(token ?? "")) {
-      return;
-    }
-    const result = await api.execute(
-      Routes.changeUsername({ username: newUsername })
-    );
-    if (!result.success) {
-      message.error(result.description);
-    }
-
-    const sessionToken = result.data.session_token;
-    const refreshToken = result.data.refresh_token;
-    dispatch(setToken(sessionToken));
-    dispatch(setRefreshToken(refreshToken));
-  };
-
-  const saveMotivation = async (newMotivation: string) => {
-    if (newMotivation === profileData.motivation) {
-      return;
-    }
-    const result = await api.execute(
-      Routes.changeMotivation({ motivation: newMotivation })
-    );
-    if (!result.success) {
-      message.error(result.description);
-    }
-    setProfileData(mergeData(profileData, { motivation: newMotivation }));
-  };
-
-  const saveNewAvatar = async (newAvatarId: number) => {
-    if (newAvatarId === profileData.avatarId) {
-      return;
-    }
-    const result = await api.execute(
-      Routes.changeAvatar({ avatarId: newAvatarId })
-    );
-    if (!result.success) {
-      message.error(result.description);
-    }
-    setProfileData(mergeData(profileData, { avatarId: newAvatarId }));
-  };
-
-  const onClickShare = () => {
-    message.error("Coming soon™");
+  const onClickProfile = () => {
+    setSubPage("profile");
   };
 
   const onClickFriends = () => {
-    return navigate("/friends");
+    return setSubPage("friends");
   };
 
   const onClickAchievements = () => {
-    return navigate("/achievements");
+    return setSubPage("achievements");
   };
 
   return (
@@ -149,55 +101,25 @@ const UserProfile: React.FC = () => {
         <ProfileSider
           onClickFriends={onClickFriends}
           onClickAchievements={onClickAchievements}
-          avatarUrl={config.avatarUrlFormatter(profileData.avatarId)}
+          onClickProfile={onClickProfile}
+          avatarUrl={config.avatarUrlFormatter(
+            profileData ? profileData.avatarId : 0
+          )}
           username={Helper.getUserName(token ?? "")}
+          selected={subPage}
         />
-        <Content style={{ paddingLeft: "200px" }}>
-          <Row gutter={16} justify="space-around" style={{ margin: 0 }}>
-            <Col
-              className="gutter-row"
-              span={10}
-              style={{ marginTop: "30px", minWidth: "450px" }}
-            >
-              <UserCard
-                avatarId={profileData.avatarId}
-                username={Helper.getUserName(token ?? "")}
-                accountCreated={profileData.accountCreated}
-                motivation={profileData.motivation}
-                saveNewUsername={saveUsername}
-                saveNewMotivation={saveMotivation}
-                saveNewAvatarId={saveNewAvatar}
-              />
-            </Col>
-            <Col className="gutter-row" span={10} style={{ minWidth: "450px" }}>
-              <TrainerCard
-                name={profileData.trainerName}
-                address={profileData.trainerAddress}
-                phone={profileData.trainerPhone}
-                email={profileData.trainerEmail}
-              />
-            </Col>
-            <Col className="gutter-row" span={10} style={{ minWidth: "450px" }}>
-              <ActivityCalendarCard />
-            </Col>
-            <Col
-              className="gutter-row"
-              span={10}
-              style={{ marginBottom: "30px", minWidth: "450px" }}
-            >
-              <DailySummaryCard
-                rating={profileData.dailyRating}
-                minutesTrained={profileData.minutesTrained}
-                minutesTrainedGoal={profileData.minutesTrainedGoal}
-                doneExercises={profileData.doneExercises}
-                onClickShare={onClickShare}
-              />
-            </Col>
-          </Row>
-        </Content>
+        {subPage === "loading" && <ProfileLoadingView />}
+        {subPage === "profile" && profileData && (
+          <SubPageProfile
+            profileData={profileData}
+            setProfileData={setProfileData}
+          />
+        )}
+        {subPage === "friends" && <SubPageFriends />}
+        {subPage === "achievements" && <SubPageAchievements />}
       </Layout>
     </Container>
   );
 };
 
-export default UserProfile;
+export default Profile;

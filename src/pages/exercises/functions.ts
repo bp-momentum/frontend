@@ -1,4 +1,4 @@
-import Helper from "../../util/helper";
+import Helper from "@util/helper";
 
 const dayOrder = [
   "monday",

@@ -1,14 +1,14 @@
 import React, { createRef, RefObject, useEffect } from "react";
 import { Col, Progress, Card, Tooltip, Button } from "antd";
-import Translations from "../../../localization/translations";
+import Translations from "@localization/translations";
 import { t } from "i18next";
 import { PlayCircleOutlined } from "@ant-design/icons";
 import { Emoji } from "react-apple-emojis";
-import "../../../styles/home.css";
+import "@styles/home.css";
 import { useNavigate } from "react-router-dom";
 import { isFuture, isPast } from "../functions";
 import ExerciseCard from "./exerciseCard";
-import useWindowDimensions from "../../../hooks/windowDimension";
+import useWindowDimensions from "@hooks/windowDimension";
 
 interface dayProps {
   list: Exercise[];
@@ -135,7 +135,7 @@ const Day: React.FC<dayProps> = ({ ...props }) => {
                     ? "success"
                     : "normal"
                 }
-                format={(percent, success) =>
+                format={(percent) =>
                   `${Math.ceil(((percent || 0) / 100) * exercises.length)} / ${
                     exercises.length
                   }`
