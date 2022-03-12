@@ -15,6 +15,11 @@ const { Content } = Layout;
 
 const Exercises: React.FC = () => {
   const [exercises, setExercises] = React.useState<Exercise[]>([]);
+  const [streak, setStreak] = React.useState<{
+    days: number;
+    flame_glow: boolean;
+    flame_height: number;
+  }>();
 
   const api = useApi();
 
@@ -30,6 +35,18 @@ const Exercises: React.FC = () => {
         return;
       }
       setExercises(response.data.exercises);
+    });
+
+    api.execute(Routes.getStreak()).then((response) => {
+      if (!response || !isMounted) return;
+      if (!response.success) {
+        message.error(
+          t(response.description ?? Translations.errors.unknownError)
+        );
+        return;
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      setStreak(response.data as any);
     });
 
     return () => {
@@ -104,20 +121,48 @@ const Exercises: React.FC = () => {
                   flexWrap: "nowrap",
                 }}
               >
-                <span
+                {streak?.days}
+                <div
                   style={{
-                    background:
-                      "radial-gradient(#FF8A0060 15%, #ffbe3a00 70% )",
-                    fontSize: "60px",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
+                    background: streak?.flame_glow
+                      ? "radial-gradient(#FF8A0060 15%, #ffbe3a00 70% )"
+                      : "",
+                    height: "76px",
+                    width: "90px",
                     borderRadius: "50%",
                     padding: "8px 15px",
+                    position: "relative",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
                 >
-                  <Emoji style={{}} name="fire" width={60} />
-                </span>
+                  <div
+                    style={{
+                      width: "60px",
+                      height: "60px",
+                      position: "relative",
+                    }}
+                  >
+                    <Emoji style={{}} name="fire" width={60} />
+                    <Emoji
+                      style={{
+                        position: "absolute",
+                        height: "100%",
+                        clipPath: `polygon(0 0, 100% 0, 100% ${
+                          100 - (streak?.flame_height || 0) * 100
+                        }%, 0% ${100 - (streak?.flame_height || 0) * 100}%)`,
+                        right: "0px",
+                        width: "100%",
+                        left: "0px",
+                        top: "0px",
+                        filter: "grayscale(100%)",
+                      }}
+                      name="fire"
+                      width={60}
+                    />
+                  </div>
+                </div>
               </span>
             </div>
           </Row>

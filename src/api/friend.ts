@@ -9,5 +9,6 @@ export interface Friend {
     icon: string;
   }[];
   last_login: string;
-  streak: number;
+  days: number;
+  flame_height: number;
 }
