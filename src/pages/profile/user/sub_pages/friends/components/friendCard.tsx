@@ -32,7 +32,6 @@ const FriendCard: React.FC<Props> = ({ username, onRemove, onClick }) => {
   }
 
   if (isError || !data) {
-    console.log(error);
     return (
       <Container size={{ width: "280px", height: "90px" }}>
         {error && error.toString()}

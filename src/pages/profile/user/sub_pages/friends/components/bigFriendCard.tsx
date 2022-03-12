@@ -30,7 +30,6 @@ const BigFriendCard: React.FC<Props> = ({ onClose, username }) => {
   }
 
   if (isError || !data) {
-    console.log(error);
     return (
       <Container size={{ width: "280px", height: "90px" }}>
         {error && error.toString()}
