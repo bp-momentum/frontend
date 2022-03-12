@@ -98,7 +98,8 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
             onClick={() => flipCard()}
             data-testid="edit-profile"
           >
-            {t(Translations.profile.edit)} <EditOutlined />
+            {t(Translations.profile.edit)}{" "}
+            <EditOutlined style={{ fontSize: 16 }} />
           </span>
           <Row>
             <img
