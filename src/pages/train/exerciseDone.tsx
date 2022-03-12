@@ -40,7 +40,7 @@ const ExerciseDone: React.FC<exerciseDoneProps> = ({ ...props }) => {
   };
 
   useEffect(() => {
-    checkForExerciseAchievements().catch();
+    checkForExerciseAchievements();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
