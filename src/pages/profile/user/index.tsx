@@ -16,6 +16,7 @@ import ProfileLoadingView from "./components/profile_loading_view";
 import SubPageFriends from "./sub_pages/friends";
 import SubPageAchievements from "./sub_pages/achievements";
 import config from "@/config";
+import { ProfileData } from "@/pages/profile/user/types";
 
 const Profile: React.FC = () => {
   const token = useAppSelector((state) => state.token.token);
@@ -39,11 +40,15 @@ const Profile: React.FC = () => {
       api.execute(Routes.getProfile()),
       api.execute(Routes.getTrainerContact()),
       api.execute(Routes.getDoneExercises()),
+      api.execute(
+        Routes.getUserLevel({ username: Helper.getUserName(token ?? "") })
+      ),
     ]);
 
     const profile = results[0];
     const trainerContact = results[1];
     const exercises = results[2];
+    const level = results[3];
 
     const todayDayName = Helper.getCurrentDayName();
     const doneExercises: DoneExercise[] = exercises.data.exercises ?? [];
@@ -72,6 +77,8 @@ const Profile: React.FC = () => {
       trainerEmail: trainerContact.data.email ?? "",
       trainerName: trainerContact.data.name ?? "",
       trainerPhone: trainerContact.data.telephone ?? "",
+      level: level.data.level ?? 0,
+      levelProgress: level.data.progress ?? "",
     });
     setSubPage("profile");
   };
