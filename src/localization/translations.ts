@@ -241,6 +241,7 @@ const Translations = {
     backHome: "training.back-home",
     clickToStart: "training.click-to-start",
     checkVisibility: "training.check-visibility",
+    newAchievements: "training.new-achievements",
   },
   trainerProfile: {
     title: "trainer-profile.title",
@@ -278,6 +279,7 @@ const Translations = {
     noAchievements: "friends.no-achievements",
     currentStreak: "friends.current-streak",
     noFriends: "friends.no-friends",
+    newAchievement: "friends.new-achievement",
   },
   medals: {
     buttonTitle: "medals.button-title",

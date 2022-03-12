@@ -1,10 +1,13 @@
-import { t } from "i18next";
-import React, { MutableRefObject } from "react";
+import React, { MutableRefObject, useEffect } from "react";
 import Translations from "@localization/translations";
 import Graph from "@shared/graph";
 import continue_arrow from "@static/continue_arrow.png";
 import { useNavigate } from "react-router-dom";
 import Medal from "@shared/medal";
+import useApi from "@hooks/api";
+import Routes from "@util/routes";
+import { message } from "antd";
+import { useTranslation } from "react-i18next";
 
 interface exerciseDoneProps {
   stats: MutableRefObject<statsType>;
@@ -15,10 +18,31 @@ const ExerciseDone: React.FC<exerciseDoneProps> = ({ ...props }) => {
   const { stats, exercise } = props;
 
   const navigate = useNavigate();
+  const { t } = useTranslation();
+  const api = useApi();
+
+  const checkForExerciseAchievements = async () => {
+    const response = await api.execute(Routes.loadExerciseAchievements());
+    if (!response || !response.success) {
+      return;
+    }
+    const achievements = response.data.achievements;
+    if (!achievements || achievements.length === 0) {
+      return;
+    }
+    message.success(
+      t(Translations.training.newAchievements, { count: achievements.length })
+    );
+  };
 
   const goHome = (): void => {
     navigate("/");
   };
+
+  useEffect(() => {
+    checkForExerciseAchievements().catch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const totalPerf =
     stats.current.data.reduce((acc: number, set: dataEntryType) => {

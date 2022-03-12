@@ -86,17 +86,30 @@ const SubPageFriends: React.FC = () => {
           dispatch(setSentRequests(invited.pending.map(friendsToFriend)));
       }
     );
+    checkForFriendsAchievement().catch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [api, dispatch, username]);
 
-  useEffect(() => {
-    loadFriends();
+  const checkForFriendsAchievement = async () => {
+    const response = await api.execute(Routes.loadFriendAchievement());
+    if (!response || !response.success) {
+      return;
+    }
+    const achievement = response.data.achievements;
+    if (!achievement) {
+      return;
+    }
+    message.success(t(Translations.friends.newAchievement));
+  };
 
+  useEffect(() => {
+    loadFriends().catch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const delayedLoadFriends = useCallback(() => {
     setTimeout(() => {
-      loadFriends();
+      loadFriends().catch();
     }, 100);
   }, [loadFriends]);
 
