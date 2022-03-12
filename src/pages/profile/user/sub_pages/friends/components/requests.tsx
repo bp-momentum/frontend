@@ -28,7 +28,7 @@ const Requests: React.FC<Props> = ({ reloadFriends }) => {
           message.error(response.description);
           return;
         }
-        reloadFriends();
+        message.success(response.description);
       });
   };
 
