@@ -5,7 +5,7 @@ import Routes from "@util/routes";
 import Translations from "@localization/translations";
 import { useTranslation } from "react-i18next";
 import { Medal } from "@api/medal";
-import MedalCard from "@pages/profile/user/sub_pages/achievements/components/medalCard";
+import MedalCard from "./medalCard";
 import EmptyDataRender from "@shared/emptyDataRender";
 
 const Medals: React.FC = () => {
