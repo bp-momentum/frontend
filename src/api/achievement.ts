@@ -2,6 +2,7 @@ import { parseInt } from "lodash";
 
 export interface Achievement {
   name: string;
+  title: string;
   description: string;
   level: number;
   progress: string;
@@ -15,7 +16,7 @@ const isDone = (achievement: Achievement) => {
 
 const getProgress = (achievement: Achievement) => {
   if (isDone(achievement)) {
-    return 1;
+    return 100;
   }
   const progressSplit = achievement.progress.split("/");
   if (progressSplit.length !== 2) {

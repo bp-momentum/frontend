@@ -34,7 +34,7 @@ const AchievementCard: React.FC<achievementCardProps> = ({ ...props }) => {
           {!achievement.icon && <Medal type="unknown" size="small" />}
         </div>
         <Col style={{ marginLeft: "20px", overflow: "hidden" }}>
-          <Text style={{ fontSize: 25 }}>{achievement.name}</Text>
+          <Text style={{ fontSize: 25 }}>{achievement.title}</Text>
           <br />
           <div style={{ width: "230px" }}>{achievement.description}</div>
           <Progress
@@ -43,7 +43,7 @@ const AchievementCard: React.FC<achievementCardProps> = ({ ...props }) => {
             size="small"
             format={() => (isDone(achievement) ? "" : achievement.progress)}
             status={isDone(achievement) ? "success" : "normal"}
-            percent={isDone(achievement) ? 1 : getProgress(achievement)}
+            percent={isDone(achievement) ? 100 : getProgress(achievement)}
           />
         </Col>
       </Row>

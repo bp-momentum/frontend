@@ -132,7 +132,7 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
               >
                 <Progress
                   // eslint-disable-next-line no-eval
-                  percent={eval(props.progress)}
+                  percent={eval(props.progress) * 100}
                   status="active"
                   showInfo={false}
                   style={{
@@ -237,6 +237,7 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
                           margin: "5px",
                           clipPath: "circle(30px at center)",
                           backgroundColor: "#626FE5",
+                          cursor: "pointer",
                         }}
                       />
                     );

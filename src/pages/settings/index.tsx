@@ -37,11 +37,6 @@ const Settings: React.FC = () => {
   const { t, i18n } = useTranslation();
   const token = useAppSelector((state) => state.token.token);
 
-  const logout = () => {
-    dispatch({ type: "USER_LOGOUT" });
-    navigate("/");
-  };
-
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng).catch(message.error);
     api.execute(Routes.changeLanguage({ language: lng })).catch(message.error);
@@ -101,7 +96,7 @@ const Settings: React.FC = () => {
 
     /**
      * This method displays a message that the logout was successful, but that the user has to log in manually again.
-     * This happens with a 5-second delay.
+     * This happens with a 2-second delay.
      */
     const displaySuccessAndRedirect = async () => {
       setSuccess(t(Translations.settings.logoutAllDevices.successLogin));
@@ -183,18 +178,14 @@ const Settings: React.FC = () => {
             </Row>
 
             <Divider plain style={{ fontSize: "20px", fontWeight: "bold" }}>
-              {t(Translations.settings.logout)}
-            </Divider>
-
-            <Row justify="center">
-              <Button onClick={logout}>
-                {t(Translations.settings.logout)}
-              </Button>
-            </Row>
-
-            <Divider plain style={{ fontSize: "20px", fontWeight: "bold" }}>
               {t(Translations.settings.security)}
             </Divider>
+
+            <Row justify="center" style={{ paddingBottom: "20px" }}>
+              <Button onClick={onLogoutAllDevices}>
+                {t(Translations.settings.logoutAllDevices.title)}
+              </Button>
+            </Row>
 
             <Row justify="center">
               <Button onClick={onChangePassword}>
@@ -223,11 +214,6 @@ const Settings: React.FC = () => {
                   style={{ marginBottom: "20px" }}
                 />
               )}
-            </Row>
-            <Row justify="center" style={{ paddingBottom: "20px" }}>
-              <Button onClick={onLogoutAllDevices} danger>
-                {t(Translations.settings.logoutAllDevices.title)}
-              </Button>
             </Row>
             <Row justify="center">
               <Button
