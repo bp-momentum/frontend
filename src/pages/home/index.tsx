@@ -2,7 +2,7 @@ import React from "react";
 import { useAppSelector } from "@redux/hooks";
 import Container from "@shared/container";
 import helper from "@util/helper";
-import { Col, Divider, Layout, Row, Space } from "antd";
+import { Col, Divider, Layout, Row } from "antd";
 import { useTranslation } from "react-i18next";
 import Translations from "@localization/translations";
 import FaqComponent from "@shared/faqComponent";
