@@ -70,6 +70,8 @@ const Translations = {
     youAre: "home.you-are",
     logout: "home.logout",
     createUser: "home.create-user",
+    welcome: "home.welcome",
+    faq: "home.frequently-asked-questions",
   },
   tabBar: {
     home: "tab-bar.home",

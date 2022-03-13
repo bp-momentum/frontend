@@ -67,7 +67,9 @@
   "home": {
     "you-are": "You are {{type, en-handle-an}}!",
     "logout": "Logout",
-    "create-user": "Create User"
+    "create-user": "Create User",
+    "welcome": "Welcome to Health-inator!",
+    "frequently-asked-questions": "Frequently asked Questions"
   },
   "tab-bar": {
     "home": "Home",
@@ -305,5 +307,31 @@
     "button-title": "Achievements",
     "hidden-title": "Hidden",
     "hidden-description": "Nobody knows, what to do here!"
+  },
+  "admin-faq": {
+    "q-01": "How can I invite new trainers?",
+    "a-01": "Via the tab \"Users\" and then the tab \"Invite\" new trainers can be invited. For this, the first name, last name and a valid email address must be entered. Make sure to enter the name completely and correctly, since it cannot be corrected later! On the same page, invitations can be revoked and trainers can be deleted in the other tabs.",
+    "q-02": "Can I also invite users?",
+    "a-02": "Admins can only invite trainers. The administration of user accounts is the sole responsibility of the trainers.",
+    "q-03": "What happens to the users when the associated trainer account is deleted?",
+    "a-03": "When deleting a trainer account, all associated user accounts will be deleted as well! Therefore, be very sure that the trainer account you want to delete is the correct one. Deleted accounts cannot be restored.",
+    "q-04": "Why can this account not be deleted??",
+    "a-04": "For security reasons, accounts of administrators can neither be created nor deleted."
+  },
+  "trainer-faq": {
+    "q-01": "How do I invite new users?",
+    "a-01": "New users can be invited via the tab \"Users\" and then the tab \"Invite\". For this purpose, the first name, last name and a valid email address must be entered. Make sure to enter the name completely and correctly, since it cannot be corrected later! On the same page, invitations can be revoked and users can be deleted in the other tabs.",
+    "q-02": "What happens when a training plan is edited?",
+    "a-02": "Important: Editing the training plan will affect all users who the plan is currently assigned to. Once a change has been saved to the plan, the current week's view of the users exercises will then show the changed plan. As a result, all days of the week will show the exercises as not done. The streak is still maintained, but now for the current day (also) the exercises from the new plan must be done. On such days the calendar will also continue to show only the exercises done from the old plan.",
+    "q-03": "What happens when a training plan is deleted?",
+    "a-03": "When a plan is deleted, all users who it was previously assigned to will be shown an \"empty\" plan. As long as the users do not have a plan, their streak will not be increased (but also not reset) and no XP / level can be gained.",
+    "q-04": "What happens if I assign a different training plan to a user?",
+    "a-04": "Assigning a new plan is equivalent to editing the current plan.",
+    "q-05": "How does the leaderboard work?",
+    "a-05": "The leaderboard shows both your own users and those of other trainers. For your own users, you can always see their real names.",
+    "q-06": "Can I view the recorded videos?",
+    "a-06": "The videos are stored on the server for a certain period of time, but cannot be viewed in the App.",
+    "q-07": "Can I reset the password of my users?",
+    "a-07": "No, users can simply do this themselves via the login page. There is a button \"Forgot password?\" which can be used to reset the password. An email with a link will then be sent to the user, which can be used to select a new password."
   }
 }

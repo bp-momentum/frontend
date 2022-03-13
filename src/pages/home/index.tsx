@@ -32,26 +32,11 @@ const Home: React.FC = () => {
               padding: "30px 0",
             }}
           >
-            Welcome to ReHabHeroine!
+            {t(Translations.home.welcome)}
           </h1>
           <Col>
-            {/* <Row
-              justify="center"
-              style={{
-                fontSize: "40px",
-                fontWeight: "bold",
-                paddingBottom: "100px",
-              }}
-            >
-              {token &&
-              t(Translations.home.youAre, {
-                type: t("user." + helper.getAccountType(token)),
-              })}
-              Hello, {token && helper.getUserName(token)}!
-            </Row> */}
             <Divider plain style={{ fontSize: "20px", fontWeight: "bold" }}>
-              Häufig gestellte Fragen
-              {/* ({token && t("user." + helper.getAccountType(token))}) */}
+              {t(Translations.home.faq)}
             </Divider>
             {token &&
               Object.entries(
@@ -59,7 +44,7 @@ const Home: React.FC = () => {
                   ? Translations.adminFAQs
                   : Translations.trainerFAQs
               ).map(([key, faq]) => (
-                <Row key={key}>
+                <Row key={key} style={{ paddingBottom: "20px" }}>
                   <FaqComponent
                     question={t(faq.question)}
                     answer={t(faq.answer)}
