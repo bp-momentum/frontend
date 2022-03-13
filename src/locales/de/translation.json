@@ -305,5 +305,31 @@
     "button-title": "Errungenschaften",
     "hidden-title": "Versteckt",
     "hidden-description": "Niemand weiß, was hier zu tun ist!"
+  },
+  "admin-faq": {
+    "q-01": "Wie kann ich neue Trainer*innnen einladen?",
+    "a-01": "Über den Reiter \"Benutzer\" und anschließend den Tab \"Einladen\" können neue Trainer*innen eingeladen werden. Hierzu muss der Vorname, der Nachname sowie eine gültige EMail-Adresse angegeben werden. Achten Sie darauf, den Namen vollständig und korrekt einzugeben, dieser kann später nicht mehr korrigiert werden!",
+    "q-02": "Kann ich auch Nutzer+innen einladen?",
+    "a-02": "Administrator*innen können ausschließlich Trainer*innen einladen. Die Verwaltung der Nutzer*innen Accounts ist allein Aufgabe der Trainer*innen.",
+    "q-03": "Was passiert mit den Nutzer*innen, wenn der zugehörige Trainer*innen Account gelöscht wird?",
+    "a-03": "Bei der Löschung von Trainer*innen Accounts werden alle zugehörigen Nutzer*innen Accounts ebenfalls gelöscht! Seien Sie sich daher sehr sicher, dass der Trainer*innen Account den sie löschen auch tatsächlich gelöscht werden soll. Gelöschte Accounts können nicht wiederhergestellt werden.",
+    "q-04": "Warum kann der Account nicht gelöscht werden?",
+    "a-04": "Accounts von Administrator*innen können aus sicherheitstechnischen Gründen weder neu erstellt, noch gelöscht werden."
+  },
+  "trainer-faq": {
+    "q-01": "Wie kann ich neue Nutzer*innen einladen?",
+    "a-01": "Über den Reiter \"Benutzer\" und anschließend den Tab \"Einladen\" können neue Nutzer*innen eingeladen werden. Hierzu muss der Vorname, der Nachname sowie eine gültige EMail-Adresse angegeben werden. Achten Sie darauf, den Namen vollständig und korrekt einzugeben, dieser kann später nicht mehr korrigiert werden!",
+    "q-02": "Was pasiert, wenn ein Trainingsplan editiert wird?",
+    "a-02": "",
+    "q-03": "Was passiert, wenn ein Trainingsplan gelöscht wird?",
+    "a-03": "",
+    "q-04": "Was passiert, wenn ich einem/r Nutzer*in einen anderen Trainingsplan zuweise?",
+    "a-04": "Falls der/die Nutzer*in die Übungen vom aktuellen Tag bereits gemacht hatte, bricht die Streak nicht ab, auch wenn die vom neuen Plan nicht gemacht werden. Alle gewonnenen Erfahrungspunkte und damit Level bleiben erhalten. Alle Errungenschaften bleiben erhalten.",
+    "q-05": "Wie funktioniert die Rangliste?",
+    "a-05": "Auf der Rangliste werden sowohl eigene, als auch Nutzer*innen von anderen Trainer*innen angezeigt. Die eigenen werden hierbei mit Klarnamen dargestellt.",
+    "q-06": "Kann ich die aufgenommenen Videos ansehen?",
+    "a-06": "Die Videos werden auf dem Server für eine gewisse Zeit gespeichert, können jedoch nicht ohne weiteres angesehen werden.",
+    "q-07": "Kann ich das Passwort meiner Nutzer*innen zurücksetzen?",
+    "a-07": "Nein, Nutzer*innen können dies über die Login-Seite einfach selbst tun. Dort existiert ein Button \"Passwort vergessen?\", über den das Passwort zurückgesetzt werden kann. Daraufhin wird eine EMail mit einem Link an den/die Nutzer*in gesendet, über den ein neues Passwort gewählt werden kann."
   }
 }

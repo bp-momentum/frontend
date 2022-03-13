@@ -292,6 +292,50 @@ const Translations = {
     hiddenTitle: "achievements.hidden-title",
     hiddenDescription: "achievements.hidden-description",
   },
+  adminFAQs: {
+    afaq01: {
+      question: "admin-faq.q-01",
+      answer: "admin-faq.a-01",
+    },
+    afaq02: {
+      question: "admin-faq.q-02",
+      answer: "admin-faq.a-02",
+    },
+    afaq03: {
+      question: "admin-faq.q-03",
+      answer: "admin-faq.a-03",
+    },
+  },
+  trainerFAQs: {
+    tfaq01: {
+      question: "trainer-faq.q-01",
+      answer: "trainer-faq.a-01",
+    },
+    tfaq02: {
+      question: "trainer-faq.q-02",
+      answer: "trainer-faq.a-02",
+    },
+    tfaq03: {
+      question: "trainer-faq.q-03",
+      answer: "trainer-faq.a-03",
+    },
+    tfaq04: {
+      question: "trainer-faq.q-04",
+      answer: "trainer-faq.a-04",
+    },
+    tfaq05: {
+      question: "trainer-faq.q-05",
+      answer: "trainer-faq.a-05",
+    },
+    tfaq06: {
+      question: "trainer-faq.q-06",
+      answer: "trainer-faq.a-06",
+    },
+    tfaq07: {
+      question: "trainer-faq.q-07",
+      answer: "trainer-faq.a-07",
+    },
+  },
 };
 
 export default Translations;
