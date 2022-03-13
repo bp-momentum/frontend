@@ -96,7 +96,7 @@ const Settings: React.FC = () => {
 
     /**
      * This method displays a message that the logout was successful, but that the user has to log in manually again.
-     * This happens with a 5-second delay.
+     * This happens with a 2-second delay.
      */
     const displaySuccessAndRedirect = async () => {
       setSuccess(t(Translations.settings.logoutAllDevices.successLogin));
