@@ -43,7 +43,7 @@ const AchievementCard: React.FC<achievementCardProps> = ({ ...props }) => {
             size="small"
             format={() => (isDone(achievement) ? "" : achievement.progress)}
             status={isDone(achievement) ? "success" : "normal"}
-            percent={isDone(achievement) ? 1 : getProgress(achievement)}
+            percent={isDone(achievement) ? 100 : getProgress(achievement)}
           />
         </Col>
       </Row>

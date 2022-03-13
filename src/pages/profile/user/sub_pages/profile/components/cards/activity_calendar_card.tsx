@@ -105,7 +105,7 @@ const DateCell: React.FC<dateCellProps> = ({ ...props }) => {
           {daysExercises.map((e) => {
             return (
               <ExerciseName
-                key={e.id}
+                key={e.exercise_plan_id}
                 id={e.id}
                 points={e.points}
                 done={e.done ?? e.points !== 0}

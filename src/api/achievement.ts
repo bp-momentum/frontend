@@ -15,7 +15,7 @@ const isDone = (achievement: Achievement) => {
 
 const getProgress = (achievement: Achievement) => {
   if (isDone(achievement)) {
-    return 1;
+    return 100;
   }
   const progressSplit = achievement.progress.split("/");
   if (progressSplit.length !== 2) {
