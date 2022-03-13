@@ -102,7 +102,7 @@ const BigFriendCard: React.FC<Props> = ({ onClose, username }) => {
             <Tooltip title={`${data.level_progress} XP`}>
               <Progress
                 // eslint-disable-next-line no-eval
-                percent={eval(data.level_progress)}
+                percent={eval(data.level_progress) * 100}
                 status="active"
                 showInfo={false}
                 style={{ flex: 1, marginLeft: "5px", marginRight: "5px" }}
