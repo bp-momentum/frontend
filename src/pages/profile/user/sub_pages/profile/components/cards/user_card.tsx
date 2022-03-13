@@ -132,9 +132,10 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
               >
                 <Progress
                   // eslint-disable-next-line no-eval
-                  percent={eval(props.progress)}
+                  percent={eval(props.progress) * 100}
                   status="active"
                   showInfo={false}
+                  strokeColor="#CC00FF"
                   style={{
                     width: "180px",
                     marginRight: "5px",
