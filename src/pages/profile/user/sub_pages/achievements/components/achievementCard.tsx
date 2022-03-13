@@ -34,7 +34,7 @@ const AchievementCard: React.FC<achievementCardProps> = ({ ...props }) => {
           {!achievement.icon && <Medal type="unknown" size="small" />}
         </div>
         <Col style={{ marginLeft: "20px", overflow: "hidden" }}>
-          <Text style={{ fontSize: 25 }}>{achievement.name}</Text>
+          <Text style={{ fontSize: 25 }}>{achievement.title}</Text>
           <br />
           <div style={{ width: "230px" }}>{achievement.description}</div>
           <Progress

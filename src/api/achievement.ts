@@ -2,6 +2,7 @@ import { parseInt } from "lodash";
 
 export interface Achievement {
   name: string;
+  title: string;
   description: string;
   level: number;
   progress: string;
