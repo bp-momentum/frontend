@@ -55,7 +55,6 @@ const BigFriendCard: React.FC<Props> = ({ onClose, username }) => {
                 borderRadius: "50%",
                 height: "80px",
                 width: "80px",
-                cursor: "pointer",
                 padding: "10px 5px 0px 5px",
                 overflow: "hidden",
                 marginRight: "20px",

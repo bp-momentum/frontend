@@ -237,6 +237,7 @@ const UserCard: React.FC<userCardProps> = ({ ...props }) => {
                           margin: "5px",
                           clipPath: "circle(30px at center)",
                           backgroundColor: "#626FE5",
+                          cursor: "pointer",
                         }}
                       />
                     );
