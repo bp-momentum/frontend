@@ -206,3 +206,16 @@ export const doneCallback = (
   stats.totalPoints += points.reduce((acc, curr) => acc + curr.total, 0);
   setTimeout(() => setSubPage("exerciseDone"), 2000);
 };
+
+/**
+ * Handle information while training.
+ * @param {string} information information
+ * @param {React.Dispatch<React.SetStateAction<string | null>>} setInformation set information
+ * @returns {void}
+ */
+export const informationCallback = (
+  information: string,
+  setInformation: React.Dispatch<React.SetStateAction<string | null>>
+): void => {
+  setInformation(information);
+};
