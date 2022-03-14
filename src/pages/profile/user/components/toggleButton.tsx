@@ -7,12 +7,17 @@ interface Props {
   highlighted?: boolean;
 }
 
+/**
+ * A button which can be toggled on and off.
+ * @param {Props} props The properties of the component.
+ * @returns {JSX.Element} The component.
+ */
 const ToggleButton: React.FC<Props> = ({
   onClick,
   toggled,
   children,
   highlighted,
-}) => {
+}: Props): JSX.Element => {
   return (
     <div
       onClick={onClick}

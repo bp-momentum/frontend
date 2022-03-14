@@ -8,6 +8,9 @@ const initialState: ChangeState = {
   planChanges: false,
 };
 
+/**
+ * A slice for saving unsaved changes.
+ */
 export const changeSlice = createSlice({
   name: "changes",
   initialState,

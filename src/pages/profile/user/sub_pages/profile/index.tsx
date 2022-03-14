@@ -24,7 +24,15 @@ interface Props {
   setProfileData: (profileData: ProfileData) => void;
 }
 
-const SubPageProfile: React.FC<Props> = ({ profileData, setProfileData }) => {
+/**
+ * The user's profile page.
+ * @param {Props} props The props
+ * @returns {JSX.Element} The component
+ */
+const SubPageProfile: React.FC<Props> = ({
+  profileData,
+  setProfileData,
+}: Props): JSX.Element => {
   const token = useAppSelector((state) => state.token.token);
 
   const api = useApi();

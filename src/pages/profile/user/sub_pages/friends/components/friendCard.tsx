@@ -12,6 +12,12 @@ interface Props {
   onClick: VoidFunction;
 }
 
+/**
+ * Minimal component to render a friend.
+ * Has a remove button and a clickable card.
+ * @param {Props} props The properties of the component
+ * @returns {JSX.Element} The component
+ */
 const FriendCard: React.FC<Props> = ({ username, onRemove, onClick }) => {
   const { data, isLoading, isError, error, refetch } =
     useGetFriendByIdQuery(username);

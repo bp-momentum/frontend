@@ -10,7 +10,12 @@ interface Props {
   reloadFriends: VoidFunction;
 }
 
-const AddFriend: React.FC<Props> = ({ reloadFriends }) => {
+/**
+ * A form for adding a new friend.
+ * @param {Props} props The properties of the component.
+ * @returns {JSX.Element} The form.
+ */
+const AddFriend: React.FC<Props> = ({ reloadFriends }: Props): JSX.Element => {
   const { t } = useTranslation();
   const api = useApi();
 

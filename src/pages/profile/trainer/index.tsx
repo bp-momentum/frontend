@@ -6,7 +6,11 @@ import { useTranslation } from "react-i18next";
 import Routes from "@util/routes";
 import useApi from "@hooks/api";
 
-const TrainerProfile: React.FC = () => {
+/**
+ * The profile page for trainers. Displays a form where the trainer can enter their contact information.
+ * @returns {JSX.Element} The page
+ */
+const TrainerProfile: React.FC = (): JSX.Element => {
   const [data, setData] = React.useState<null | TrainerContact>(null);
   const [edited, setEdited] = React.useState(false);
   const [error, setError] = React.useState<null | string>();
@@ -64,6 +68,7 @@ const TrainerProfile: React.FC = () => {
       }
     }
     setSuccess(t(Translations.trainerProfile.success));
+    loadContactInformation().catch(message.error);
     setEdited(false);
     setTimeout(() => setSuccess(null), 5000);
   };
@@ -75,7 +80,6 @@ const TrainerProfile: React.FC = () => {
   return (
     <Container
       currentPage="profile"
-      color="blue"
       confirmLeaveMessage={
         edited ? (t(Translations.common.confirmLeaveChanges) as string) : false
       }

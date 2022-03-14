@@ -23,11 +23,12 @@ interface LeaderboardEntry {
 }
 
 /**
- * The leaderboard contains 10 entries (or less, if there are only < 10 users)
- * Shown are the player themselves and 9 surrounding players with their rank and score
- * @returns The page for the leaderboard
+ * The leaderboard contains 10 entries (or less, if there are only < 10 users).
+ * Shown are the player themselves and 9 surrounding players with their rank and score.
+ * For trainers all users are shown, own users are displayed with their real name.
+ * @returns {JSX.Element} The page
  */
-const Leaderboard: React.FC = () => {
+const Leaderboard: React.FC = (): JSX.Element => {
   const [entries, setEntries] = React.useState<LeaderboardEntry[]>([]);
   const [loading, setLoading] = React.useState(true);
 
@@ -105,7 +106,7 @@ const Leaderboard: React.FC = () => {
                 transform: "rotate(-30deg)",
               }}
               alt="Sad Error Face"
-            ></img>
+            />
           )}
           <div
             className="medalWrapper"
@@ -188,7 +189,7 @@ const Leaderboard: React.FC = () => {
   ];
 
   return (
-    <Container color="blue" currentPage="leaderboard">
+    <Container currentPage="leaderboard">
       <Layout style={{ height: "100%" }}>
         <Content
           style={{

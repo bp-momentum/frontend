@@ -18,7 +18,11 @@ import SubPageAchievements from "./sub_pages/achievements";
 import config from "@config";
 import { ProfileData } from "@pages/profile/user/types";
 
-const Profile: React.FC = () => {
+/**
+ * The profile page for users.
+ * @returns {JSX.Element} The component
+ */
+const Profile: React.FC = (): JSX.Element => {
   const token = useAppSelector((state) => state.token.token);
   const api = useApi();
 
@@ -96,7 +100,7 @@ const Profile: React.FC = () => {
   };
 
   return (
-    <Container currentPage="profile" color="blue">
+    <Container currentPage="profile">
       <Layout style={{ height: "100%" }}>
         <ProfileSider
           onClickFriends={onClickFriends}

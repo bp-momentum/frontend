@@ -13,7 +13,11 @@ import useApi from "@hooks/api";
 
 const { Content } = Layout;
 
-const Exercises: React.FC = () => {
+/**
+ * The home page for users
+ * @returns {JSX.Element} The page
+ */
+const Exercises: React.FC = (): JSX.Element => {
   const [exercises, setExercises] = React.useState<Exercise[]>([]);
   const [streak, setStreak] = React.useState<{
     days: number;
@@ -66,7 +70,7 @@ const Exercises: React.FC = () => {
   const medalCount = todoExercises.length - doneExercises.length;
 
   return (
-    <Container currentPage="home" color="blue">
+    <Container currentPage="home">
       <Layout
         style={{
           height: "100%",

@@ -8,12 +8,16 @@ import Translations from "@localization/translations";
 import FaqComponent from "@shared/faqComponent";
 import { Content } from "antd/lib/layout/layout";
 
+/**
+ * The Homepage for administrators and trainers.
+ * @returns {JSX.Element} The page
+ */
 const Home: React.FC = () => {
   const token = useAppSelector((state) => state.token.token);
   const { t } = useTranslation();
 
   return (
-    <Container currentPage="home" color="blue">
+    <Container currentPage="home">
       <Layout style={{ height: "100%" }}>
         <Content
           style={{
@@ -48,7 +52,7 @@ const Home: React.FC = () => {
                   <FaqComponent
                     question={t(faq.question)}
                     answer={t(faq.answer)}
-                  ></FaqComponent>
+                  />
                 </Row>
               ))}
           </Col>

@@ -1,4 +1,4 @@
-interface dataEntryType {
+interface DataEntryType {
   type: "Intensity" | "Accuracy" | "Speed";
   set: string;
   performance: number;
@@ -13,7 +13,7 @@ interface Points {
 
 type subPage = "training" | "setDone" | "exerciseDone";
 
-interface feedback {
+interface Feedback {
   x: number;
   y: number;
   addedPoints: number;
@@ -29,7 +29,7 @@ interface ExerciseData {
   activated: boolean;
 }
 
-interface statsType {
+interface StatsType {
   data: dataEntryType[];
   setAverages: dataEntryType[];
   set: number;

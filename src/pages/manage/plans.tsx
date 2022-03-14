@@ -14,9 +14,9 @@ import useApi from "@hooks/api";
 
 /**
  * Consists of a list of all the plans the user has access to.
- * @returns The page for managing plans.
+ * @returns {JSX.Element} The page
  */
-const ManagePlans: React.FC = () => {
+const ManagePlans: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
   const [plans, setPlans] = React.useState<Plan[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
@@ -55,7 +55,7 @@ const ManagePlans: React.FC = () => {
   }, []);
 
   return (
-    <Container color="blue" currentPage="manage">
+    <Container currentPage="manage">
       <Layout
         style={{
           height: "100%",

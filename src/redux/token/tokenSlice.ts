@@ -10,6 +10,9 @@ const initialState: TokenState = {
   refreshToken: null,
 };
 
+/**
+ * A slice for saving the current session and refresh token in the cache.
+ */
 export const tokenSlice = createSlice({
   name: "token",
   initialState,

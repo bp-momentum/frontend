@@ -10,7 +10,11 @@ import ResetForm from "./forms/resetForm";
 import useApi from "@hooks/api";
 import config from "@config";
 
-const Login: React.FC = () => {
+/**
+ * The login page
+ * @returns {JSX.Element} The page
+ */
+const Login: React.FC = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const [error, setError] = React.useState<null | string>();
   const [loading, setLoading] = React.useState(false);
