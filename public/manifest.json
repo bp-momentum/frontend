@@ -1,9 +1,9 @@
 {
-  "short_name": "Exergame",
-  "name": "Bachelor-Praktikum WiSe 21/22",
+  "short_name": "Momentum",
+  "name": "Momentum - keep movin'",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "Logo.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     }

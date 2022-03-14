@@ -1,10 +1,54 @@
-# BP Frontend
+<h1 align="center">
+  <img src=".preview/Logo.png" width="250"><br>
+  Momentum
+</h1>
+<div align="center">
+  
 
----
+  [![GitHub license](https://img.shields.io/github/license/BP-WiSe21-22-Gruppe-52/BP-frontend.svg)](https://github.com/BP-WiSe21-22-Gruppe-52/BP-frontend/blob/main/LICENSE)
+  [![Latest release](https://badgen.net/github/release/BP-WiSe21-22-Gruppe-52/BP-frontend)](https://github.com/BP-WiSe21-22-Gruppe-52/BP-frontend/releases)
+  [![GitHub commits](https://badgen.net/github/commits/BP-WiSe21-22-Gruppe-52/BP-frontend/main)](https://GitHub.com/BP-WiSe21-22-Gruppe-52/BP-frontend/commit/)
+  [![Github stars](https://img.shields.io/github/stars/BP-WiSe21-22-Gruppe-52/BP-frontend.svg)](https://GitHub.com/BP-WiSe21-22-Gruppe-52/BP-frontend/stargazers/)
+  ![Dependabot](https://badgen.net/github/dependabot/BP-WiSe21-22-Gruppe-52/BP-frontend)
+  [![Deploy](https://img.shields.io/github/workflow/status/BP-WiSe21-22-Gruppe-52/BP-frontend/Deploy)](https://github.com/BP-WiSe21-22-Gruppe-52/BP-frontend/actions/workflows/deploy.yml)
 
-# Getting Started with Create React App
+</div>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## About
+
+Momentum is a WebApp designed to help hemophiliacs to exercise and thus counteract the progression of the disease.
+By assigning a plan of exercises to a patient, the patient can execute these exercises while being supervised by an AI running on the backend. This way, the patient can be sure that the exercises are being executed correctly.
+
+<div align="center">
+  <img src=".preview/App.png" width="500">
+  <img src=".preview/Profile.png" width="500">
+</div>
+
+## Getting Started
+
+### Prerequisites
+
+  * `Yarn` is required to install the dependencies.
+  * The [backend](https://github.com/BP-WiSe21-22-Gruppe-52/BP-backend) is required to run on a server.
+  * A CDN is running with [these](#CDN) files.
+
+### Configuration
+
+  * Configure the server in the [`config/index.ts`](src/config/index.ts) file.
+
+### Automatic Workflow Deploy
+
+  * Configure the workflow in the [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) file.
+
+### Manual Installation
+
+  * Run `yarn` to install the dependencies.
+  * Build the static page using `yarn build`.
+  * Host it anywhere!
+
+## Contributing
+
+To contribute to this project, please open an issue or create a pull request.
 
 ## Available Scripts
 
@@ -35,34 +79,31 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## CDN
 
-## Learn More
+A CDN is required to host the app.
+The following files are required:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Avatars
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+There need to be a total of `n + 1` avatar images where `n` is the size of the range specified in the settings file.
+The ID 0 is reserved for the default avatar and thus the range starts at 1.
+The exact scheme can be modified in the settings file.
+For the default configuration, the images are stored according to the following scheme:
 
-### Code Splitting
+  * `avatars/avatar_0.png`
+  * `avatars/avatar_1.png`
+  * `avatars/avatar_2.png`
+  * ...
+  * `avatars/avatar_51.png`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Sound Files (for auditive Feedback)
 
-### Analyzing the Bundle Size
+For the audio files 4 categories are required:
+"good", "better", "best" and "perfect".
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Each category has an arbitrary amount of files specified in the settings file.
 
-### Making a Progressive Web App
+The default URL scheme looks as following:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+  * `sounds/<category>/<filename>` where the category is one of the above and the filename is the name of the file as specified in the categories list in the settings file.
