@@ -1,18 +1,20 @@
 import React, { useEffect } from "react";
 import useApi from "@hooks/api";
-import { Col, message, Row } from "antd";
+import { Col, message, Row, Spin } from "antd";
 import Routes from "@util/routes";
 import Translations from "@localization/translations";
 import { useTranslation } from "react-i18next";
 import { Medal } from "@api/medal";
 import MedalCard from "./medalCard";
 import EmptyDataRender from "@shared/emptyDataRender";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const Medals: React.FC = () => {
   const api = useApi();
   const { t } = useTranslation();
 
   const [medals, setMedals] = React.useState<Medal[]>([]);
+  const [loading, setLoading] = React.useState(true);
 
   const loadMedals = async () => {
     const response = await api.execute(Routes.getMedals());
@@ -23,11 +25,36 @@ const Medals: React.FC = () => {
       return;
     }
     setMedals(response.data.medals);
+    setLoading(false);
   };
   useEffect(() => {
     loadMedals().catch(message.error);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (loading) {
+    return (
+      <Col style={{ marginTop: "50px" }}>
+        <Row justify="center">
+          <div style={{ height: "100%" }}>
+            <Spin
+              indicator={
+                <LoadingOutlined
+                  style={{
+                    fontSize: 18,
+                    marginRight: "10px",
+                    color: "black",
+                  }}
+                  spin
+                />
+              }
+            />
+          </div>
+          {t(Translations.medals.loading)}
+        </Row>
+      </Col>
+    );
+  }
 
   if (!medals || medals.length === 0)
     return (

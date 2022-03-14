@@ -28,9 +28,9 @@ const Achievements: React.FC = () => {
       );
       return;
     }
-    setLoading(false);
     setUnachievedHiddenAchievements(response.data.nr_unachieved_hidden);
     setAchievements(response.data.achievements);
+    setLoading(false);
   };
 
   useEffect(() => {

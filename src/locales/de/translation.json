@@ -301,7 +301,8 @@
     "title_none": "{{exercise}}",
     "amount_one": "Du hast diese Medaille ein mal verdient!",
     "amount_other": "Du hast diese Medaille {{count}}x verdient!",
-    "no-medals": "Du hast noch keine Medaille verdient!"
+    "no-medals": "Du hast noch keine Medaille verdient!",
+    "loading": "Deine Medaillen werden geladen..."
   },
   "achievements": {
     "button-title": "Errungenschaften",
