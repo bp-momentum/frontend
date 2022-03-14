@@ -17,7 +17,7 @@
 ## About
 
 Momentum is a WebApp designed to help hemophiliacs to exercise and thus counteract the progression of the disease.
-By assigning a plan of exercises to a patient, the patient can execute these exercises while being supervised by an AI running on the backend. This way, the patient can be sure that the exercises are being executed correctly and in a safe environment.
+By assigning a plan of exercises to a patient, the patient can execute these exercises while being supervised by an AI running on the backend. This way, the patient can be sure that the exercises are being executed correctly.
 
 <div align="center">
   <img src=".preview/App.png" width="500">
