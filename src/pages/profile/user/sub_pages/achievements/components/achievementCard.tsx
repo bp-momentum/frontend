@@ -60,10 +60,11 @@ const AchievementCard: React.FC<Props> = ({
         <Col style={{ marginLeft: "20px", overflow: "hidden" }}>
           <Text style={{ fontSize: 25 }}>{achievement.title}</Text>
           <br />
-          {achievement.description.length > 50 && (
+          {achievement.description.length > 50 ? (
             <Tooltip title={achievement.description}>{description}</Tooltip>
+          ) : (
+            description
           )}
-          {achievement.description.length <= 50 && description}
           <Progress
             style={{
               position: "absolute",
