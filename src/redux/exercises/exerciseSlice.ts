@@ -3,6 +3,9 @@ import { Exercise } from "@api/exercise";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { store } from "../store";
 
+/**
+ * A caching api for exercise information.
+ */
 export const exerciseApi = createApi({
   reducerPath: "exerciseApi",
   baseQuery: fetchBaseQuery({

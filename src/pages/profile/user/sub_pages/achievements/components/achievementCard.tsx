@@ -5,13 +5,18 @@ import { Col, Progress, Row } from "antd";
 import Medal from "@shared/medal";
 import Text from "antd/lib/typography/Text";
 
-interface achievementCardProps {
+interface Props {
   achievement: Achievement;
 }
 
-const AchievementCard: React.FC<achievementCardProps> = ({ ...props }) => {
-  const { achievement } = props;
-
+/**
+ * A card for displaying a given {@link Achievement}.
+ * @param {Props} props The props for the component.
+ * @returns {JSX.Element} The component.
+ */
+const AchievementCard: React.FC<Props> = ({
+  achievement,
+}: Props): JSX.Element => {
   return (
     <Container
       size={{ width: "350px", height: "130px" }}

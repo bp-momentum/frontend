@@ -1,5 +1,8 @@
 import { DoneExercise } from "@api/done_exercise";
 
+/**
+ * Wrapper for the data being displayed on the user's profile.
+ */
 interface ProfileData {
   dailyRating: number;
   minutesTrainedGoal: number;

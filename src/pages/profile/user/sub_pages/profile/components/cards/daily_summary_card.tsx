@@ -12,7 +12,7 @@ import {
 import Helper from "@util/helper";
 import { useGetExerciseByIdQuery } from "@redux/exercises/exerciseSlice";
 
-interface dailySummaryCardProps {
+interface Props {
   rating: number;
   minutesTrained: number;
   minutesTrainedGoal: number;
@@ -20,7 +20,18 @@ interface dailySummaryCardProps {
   onClickShare: VoidFunction;
 }
 
-const DailySummaryCard: React.FC<dailySummaryCardProps> = ({ ...props }) => {
+/**
+ * A card containing a summary of the current day.
+ * @param {Props} props The props for the component.
+ * @returns {JSX.Element} The component.
+ */
+const DailySummaryCard: React.FC<Props> = ({
+  rating,
+  doneExercises,
+  minutesTrained,
+  minutesTrainedGoal,
+  onClickShare,
+}: Props): JSX.Element => {
   const { t, i18n } = useTranslation();
 
   const Exercise = (props: { exercise: DoneExercise }) => {
@@ -57,16 +68,16 @@ const DailySummaryCard: React.FC<dailySummaryCardProps> = ({ ...props }) => {
             year: "numeric",
           })}
         </Row>
-        <RatingStars rating={props.rating} />
+        <RatingStars rating={rating} />
         <Row justify="center" style={{ marginTop: "15px" }}>
           {t(Translations.profile.activeMinutes, {
-            active: props.minutesTrained,
-            goal: props.minutesTrainedGoal,
+            active: minutesTrained,
+            goal: minutesTrainedGoal,
           })}
         </Row>
         <Row>
           <Col style={{ marginTop: "15px", marginLeft: "15px" }}>
-            {props.doneExercises
+            {doneExercises
               .filter((e) => e.done && e.date === Helper.getCurrentDayName())
               .map((e) => {
                 return (
@@ -78,7 +89,7 @@ const DailySummaryCard: React.FC<dailySummaryCardProps> = ({ ...props }) => {
               })}
           </Col>
           <Col style={{ marginTop: "15px", marginLeft: "80px" }}>
-            {props.doneExercises
+            {doneExercises
               .filter((e) => e.done && e.date === Helper.getCurrentDayName())
               .map((e) => {
                 return (
@@ -92,7 +103,7 @@ const DailySummaryCard: React.FC<dailySummaryCardProps> = ({ ...props }) => {
         </Row>
         <Row justify="end">
           <ShareAltOutlined
-            onClick={() => props.onClickShare()}
+            onClick={() => onClickShare()}
             style={{
               marginTop: "-15px",
               backgroundColor: "#EDEDF4",

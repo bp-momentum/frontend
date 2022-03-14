@@ -45,6 +45,14 @@
             {
                 "endOfLine": "auto"
             }
+        ],
+        "valid-jsdoc": [
+            "error",
+            {
+                "prefer": {
+                    "return": "returns"
+                }
+            }
         ]
     }
 }

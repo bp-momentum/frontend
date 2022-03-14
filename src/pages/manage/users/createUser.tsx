@@ -7,14 +7,20 @@ import Translations from "@localization/translations";
 import useApi from "@hooks/api";
 import config from "@config";
 
-interface createUserProps {
+interface Props {
   updateValue: number;
   setUpdateValue: Dispatch<SetStateAction<number>>;
 }
 
-const CreateUser: React.FC<createUserProps> = ({ ...props }) => {
-  const { updateValue, setUpdateValue } = props;
-
+/**
+ * The form for creating a new user.
+ * @param {Props} props The props for the component.
+ * @returns {JSX.Element} The form.
+ */
+const CreateUser: React.FC<Props> = ({
+  updateValue,
+  setUpdateValue,
+}: Props): JSX.Element => {
   const [error, setError] = React.useState<null | string>();
   const [success, setSuccess] = React.useState<null | string>();
   const { t } = useTranslation();

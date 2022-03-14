@@ -6,7 +6,7 @@ import { exerciseIdToName } from "../functions";
 import { useAppDispatch } from "@redux/hooks";
 import { setPlanChanges } from "@redux/changes/changeSlice";
 
-interface visibleExerciseProps {
+interface Props {
   card: BasicExerciseData;
   details: boolean;
   collapsed: boolean;
@@ -17,18 +17,22 @@ interface visibleExerciseProps {
  * The actual exercise card component
  * If details is set it will show the data of the exercise instance
  * If collapsed is set it will show a collapsed version of the card
- * @param {card: BasicExerciseData, details: boolean, collapsed: boolean} props
- * @returns a card with the given data
+ * @param {Props} props The props for the component.
+ * @returns {JSX.Element} The component.
  */
-const VisibleExercise: React.FC<visibleExerciseProps> = ({ ...props }) => {
-  const { card, details, collapsed, exercises } = props;
-
+const VisibleExercise: React.FC<Props> = ({
+  card,
+  details,
+  collapsed,
+  exercises,
+}: Props): JSX.Element => {
   const dispatch = useAppDispatch();
 
   const [, redraw] = React.useState({});
   /**
    * Change the number of sets of this exercise instance and redraw the card
-   * @param value new number of sets
+   * @param {number} value new number of sets
+   * @returns {void}
    */
   const changeSets = (value: number) => {
     card.sets = value;
@@ -37,7 +41,8 @@ const VisibleExercise: React.FC<visibleExerciseProps> = ({ ...props }) => {
   };
   /**
    * Change the number of repeats per set of this exercise instance and redraw the card
-   * @param value new number of repeats per set
+   * @param {number} value new number of repeats per set
+   * @returns {void}
    */
   const changeRepeats = (value: number) => {
     card.repeats = value;

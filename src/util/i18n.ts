@@ -5,6 +5,9 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import translationEN from "../locales/en/translation.json";
 import translationDE from "../locales/de/translation.json";
 
+/**
+ * All available translations
+ */
 const resources = {
   en: {
     translation: translationEN,
@@ -14,7 +17,12 @@ const resources = {
   },
 };
 
-const indefiniteArticle = function (phrase: string) {
+/**
+ * Decides if a word in english needs "a" or "an" as article.
+ * @param {string} phrase  the word to check
+ * @returns {string} the article
+ */
+const indefiniteArticle = function (phrase: string): string {
   // Getting the first word
   const match = /\w+/.exec(phrase);
   if (!match) return "an";
@@ -70,7 +78,18 @@ const indefiniteArticle = function (phrase: string) {
   return "a";
 };
 
-const getEnglishArticle = function (value: string, capitalize: boolean) {
+/**
+ * Chooses the correct english indefinite article depending on the format of a translation.
+ * - "en-handle-an" chooses the lowercase article
+ * - "en-handle-an-capitalized" chooses the uppercase article
+ * @param {string} value        the word to check
+ * @param {boolean} capitalize  whether to capitalize the article
+ * @returns {string} the article
+ */
+const getEnglishArticle = function (
+  value: string,
+  capitalize: boolean
+): string {
   const article = indefiniteArticle(value);
   if (article.length === 1) {
     return capitalize ? article.toUpperCase() : article;
@@ -80,6 +99,9 @@ const getEnglishArticle = function (value: string, capitalize: boolean) {
     : article;
 };
 
+/**
+ * Set up the translation service.
+ */
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
