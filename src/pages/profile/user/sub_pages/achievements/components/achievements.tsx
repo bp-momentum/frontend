@@ -11,7 +11,11 @@ import _ from "lodash";
 import EmptyDataRender from "@shared/emptyDataRender";
 import { LoadingOutlined } from "@ant-design/icons";
 
-const Achievements: React.FC = () => {
+/**
+ * The page where all achievements are displayed.
+ * @returns {JSX.Element} The page
+ */
+const Achievements: React.FC = (): JSX.Element => {
   const api = useApi();
   const { t } = useTranslation();
 

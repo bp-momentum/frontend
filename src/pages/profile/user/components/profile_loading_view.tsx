@@ -5,7 +5,11 @@ import { LoadingOutlined } from "@ant-design/icons";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-const ProfileLoadingView: React.FC = () => {
+/**
+ * Loading animation while the data of the profile is loading.
+ * @returns {JSX.Element} The page.
+ */
+const ProfileLoadingView: React.FC = (): JSX.Element => {
   const { t } = useTranslation();
 
   return (

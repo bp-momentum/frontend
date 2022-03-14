@@ -10,16 +10,24 @@ import { isFuture, isPast } from "../functions";
 import ExerciseCard from "./exerciseCard";
 import useWindowDimensions from "@hooks/windowDimension";
 
-interface dayProps {
+interface Props {
   list: Exercise[];
   name: string;
   displayName: string;
   wrapper: RefObject<HTMLDivElement>;
 }
 
-const Day: React.FC<dayProps> = ({ ...props }) => {
-  const { list, name, displayName, wrapper } = props;
-
+/**
+ * Day component for the exercises page
+ * @param {Props} props The props for the component.
+ * @returns {JSX.Element} The component.
+ */
+const Day: React.FC<Props> = ({
+  list,
+  name,
+  displayName,
+  wrapper,
+}: Props): JSX.Element => {
   const exercises = list.filter((e) => e.date === name);
   const navigate = useNavigate();
 
@@ -39,6 +47,7 @@ const Day: React.FC<dayProps> = ({ ...props }) => {
 
   const hasExercisesToDo = exercises.filter((e) => !e.done).length > 0;
 
+  // center around the day if the day is today
   const ref = createRef<HTMLDivElement>();
 
   const { width } = useWindowDimensions();

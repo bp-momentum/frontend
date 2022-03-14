@@ -7,12 +7,18 @@ import Text from "antd/lib/typography/Text";
 import { CheckCircleOutlined } from "@ant-design/icons";
 import _ from "lodash";
 
-interface achievementCardProps {
+interface Props {
   achievement: Achievement;
 }
 
-const AchievementCard: React.FC<achievementCardProps> = ({ ...props }) => {
-  const { achievement } = props;
+/**
+ * A card for displaying a given {@link Achievement}.
+ * @param {Props} props The props for the component.
+ * @returns {JSX.Element} The component.
+ */
+const AchievementCard: React.FC<Props> = ({
+  achievement,
+}: Props): JSX.Element => {
 
   const description = (
     <div
@@ -31,6 +37,7 @@ const AchievementCard: React.FC<achievementCardProps> = ({ ...props }) => {
       {_.truncate(achievement.description, { length: 50, separator: "..." })}
     </div>
   );
+  
   return (
     <Container
       size={{ width: "350px", height: "140px" }}

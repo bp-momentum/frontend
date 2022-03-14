@@ -10,11 +10,16 @@ import { useTranslation } from "react-i18next";
 import Helper from "@util/helper";
 import useApi from "@hooks/api";
 
-export interface registerProps {
+interface Props {
   registerToken: string;
 }
 
-const Register: React.FC<registerProps> = ({ ...props }) => {
+/**
+ * The form for creating your account after being invited.
+ * @param {Props} props The props for the component.
+ * @returns {JSX.Element} The form.
+ */
+const Register: React.FC<Props> = ({ registerToken }: Props) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [error, setError] = React.useState<null | string>();
@@ -43,7 +48,7 @@ const Register: React.FC<registerProps> = ({ ...props }) => {
     const response = await api.execute(
       Routes.registerUser({
         password: password,
-        registerToken: props.registerToken,
+        registerToken: registerToken,
         username: username,
       })
     );

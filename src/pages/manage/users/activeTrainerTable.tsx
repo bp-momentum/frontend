@@ -14,7 +14,11 @@ interface User {
   last_login: string;
 }
 
-const ActiveTrainerTable: React.FC = () => {
+/**
+ * The table of all trainers with an account.
+ * @returns {JSX.Element} The page
+ */
+const ActiveTrainerTable: React.FC = (): JSX.Element => {
   const searchInput = createRef<InputRef>();
   const [data, setData] = useState<User[]>([]);
   const [, draw] = useState({});
@@ -84,7 +88,7 @@ const ActiveTrainerTable: React.FC = () => {
       title: t(Translations.userManagement.name),
       dataIndex: "name",
       key: "name",
-      ...getColumnSearchProps(
+      ...getColumnSearchProps<User>(
         "name",
         searchInput,
         redraw,

@@ -2,8 +2,7 @@ import React from "react";
 import { RandomHLine } from "react-random-shapes";
 
 const getSeed = () => {
-  const seed = Math.random();
-  return seed;
+  return Math.random();
 };
 
 const style = {
@@ -17,7 +16,11 @@ const style2 = {
   transition: "all .8s linear",
 };
 
-const Shapes: React.FC = () => {
+/**
+ * Some random shapes.
+ * @returns {JSX.Element} The component.
+ */
+const Shapes: React.FC = (): JSX.Element => {
   const [seed, setSeed] = React.useState(getSeed());
   const [seed2, setSeed2] = React.useState(getSeed());
   const [animation, setAnimation] = React.useState<NodeJS.Timeout | null>();

@@ -27,7 +27,11 @@ interface User {
   last_login: string;
 }
 
-const ActiveUserTable: React.FC = () => {
+/**
+ * The table of all users of a trainer with an account.
+ * @returns {JSX.Element} The page
+ */
+const ActiveUserTable: React.FC = (): JSX.Element => {
   const searchInput = createRef<InputRef>();
   const [data, setData] = useState<User[]>([]);
   const [plans, setPlans] = React.useState<Plan[]>([]);
@@ -113,7 +117,7 @@ const ActiveUserTable: React.FC = () => {
       title: t(Translations.userManagement.name),
       dataIndex: "name",
       key: "name",
-      ...getColumnSearchProps(
+      ...getColumnSearchProps<User>(
         "name",
         searchInput,
         loadData,

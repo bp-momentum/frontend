@@ -7,7 +7,11 @@ import Medals from "@pages/profile/user/sub_pages/achievements/components/medals
 import { useTranslation } from "react-i18next";
 import Translations from "@localization/translations";
 
-const SubPageAchievements: React.FC = () => {
+/**
+ * The achievements-page where the user can see their achievements and medals.
+ * @returns {JSX.Element} The page.
+ */
+const SubPageAchievements: React.FC = (): JSX.Element => {
   const [tab, setTab] = React.useState<"achievements" | "medals">(
     "achievements"
   );

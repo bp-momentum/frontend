@@ -2,12 +2,17 @@ import React, { useState, useRef, useEffect } from "react";
 import { FiPlus } from "react-icons/fi";
 import "@styles/faqComponent.css";
 
-export interface faqProps {
+interface Props {
   question: string;
   answer: string;
 }
 
-const FaqComponent: React.FC<faqProps> = ({ ...props }) => {
+/**
+ * A component that renders the FAQ.
+ * @param {Props} props The properties of the component.
+ * @returns {JSX.Element} The component.
+ */
+const FaqComponent: React.FC<Props> = ({ ...props }) => {
   const [active, setActive] = useState(false);
 
   const contentRef = useRef<HTMLDivElement>(null);

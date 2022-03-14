@@ -1,3 +1,6 @@
+/**
+ * Wrapper for a trainer's contact information returned by {@link Routes.getTrainerContact()}.
+ */
 interface TrainerContact {
   name: string;
   email: string;

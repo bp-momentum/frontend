@@ -20,18 +20,17 @@ import useApi from "@hooks/api";
 const { Sider, Content } = Layout;
 const { confirm } = Modal;
 
-// A list of all exercises
-
 /**
- * @returns the plan editor component
+ * the plan editor component
+ * @returns {JSX.Element} The page
  */
-const EditPlan: React.FC = () => {
+const EditPlan: React.FC = (): JSX.Element => {
   const { t } = useTranslation();
 
   // the plans name
   const [name, setName] = React.useState("");
   // internal counter for unique ids
-  const [count, setCount] = React.useState(0);
+  const count = React.useRef(0);
   // lists of exercise instances for each day
   const [storeItems, setStoreItems] = React.useState<ExerciseCardData[]>([]);
   const [monday, setMonday] = React.useState<ExerciseCardData[]>([]);
@@ -75,8 +74,8 @@ const EditPlan: React.FC = () => {
 
   /**
    * Resolve a string in the form of either a weekday or "store" to the correct getter and setter of the state
-   * @param drop
-   * @returns {get: ExerciseCardData[], set: (data: ExerciseCardData[]) => void}
+   * @param {string} drop The day to resolve
+   * @returns {{get: ExerciseCardData[], set: function(data: ExerciseCardData[]): void}} The getter and setter
    */
   const DropToState = (
     drop: string
@@ -102,7 +101,14 @@ const EditPlan: React.FC = () => {
     }
   };
 
-  const prepareExercises = async () => {
+  /**
+   * convert API data to useable data
+   * @returns {Promise} The data
+   */
+  const prepareExercises = async (): Promise<{
+    storeItems: ExerciseCardData[];
+    exercises: Exercise[];
+  }> => {
     const response = await api.execute(Routes.getExercises());
     if (!response) throw new Error("Failed to load exercises");
     if (!response.success) throw new Error(response.description);
@@ -186,10 +192,10 @@ const EditPlan: React.FC = () => {
 
   /**
    * Initiate reordering after dropping an item
-   * @param result
-   * @returns
+   * @param {DropResult} result The result of the drop
+   * @returns {void}
    */
-  const onDragEnd = (result: DropResult) => {
+  const onDragEnd = (result: DropResult): void => {
     // hide garbage sider
     if (GarbageSider?.current) GarbageSider.current.style.display = "none";
 
@@ -221,8 +227,7 @@ const EditPlan: React.FC = () => {
       DropToState(result.destination.droppableId).get,
       result.source,
       result.destination,
-      count,
-      setCount
+      count
     );
     // update the lists
     DropToState(result.source.droppableId).set(leave);
@@ -231,8 +236,9 @@ const EditPlan: React.FC = () => {
 
   /**
    * Save the plan to the server
+   * @returns {void}
    */
-  const save = () => {
+  const save = (): void => {
     // Data is the object that is sent to the server
     // Needs to be any for dynamic typing
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -270,6 +276,7 @@ const EditPlan: React.FC = () => {
   /**
    * Wrapper for the save function
    * Shows a modal for naming if the plan has no name before saving
+   * @returns {void}
    */
   const savePlan = () => {
     if (!name) {
@@ -281,6 +288,7 @@ const EditPlan: React.FC = () => {
 
   /**
    * Delete the plan from the server
+   * @returns {void}
    */
   const deletePlan = () => {
     confirm({
@@ -315,7 +323,6 @@ const EditPlan: React.FC = () => {
   return (
     <Container
       currentPage="manage"
-      color="blue"
       confirmLeaveMessage={
         hasChanged
           ? (t(Translations.common.confirmLeaveChanges) as string)

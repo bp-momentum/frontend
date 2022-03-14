@@ -1,7 +1,7 @@
 import { Col, Row } from "antd";
 import React from "react";
 
-interface siderButtonProps {
+interface Props {
   onClick: VoidFunction;
   image: string;
   title: string;
@@ -11,22 +11,35 @@ interface siderButtonProps {
   className?: string;
 }
 
-const SiderButton: React.FC<siderButtonProps> = ({ ...props }) => {
+/**
+ * A large colorful button.
+ * @param {Props} props The properties of the component.
+ * @returns {JSX.Element} The component.
+ */
+const SiderButton: React.FC<Props> = ({
+  onClick,
+  image,
+  title,
+  rotation,
+  backgroundColor,
+  color,
+  className,
+}: Props): JSX.Element => {
   return (
     <Row justify="center">
       <div
-        onClick={props.onClick}
+        onClick={onClick}
         style={{
           marginBottom: "40px",
           cursor: "pointer",
-          transform: `rotate(${props.rotation}deg)`,
+          transform: `rotate(${rotation}deg)`,
           justifyContent: "center",
         }}
       >
         <div
-          className={props.className}
+          className={className}
           style={{
-            backgroundColor: props.backgroundColor,
+            backgroundColor: backgroundColor,
             width: "140px",
             height: "140px",
             borderRadius: "20px",
@@ -34,13 +47,11 @@ const SiderButton: React.FC<siderButtonProps> = ({ ...props }) => {
         >
           <Col style={{ paddingTop: "10px" }}>
             <Row justify="center">
-              <img src={props.image} height={82} alt={`${props.title} Icon`} />
+              <img src={image} height={82} alt={`${title} Icon`} />
             </Row>
             <Row justify="center">
-              <span
-                style={{ fontSize: 18, color: props.color, marginTop: "3px" }}
-              >
-                {props.title}
+              <span style={{ fontSize: 18, color: color, marginTop: "3px" }}>
+                {title}
               </span>
             </Row>
           </Col>
