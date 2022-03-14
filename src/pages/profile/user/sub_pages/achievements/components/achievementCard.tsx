@@ -41,10 +41,13 @@ const AchievementCard: React.FC<achievementCardProps> = ({ ...props }) => {
             <div
               style={{
                 width: "230px",
+                height: "60px",
+                display: "-webkit-box",
                 maxHeight: "60px",
+                WebkitLineClamp: "2",
+                WebkitBoxOrient: "vertical",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
-                display: "block",
                 whiteSpace: "break-spaces",
               }}
             >
