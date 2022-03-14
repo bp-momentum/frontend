@@ -35,13 +35,15 @@ const appReducer = combineReducers({
   [friendApi.reducerPath]: friendApiReducer,
 });
 
+/**
+ * Clear cache on logout.
+ * @param state   current state
+ * @param action  the action, clear only when receiving a logout action
+ */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const rootReducer = (state: any, action: any) => {
   if (action.type === "USER_LOGOUT") {
-    // for all keys defined in your persistConfig(s)
     storage.removeItem("persist:root");
-    // storage.removeItem('persist:otherKey')
-
     return appReducer(undefined, action);
   }
   return appReducer(state, action);
