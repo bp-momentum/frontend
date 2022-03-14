@@ -568,7 +568,7 @@ const Routes = {
    */
   getFriendRequests: (): Route => {
     return {
-      route: "/api/getFriendRequests",
+      route: "/api/getfriendrequests",
       needsAuth: true,
       method: "GET",
     };
@@ -593,7 +593,7 @@ const Routes = {
    */
   addFriend: (props: { friendId: string }): Route => {
     return {
-      route: "/api/addFriend",
+      route: "/api/addfriend",
       needsAuth: true,
       method: "POST",
       body: {
