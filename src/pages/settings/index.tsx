@@ -26,7 +26,11 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import useApi from "@hooks/api";
 
-const Settings: React.FC = () => {
+/**
+ * A page containing the settings.
+ * @returns {JSX.Element} The page.
+ */
+const Settings: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
   const [error, setError] = React.useState<null | string>();
   const [success, setSuccess] = React.useState<null | string>();
@@ -97,8 +101,9 @@ const Settings: React.FC = () => {
     /**
      * This method displays a message that the logout was successful, but that the user has to log in manually again.
      * This happens with a 2-second delay.
+     * @returns {Promise<void>} nothing
      */
-    const displaySuccessAndRedirect = async () => {
+    const displaySuccessAndRedirect = async (): Promise<void> => {
       setSuccess(t(Translations.settings.logoutAllDevices.successLogin));
       setTimeout(() => setSuccess(null), 5000);
       await new Promise((resolve) => setTimeout(resolve, 5000)); // sleep for 2 Seconds
@@ -141,7 +146,7 @@ const Settings: React.FC = () => {
   };
 
   return (
-    <Container currentPage="settings" color="blue">
+    <Container currentPage="settings">
       <Col>
         <Row
           justify="center"

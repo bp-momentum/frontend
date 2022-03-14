@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
 import debounce from "lodash/debounce";
 
-const useWindowDimensions = (delay = 100) => {
+/**
+ * Custom hook to get the window dimensions
+ * @param {number} delay in ms to debounce the window resize event
+ * @returns {{width: number, height: number}} width and height of the window
+ */
+const useWindowDimensions = (
+  delay = 100
+): { width: number; height: number } => {
   function getSize() {
     return {
       width: window.innerWidth,

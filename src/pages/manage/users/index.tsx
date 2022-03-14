@@ -21,7 +21,11 @@ import Translations from "@localization/translations";
 
 const { TabPane } = Tabs;
 
-const Users: React.FC = () => {
+/**
+ * A container to list manage users
+ * @returns {JSX.Element} The page
+ */
+const Users: React.FC = (): JSX.Element => {
   const token = useAppSelector((state) => state.token.token);
   const type = (token && Helper.getAccountType(token)) || "user";
 

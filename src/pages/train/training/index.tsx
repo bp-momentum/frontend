@@ -36,31 +36,33 @@ const playRandomSound = (category: audioCategory) => {
   audio.play();
 };
 
-interface trainingProps {
+interface Props {
   exercise?: ExerciseData;
-  stats: MutableRefObject<statsType>;
+  stats: MutableRefObject<StatsType>;
   setSubPage: Dispatch<SetStateAction<subPage>>;
   initialCollapsed: MutableRefObject<boolean>;
   setCameraShown: Dispatch<SetStateAction<boolean>>;
   cameraShown: boolean;
 }
 
-const Training: React.FC<trainingProps> = ({ ...props }) => {
-  // deconstruct props
-  const {
-    exercise,
-    stats,
-    setSubPage,
-    initialCollapsed,
-    setCameraShown,
-    cameraShown,
-  } = props;
-
+/**
+ * The component that handles the training itself.
+ * @param {Props} props The properties of the component.
+ * @returns {JSX.Element} The component.
+ */
+const Training: React.FC<Props> = ({
+  exercise,
+  stats,
+  setSubPage,
+  initialCollapsed,
+  setCameraShown,
+  cameraShown,
+}: Props): JSX.Element => {
   const [progress, setProgress] = useState(0); // repeats done per repeats to do in percent
   const [active, setActive] = useState(false); // whether sending video to server
   const [currentSet, setCurrentSet] = useState(stats.current.set);
   const [isFeedbackNew, setIsFeedbackNew] = useState(false);
-  const [feedback, setFeedback] = useState<feedback>({
+  const [feedback, setFeedback] = useState<Feedback>({
     x: -100,
     y: -100,
     addedPoints: 0,

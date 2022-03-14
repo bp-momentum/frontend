@@ -6,14 +6,20 @@ import "@styles/home.css";
 import { useNavigate } from "react-router-dom";
 import { useGetExerciseByIdQuery } from "@redux/exercises/exerciseSlice";
 
-interface exerciseCardProps {
+interface Props {
   exercise: Exercise;
   today: boolean;
 }
 
-const ExerciseCard: React.FC<exerciseCardProps> = ({ ...props }) => {
-  const { exercise, today } = props;
-
+/**
+ * Exercise card component for the home page
+ * @param {Props} props The props for the component.
+ * @returns {JSX.Element} The component.
+ */
+const ExerciseCard: React.FC<Props> = ({
+  exercise,
+  today,
+}: Props): JSX.Element => {
   const { data, isLoading, isError, error } = useGetExerciseByIdQuery(
     exercise.id
   );

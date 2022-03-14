@@ -3,6 +3,9 @@ import { Friend } from "@api/friend";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { store } from "../store";
 
+/**
+ * A caching api for friends information.
+ */
 export const friendApi = createApi({
   reducerPath: "friendApi",
   baseQuery: fetchBaseQuery({
