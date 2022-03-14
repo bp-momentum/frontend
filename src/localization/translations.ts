@@ -1,3 +1,6 @@
+/**
+ * Contains all keys of the translation files ordered by their belonging.
+ */
 const Translations = {
   errors: {
     unknownError: "errors.unknown-error",

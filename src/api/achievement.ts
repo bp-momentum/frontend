@@ -1,5 +1,8 @@
 import { parseInt } from "lodash";
 
+/**
+ * Wrapper for the JSON document returned by {@link Routes.getAchievements()}.
+ */
 export interface Achievement {
   name: string;
   title: string;
@@ -10,10 +13,19 @@ export interface Achievement {
   icon?: string;
 }
 
+/**
+ * Checks if the given {@link Achievement} is done.
+ * @param achievement  the {@link Achievement} to check.
+ */
 const isDone = (achievement: Achievement) => {
   return achievement.progress === "done";
 };
 
+/**
+ * Parses the progress of the given {@link Achievement} to a number between 0 and 100 representing
+ * the progress as percentage.
+ * @param achievement  the {@link Achievement} to check.
+ */
 const getProgress = (achievement: Achievement) => {
   if (isDone(achievement)) {
     return 100;

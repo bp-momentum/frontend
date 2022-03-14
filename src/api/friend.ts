@@ -1,3 +1,6 @@
+/**
+ * All the properties of a friend.
+ */
 export interface Friend {
   username: string;
   level: number;
