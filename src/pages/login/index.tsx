@@ -12,7 +12,7 @@ import config from "@config";
 
 /**
  * The login page
- * @returns {JSX.Element}
+ * @returns {JSX.Element} The page
  */
 const Login: React.FC = (): JSX.Element => {
   const dispatch = useAppDispatch();

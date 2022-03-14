@@ -23,7 +23,7 @@ const { TabPane } = Tabs;
 
 /**
  * A container to list manage users
- * @returns {JSX.Element}
+ * @returns {JSX.Element} The page
  */
 const Users: React.FC = (): JSX.Element => {
   const token = useAppSelector((state) => state.token.token);

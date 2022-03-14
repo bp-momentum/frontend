@@ -3,9 +3,9 @@ import React from "react";
 
 /**
  * Calculates the average of the given points
- * @param {number} intensity
- * @param {number} accuracy
- * @param {number} speed
+ * @param {number} intensity intensity
+ * @param {number} accuracy accuracy
+ * @param {number} speed speed
  * @returns {number} average of intensity, accuracy and speed
  */
 const totalPointsCalculation = (
@@ -18,9 +18,9 @@ const totalPointsCalculation = (
 
 /**
  * Calculate points for the graph component
- * @param {Points[]} points
- * @param {number} set
- * @returns {DataEntryType[]}
+ * @param {Points[]} points array of points
+ * @param {number} set number of set
+ * @returns {DataEntryType[]} array of points for the graph component
  */
 const calculatePoints = (points: Points[], set: number): DataEntryType[] => {
   const intensity = Math.floor(
@@ -56,9 +56,10 @@ const calculatePoints = (points: Points[], set: number): DataEntryType[] => {
 
 /**
  * Initialize the set data and stats for a new set
- * @param {Record<string, any>} data
- * @param {React.MutableRefObject<StatsType>} stats
- * @param {React.Dispatch<React.SetStateAction<number>>} setCurrentSet
+ * @param {Record<string, any>} data set data
+ * @param {React.MutableRefObject<StatsType>} stats stats
+ * @param {React.Dispatch<React.SetStateAction<number>>} setCurrentSet set current set
+ * @returns {void}
  */
 export const initCallback = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -86,7 +87,8 @@ interface StatsCallbackProps {
 
 /**
  * Handle points from the AI
- * @param {StatsCallbackProps} props
+ * @param {StatsCallbackProps} props callback props
+ * @returns {void}
  */
 export const statsCallback = ({
   data,
@@ -139,10 +141,11 @@ export const statsCallback = ({
 
 /**
  * Handle the end of a set
- * @param {StatsType} stats
- * @param {React.Dispatch<React.SetStateAction<boolean>>} setActive
- * @param {React.Dispatch<React.SetStateAction<subPage>>} setSubPage
- * @param {Points[]} points
+ * @param {StatsType} stats stats
+ * @param {React.Dispatch<React.SetStateAction<boolean>>} setActive set active
+ * @param {React.Dispatch<React.SetStateAction<subPage>>} setSubPage set sub page
+ * @param {Points[]} points points
+ * @returns {void}
  */
 export const endCallback = (
   stats: StatsType,
@@ -158,10 +161,11 @@ export const endCallback = (
 
 /**
  * Handle the end of a training
- * @param {StatsType} stats
- * @param {React.Dispatch<React.SetStateAction<boolean>>} setActive
- * @param {React.Dispatch<React.SetStateAction<subPage>>} setSubPage
- * @param {Points[]} points
+ * @param {StatsType} stats stats
+ * @param {React.Dispatch<React.SetStateAction<boolean>>} setActive set active
+ * @param {React.Dispatch<React.SetStateAction<subPage>>} setSubPage set sub page
+ * @param {Points[]} points points
+ * @returns {void}
  */
 export const doneCallback = (
   stats: StatsType,

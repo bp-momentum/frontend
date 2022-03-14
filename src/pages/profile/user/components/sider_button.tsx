@@ -13,14 +13,8 @@ interface Props {
 
 /**
  * A large colorful button.
- * @param onClick         called when the user clicks on this button
- * @param image           the image of the button
- * @param title           the title of the button
- * @param rotation        the rotation of the button
- * @param backgroundColor the background color of the button
- * @param color           the foreground color of the button
- * @param className       the class name of the button
- * @constructor
+ * @param {Props} props The properties of the component.
+ * @returns {JSX.Element} The component.
  */
 const SiderButton: React.FC<Props> = ({
   onClick,
@@ -30,7 +24,7 @@ const SiderButton: React.FC<Props> = ({
   backgroundColor,
   color,
   className,
-}) => {
+}: Props): JSX.Element => {
   return (
     <Row justify="center">
       <div

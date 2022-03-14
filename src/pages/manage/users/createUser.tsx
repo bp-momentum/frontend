@@ -14,8 +14,8 @@ interface Props {
 
 /**
  * The form for creating a new user.
- * @param {Props} props
- * @returns {JSX.Element}
+ * @param {Props} props The props for the component.
+ * @returns {JSX.Element} The form.
  */
 const CreateUser: React.FC<Props> = ({
   updateValue,

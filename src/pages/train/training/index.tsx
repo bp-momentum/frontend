@@ -47,8 +47,8 @@ interface Props {
 
 /**
  * The component that handles the training itself.
- * @param {Props} props
- * @returns {JSX.Element}
+ * @param {Props} props The properties of the component.
+ * @returns {JSX.Element} The component.
  */
 const Training: React.FC<Props> = ({
   exercise,

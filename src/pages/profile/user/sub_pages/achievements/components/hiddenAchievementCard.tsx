@@ -8,8 +8,9 @@ import { useTranslation } from "react-i18next";
 
 /**
  * A card for displaying an unknown, hidden achievement.
+ * @returns {JSX.Element} The component.
  */
-const HiddenAchievementCard: React.FC = () => {
+const HiddenAchievementCard: React.FC = (): JSX.Element => {
   const { t } = useTranslation();
 
   return (

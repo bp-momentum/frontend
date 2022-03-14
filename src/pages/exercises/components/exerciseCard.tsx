@@ -13,8 +13,8 @@ interface Props {
 
 /**
  * Exercise card component for the home page
- * @param {Props} props
- * @returns {JSX.Element}
+ * @param {Props} props The props for the component.
+ * @returns {JSX.Element} The component.
  */
 const ExerciseCard: React.FC<Props> = ({
   exercise,

@@ -12,9 +12,15 @@ interface Props {
 
 /**
  * A card component for displaying friends, achievements, medals, etc.
+ * @param {Props} props The props for the component.
+ * @returns {JSX.Element} The component.
  */
-const Container: React.FC<Props> = ({ ...props }) => {
-  const { onClick, children, size, backgroundColor } = props;
+const Container: React.FC<Props> = ({
+  onClick,
+  children,
+  size,
+  backgroundColor,
+}) => {
   return (
     <div
       onClick={onClick}

@@ -15,8 +15,8 @@ interface Props {
 
 /**
  * The graph component.
- * @param {Props} props
- * @returns {JSX.Element}
+ * @param {Props} props The properties of the component.
+ * @returns {JSX.Element} The component.
  */
 const Graph: React.FC<Props> = ({ width, data, style }: Props): JSX.Element => {
   const maxWidth = width ? `${width}px` : "400px";

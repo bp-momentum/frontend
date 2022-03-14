@@ -14,11 +14,14 @@ interface Props {
 
 /**
  * A card for displaying an achieved medal.
- * @param type      the type of the medal
- * @param count     the amount of medals the user achieved of this type
- * @param exercise  the exercise which the user earned the medal for
+ * @param {Props} props The props for the component.
+ * @returns {JSX.Element} The component.
  */
-const MedalCard: React.FC<Props> = ({ type, count, exercise }) => {
+const MedalCard: React.FC<Props> = ({
+  type,
+  count,
+  exercise,
+}: Props): JSX.Element => {
   const { t } = useTranslation();
 
   return (

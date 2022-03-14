@@ -25,7 +25,8 @@ const isDone = (achievement: Achievement) => {
 /**
  * Parses the progress of the given {@link Achievement} to a number between 0 and 100 representing
  * the progress as percentage.
- * @param achievement  the {@link Achievement} to check.
+ * @param {Achievement} achievement  the {@link Achievement} to check.
+ * @returns {number} the progress as percentage.
  */
 const getProgress = (achievement: Achievement) => {
   if (isDone(achievement)) {

@@ -13,7 +13,8 @@ export interface DoneExercise {
 
 /**
  * Calculates the approximate duration to complete a given {@link Exercise} in seconds.
- * @param exercise  the {@link Exercise} to calculate.
+ * @param {DoneExercise} exercise  the {@link Exercise} to calculate.
+ * @returns {number} the approximate duration to complete the {@link Exercise} in seconds.
  */
 const getApproximateExerciseDurationSeconds = (
   exercise: DoneExercise
@@ -23,7 +24,8 @@ const getApproximateExerciseDurationSeconds = (
 
 /**
  * Calculates the approximate duration to complete a given {@link Exercise} in minutes.
- * @param exercise  the {@link Exercise} to calculate.
+ * @param {DoneExercise} exercise  the {@link Exercise} to calculate.
+ * @returns {number} the approximate duration to complete the {@link Exercise} in minutes.
  */
 const getApproximateExerciseDurationMinutes = (
   exercise: DoneExercise

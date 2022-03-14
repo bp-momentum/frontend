@@ -16,23 +16,25 @@ interface Props {
 /**
  * A simple component which displays an email or phone number and can be clicked
  * to open the email or phone app of a device.
+ * @param {Props} props The props for the component.
+ * @returns {JSX.Element} The component.
  */
-const ButtonContact: React.FC<Props> = ({ ...props }) => {
+const ButtonContact: React.FC<Props> = ({
+  type,
+  contact,
+  label,
+}: Props): JSX.Element => {
   const getLink = () => {
-    switch (props.type) {
+    switch (type) {
       case ContactType.email:
-        return props.contact.startsWith("mailto:")
-          ? props.contact
-          : `mailto:${props.contact}`;
+        return contact.startsWith("mailto:") ? contact : `mailto:${contact}`;
       case ContactType.phone:
-        return props.contact.startsWith("tel:")
-          ? props.contact
-          : `tel:${props.contact}`;
+        return contact.startsWith("tel:") ? contact : `tel:${contact}`;
     }
   };
 
   const getIcon = (): JSX.Element => {
-    switch (props.type) {
+    switch (type) {
       case ContactType.email:
         return (
           <MailOutlined style={{ marginTop: "5px", paddingLeft: "5px" }} />
@@ -53,7 +55,7 @@ const ButtonContact: React.FC<Props> = ({ ...props }) => {
         e.preventDefault();
       }}
     >
-      {props.label}
+      {label}
       {getIcon()}
     </Link>
   );

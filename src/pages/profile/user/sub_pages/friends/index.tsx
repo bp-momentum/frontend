@@ -20,7 +20,7 @@ import Translations from "@localization/translations";
 
 /**
  * A component that renders everything related to friends
- * @returns {JSX.Element}
+ * @returns {JSX.Element} The component
  */
 const SubPageFriends: React.FC = () => {
   const api = useApi();

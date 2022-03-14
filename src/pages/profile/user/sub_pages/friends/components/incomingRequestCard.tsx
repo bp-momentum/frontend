@@ -10,8 +10,8 @@ interface Props {
 
 /**
  * A component that renders details of an incoming friend request
- * @param {Props} props
- * @returns {JSX.Element}
+ * @param {Props} props The properties of the component
+ * @returns {JSX.Element} The component
  */
 const IncomingRequestCard: React.FC<Props> = ({
   username,

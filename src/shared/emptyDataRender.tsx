@@ -9,8 +9,8 @@ interface Props {
 
 /**
  * The empty data render component.
- * @param {Props} props
- * @returns {JSX.Element}
+ * @param {Props} props The properties of the component.
+ * @returns {JSX.Element} The component.
  */
 const EmptyDataRender: React.FC<Props> = ({
   customText,

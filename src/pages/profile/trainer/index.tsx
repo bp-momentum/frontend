@@ -8,8 +8,9 @@ import useApi from "@hooks/api";
 
 /**
  * The profile page for trainers. Displays a form where the trainer can enter their contact information.
+ * @returns {JSX.Element} The page
  */
-const TrainerProfile: React.FC = () => {
+const TrainerProfile: React.FC = (): JSX.Element => {
   const [data, setData] = React.useState<null | TrainerContact>(null);
   const [edited, setEdited] = React.useState(false);
   const [error, setError] = React.useState<null | string>();

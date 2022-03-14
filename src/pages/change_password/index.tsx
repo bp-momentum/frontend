@@ -12,8 +12,9 @@ import useApi from "@hooks/api";
 
 /**
  * The page where a user can change their password.
+ * @returns {JSX.Element} The page.
  */
-const ChangePassword: React.FC = () => {
+const ChangePassword: React.FC = (): JSX.Element => {
   const navigate = useNavigate();
   const [error, setError] = React.useState<null | string>();
   const [success, setSuccess] = React.useState<null | string>(null);
@@ -23,9 +24,10 @@ const ChangePassword: React.FC = () => {
 
   /**
    * Called when the user clicks the submit button.
-   * @param values  the entered values of the form
+   * @param {Record<string, never>} values  the entered values of the form
+   * @returns {Promise<void>} nothing
    */
-  const onFinish = async (values: Record<string, never>) => {
+  const onFinish = async (values: Record<string, never>): Promise<void> => {
     setError(null);
     const password = values["password"];
     const newPassword = values["new-password"];

@@ -14,8 +14,8 @@ interface Props {
 
 /**
  * A form for resetting the password
- * @param {Props} props
- * @returns {JSX.Element}
+ * @param {Props} props The props for the component.
+ * @returns {JSX.Element} The form.
  */
 const ResetForm: React.FC<Props> = ({
   onFinish,

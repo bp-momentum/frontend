@@ -12,7 +12,8 @@ const dayOrder = [
 
 /**
  * Checks if a day with a given name lays in the past.
- * @param dayName  the name of the day to check
+ * @param {string} dayName  the name of the day to check
+ * @returns {boolean} `true` if the day lays in the past, `false` otherwise
  */
 export const isPast = (dayName: string): boolean => {
   const currentDayName = Helper.getCurrentDayName();
@@ -21,7 +22,8 @@ export const isPast = (dayName: string): boolean => {
 
 /**
  * Checks if a day with a given name lays in the future.
- * @param dayName  the name of the day to check
+ * @param {string} dayName  the name of the day to check
+ * @returns {boolean} `true` if the day lays in the future, `false` otherwise
  */
 export const isFuture = (dayName: string): boolean => {
   const currentDayName = Helper.getCurrentDayName();

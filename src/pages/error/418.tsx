@@ -7,7 +7,7 @@ import Error from "@static/_(.svg";
 
 /**
  * Error 404 page
- * @returns {JSX.Element}
+ * @returns {JSX.Element} The page
  */
 const Error404: React.FC = (): JSX.Element => {
   return (

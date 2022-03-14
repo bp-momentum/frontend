@@ -17,8 +17,8 @@ interface Props {
  * The actual exercise card component
  * If details is set it will show the data of the exercise instance
  * If collapsed is set it will show a collapsed version of the card
- * @param {Props} props
- * @returns {JSX.Element}
+ * @param {Props} props The props for the component.
+ * @returns {JSX.Element} The component.
  */
 const VisibleExercise: React.FC<Props> = ({
   card,
@@ -31,7 +31,8 @@ const VisibleExercise: React.FC<Props> = ({
   const [, redraw] = React.useState({});
   /**
    * Change the number of sets of this exercise instance and redraw the card
-   * @param value new number of sets
+   * @param {number} value new number of sets
+   * @returns {void}
    */
   const changeSets = (value: number) => {
     card.sets = value;
@@ -40,7 +41,8 @@ const VisibleExercise: React.FC<Props> = ({
   };
   /**
    * Change the number of repeats per set of this exercise instance and redraw the card
-   * @param value new number of repeats per set
+   * @param {number} value new number of repeats per set
+   * @returns {void}
    */
   const changeRepeats = (value: number) => {
     card.repeats = value;

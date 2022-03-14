@@ -19,13 +19,8 @@ interface Props {
 
 /**
  * Sidebar of the user's profile.
- * @param onClickFriends      called when the user clicks on the friends button
- * @param onClickAchievements called when the user clicks on the achievements button
- * @param onClickProfile      called when the user clicks on the profile button
- * @param avatarUrl           the user's avatarUrl
- * @param username            the user's username
- * @param selected            the current selected sub-page
- * @constructor
+ * @param {Props} props The properties of the component.
+ * @returns {JSX.Element} The component.
  */
 const ProfileSider: React.FC<Props> = ({
   onClickFriends,
@@ -34,7 +29,7 @@ const ProfileSider: React.FC<Props> = ({
   avatarUrl,
   username,
   selected,
-}) => {
+}: Props): JSX.Element => {
   const { t } = useTranslation();
 
   const hasRequests =

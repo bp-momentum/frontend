@@ -10,8 +10,8 @@ interface Props {
 
 /**
  * The sider of the layout for the training page
- * @param {Props} props
- * @returns {JSX.Element}
+ * @param {Props} props The props
+ * @returns {JSX.Element} The component
  */
 const TrainSider: React.FC<Props> = ({
   exercise,

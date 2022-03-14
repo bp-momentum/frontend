@@ -11,8 +11,8 @@ interface Props {
 
 /**
  * The layout for the training page
- * @param {Props} props
- * @returns {JSX.Element}
+ * @param {Props} props The props
+ * @returns {JSX.Element} The component
  */
 const TrainLayout: React.FC<Props> = ({
   children,

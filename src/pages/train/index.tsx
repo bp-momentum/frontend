@@ -19,8 +19,8 @@ interface Props {
 
 /**
  * A component that renders the training page and everything related
- * @param {Props} props
- * @returns {JSX.Element}
+ * @param {Props} props The properties of the component
+ * @returns {JSX.Element} The component
  */
 const Train: React.FC<Props> = ({ rawExercise }: Props): JSX.Element => {
   const [exercise, setExercise] = React.useState<ExerciseData>();
@@ -98,7 +98,7 @@ const Train: React.FC<Props> = ({ rawExercise }: Props): JSX.Element => {
 
 /**
  * A component that renders the training page and everything related
- * @returns {JSX.Element}
+ * @returns {JSX.Element} The component
  */
 const Wrapper: React.FC = (): JSX.Element => {
   const [exercise, setExercise] = useState({ id: -1 });

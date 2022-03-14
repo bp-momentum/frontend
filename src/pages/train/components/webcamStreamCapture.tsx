@@ -22,8 +22,8 @@ interface Props {
 
 /**
  * The webcam stream capture component.
- * @param {Props} props
- * @returns {JSX.Element}
+ * @param {Props} props The properties of the component.
+ * @returns {JSX.Element} The component.
  */
 const WebcamStreamCapture: React.FC<Props> = ({
   children,

@@ -16,8 +16,8 @@ interface Props {
 
 /**
  * A component that renders when training is done
- * @param {Props} props
- * @returns {JSX.Element}
+ * @param {Props} props The properties of the component
+ * @returns {JSX.Element} The component
  */
 const ExerciseDone: React.FC<Props> = ({
   stats,

@@ -16,8 +16,8 @@ interface Props {
 
 /**
  * A droppable context for the exercise cards that shows all exercises given
- * @param {Props} props
- * @returns {JSX.Element}
+ * @param {Props} props The props for the component.
+ * @returns {JSX.Element} The component.
  */
 const Day: React.FC<Props> = ({
   list,

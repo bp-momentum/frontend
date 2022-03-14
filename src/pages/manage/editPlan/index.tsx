@@ -22,7 +22,7 @@ const { confirm } = Modal;
 
 /**
  * the plan editor component
- * @returns {JSX.Element}
+ * @returns {JSX.Element} The page
  */
 const EditPlan: React.FC = (): JSX.Element => {
   const { t } = useTranslation();
@@ -74,8 +74,8 @@ const EditPlan: React.FC = (): JSX.Element => {
 
   /**
    * Resolve a string in the form of either a weekday or "store" to the correct getter and setter of the state
-   * @param {string} drop
-   * @returns {get: ExerciseCardData[], set: (data: ExerciseCardData[]) => void}
+   * @param {string} drop The day to resolve
+   * @returns {{get: ExerciseCardData[], set: function(data: ExerciseCardData[]): void}} The getter and setter
    */
   const DropToState = (
     drop: string
@@ -103,7 +103,7 @@ const EditPlan: React.FC = (): JSX.Element => {
 
   /**
    * convert API data to useable data
-   * @returns {Promise<{ storeItems: ExerciseCardData[]; exercises: Exercise[]; }>}
+   * @returns {Promise} The data
    */
   const prepareExercises = async (): Promise<{
     storeItems: ExerciseCardData[];
@@ -192,10 +192,10 @@ const EditPlan: React.FC = (): JSX.Element => {
 
   /**
    * Initiate reordering after dropping an item
-   * @param result
-   * @returns
+   * @param {DropResult} result The result of the drop
+   * @returns {void}
    */
-  const onDragEnd = (result: DropResult) => {
+  const onDragEnd = (result: DropResult): void => {
     // hide garbage sider
     if (GarbageSider?.current) GarbageSider.current.style.display = "none";
 
@@ -236,8 +236,9 @@ const EditPlan: React.FC = (): JSX.Element => {
 
   /**
    * Save the plan to the server
+   * @returns {void}
    */
-  const save = () => {
+  const save = (): void => {
     // Data is the object that is sent to the server
     // Needs to be any for dynamic typing
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -275,6 +276,7 @@ const EditPlan: React.FC = (): JSX.Element => {
   /**
    * Wrapper for the save function
    * Shows a modal for naming if the plan has no name before saving
+   * @returns {void}
    */
   const savePlan = () => {
     if (!name) {
@@ -286,6 +288,7 @@ const EditPlan: React.FC = (): JSX.Element => {
 
   /**
    * Delete the plan from the server
+   * @returns {void}
    */
   const deletePlan = () => {
     confirm({

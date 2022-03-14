@@ -7,6 +7,11 @@ interface Props {
   answer: string;
 }
 
+/**
+ * A component that renders the FAQ.
+ * @param {Props} props The properties of the component.
+ * @returns {JSX.Element} The component.
+ */
 const FaqComponent: React.FC<Props> = ({ ...props }) => {
   const [active, setActive] = useState(false);
 

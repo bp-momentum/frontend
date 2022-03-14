@@ -29,7 +29,7 @@ interface User {
 
 /**
  * The table of all users of a trainer with an account.
- * @returns {JSX.Element}
+ * @returns {JSX.Element} The page
  */
 const ActiveUserTable: React.FC = (): JSX.Element => {
   const searchInput = createRef<InputRef>();

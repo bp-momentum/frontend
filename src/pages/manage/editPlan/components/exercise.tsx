@@ -13,8 +13,8 @@ interface Props {
 
 /**
  * Draggable wrapper for the VisibleExercise component
- * @param {Props} props
- * @returns {JSX.Element}
+ * @param {Props} props The props for the component.
+ * @returns {JSX.Element} The component.
  */
 const Exercise: React.FC<Props> = ({
   item,

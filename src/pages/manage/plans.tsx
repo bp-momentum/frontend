@@ -14,7 +14,7 @@ import useApi from "@hooks/api";
 
 /**
  * Consists of a list of all the plans the user has access to.
- * @returns {JSX.Element}
+ * @returns {JSX.Element} The page
  */
 const ManagePlans: React.FC = (): JSX.Element => {
   const navigate = useNavigate();

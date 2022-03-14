@@ -26,10 +26,13 @@ interface Props {
 
 /**
  * The user's profile page.
- * @param profileData     the current {@link ProfileData}
- * @param setProfileData  method for updating the current {@link ProfileData}
+ * @param {Props} props The props
+ * @returns {JSX.Element} The component
  */
-const SubPageProfile: React.FC<Props> = ({ profileData, setProfileData }) => {
+const SubPageProfile: React.FC<Props> = ({
+  profileData,
+  setProfileData,
+}: Props): JSX.Element => {
   const token = useAppSelector((state) => state.token.token);
 
   const api = useApi();

@@ -9,8 +9,9 @@ import Translations from "@localization/translations";
 
 /**
  * The achievements-page where the user can see their achievements and medals.
+ * @returns {JSX.Element} The page.
  */
-const SubPageAchievements: React.FC = () => {
+const SubPageAchievements: React.FC = (): JSX.Element => {
   const [tab, setTab] = React.useState<"achievements" | "medals">(
     "achievements"
   );

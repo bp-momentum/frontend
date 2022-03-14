@@ -22,12 +22,8 @@ interface Props {
 
 /**
  * A card containing a summary of the current day.
- * @param rating              total rating of the day
- * @param doneExercises       all done exercises
- * @param minutesTrained      the amount of minutes trained
- * @param minutesTrainedGoal  the amount of minutes the user should train
- * @param onClickShare        called when the user clicks on the share icon
- * @param children            the children inside the card
+ * @param {Props} props The props for the component.
+ * @returns {JSX.Element} The component.
  */
 const DailySummaryCard: React.FC<Props> = ({
   rating,
@@ -35,7 +31,7 @@ const DailySummaryCard: React.FC<Props> = ({
   minutesTrained,
   minutesTrainedGoal,
   onClickShare,
-}) => {
+}: Props): JSX.Element => {
   const { t, i18n } = useTranslation();
 
   const Exercise = (props: { exercise: DoneExercise }) => {

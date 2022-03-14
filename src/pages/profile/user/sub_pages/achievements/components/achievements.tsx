@@ -11,8 +11,9 @@ import _ from "lodash";
 
 /**
  * The page where all achievements are displayed.
+ * @returns {JSX.Element} The page
  */
-const Achievements: React.FC = () => {
+const Achievements: React.FC = (): JSX.Element => {
   const api = useApi();
   const { t } = useTranslation();
 

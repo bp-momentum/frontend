@@ -10,8 +10,9 @@ import EmptyDataRender from "@shared/emptyDataRender";
 
 /**
  * The page where all medals are displayed.
+ * @returns {JSX.Element} The page
  */
-const Medals: React.FC = () => {
+const Medals: React.FC = (): JSX.Element => {
   const api = useApi();
   const { t } = useTranslation();
 

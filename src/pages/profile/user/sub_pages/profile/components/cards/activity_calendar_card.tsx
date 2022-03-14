@@ -24,12 +24,15 @@ interface Props {
 
 /**
  * A component for a single date in the calendar.
- * @param month         the month of the displayed date
- * @param year          the year of the displayed date
- * @param date          the date to display
- * @param currentMonth  whether the date is part of the current month which is being viewed
+ * @param {Props} props   the date, the month and the year
+ * @returns {JSX.Element} a component for a single date in the calendar
  */
-const DateCell: React.FC<Props> = ({ month, year, date, currentMonth }) => {
+const DateCell: React.FC<Props> = ({
+  month,
+  year,
+  date,
+  currentMonth,
+}: Props): JSX.Element => {
   const { data } = useGetDoneExercisesInMonthQuery({
     month: month + 1,
     year: year,
@@ -127,7 +130,8 @@ const DateCell: React.FC<Props> = ({ month, year, date, currentMonth }) => {
 
 /**
  * Displays the name of an exercise, the points achieved and whether it was done.
- * @param props   the id, the points and if the exercise was done
+ * @param {Props} props   the id, the points and if the exercise was done
+ * @returns {JSX.Element} the name of the exercise, the points and whether it was done
  */
 const ExerciseName = (props: {
   id: number;
@@ -164,6 +168,7 @@ const ExerciseName = (props: {
 
 /**
  * A calendar view which contains the exercise history of a user.
+ * @returns {JSX.Element} a calendar view which contains the exercise history of a user
  */
 const ActivityCalendarCard = (): JSX.Element => {
   const { t } = useTranslation();

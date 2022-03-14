@@ -53,8 +53,8 @@ interface Props {
 
 /**
  * The main layout of the app.
- * @param {Props} props
- * @returns {JSX.Element}
+ * @param {Props} props The props for the component.
+ * @returns {JSX.Element} The layout.
  */
 const Container: React.FC<Props> = ({
   children,

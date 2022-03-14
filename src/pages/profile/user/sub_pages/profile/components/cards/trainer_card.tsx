@@ -14,12 +14,15 @@ interface Props {
 
 /**
  * A card for displaying all important contact information of a user's trainer.
- * @param name    the name of the trainer
- * @param address the address of the trainer
- * @param phone   the phone number of the trainer
- * @param email   the email address of the trainer
+ * @param {Props} props The props for the component.
+ * @returns {JSX.Element} The component.
  */
-const TrainerCard: React.FC<Props> = ({ name, address, phone, email }) => {
+const TrainerCard: React.FC<Props> = ({
+  name,
+  address,
+  phone,
+  email,
+}: Props): JSX.Element => {
   const { t } = useTranslation();
 
   return (

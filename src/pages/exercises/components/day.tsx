@@ -19,8 +19,8 @@ interface Props {
 
 /**
  * Day component for the exercises page
- * @param {Props} props
- * @returns {JSX.Element}
+ * @param {Props} props The props for the component.
+ * @returns {JSX.Element} The component.
  */
 const Day: React.FC<Props> = ({
   list,

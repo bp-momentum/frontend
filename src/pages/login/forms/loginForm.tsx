@@ -14,8 +14,8 @@ interface Props {
 
 /**
  * A form for logging in
- * @param {Props} props
- * @returns {JSX.Element}
+ * @param {Props} props The props for the component.
+ * @returns {JSX.Element} The form.
  */
 const LoginForm: React.FC<Props> = ({
   onFinish,

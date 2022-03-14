@@ -16,8 +16,8 @@ interface Props {
 /**
  * A component that renders a list of friends
  * or details of a single friend
- * @param {Props} props
- * @returns {JSX.Element}
+ * @param {Props} props The properties of the component
+ * @returns {JSX.Element} The component
  */
 const ActiveFriends: React.FC<Props> = ({
   reloadFriends,

@@ -12,8 +12,8 @@ interface Props {
 
 /**
  * A nice paper component.
- * @param {Props} props
- * @returns {JSX.Element}
+ * @param {Props} props The properties of the component.
+ * @returns {JSX.Element} The component.
  */
 const Paper: React.FC<Props> = ({
   children,

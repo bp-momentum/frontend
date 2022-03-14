@@ -11,9 +11,12 @@ interface Props {
 
 /**
  * A card for displaying a given {@link Achievement}.
- * @param achievement  the achievement to display
+ * @param {Props} props The props for the component.
+ * @returns {JSX.Element} The component.
  */
-const AchievementCard: React.FC<Props> = ({ achievement }) => {
+const AchievementCard: React.FC<Props> = ({
+  achievement,
+}: Props): JSX.Element => {
   return (
     <Container
       size={{ width: "350px", height: "130px" }}

@@ -15,7 +15,7 @@ const { Content } = Layout;
 
 /**
  * The home page for users
- * @returns {JSX.Element}
+ * @returns {JSX.Element} The page
  */
 const Exercises: React.FC = (): JSX.Element => {
   const [exercises, setExercises] = React.useState<Exercise[]>([]);

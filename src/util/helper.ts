@@ -7,7 +7,8 @@ import Translations from "@localization/translations";
 const Helper = {
   /**
    * Returns the account-type of a user by a given token.
-   * @param token  the user's token
+   * @param {string} token  the user's token
+   * @returns {string} the account-type of the user
    */
   getAccountType: (token: string): "user" | "trainer" | "admin" => {
     const jwt = Helper.getJWTPayload(token);
@@ -24,7 +25,8 @@ const Helper = {
 
   /**
    * Returns the username of a user by a given token.
-   * @param token  the user's token
+   * @param {string} token  the user's token
+   * @returns {string} the username of the user
    */
   getUserName: (token: string): string => {
     const payload = Helper.getJWTPayload(token);
@@ -37,7 +39,8 @@ const Helper = {
   /**
    * Checks if the given session token is still valid.
    * Session Tokens are valid for one day.
-   * @param token  the token to check
+   * @param {string} token  the token to check
+   * @returns {boolean} true if the token is still valid, false otherwise
    */
   isSessionTokenValid: (token?: string | null): boolean =>
     Helper.checkTokenTime(86400000, token),
@@ -45,15 +48,17 @@ const Helper = {
   /**
    * Checks if the given refresh token is still valid.
    * Refresh Tokens are valid for 30 days.
-   * @param token  the token to check
+   * @param {string} token  the token to check
+   * @returns {boolean} true if the token is still valid, false otherwise
    */
   isRefreshTokenValid: (token?: string | null): boolean =>
     Helper.checkTokenTime(2592000000, token),
 
   /**
    * Checks if the given token is still valid.
-   * @param timeout  the time before a token becomes invalid
-   * @param token    the token to check
+   * @param {number} timeout  the time before a token becomes invalid
+   * @param {string} token    the token to check
+   * @returns {boolean} true if the token is still valid, false otherwise
    */
   checkTokenTime: (timeout: number, token?: string | null): boolean => {
     if (!token) {
@@ -70,7 +75,8 @@ const Helper = {
 
   /**
    * Extracts the payload out of a given token.
-   * @param token  the token
+   * @param {string} token  the token
+   * @returns {Record<string, unknown>} the payload of the token
    */
   getJWTPayload: (token: string): Record<string, unknown> => {
     const split = token.split(".");
@@ -84,7 +90,8 @@ const Helper = {
    * distributed without restrictions. Attribution not necessary but appreciated.
    * Source: https://weeknumber.com/how-to/javascript
    * Returns the ISO week of the date.
-   * @param d  the {@link Date} to check
+   * @param {Date} d  the {@link Date} to check
+   * @returns {number} the ISO week of the date
    */
   getWeek: (d: Date): number => {
     const date = new Date(d.getTime());
@@ -107,6 +114,7 @@ const Helper = {
 
   /**
    * Returns the english name of the current day.
+   * @returns {string} the english name of the current day
    */
   getCurrentDayName: (): string => {
     return new Date()
@@ -116,6 +124,7 @@ const Helper = {
 
   /**
    * Returns the ISO week of the current date.
+   * @returns {number} the ISO week of the current date
    */
   getCurrentWeek: (): number => {
     return Helper.getWeek(new Date());
@@ -128,6 +137,8 @@ const Helper = {
 
   /**
    * Checks if a username contains only allowed characters and has a valid length.
+   * @param {string} username  the username to check
+   * @returns {boolean} true if the username is valid, false otherwise
    */
   checkUsername: (username: string): string | undefined => {
     if (username.length === 0) {
@@ -143,8 +154,8 @@ const Helper = {
 
   /**
    * Display whether a user was last online today, yesterday, a few days ago, some weeks ago or a long time ago.
-   * @param dateString
-   * @returns
+   * @param {string} dateString the date to check
+   * @returns {string} the string to display
    */
   getLastActiveFromDateString: (
     dateString: string

@@ -15,8 +15,8 @@ interface Props {
 
 /**
  * A component that renders all incoming and outgoing friend requests
- * @param {Props} props
- * @returns {JSX.Element}
+ * @param {Props} props The properties of the component
+ * @returns {JSX.Element} The component
  */
 const Requests: React.FC<Props> = ({ reloadFriends }) => {
   const requests = useAppSelector((state) => state.friends.friendRequests);

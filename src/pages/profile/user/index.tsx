@@ -20,8 +20,9 @@ import { ProfileData } from "@pages/profile/user/types";
 
 /**
  * The profile page for users.
+ * @returns {JSX.Element} The component
  */
-const Profile: React.FC = () => {
+const Profile: React.FC = (): JSX.Element => {
   const token = useAppSelector((state) => state.token.token);
   const api = useApi();
 

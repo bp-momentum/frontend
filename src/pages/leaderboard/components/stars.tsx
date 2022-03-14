@@ -8,8 +8,8 @@ interface Props {
 
 /**
  * Stars that are filled based on the rating in percentage
- * @param {Props} props
- * @returns {JSX.Element}
+ * @param {Props} props The props for the component.
+ * @returns {JSX.Element} The component.
  */
 const Stars: React.FC<Props> = ({ rating }: Props): JSX.Element => {
   return (

@@ -3,9 +3,9 @@ import { DraggableLocation } from "react-beautiful-dnd";
 
 /**
  * Truncate a string with ellipsis if it is too long
- * @param {string} str
- * @param {number} n
- * @returns {string}
+ * @param {string} str The string to truncate
+ * @param {number} n The maximum length of the string
+ * @returns {string} The truncated string
  */
 export const truncate = (str: string, n: number): string => {
   return str?.length > n ? str.substring(0, n - 1) + "…" : str;
@@ -13,9 +13,9 @@ export const truncate = (str: string, n: number): string => {
 
 /**
  * Maps a given exercise id to its corresponding name
- * @param {Exercise[]} exercises
- * @param {number} id
- * @returns {string}
+ * @param {Exercise[]} exercises The exercises to search
+ * @param {number} id The id to search for
+ * @returns {string} The name of the exercise
  */
 export const exerciseIdToName = (exercises: Exercise[], id: number): string =>
   truncate(
@@ -43,7 +43,7 @@ export const exerciseIdToName = (exercises: Exercise[], id: number): string =>
  * @param {DraggableLocation} source the source location and index of the item
  * @param {DraggableLocation} dest the destination location and index of the item
  * @param {MutableRefObject<number>} count the number of all items to generate unique ids
- * @returns {leave: ExerciseCardData[], join: ExerciseCardData[]}
+ * @returns {{leave: ExerciseCardData[], join: ExerciseCardData[]}} the source and destination lists after the reordering
  */
 export const reorder = (
   listLeave: ExerciseCardData[],

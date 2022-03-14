@@ -8,9 +8,10 @@ interface Props {
 
 /**
  * Displays five stars which can be filled when a certain rating is achieved.
- * @param rating  the rating, number between 0 and 5
+ * @param {Props} rating  the rating, number between 0 and 5
+ * @returns {JSX.Element} the component
  */
-const RatingStars: React.FC<Props> = ({ rating }) => {
+const RatingStars: React.FC<Props> = ({ rating }: Props): JSX.Element => {
   return (
     <Row style={{ alignItems: "end" }} justify="space-around">
       <StarFilled

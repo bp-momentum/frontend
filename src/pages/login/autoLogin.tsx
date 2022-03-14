@@ -11,8 +11,9 @@ import useApi from "@hooks/api";
 
 /**
  * This page is displayed while trying to log in the user with the saved tokens from the cache.
+ * @returns {JSX.Element} The page.
  */
-const AutoLogin: React.FC = () => {
+const AutoLogin: React.FC = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const refreshToken = useAppSelector((state) => state.token.refreshToken);

@@ -23,10 +23,10 @@ interface Props {
 
 /**
  * A card for displaying and editing a user's information.
- * @param props  see {@link Props}
- * @constructor
+ * @param {Props} props  see {@link Props}
+ * @returns {JSX.Element} The component.
  */
-const UserCard: React.FC<Props> = ({ ...props }) => {
+const UserCard: React.FC<Props> = ({ ...props }: Props): JSX.Element => {
   const { t } = useTranslation();
   const [userFlipped, setUserFlipped] = React.useState<boolean>(false);
   const [popoverVisible, setPopoverVisible] = React.useState<boolean>(false);

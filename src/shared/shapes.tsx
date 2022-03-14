@@ -18,7 +18,7 @@ const style2 = {
 
 /**
  * Some random shapes.
- * @returns {JSX.Element}
+ * @returns {JSX.Element} The component.
  */
 const Shapes: React.FC = (): JSX.Element => {
   const [seed, setSeed] = React.useState(getSeed());

@@ -2,7 +2,7 @@ import React from "react";
 import { QuestionOutlined, StarFilled } from "@ant-design/icons";
 import { Tooltip } from "antd";
 
-interface medalProps {
+interface Props {
   type: "gold" | "silver" | "bronze" | "none" | "unknown";
   size: "small" | "large";
   tooltipText?: string;
@@ -10,12 +10,10 @@ interface medalProps {
 
 /**
  * Component to display a medal.
- * @param type         the type of the medal
- * @param tooltipText  the text of the tooltip or null if the tooltip should be hidden
- * @param size         the size of the medal
+ * @param {Props} props The properties of the component.
  * @constructor
  */
-const Medal: React.FC<medalProps> = ({ type, tooltipText, size }) => {
+const Medal: React.FC<Props> = ({ type, tooltipText, size }: Props) => {
   const medalColor = {
     gold: "#f5c842",
     silver: "#c8c8c8",

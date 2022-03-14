@@ -20,12 +20,17 @@ interface Props {
   setSubPage: Dispatch<SetStateAction<subPage>>;
 }
 
+/**
+ * The component that handles a finished set.
+ * @param {Props} props The properties of the component.
+ * @returns {JSX.Element} The component.
+ */
 const SetDone: React.FC<Props> = ({
   stats,
   exercise,
   setSubPage,
   initialCollapsed,
-}) => {
+}: Props): JSX.Element => {
   const [remainingSeconds, setRemainingSeconds] = useState<number>(30);
   const { t } = useTranslation();
 

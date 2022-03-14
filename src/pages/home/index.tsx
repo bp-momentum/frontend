@@ -10,6 +10,7 @@ import { Content } from "antd/lib/layout/layout";
 
 /**
  * The Homepage for administrators and trainers.
+ * @returns {JSX.Element} The page
  */
 const Home: React.FC = () => {
   const token = useAppSelector((state) => state.token.token);

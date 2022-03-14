@@ -7,8 +7,9 @@ import { useTranslation } from "react-i18next";
 
 /**
  * Loading animation while the data of the profile is loading.
+ * @returns {JSX.Element} The page.
  */
-const ProfileLoadingView: React.FC = () => {
+const ProfileLoadingView: React.FC = (): JSX.Element => {
   const { t } = useTranslation();
 
   return (

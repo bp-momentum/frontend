@@ -19,8 +19,8 @@ interface Props {
 
 /**
  * A component that renders details of a single friend
- * @param {Props} props
- * @returns {JSX.Element}
+ * @param {Props} props The properties of the component
+ * @returns {JSX.Element} The component
  */
 const BigFriendCard: React.FC<Props> = ({
   onClose,

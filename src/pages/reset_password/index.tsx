@@ -13,10 +13,10 @@ interface Props {
 
 /**
  * A form for resetting your password.
- * @param {Props} props
- * @returns {JSX.Element}
+ * @param {Props} props The properties of the component.
+ * @returns {JSX.Element} The form.
  */
-const ResetPw: React.FC<Props> = ({ resetToken }) => {
+const ResetPw: React.FC<Props> = ({ resetToken }: Props): JSX.Element => {
   const navigate = useNavigate();
   const [error, setError] = React.useState<null | string>();
   const { t } = useTranslation();

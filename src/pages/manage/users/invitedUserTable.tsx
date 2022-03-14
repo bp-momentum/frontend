@@ -27,8 +27,8 @@ interface Props {
 
 /**
  * The table of all users without an account (aka invited users or trainers).
- * @param {Props} props
- * @returns {JSX.Element}
+ * @param {Props} props The props
+ * @returns {JSX.Element} The page
  */
 const InvitedUserTable: React.FC<Props> = ({
   updateValue,

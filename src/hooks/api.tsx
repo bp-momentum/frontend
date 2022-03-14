@@ -8,6 +8,7 @@ import config from "@config";
 
 /**
  * This api handles all requests to the backend.
+ * @returns {Api} The api.
  */
 const useApi = () => {
   const token = useAppSelector((state) => state.token.token) ?? "";
@@ -21,7 +22,8 @@ const useApi = () => {
    * This method also checks if the token of the user is still valid and forces the user to log in manually again
    * if it's not.
    *
-   * @param route  the {@link Route} to request
+   * @param {Route} route  the {@link Route} to request
+   * @returns {Promise<Response>} The response of the request.
    */
   const execute = async (route: Route): Promise<ApiResponse> => {
     let response;
@@ -57,7 +59,8 @@ const useApi = () => {
    * Fetches a {@link Route} with the GET method.
    * It forwards the call to {@link getWithAuth} or {@link get} depending on whether the route requires
    * authentication or not.
-   * @param route  the given {@link Route}
+   * @param {Route} route  the given {@link Route}
+   * @returns {Promise<Response>} The response of the request.
    */
   const executeGet = (route: Route): Promise<ApiResponse> => {
     if (route.needsAuth) {
@@ -69,7 +72,8 @@ const useApi = () => {
 
   /**
    * Fetches a {@link Route} with the GET method without authentication.
-   * @param route  the given {@link Route}
+   * @param {Route} route  the given {@link Route}
+   * @returns {Promise<Response>} The response of the request.
    */
   const get = (route: string): Promise<ApiResponse> => {
     return fetch(parseRoute(route), {
@@ -80,7 +84,8 @@ const useApi = () => {
   /**
    * Fetches a {@link Route} with the GET method with authentication.
    * The user's session token will be sent inside the request header.
-   * @param route  the given {@link Route}
+   * @param {Route} route  the given {@link Route}
+   * @returns {Promise<Response>} The response of the request.
    */
   const getWithAuth = (route: string): Promise<ApiResponse> => {
     return fetch(parseRoute(route), {
@@ -95,7 +100,8 @@ const useApi = () => {
    * {@link postWithAuthAndBody} depending on whether the route has any data to send or not.
    * If the given {@link Route} does not require authentication, this method will forward the call to {@link post} or
    * {@link postWithBody} depending on whether the route has any data to send or not.
-   * @param route  the given {@link Route}
+   * @param {Route} route  the given {@link Route}
+   * @returns {Promise<Response>} The response of the request.
    */
   const executePost = (route: Route): Promise<ApiResponse> => {
     if (route.needsAuth) {
@@ -115,7 +121,8 @@ const useApi = () => {
 
   /**
    * Requests a {@link Route} with the POST method without authentication and without any data to send.
-   * @param route  the given {@link Route}
+   * @param {Route} route  the given {@link Route}
+   * @returns {Promise<Response>} The response of the request.
    */
   const post = (route: string): Promise<ApiResponse> => {
     return fetch(parseRoute(route), {
@@ -125,8 +132,9 @@ const useApi = () => {
 
   /**
    * Requests a {@link Route} with the POST method without authentication and with data to send.
-   * @param route  the given {@link Route}
-   * @param body  object containing the data to send
+   * @param {Route} route  the given {@link Route}
+   * @param {Record<string, unkown>} body  object containing the data to send
+   * @returns {Promise<Response>} The response of the request.
    */
   const postWithBody = (
     route: string,
@@ -141,7 +149,8 @@ const useApi = () => {
 
   /**
    * Requests a {@link Route} with the POST method with authentication and without any data to send.
-   * @param route  the given {@link Route}
+   * @param {Route} route  the given {@link Route}
+   * @returns {Promise<Response>} The response of the request.
    */
   const postWithAuth = (route: string): Promise<ApiResponse> => {
     return fetch(parseRoute(route), {
@@ -152,8 +161,9 @@ const useApi = () => {
 
   /**
    * Requests a {@link Route} with the POST method with authentication and with data to send.
-   * @param route  the given {@link Route}
-   * @param body  object containing the data to send
+   * @param {Route} route  the given {@link Route}
+   * @param {Record<string, unkown>} body  object containing the data to send
+   * @returns {Promise<Response>} The response of the request.
    */
   const postWithAuthAndBody = (
     route: string,
@@ -171,7 +181,8 @@ const useApi = () => {
 
   /**
    * Concatenates the given route with the configured {@link config.backendUrl} to have the correct format.
-   * @param route  the given route as string
+   * @param {string} route  the given route as string
+   * @returns {string} the concatenated route
    */
   const parseRoute = (route: string): string => {
     if (route.startsWith("/")) {
@@ -187,6 +198,7 @@ const useApi = () => {
   /**
    * Creates a new {@link ApiSocketConnection} to send and retrieve data from the backend.
    * Uses the configured {@link config.websocketUrl} to connect to the websocket.
+   * @returns {ApiSocketConnection} the created {@link ApiSocketConnection}
    */
   const openSocket = async (): Promise<ApiSocketConnection> => {
     return new ApiSocketConnection(token, config.websocketUrl);
@@ -242,9 +254,10 @@ export class ApiSocketConnection {
 
   /**
    * Called when the websocket encounters an error.
-   * @param event  the error event
+   * @param {Event} event  the error event
+   * @returns {void}
    */
-  onerror: (event: Event) => unknown = (event) =>
+  onerror: (event: Event) => unknown = (event: Event): void =>
     console.error("WebSocket closed due to an error! Error: " + event);
 
   /**
@@ -260,13 +273,16 @@ export class ApiSocketConnection {
 
   /**
    * Method to close the connection to the websocket.
+   * @returns {void}
    */
-  close: () => void = () => this.ws.close();
+  close: () => void = (): void => this.ws.close();
 
   /**
    * Check if the connection to the websocket is currently connected.
+   * @returns {boolean} true if the connection is open, false otherwise
    */
-  connected: () => boolean = () => this.ws.readyState === WebSocket.OPEN;
+  connected: () => boolean = (): boolean =>
+    this.ws.readyState === WebSocket.OPEN;
 }
 
 /**

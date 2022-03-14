@@ -7,11 +7,11 @@ import { ColumnProps } from "antd/lib/table/Column";
 
 /**
  *
- * @param {string} dataIndex
- * @param {RefObject<InputRef>} searchInput
- * @param {void} redraw
- * @param {string} searchText
- * @returns {ColumnSearchProps}
+ * @param {string} dataIndex The data index of the column.
+ * @param {RefObject<InputRef>} searchInput The search input.
+ * @param {void} redraw The redraw function.
+ * @param {string} searchText The search text.
+ * @returns {ColumnSearchProps} The column props.
  */
 export function getColumnSearchProps<Type>(
   dataIndex: string,

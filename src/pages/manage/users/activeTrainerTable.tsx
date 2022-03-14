@@ -16,7 +16,7 @@ interface User {
 
 /**
  * The table of all trainers with an account.
- * @returns {JSX.Element}
+ * @returns {JSX.Element} The page
  */
 const ActiveTrainerTable: React.FC = (): JSX.Element => {
   const searchInput = createRef<InputRef>();
