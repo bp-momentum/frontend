@@ -5,6 +5,7 @@ import { Col, Progress, Row, Tooltip } from "antd";
 import Medal from "@shared/medal";
 import Text from "antd/lib/typography/Text";
 import { CheckCircleOutlined } from "@ant-design/icons";
+import _ from "lodash";
 
 interface achievementCardProps {
   achievement: Achievement;
@@ -13,6 +14,23 @@ interface achievementCardProps {
 const AchievementCard: React.FC<achievementCardProps> = ({ ...props }) => {
   const { achievement } = props;
 
+  const description = (
+    <div
+      style={{
+        width: "230px",
+        height: "60px",
+        display: "-webkit-box",
+        maxHeight: "60px",
+        WebkitLineClamp: "2",
+        WebkitBoxOrient: "vertical",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "break-spaces",
+      }}
+    >
+      {_.truncate(achievement.description, { length: 50, separator: "..." })}
+    </div>
+  );
   return (
     <Container
       size={{ width: "350px", height: "140px" }}
@@ -37,23 +55,10 @@ const AchievementCard: React.FC<achievementCardProps> = ({ ...props }) => {
         <Col style={{ marginLeft: "20px", overflow: "hidden" }}>
           <Text style={{ fontSize: 25 }}>{achievement.title}</Text>
           <br />
-          <Tooltip title={achievement.description}>
-            <div
-              style={{
-                width: "230px",
-                height: "60px",
-                display: "-webkit-box",
-                maxHeight: "60px",
-                WebkitLineClamp: "2",
-                WebkitBoxOrient: "vertical",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "break-spaces",
-              }}
-            >
-              {achievement.description}
-            </div>
-          </Tooltip>
+          {achievement.description.length > 50 && (
+            <Tooltip title={achievement.description}>{description}</Tooltip>
+          )}
+          {achievement.description.length <= 50 && description}
           <Progress
             style={{
               position: "absolute",
