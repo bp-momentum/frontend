@@ -230,20 +230,42 @@ export class ApiSocketConnection {
     };
   }
 
+  /**
+   * Called when the websocket connection is opened.
+   */
   onopen: ((event: Event) => unknown) | null = null;
 
+  /**
+   * Method to send data to the websocket.
+   */
   readonly send;
 
+  /**
+   * Called when the websocket encounters an error.
+   * @param event  the error event
+   */
   onerror: (event: Event) => unknown = (event) =>
     console.error("WebSocket closed due to an error! Error: " + event);
 
+  /**
+   * Called when the websocket connection receives a message from the backend.
+   */
   onmessage: ((message: WebsocketResponse | undefined) => unknown) | null =
     null;
 
+  /**
+   * Called when the connection to the websocket is closed.
+   */
   onclose: ((event: CloseEvent) => unknown) | null = null;
 
+  /**
+   * Method to close the connection to the websocket.
+   */
   close: () => void = () => this.ws.close();
 
+  /**
+   * Check if the connection to the websocket is currently connected.
+   */
   connected: () => boolean = () => this.ws.readyState === WebSocket.OPEN;
 }
 
