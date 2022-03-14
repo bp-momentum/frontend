@@ -12,7 +12,7 @@ import { Content } from "antd/lib/layout/layout";
  * The Homepage for administrators and trainers.
  * @returns {JSX.Element} The page
  */
-const Home: React.FC = () => {
+const Home: React.FC = (): JSX.Element => {
   const token = useAppSelector((state) => state.token.token);
   const { t } = useTranslation();
 
