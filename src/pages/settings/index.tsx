@@ -167,7 +167,12 @@ const Settings: React.FC = () => {
             </Divider>
 
             <Row justify="center">
-              <Select defaultValue={i18n.language} onChange={changeLanguage}>
+              <Select
+                defaultValue={
+                  i18n.language.toLowerCase().includes("de") ? "de" : "en"
+                }
+                onChange={changeLanguage}
+              >
                 <Select.Option value="de" key="de">
                   Deutsch
                 </Select.Option>
