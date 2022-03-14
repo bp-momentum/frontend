@@ -147,11 +147,17 @@ const Container: React.FC<Props> = ({
           </Menu.Item>
           {(isTrainer || isAdmin) && (
             <>
-              <Menu.Item key="manage_users" icon={<TeamOutlined />}>
+              <Menu.Item
+                key="manage_users"
+                icon={<TeamOutlined style={{ color: "#1890ff" }} />}
+              >
                 {t(Translations.tabBar.user)}
               </Menu.Item>
               {isTrainer && (
-                <Menu.Item key="manage_plans" icon={<CalendarOutlined />}>
+                <Menu.Item
+                  key="manage_plans"
+                  icon={<CalendarOutlined style={{ color: "#1890ff" }} />}
+                >
                   {t(Translations.tabBar.plans)}
                 </Menu.Item>
               )}
