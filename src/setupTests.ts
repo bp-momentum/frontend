@@ -142,7 +142,7 @@ nock(config.backendUrl)
       ],
     },
   })
-  .get("/api/getFriendRequests")
+  .get("/api/getfriendrequests")
   .reply(200, {
     success: true,
     data: {
