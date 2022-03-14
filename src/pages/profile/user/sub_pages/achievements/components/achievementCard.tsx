@@ -19,7 +19,6 @@ interface Props {
 const AchievementCard: React.FC<Props> = ({
   achievement,
 }: Props): JSX.Element => {
-
   const description = (
     <div
       style={{
@@ -37,7 +36,7 @@ const AchievementCard: React.FC<Props> = ({
       {_.truncate(achievement.description, { length: 50, separator: "..." })}
     </div>
   );
-  
+
   return (
     <Container
       size={{ width: "350px", height: "140px" }}
