@@ -224,4 +224,5 @@ export const informationCallback = (
   setInformation: React.Dispatch<React.SetStateAction<string | null>>
 ): void => {
   setInformation(information);
+  setTimeout(() => setInformation(null), 5000);
 };
