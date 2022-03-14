@@ -10,10 +10,12 @@ import { message } from "antd";
 import { useTranslation } from "react-i18next";
 import config from "@config";
 import SpeechBubble from "@shared/speechBubble";
+import { MedalType } from "@api/medal";
 
 interface Props {
   stats: MutableRefObject<StatsType>;
   exercise?: ExerciseData;
+  medalType: MedalType;
 }
 
 /**
@@ -24,6 +26,7 @@ interface Props {
 const ExerciseDone: React.FC<Props> = ({
   stats,
   exercise,
+  medalType,
 }: Props): JSX.Element => {
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -60,20 +63,6 @@ const ExerciseDone: React.FC<Props> = ({
     loadAvatar().catch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const totalPerf =
-    stats.current.data.reduce((acc: number, set: DataEntryType) => {
-      return acc + set.performance;
-    }, 0) / stats.current.data.length;
-
-  const medalType =
-    totalPerf >= 90
-      ? "gold"
-      : totalPerf >= 75
-      ? "silver"
-      : totalPerf >= 50
-      ? "bronze"
-      : "none";
 
   return (
     <div
@@ -158,7 +147,7 @@ const ExerciseDone: React.FC<Props> = ({
               <SpeechBubble
                 text={t(Translations.training.mascotText)}
                 padding={10}
-              ></SpeechBubble>
+              />
             </div>
           </div>
         </div>

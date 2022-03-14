@@ -7,3 +7,8 @@ export interface Medal {
   silver: number;
   gold: number;
 }
+
+/**
+ * All types of medals.
+ */
+export type MedalType = "unknown" | "none" | "bronze" | "silver" | "gold";

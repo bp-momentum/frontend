@@ -1,9 +1,10 @@
 import React from "react";
 import { QuestionOutlined, StarFilled } from "@ant-design/icons";
 import { Tooltip } from "antd";
+import { MedalType } from "@api/medal";
 
 interface Props {
-  type: "gold" | "silver" | "bronze" | "none" | "unknown";
+  type: MedalType;
   size: "small" | "large";
   tooltipText?: string;
 }
