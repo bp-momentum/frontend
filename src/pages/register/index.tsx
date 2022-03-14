@@ -16,10 +16,10 @@ interface Props {
 
 /**
  * The form for creating your account after being invited.
- * @param {Props} props
- * @returns {JSX.Element}
+ * @param {Props} props The props for the component.
+ * @returns {JSX.Element} The form.
  */
-const Register: React.FC<Props> = ({ registerToken }: Props): JSX.Element => {
+const Register: React.FC<Props> = ({ registerToken }: Props) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [error, setError] = React.useState<null | string>();

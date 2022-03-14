@@ -15,7 +15,8 @@ export interface Achievement {
 
 /**
  * Checks if the given {@link Achievement} is done.
- * @param achievement  the {@link Achievement} to check.
+ * @param {Achievement} achievement  the {@link Achievement} to check.
+ * @returns {boolean} `true` if the {@link Achievement} is done, `false` otherwise.
  */
 const isDone = (achievement: Achievement) => {
   return achievement.progress === "done";
