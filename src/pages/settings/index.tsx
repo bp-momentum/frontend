@@ -26,6 +26,9 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import useApi from "@hooks/api";
 
+/**
+ * A page containing the settings.
+ */
 const Settings: React.FC = () => {
   const navigate = useNavigate();
   const [error, setError] = React.useState<null | string>();
