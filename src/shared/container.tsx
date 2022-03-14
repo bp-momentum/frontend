@@ -165,7 +165,7 @@ const Container: React.FC<Props> = ({
           {!isAdmin && (
             <Menu.Item
               key="profile"
-              icon={<BarsOutlined />}
+              icon={<BarsOutlined style={{ color: "#1890ff" }} />}
               style={{ marginLeft: "auto" }}
             >
               <span
@@ -185,7 +185,10 @@ const Container: React.FC<Props> = ({
           >
             {t(Translations.tabBar.settings)}
           </Menu.Item>
-          <Menu.Item key="logout" icon={<LogoutOutlined />}>
+          <Menu.Item
+            key="logout"
+            icon={<LogoutOutlined style={{ color: "#1890ff" }} />}
+          >
             {t(Translations.tabBar.logout)}
           </Menu.Item>
         </Menu>
