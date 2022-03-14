@@ -102,7 +102,7 @@ For the default configuration, the images are stored according to the following 
 For the audio files 4 categories are required:
 "good", "better", "best" and "perfect".
 
-Each category has a total an arbitrary amount of files specified in the settings file.
+Each category has an arbitrary amount of files specified in the settings file.
 
 The default URL scheme looks the following:
 
