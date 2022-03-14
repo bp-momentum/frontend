@@ -12,7 +12,14 @@ interface Props {
   email: string;
 }
 
-const TrainerCard: React.FC<Props> = ({ ...props }) => {
+/**
+ * A card for displaying all important contact information of a user's trainer.
+ * @param name    the name of the trainer
+ * @param address the address of the trainer
+ * @param phone   the phone number of the trainer
+ * @param email   the email address of the trainer
+ */
+const TrainerCard: React.FC<Props> = ({ name, address, phone, email }) => {
   const { t } = useTranslation();
 
   return (
@@ -29,20 +36,20 @@ const TrainerCard: React.FC<Props> = ({ ...props }) => {
       <Row justify="space-around">
         <Text>{t(Translations.user.trainer)}</Text>
         <Text style={{ marginRight: "5px", whiteSpace: "pre-wrap" }}>
-          {props.name}
+          {name}
           <br />
-          {props.address.replaceAll(", ", "\n")}
+          {address.replaceAll(", ", "\n")}
           <br />
           <ButtonContact
             type={ContactType.phone}
-            contact={props.phone}
-            label={props.phone}
+            contact={phone}
+            label={phone}
           />
           <br />
           <ButtonContact
             type={ContactType.email}
-            contact={props.email}
-            label={props.email}
+            contact={email}
+            label={email}
           />
         </Text>
       </Row>

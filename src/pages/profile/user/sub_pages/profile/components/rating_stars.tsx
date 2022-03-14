@@ -6,6 +6,10 @@ interface Props {
   rating: number;
 }
 
+/**
+ * Displays five stars which can be filled when a certain rating is achieved.
+ * @param rating  the rating, number between 0 and 5
+ */
 const RatingStars: React.FC<Props> = ({ rating }) => {
   return (
     <Row style={{ alignItems: "end" }} justify="space-around">

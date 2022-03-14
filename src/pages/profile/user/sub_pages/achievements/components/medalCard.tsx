@@ -12,6 +12,12 @@ interface Props {
   exercise: string;
 }
 
+/**
+ * A card for displaying an achieved medal.
+ * @param type      the type of the medal
+ * @param count     the amount of medals the user achieved of this type
+ * @param exercise  the exercise which the user earned the medal for
+ */
 const MedalCard: React.FC<Props> = ({ type, count, exercise }) => {
   const { t } = useTranslation();
 

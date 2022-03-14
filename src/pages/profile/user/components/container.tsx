@@ -10,6 +10,9 @@ interface Props {
   backgroundColor?: string;
 }
 
+/**
+ * A card component for displaying friends, achievements, medals, etc.
+ */
 const Container: React.FC<Props> = ({ ...props }) => {
   const { onClick, children, size, backgroundColor } = props;
   return (

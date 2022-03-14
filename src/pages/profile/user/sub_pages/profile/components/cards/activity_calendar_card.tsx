@@ -22,10 +22,17 @@ interface Props {
   currentMonth: number;
 }
 
-const DateCell: React.FC<Props> = ({ ...props }) => {
+/**
+ * A component for a single date in the calendar.
+ * @param month         the month of the displayed date
+ * @param year          the year of the displayed date
+ * @param date          the date to display
+ * @param currentMonth  whether the date is part of the current month which is being viewed
+ */
+const DateCell: React.FC<Props> = ({ month, year, date, currentMonth }) => {
   const { data } = useGetDoneExercisesInMonthQuery({
-    month: props.month + 1,
-    year: props.year,
+    month: month + 1,
+    year: year,
   });
 
   const exercises: {
@@ -38,7 +45,7 @@ const DateCell: React.FC<Props> = ({ ...props }) => {
 
   const daysExercises = exercises.filter((e) => {
     const d = new Date(e.date * 1000);
-    return d.toDateString() === props.date.toDateString();
+    return d.toDateString() === date.toDateString();
   });
   const doneExercises = daysExercises.filter((e) => e.done ?? e.points !== 0);
   const openExercises = daysExercises.filter((e) => !e.done ?? e.points === 0);
@@ -51,11 +58,11 @@ const DateCell: React.FC<Props> = ({ ...props }) => {
       : round((doneExercises.length / daysExercises.length) * 100);
 
   const isToday = (): boolean => {
-    return props.date.toDateString() === new Date().toDateString();
+    return date.toDateString() === new Date().toDateString();
   };
 
   const getTextColor = () => {
-    if (props.month !== props.currentMonth) {
+    if (month !== currentMonth) {
       return "gray";
     }
     if (daysExercises.length === 0) {
@@ -84,7 +91,7 @@ const DateCell: React.FC<Props> = ({ ...props }) => {
           color: getTextColor(),
         }}
       >
-        {props.date.getDate()}
+        {date.getDate()}
       </div>
     </div>
   );
@@ -97,9 +104,7 @@ const DateCell: React.FC<Props> = ({ ...props }) => {
     <Popover
       color={"white"}
       trigger="click"
-      title={
-        <Text>{props.date.toLocaleDateString() + " - " + percent + "%"}</Text>
-      }
+      title={<Text>{date.toLocaleDateString() + " - " + percent + "%"}</Text>}
       content={
         <Col>
           {daysExercises.map((e) => {
@@ -120,6 +125,10 @@ const DateCell: React.FC<Props> = ({ ...props }) => {
   );
 };
 
+/**
+ * Displays the name of an exercise, the points achieved and whether it was done.
+ * @param props   the id, the points and if the exercise was done
+ */
 const ExerciseName = (props: {
   id: number;
   points: number | null;
@@ -153,6 +162,9 @@ const ExerciseName = (props: {
   );
 };
 
+/**
+ * A calendar view which contains the exercise history of a user.
+ */
 const ActivityCalendarCard = (): JSX.Element => {
   const { t } = useTranslation();
   let currentMonthViewed = new Date().getMonth();

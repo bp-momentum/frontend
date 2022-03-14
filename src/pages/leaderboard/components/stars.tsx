@@ -52,7 +52,7 @@ const Stars: React.FC<Props> = ({ rating }: Props): JSX.Element => {
             background: "#6D6D6D",
             mixBlendMode: "hue",
           }}
-        ></div>
+        />
       </Row>
     </Tooltip>
   );

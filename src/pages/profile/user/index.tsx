@@ -18,6 +18,9 @@ import SubPageAchievements from "./sub_pages/achievements";
 import config from "@config";
 import { ProfileData } from "@pages/profile/user/types";
 
+/**
+ * The profile page for users.
+ */
 const Profile: React.FC = () => {
   const token = useAppSelector((state) => state.token.token);
   const api = useApi();

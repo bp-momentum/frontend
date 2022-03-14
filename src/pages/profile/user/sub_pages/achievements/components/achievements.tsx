@@ -9,6 +9,9 @@ import AchievementCard from "./achievementCard";
 import HiddenAchievementCard from "./hiddenAchievementCard";
 import _ from "lodash";
 
+/**
+ * The page where all achievements are displayed.
+ */
 const Achievements: React.FC = () => {
   const api = useApi();
   const { t } = useTranslation();

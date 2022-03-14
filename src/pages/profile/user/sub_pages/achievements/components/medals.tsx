@@ -8,6 +8,9 @@ import { Medal } from "@api/medal";
 import MedalCard from "./medalCard";
 import EmptyDataRender from "@shared/emptyDataRender";
 
+/**
+ * The page where all medals are displayed.
+ */
 const Medals: React.FC = () => {
   const api = useApi();
   const { t } = useTranslation();

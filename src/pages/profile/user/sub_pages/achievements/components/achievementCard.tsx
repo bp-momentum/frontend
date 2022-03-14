@@ -9,6 +9,10 @@ interface Props {
   achievement: Achievement;
 }
 
+/**
+ * A card for displaying a given {@link Achievement}.
+ * @param achievement  the achievement to display
+ */
 const AchievementCard: React.FC<Props> = ({ achievement }) => {
   return (
     <Container

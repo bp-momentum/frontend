@@ -17,6 +17,16 @@ interface Props {
   selected: "profile" | "friends" | "achievements" | "loading";
 }
 
+/**
+ * Sidebar of the user's profile.
+ * @param onClickFriends      called when the user clicks on the friends button
+ * @param onClickAchievements called when the user clicks on the achievements button
+ * @param onClickProfile      called when the user clicks on the profile button
+ * @param avatarUrl           the user's avatarUrl
+ * @param username            the user's username
+ * @param selected            the current selected sub-page
+ * @constructor
+ */
 const ProfileSider: React.FC<Props> = ({
   onClickFriends,
   onClickAchievements,

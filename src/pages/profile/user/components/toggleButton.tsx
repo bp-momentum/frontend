@@ -7,6 +7,13 @@ interface Props {
   highlighted?: boolean;
 }
 
+/**
+ * A button which can be toggled on and off.
+ * @param onClick     called when clicking this button
+ * @param toggled     whether the button is currently toggled on
+ * @param children    the children of the button
+ * @param highlighted whether the button is currently highlighted
+ */
 const ToggleButton: React.FC<Props> = ({
   onClick,
   toggled,

@@ -106,7 +106,7 @@ const Leaderboard: React.FC = (): JSX.Element => {
                 transform: "rotate(-30deg)",
               }}
               alt="Sad Error Face"
-            ></img>
+            />
           )}
           <div
             className="medalWrapper"

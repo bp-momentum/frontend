@@ -6,6 +6,9 @@ import { useTranslation } from "react-i18next";
 import Routes from "@util/routes";
 import useApi from "@hooks/api";
 
+/**
+ * The profile page for trainers. Displays a form where the trainer can enter their contact information.
+ */
 const TrainerProfile: React.FC = () => {
   const [data, setData] = React.useState<null | TrainerContact>(null);
   const [edited, setEdited] = React.useState(false);
@@ -64,6 +67,7 @@ const TrainerProfile: React.FC = () => {
       }
     }
     setSuccess(t(Translations.trainerProfile.success));
+    loadContactInformation().catch(message.error);
     setEdited(false);
     setTimeout(() => setSuccess(null), 5000);
   };

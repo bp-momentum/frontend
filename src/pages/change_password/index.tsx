@@ -10,6 +10,9 @@ import { useAppDispatch } from "@redux/hooks";
 import Container from "@shared/container";
 import useApi from "@hooks/api";
 
+/**
+ * The page where a user can change their password.
+ */
 const ChangePassword: React.FC = () => {
   const navigate = useNavigate();
   const [error, setError] = React.useState<null | string>();
@@ -18,6 +21,10 @@ const ChangePassword: React.FC = () => {
   const dispatch = useAppDispatch();
   const api = useApi();
 
+  /**
+   * Called when the user clicks the submit button.
+   * @param values  the entered values of the form
+   */
   const onFinish = async (values: Record<string, never>) => {
     setError(null);
     const password = values["password"];

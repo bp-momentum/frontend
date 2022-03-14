@@ -9,6 +9,9 @@ import { useTranslation } from "react-i18next";
 import Translations from "@localization/translations";
 import useApi from "@hooks/api";
 
+/**
+ * This page is displayed while trying to log in the user with the saved tokens from the cache.
+ */
 const AutoLogin: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

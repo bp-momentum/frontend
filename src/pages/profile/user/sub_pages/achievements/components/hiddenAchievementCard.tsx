@@ -6,6 +6,9 @@ import Medal from "@shared/medal";
 import Translations from "@localization/translations";
 import { useTranslation } from "react-i18next";
 
+/**
+ * A card for displaying an unknown, hidden achievement.
+ */
 const HiddenAchievementCard: React.FC = () => {
   const { t } = useTranslation();
 

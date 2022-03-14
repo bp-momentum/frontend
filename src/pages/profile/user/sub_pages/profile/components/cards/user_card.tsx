@@ -21,6 +21,11 @@ interface Props {
   saveNewAvatarId: (a: number) => void;
 }
 
+/**
+ * A card for displaying and editing a user's information.
+ * @param props  see {@link Props}
+ * @constructor
+ */
 const UserCard: React.FC<Props> = ({ ...props }) => {
   const { t } = useTranslation();
   const [userFlipped, setUserFlipped] = React.useState<boolean>(false);
