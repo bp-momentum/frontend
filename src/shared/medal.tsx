@@ -2,15 +2,13 @@ import React from "react";
 import { QuestionOutlined, StarFilled } from "@ant-design/icons";
 import { Tooltip } from "antd";
 
-interface medalProps {
+interface Props {
   type: "gold" | "silver" | "bronze" | "none" | "unknown";
   size: "small" | "large";
   tooltipText?: string;
 }
 
-const Medal: React.FC<medalProps> = ({ ...props }) => {
-  const { type, tooltipText, size } = props;
-
+const Medal: React.FC<Props> = ({ type, tooltipText, size }) => {
   const medalColor = {
     gold: "#f5c842",
     silver: "#c8c8c8",

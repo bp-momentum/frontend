@@ -15,14 +15,14 @@ import {
 } from "@redux/exercises/exerciseSlice";
 import { round } from "lodash";
 
-interface dateCellProps {
+interface Props {
   month: number;
   year: number;
   date: Date;
   currentMonth: number;
 }
 
-const DateCell: React.FC<dateCellProps> = ({ ...props }) => {
+const DateCell: React.FC<Props> = ({ ...props }) => {
   const { data } = useGetDoneExercisesInMonthQuery({
     month: props.month + 1,
     year: props.year,

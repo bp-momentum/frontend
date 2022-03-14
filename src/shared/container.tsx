@@ -24,13 +24,6 @@ import Helper from "@util/helper";
 
 const { confirm } = Modal;
 
-export interface containerProps {
-  children: React.ReactNode;
-  currentPage?: "home" | "settings" | "leaderboard" | "profile" | "manage"; // highlightable menu items
-  color?: "red" | "gold" | "blue";
-  confirmLeaveMessage?: false | string;
-}
-
 type pages =
   | "manage"
   | "home"
@@ -52,9 +45,22 @@ const pageToRoute: pagesToRouteType = {
   manage_plans: "/manage/plans",
 };
 
-const Container: React.FC<containerProps> = ({ ...props }) => {
-  const { children, currentPage, confirmLeaveMessage } = props;
-  const color = props.color || "blue";
+interface Props {
+  children: React.ReactNode;
+  currentPage?: "home" | "settings" | "leaderboard" | "profile" | "manage"; // highlightable menu items
+  confirmLeaveMessage?: false | string;
+}
+
+/**
+ * The main layout of the app.
+ * @param {Props} props
+ * @returns {JSX.Element}
+ */
+const Container: React.FC<Props> = ({
+  children,
+  currentPage,
+  confirmLeaveMessage,
+}: Props): JSX.Element => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
@@ -136,39 +142,30 @@ const Container: React.FC<containerProps> = ({ ...props }) => {
           selectedKeys={currentPage ? [currentPage] : []}
           onClick={handleClick}
         >
-          <Menu.Item key="home" icon={<HomeTwoTone twoToneColor={color} />}>
+          <Menu.Item key="home" icon={<HomeTwoTone />}>
             {t(Translations.tabBar.home)}
           </Menu.Item>
           {(isTrainer || isAdmin) && (
             <>
-              <Menu.Item
-                key="manage_users"
-                icon={<TeamOutlined style={{ color: color }} />}
-              >
+              <Menu.Item key="manage_users" icon={<TeamOutlined />}>
                 {t(Translations.tabBar.user)}
               </Menu.Item>
               {isTrainer && (
-                <Menu.Item
-                  key="manage_plans"
-                  icon={<CalendarOutlined style={{ color: color }} />}
-                >
+                <Menu.Item key="manage_plans" icon={<CalendarOutlined />}>
                   {t(Translations.tabBar.plans)}
                 </Menu.Item>
               )}
             </>
           )}
           {!isAdmin && (
-            <Menu.Item
-              key="leaderboard"
-              icon={<CrownTwoTone twoToneColor={color} />}
-            >
+            <Menu.Item key="leaderboard" icon={<CrownTwoTone />}>
               {t(Translations.tabBar.leaderboard)}
             </Menu.Item>
           )}
           {!isAdmin && (
             <Menu.Item
               key="profile"
-              icon={<BarsOutlined style={{ color: color }} />}
+              icon={<BarsOutlined />}
               style={{ marginLeft: "auto" }}
             >
               <span
@@ -184,14 +181,11 @@ const Container: React.FC<containerProps> = ({ ...props }) => {
           <Menu.Item
             key="settings"
             style={!isAdmin ? {} : { marginLeft: "auto" }}
-            icon={<SettingTwoTone twoToneColor={color} />}
+            icon={<SettingTwoTone />}
           >
             {t(Translations.tabBar.settings)}
           </Menu.Item>
-          <Menu.Item
-            key="logout"
-            icon={<LogoutOutlined style={{ color: color }} />}
-          >
+          <Menu.Item key="logout" icon={<LogoutOutlined />}>
             {t(Translations.tabBar.logout)}
           </Menu.Item>
         </Menu>

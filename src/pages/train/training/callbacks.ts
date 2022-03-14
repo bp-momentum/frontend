@@ -1,6 +1,13 @@
 import config from "@config";
 import React from "react";
 
+/**
+ * Calculates the average of the given points
+ * @param {number} intensity
+ * @param {number} accuracy
+ * @param {number} speed
+ * @returns {number} average of intensity, accuracy and speed
+ */
 const totalPointsCalculation = (
   intensity: number,
   accuracy: number,
@@ -9,7 +16,13 @@ const totalPointsCalculation = (
   return Math.floor((intensity + accuracy + speed) / 3);
 };
 
-const calculatePoints = (points: Points[], set: number): dataEntryType[] => {
+/**
+ * Calculate points for the graph component
+ * @param {Points[]} points
+ * @param {number} set
+ * @returns {DataEntryType[]}
+ */
+const calculatePoints = (points: Points[], set: number): DataEntryType[] => {
   const intensity = Math.floor(
     points.reduce((acc, curr) => acc + curr.intensity, 0) / points.length
   );
@@ -41,16 +54,40 @@ const calculatePoints = (points: Points[], set: number): dataEntryType[] => {
   ];
 };
 
+/**
+ * Initialize the set data and stats for a new set
+ * @param {Record<string, any>} data
+ * @param {React.MutableRefObject<StatsType>} stats
+ * @param {React.Dispatch<React.SetStateAction<number>>} setCurrentSet
+ */
 export const initCallback = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: Record<string, any>,
-  stats: React.MutableRefObject<statsType>,
+  stats: React.MutableRefObject<StatsType>,
   setCurrentSet: React.Dispatch<React.SetStateAction<number>>
 ): void => {
   setCurrentSet(data.current_set + 1);
   stats.current.set = data.current_set + 1;
 };
 
+interface StatsCallbackProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: Record<string, any>;
+  points: Points[];
+  setProgress: React.Dispatch<React.SetStateAction<number>>;
+  repeats: number;
+  currentRepeat: React.MutableRefObject<number>;
+  setFeedback: React.Dispatch<React.SetStateAction<Feedback>>;
+  totalPoints: React.MutableRefObject<number>;
+  setIsFeedbackNew: React.Dispatch<React.SetStateAction<boolean>>;
+  playRandomSound: (category: audioCategory) => void;
+  audioFeedbackChance: React.MutableRefObject<number>;
+}
+
+/**
+ * Handle points from the AI
+ * @param {StatsCallbackProps} props
+ */
 export const statsCallback = ({
   data,
   points,
@@ -62,19 +99,7 @@ export const statsCallback = ({
   setIsFeedbackNew,
   playRandomSound,
   audioFeedbackChance,
-}: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data: Record<string, any>;
-  points: Points[];
-  setProgress: React.Dispatch<React.SetStateAction<number>>;
-  repeats: number;
-  currentRepeat: React.MutableRefObject<number>;
-  setFeedback: React.Dispatch<React.SetStateAction<feedback>>;
-  totalPoints: React.MutableRefObject<number>;
-  setIsFeedbackNew: React.Dispatch<React.SetStateAction<boolean>>;
-  playRandomSound: (category: audioCategory) => void;
-  audioFeedbackChance: React.MutableRefObject<number>;
-}): void => {
+}: StatsCallbackProps): void => {
   const total = totalPointsCalculation(
     data.intensity,
     data.cleanliness,
@@ -112,8 +137,15 @@ export const statsCallback = ({
   }
 };
 
+/**
+ * Handle the end of a set
+ * @param {StatsType} stats
+ * @param {React.Dispatch<React.SetStateAction<boolean>>} setActive
+ * @param {React.Dispatch<React.SetStateAction<subPage>>} setSubPage
+ * @param {Points[]} points
+ */
 export const endCallback = (
-  stats: statsType,
+  stats: StatsType,
   setActive: React.Dispatch<React.SetStateAction<boolean>>,
   setSubPage: React.Dispatch<React.SetStateAction<subPage>>,
   points: Points[]
@@ -124,8 +156,15 @@ export const endCallback = (
   setTimeout(() => setSubPage("setDone"), 2000);
 };
 
+/**
+ * Handle the end of a training
+ * @param {StatsType} stats
+ * @param {React.Dispatch<React.SetStateAction<boolean>>} setActive
+ * @param {React.Dispatch<React.SetStateAction<subPage>>} setSubPage
+ * @param {Points[]} points
+ */
 export const doneCallback = (
-  stats: statsType,
+  stats: StatsType,
   setActive: React.Dispatch<React.SetStateAction<boolean>>,
   setSubPage: React.Dispatch<React.SetStateAction<subPage>>,
   points: Points[]

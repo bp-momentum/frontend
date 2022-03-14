@@ -9,7 +9,7 @@ import Helper from "@util/helper";
 import { FaPen } from "react-icons/fa";
 import config from "@config";
 
-interface userCardProps {
+interface Props {
   avatarId: number;
   username: string;
   accountCreated: number;
@@ -21,7 +21,7 @@ interface userCardProps {
   saveNewAvatarId: (a: number) => void;
 }
 
-const UserCard: React.FC<userCardProps> = ({ ...props }) => {
+const UserCard: React.FC<Props> = ({ ...props }) => {
   const { t } = useTranslation();
   const [userFlipped, setUserFlipped] = React.useState<boolean>(false);
   const [popoverVisible, setPopoverVisible] = React.useState<boolean>(false);

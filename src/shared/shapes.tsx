@@ -17,7 +17,11 @@ const style2 = {
   transition: "all .8s linear",
 };
 
-const Shapes: React.FC = () => {
+/**
+ * Some random shapes.
+ * @returns {JSX.Element}
+ */
+const Shapes: React.FC = (): JSX.Element => {
   const [seed, setSeed] = React.useState(getSeed());
   const [seed2, setSeed2] = React.useState(getSeed());
   const [animation, setAnimation] = React.useState<NodeJS.Timeout | null>();

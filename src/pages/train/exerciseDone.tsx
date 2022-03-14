@@ -9,14 +9,20 @@ import Routes from "@util/routes";
 import { message } from "antd";
 import { useTranslation } from "react-i18next";
 
-interface exerciseDoneProps {
-  stats: MutableRefObject<statsType>;
+interface Props {
+  stats: MutableRefObject<StatsType>;
   exercise?: ExerciseData;
 }
 
-const ExerciseDone: React.FC<exerciseDoneProps> = ({ ...props }) => {
-  const { stats, exercise } = props;
-
+/**
+ * A component that renders when training is done
+ * @param {Props} props
+ * @returns {JSX.Element}
+ */
+const ExerciseDone: React.FC<Props> = ({
+  stats,
+  exercise,
+}: Props): JSX.Element => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const api = useApi();
@@ -45,7 +51,7 @@ const ExerciseDone: React.FC<exerciseDoneProps> = ({ ...props }) => {
   }, []);
 
   const totalPerf =
-    stats.current.data.reduce((acc: number, set: dataEntryType) => {
+    stats.current.data.reduce((acc: number, set: DataEntryType) => {
       return acc + set.performance;
     }, 0) / stats.current.data.length;
 

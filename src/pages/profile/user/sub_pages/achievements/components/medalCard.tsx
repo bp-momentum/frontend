@@ -6,14 +6,13 @@ import Text from "antd/lib/typography/Text";
 import { useTranslation } from "react-i18next";
 import Translations from "@localization/translations";
 
-interface medalCardProps {
+interface Props {
   type: "gold" | "silver" | "bronze";
   count: number;
   exercise: string;
 }
 
-const MedalCard: React.FC<medalCardProps> = ({ ...props }) => {
-  const { type, count, exercise } = props;
+const MedalCard: React.FC<Props> = ({ type, count, exercise }) => {
   const { t } = useTranslation();
 
   return (

@@ -18,6 +18,10 @@ import AddFriend from "./components/addFriend";
 import { useTranslation } from "react-i18next";
 import Translations from "@localization/translations";
 
+/**
+ * A component that renders everything related to friends
+ * @returns {JSX.Element}
+ */
 const SubPageFriends: React.FC = () => {
   const api = useApi();
   const dispatch = useAppDispatch();

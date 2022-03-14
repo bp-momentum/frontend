@@ -1,3 +1,7 @@
+/**
+ * See https://redux.js.org/api/api-reference
+ */
+
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import {
   persistStore,

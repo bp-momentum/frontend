@@ -6,7 +6,7 @@ import { exerciseIdToName } from "../functions";
 import { useAppDispatch } from "@redux/hooks";
 import { setPlanChanges } from "@redux/changes/changeSlice";
 
-interface visibleExerciseProps {
+interface Props {
   card: BasicExerciseData;
   details: boolean;
   collapsed: boolean;
@@ -17,12 +17,15 @@ interface visibleExerciseProps {
  * The actual exercise card component
  * If details is set it will show the data of the exercise instance
  * If collapsed is set it will show a collapsed version of the card
- * @param {card: BasicExerciseData, details: boolean, collapsed: boolean} props
- * @returns a card with the given data
+ * @param {Props} props
+ * @returns {JSX.Element}
  */
-const VisibleExercise: React.FC<visibleExerciseProps> = ({ ...props }) => {
-  const { card, details, collapsed, exercises } = props;
-
+const VisibleExercise: React.FC<Props> = ({
+  card,
+  details,
+  collapsed,
+  exercises,
+}: Props): JSX.Element => {
   const dispatch = useAppDispatch();
 
   const [, redraw] = React.useState({});

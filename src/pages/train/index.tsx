@@ -12,17 +12,22 @@ import Translations from "@localization/translations";
 import { t } from "i18next";
 import useApi from "@hooks/api";
 
-interface TrainProps {
+interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   rawExercise: Record<string, any>;
 }
 
-const Train: React.FC<TrainProps> = ({ rawExercise }) => {
+/**
+ * A component that renders the training page and everything related
+ * @param {Props} props
+ * @returns {JSX.Element}
+ */
+const Train: React.FC<Props> = ({ rawExercise }: Props): JSX.Element => {
   const [exercise, setExercise] = React.useState<ExerciseData>();
 
   const initialCollapsed = useRef(false);
 
-  const stats = useRef<statsType>({
+  const stats = useRef<StatsType>({
     data: [],
     totalPoints: 0,
     set: 0,
@@ -91,7 +96,11 @@ const Train: React.FC<TrainProps> = ({ rawExercise }) => {
   );
 };
 
-const Wrapper = () => {
+/**
+ * A component that renders the training page and everything related
+ * @returns {JSX.Element}
+ */
+const Wrapper: React.FC = (): JSX.Element => {
   const [exercise, setExercise] = useState({ id: -1 });
 
   const { exercisePlanId } = useParams();

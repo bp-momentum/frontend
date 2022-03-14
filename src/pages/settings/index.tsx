@@ -141,7 +141,7 @@ const Settings: React.FC = () => {
   };
 
   return (
-    <Container currentPage="settings" color="blue">
+    <Container currentPage="settings">
       <Col>
         <Row
           justify="center"

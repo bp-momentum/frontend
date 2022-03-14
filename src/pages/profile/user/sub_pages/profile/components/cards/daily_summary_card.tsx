@@ -12,7 +12,7 @@ import {
 import Helper from "@util/helper";
 import { useGetExerciseByIdQuery } from "@redux/exercises/exerciseSlice";
 
-interface dailySummaryCardProps {
+interface Props {
   rating: number;
   minutesTrained: number;
   minutesTrainedGoal: number;
@@ -20,7 +20,7 @@ interface dailySummaryCardProps {
   onClickShare: VoidFunction;
 }
 
-const DailySummaryCard: React.FC<dailySummaryCardProps> = ({ ...props }) => {
+const DailySummaryCard: React.FC<Props> = ({ ...props }) => {
   const { t, i18n } = useTranslation();
 
   const Exercise = (props: { exercise: DoneExercise }) => {

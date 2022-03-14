@@ -1,22 +1,23 @@
-import React from "react";
+import React, { MutableRefObject } from "react";
 import { DraggableLocation } from "react-beautiful-dnd";
 
 /**
  * Truncate a string with ellipsis if it is too long
- * @param str
- * @param num
- * @returns truncated string
+ * @param {string} str
+ * @param {number} n
+ * @returns {string}
  */
-export const truncate = (str: string, n: number) => {
-  return str?.length > n ? str.substr(0, n - 1) + "..." : str;
+export const truncate = (str: string, n: number): string => {
+  return str?.length > n ? str.substring(0, n - 1) + "…" : str;
 };
 
 /**
  * Maps a given exercise id to its corresponding name
- * @param id
- * @returns the name of the exercise
+ * @param {Exercise[]} exercises
+ * @param {number} id
+ * @returns {string}
  */
-export const exerciseIdToName = (exercises: Exercise[], id: number) =>
+export const exerciseIdToName = (exercises: Exercise[], id: number): string =>
   truncate(
     exercises
       .filter((exercise) => exercise.id === id)
@@ -37,10 +38,11 @@ export const exerciseIdToName = (exercises: Exercise[], id: number) =>
  *
  * It always returns the source list and the destination list after the reordering
  *
- * @param listLeave the list from which the item is moved
- * @param listJoin the list to which the item is moved
- * @param source the source location and index of the item
- * @param dest the destination location and index of the item
+ * @param {ExerciseCardData[]} listLeave the list from which the item is moved
+ * @param {ExerciseCardData[]} listJoin the list to which the item is moved
+ * @param {DraggableLocation} source the source location and index of the item
+ * @param {DraggableLocation} dest the destination location and index of the item
+ * @param {MutableRefObject<number>} count the number of all items to generate unique ids
  * @returns {leave: ExerciseCardData[], join: ExerciseCardData[]}
  */
 export const reorder = (
@@ -48,8 +50,7 @@ export const reorder = (
   listJoin: ExerciseCardData[],
   source: DraggableLocation,
   dest: DraggableLocation,
-  count: number,
-  setCount: React.Dispatch<React.SetStateAction<number>>
+  count: MutableRefObject<number>
 ): { leave: ExerciseCardData[]; join: ExerciseCardData[] } => {
   const leaveArr = Array.from(listLeave);
   const joinArr = Array.from(listJoin);
@@ -71,7 +72,7 @@ export const reorder = (
 
   // duplicate item when leaving store
   if (fromStore) {
-    setCount(count + 1);
+    count.current += 1;
     const data = leaveArr[source.index].data;
     const item = { id: `exercise-${count}`, data: { ...data } };
     joinArr.splice(dest.index, 0, item);

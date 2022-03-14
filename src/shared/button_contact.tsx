@@ -7,13 +7,13 @@ enum ContactType {
   phone,
 }
 
-interface buttonContactProps {
+interface Props {
   type: ContactType;
   contact: string;
   label: string;
 }
 
-const ButtonContact: React.FC<buttonContactProps> = ({ ...props }) => {
+const ButtonContact: React.FC<Props> = ({ ...props }) => {
   const getLink = () => {
     switch (props.type) {
       case ContactType.email:

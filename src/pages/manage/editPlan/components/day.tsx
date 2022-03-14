@@ -5,7 +5,7 @@ import { t } from "i18next";
 import Translations from "@localization/translations";
 import Exercise from "../components/exercise";
 
-interface dayProps {
+interface Props {
   list: ExerciseCardData[];
   name: string;
   displayName: string;
@@ -16,12 +16,17 @@ interface dayProps {
 
 /**
  * A droppable context for the exercise cards that shows all exercises given
- * @param {list: ExerciseCardData[], name: string, displayName: string} props
- * @returns a droppable context for the exercise cards
+ * @param {Props} props
+ * @returns {JSX.Element}
  */
-const Day: React.FC<dayProps> = ({ ...props }) => {
-  const { list, name, displayName, exercises, openState, setOpenState } = props;
-
+const Day: React.FC<Props> = ({
+  list,
+  name,
+  displayName,
+  exercises,
+  openState,
+  setOpenState,
+}: Props): JSX.Element => {
   return (
     <Col>
       <h1>{displayName}</h1>

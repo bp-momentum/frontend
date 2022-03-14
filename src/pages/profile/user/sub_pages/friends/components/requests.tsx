@@ -3,7 +3,8 @@ import useApi from "@hooks/api";
 import Routes from "@util/routes";
 import { Col, message, Row } from "antd";
 import React from "react";
-import { IncomingRequestCard, OutgoingRequestCard } from "./requestCard";
+import IncomingRequestCard from "./incomingRequestCard";
+import OutgoingRequestCard from "./outgoingRequestCard";
 import EmptyDataRender from "@shared/emptyDataRender";
 import { useTranslation } from "react-i18next";
 import Translations from "@localization/translations";
@@ -12,6 +13,11 @@ interface Props {
   reloadFriends: VoidFunction;
 }
 
+/**
+ * A component that renders all incoming and outgoing friend requests
+ * @param {Props} props
+ * @returns {JSX.Element}
+ */
 const Requests: React.FC<Props> = ({ reloadFriends }) => {
   const requests = useAppSelector((state) => state.friends.friendRequests);
   const sentRequests = useAppSelector((state) => state.friends.sentRequests);

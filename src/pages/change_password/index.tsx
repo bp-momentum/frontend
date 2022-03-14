@@ -60,7 +60,7 @@ const ChangePassword: React.FC = () => {
   };
 
   return (
-    <Container currentPage="settings" color="blue">
+    <Container currentPage="settings">
       <Space
         size="large"
         style={{

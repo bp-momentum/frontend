@@ -3,14 +3,22 @@ import { Layout } from "antd";
 import TrainSider from "./trainSider";
 const { Content, Sider } = Layout;
 
-interface trainLayoutProps {
+interface Props {
   exercise?: ExerciseData;
   initialCollapsed: MutableRefObject<boolean>;
+  children: React.ReactNode;
 }
 
-const TrainLayout: React.FC<trainLayoutProps> = ({ ...props }) => {
-  const { children, exercise, initialCollapsed } = props;
-
+/**
+ * The layout for the training page
+ * @param {Props} props
+ * @returns {JSX.Element}
+ */
+const TrainLayout: React.FC<Props> = ({
+  children,
+  exercise,
+  initialCollapsed,
+}: Props): JSX.Element => {
   const [collapsed, setCollapsed] = useState(initialCollapsed.current);
 
   return (

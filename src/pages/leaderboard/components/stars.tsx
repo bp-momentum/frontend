@@ -6,7 +6,12 @@ interface Props {
   rating: number;
 }
 
-const Stars: React.FC<Props> = ({ rating }) => {
+/**
+ * Stars that are filled based on the rating in percentage
+ * @param {Props} props
+ * @returns {JSX.Element}
+ */
+const Stars: React.FC<Props> = ({ rating }: Props): JSX.Element => {
   return (
     <Tooltip title={`${(rating * 0.05).toFixed(2)} / 5`}>
       <Row
@@ -15,27 +20,27 @@ const Stars: React.FC<Props> = ({ rating }) => {
       >
         <StarFilled
           style={{
-            color: rating > 0 ? "#FFCC33" : "#C4C4C4",
+            color: "#FFCC33",
           }}
         />
         <StarFilled
           style={{
-            color: rating > 1 ? "#FFCC33" : "#C4C4C4",
+            color: "#FFCC33",
           }}
         />
         <StarFilled
           style={{
-            color: rating > 2 ? "#FFCC33" : "#C4C4C4",
+            color: "#FFCC33",
           }}
         />
         <StarFilled
           style={{
-            color: rating > 3 ? "#FFCC33" : "#C4C4C4",
+            color: "#FFCC33",
           }}
         />
         <StarFilled
           style={{
-            color: rating > 4 ? "#FFCC33" : "#C4C4C4",
+            color: "#FFCC33",
           }}
         />
         <div

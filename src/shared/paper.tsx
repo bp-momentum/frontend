@@ -1,16 +1,28 @@
 import React from "react";
 import pin from "@static/pin.png";
 
-interface paperProps {
+interface Props {
   title: React.ReactNode;
   padding: number;
   backdropColor?: string;
   totalWidth?: number;
   lineColor?: string;
+  children: React.ReactNode;
 }
 
-const Paper: React.FC<paperProps> = ({ children, ...props }) => {
-  const { title, padding, totalWidth, backdropColor, lineColor } = props;
+/**
+ * A nice paper component.
+ * @param {Props} props
+ * @returns {JSX.Element}
+ */
+const Paper: React.FC<Props> = ({
+  children,
+  title,
+  padding,
+  totalWidth,
+  backdropColor,
+  lineColor,
+}: Props): JSX.Element => {
   const realTotalWidth = totalWidth ? `${totalWidth}px` : "100%";
   const realInnerWidth = `calc(${realTotalWidth} - ${padding * 2}px)`;
   const realBackdropColor = backdropColor || "#000";

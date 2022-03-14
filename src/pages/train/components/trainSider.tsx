@@ -3,14 +3,20 @@ import Translations from "@localization/translations";
 import { t } from "i18next";
 import Paper from "@shared/paper";
 
-interface trainSiderProps {
+interface Props {
   collapsed: boolean;
   exercise?: ExerciseData;
 }
 
-const TrainSider: React.FC<trainSiderProps> = ({ ...props }) => {
-  const { exercise, collapsed } = props;
-
+/**
+ * The sider of the layout for the training page
+ * @param {Props} props
+ * @returns {JSX.Element}
+ */
+const TrainSider: React.FC<Props> = ({
+  exercise,
+  collapsed,
+}: Props): JSX.Element => {
   return (
     <>
       <div

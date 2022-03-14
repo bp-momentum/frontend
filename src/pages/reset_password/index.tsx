@@ -7,11 +7,16 @@ import Translations from "@localization/translations";
 import { useTranslation } from "react-i18next";
 import useApi from "@hooks/api";
 
-export interface resetPwProps {
+interface Props {
   resetToken: string;
 }
 
-const ResetPw: React.FC<resetPwProps> = ({ resetToken }) => {
+/**
+ * A form for resetting your password.
+ * @param {Props} props
+ * @returns {JSX.Element}
+ */
+const ResetPw: React.FC<Props> = ({ resetToken }) => {
   const navigate = useNavigate();
   const [error, setError] = React.useState<null | string>();
   const { t } = useTranslation();

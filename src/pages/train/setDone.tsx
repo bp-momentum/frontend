@@ -13,15 +13,19 @@ import continue_arrow from "@static/continue_arrow.png";
 import { useTranslation } from "react-i18next";
 import Translations from "@localization/translations";
 
-interface setDoneProps {
-  stats: MutableRefObject<statsType>;
+interface Props {
+  stats: MutableRefObject<StatsType>;
   initialCollapsed: MutableRefObject<boolean>;
   exercise?: ExerciseData;
   setSubPage: Dispatch<SetStateAction<subPage>>;
 }
 
-const SetDone: React.FC<setDoneProps> = ({ ...props }) => {
-  const { stats, exercise, setSubPage, initialCollapsed } = props;
+const SetDone: React.FC<Props> = ({
+  stats,
+  exercise,
+  setSubPage,
+  initialCollapsed,
+}) => {
   const [remainingSeconds, setRemainingSeconds] = useState<number>(30);
   const { t } = useTranslation();
 
@@ -41,7 +45,7 @@ const SetDone: React.FC<setDoneProps> = ({ ...props }) => {
     };
   });
 
-  const getTypeKey = (type: dataEntryType) => {
+  const getTypeKey = (type: DataEntryType) => {
     switch (type.type) {
       case "Intensity":
         return Translations.training.intensity;

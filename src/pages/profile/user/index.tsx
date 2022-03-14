@@ -96,7 +96,7 @@ const Profile: React.FC = () => {
   };
 
   return (
-    <Container currentPage="profile" color="blue">
+    <Container currentPage="profile">
       <Layout style={{ height: "100%" }}>
         <ProfileSider
           onClickFriends={onClickFriends}

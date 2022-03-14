@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 
 const { Sider } = Layout;
 
-interface profileSiderProps {
+interface Props {
   onClickFriends: VoidFunction;
   onClickAchievements: VoidFunction;
   onClickProfile: VoidFunction;
@@ -17,7 +17,14 @@ interface profileSiderProps {
   selected: "profile" | "friends" | "achievements" | "loading";
 }
 
-const ProfileSider: React.FC<profileSiderProps> = ({ ...props }) => {
+const ProfileSider: React.FC<Props> = ({
+  onClickFriends,
+  onClickAchievements,
+  onClickProfile,
+  avatarUrl,
+  username,
+  selected,
+}) => {
   const { t } = useTranslation();
 
   const hasRequests =
@@ -34,12 +41,12 @@ const ProfileSider: React.FC<profileSiderProps> = ({ ...props }) => {
       }}
     >
       <Col style={{ height: "100%" }}>
-        {props.avatarUrl.length !== 0 && (
+        {avatarUrl.length !== 0 && (
           <Row justify="center">
             <div
-              onClick={() => props.onClickProfile()}
+              onClick={() => onClickProfile()}
               className={`hoverable ${
-                props.selected === "profile" ? "selected" : ""
+                selected === "profile" ? "selected" : ""
               }`}
               style={{
                 backgroundColor: "#626FE5",
@@ -54,8 +61,8 @@ const ProfileSider: React.FC<profileSiderProps> = ({ ...props }) => {
             >
               <img
                 alt="Avatar"
-                key={props.avatarUrl}
-                src={props.avatarUrl}
+                key={avatarUrl}
+                src={avatarUrl}
                 style={{
                   height: "100%",
                   width: "100%",
@@ -73,33 +80,31 @@ const ProfileSider: React.FC<profileSiderProps> = ({ ...props }) => {
               overflowWrap: "anywhere",
             }}
           >
-            {props.username}
+            {username}
           </h5>
         </Row>
 
         <SiderButton
-          onClick={() => props.onClickFriends()}
+          onClick={() => onClickFriends()}
           image="friends_image.png"
           title={t(Translations.profile.friends)}
           rotation={-5.5}
           backgroundColor="#FFE14D"
           color="#000"
-          className={`hoverable ${
-            props.selected === "friends" ? "selected" : ""
-          } ${
-            hasRequests && props.selected !== "friends" ? "notification" : ""
+          className={`hoverable ${selected === "friends" ? "selected" : ""} ${
+            hasRequests && selected !== "friends" ? "notification" : ""
           }`}
         />
 
         <SiderButton
-          onClick={() => props.onClickAchievements()}
+          onClick={() => onClickAchievements()}
           image="achievements_image.png"
           title={t(Translations.profile.achievements)}
           rotation={3}
           backgroundColor="#9713FF"
           color="#fff"
           className={`hoverable ${
-            props.selected === "achievements" ? "selected" : ""
+            selected === "achievements" ? "selected" : ""
           }`}
         />
       </Col>

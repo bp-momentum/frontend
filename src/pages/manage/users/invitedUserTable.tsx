@@ -20,14 +20,19 @@ interface User {
   email: string;
 }
 
-interface invitedUserTableProps {
+interface Props {
   updateValue: number;
   setUpdateValue: Dispatch<SetStateAction<number>>;
 }
 
-const InvitedUserTable: React.FC<invitedUserTableProps> = ({ ...props }) => {
-  const { updateValue } = props;
-
+/**
+ * The table of all users without an account (aka invited users or trainers).
+ * @param {Props} props
+ * @returns {JSX.Element}
+ */
+const InvitedUserTable: React.FC<Props> = ({
+  updateValue,
+}: Props): JSX.Element => {
   const searchInput = createRef<InputRef>();
   const [data, setData] = useState<User[]>([]);
   const [isMounted, setIsMounted] = useState(true);
@@ -103,7 +108,7 @@ const InvitedUserTable: React.FC<invitedUserTableProps> = ({ ...props }) => {
       title: t(Translations.userManagement.name),
       dataIndex: "name",
       key: "name",
-      ...getColumnSearchProps(
+      ...getColumnSearchProps<User>(
         "name",
         searchInput,
         loadData,
@@ -117,7 +122,7 @@ const InvitedUserTable: React.FC<invitedUserTableProps> = ({ ...props }) => {
       title: t(Translations.userManagement.email),
       dataIndex: "email",
       key: "email",
-      ...getColumnSearchProps(
+      ...getColumnSearchProps<User>(
         "email",
         searchInput,
         loadData,

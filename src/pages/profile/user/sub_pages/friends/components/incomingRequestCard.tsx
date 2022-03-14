@@ -2,17 +2,22 @@ import React from "react";
 import { MdPersonAdd, MdPersonRemove } from "react-icons/md";
 import Container from "../../../components/container";
 
-interface IncomingProps {
+interface Props {
   username: string;
   onAccept: VoidFunction;
   onDecline: VoidFunction;
 }
 
-export const IncomingRequestCard: React.FC<IncomingProps> = ({
+/**
+ * A component that renders details of an incoming friend request
+ * @param {Props} props
+ * @returns {JSX.Element}
+ */
+const IncomingRequestCard: React.FC<Props> = ({
   username,
   onAccept,
   onDecline,
-}) => {
+}: Props): JSX.Element => {
   return (
     <Container size={{ width: 250, height: 60 }}>
       <span
@@ -45,33 +50,4 @@ export const IncomingRequestCard: React.FC<IncomingProps> = ({
   );
 };
 
-interface OutgoingProps {
-  username: string;
-  onCancel: VoidFunction;
-}
-
-export const OutgoingRequestCard: React.FC<OutgoingProps> = ({
-  username,
-  onCancel,
-}) => {
-  return (
-    <Container size={{ width: "250px", height: "60px" }}>
-      <span
-        style={{
-          textOverflow: "ellipsis",
-          width: "140px",
-          whiteSpace: "nowrap",
-          overflow: "hidden",
-        }}
-      >
-        {username}
-      </span>
-      <MdPersonRemove
-        style={{ cursor: "pointer", marginLeft: "auto" }}
-        className="hoverRed"
-        size={25}
-        onClick={onCancel}
-      />
-    </Container>
-  );
-};
+export default IncomingRequestCard;

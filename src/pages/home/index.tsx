@@ -13,7 +13,7 @@ const Home: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <Container currentPage="home" color="blue">
+    <Container currentPage="home">
       <Layout style={{ height: "100%" }}>
         <Content
           style={{

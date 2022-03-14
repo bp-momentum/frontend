@@ -20,18 +20,17 @@ import useApi from "@hooks/api";
 const { Sider, Content } = Layout;
 const { confirm } = Modal;
 
-// A list of all exercises
-
 /**
- * @returns the plan editor component
+ * the plan editor component
+ * @returns {JSX.Element}
  */
-const EditPlan: React.FC = () => {
+const EditPlan: React.FC = (): JSX.Element => {
   const { t } = useTranslation();
 
   // the plans name
   const [name, setName] = React.useState("");
   // internal counter for unique ids
-  const [count, setCount] = React.useState(0);
+  const count = React.useRef(0);
   // lists of exercise instances for each day
   const [storeItems, setStoreItems] = React.useState<ExerciseCardData[]>([]);
   const [monday, setMonday] = React.useState<ExerciseCardData[]>([]);
@@ -75,7 +74,7 @@ const EditPlan: React.FC = () => {
 
   /**
    * Resolve a string in the form of either a weekday or "store" to the correct getter and setter of the state
-   * @param drop
+   * @param {string} drop
    * @returns {get: ExerciseCardData[], set: (data: ExerciseCardData[]) => void}
    */
   const DropToState = (
@@ -102,7 +101,14 @@ const EditPlan: React.FC = () => {
     }
   };
 
-  const prepareExercises = async () => {
+  /**
+   * convert API data to useable data
+   * @returns {Promise<{ storeItems: ExerciseCardData[]; exercises: Exercise[]; }>}
+   */
+  const prepareExercises = async (): Promise<{
+    storeItems: ExerciseCardData[];
+    exercises: Exercise[];
+  }> => {
     const response = await api.execute(Routes.getExercises());
     if (!response) throw new Error("Failed to load exercises");
     if (!response.success) throw new Error(response.description);
@@ -221,8 +227,7 @@ const EditPlan: React.FC = () => {
       DropToState(result.destination.droppableId).get,
       result.source,
       result.destination,
-      count,
-      setCount
+      count
     );
     // update the lists
     DropToState(result.source.droppableId).set(leave);
@@ -315,7 +320,6 @@ const EditPlan: React.FC = () => {
   return (
     <Container
       currentPage="manage"
-      color="blue"
       confirmLeaveMessage={
         hasChanged
           ? (t(Translations.common.confirmLeaveChanges) as string)

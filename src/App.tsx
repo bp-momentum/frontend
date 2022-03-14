@@ -58,8 +58,11 @@ const LocalizedApp: React.FC = () => {
   );
 };
 
-// Basic App that is just used to Route to different pages
-const App: React.FC = () => {
+/**
+ * Basic App that is just used to Route to different pages
+ * @returns {JSX.Element}
+ */
+const App: React.FC = (): JSX.Element => {
   const token = useAppSelector((state) => state.token.token);
   const refreshToken = useAppSelector((state) => state.token.refreshToken);
 

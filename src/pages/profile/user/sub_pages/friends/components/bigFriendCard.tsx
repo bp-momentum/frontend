@@ -17,7 +17,15 @@ interface Props {
   onClose: VoidFunction;
 }
 
-const BigFriendCard: React.FC<Props> = ({ onClose, username }) => {
+/**
+ * A component that renders details of a single friend
+ * @param {Props} props
+ * @returns {JSX.Element}
+ */
+const BigFriendCard: React.FC<Props> = ({
+  onClose,
+  username,
+}: Props): JSX.Element => {
   const { t } = useTranslation();
   const { data, isLoading, isError, error } = useGetFriendByIdQuery(username);
 

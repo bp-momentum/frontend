@@ -2,41 +2,41 @@ import { Row } from "antd";
 import { StarFilled } from "@ant-design/icons";
 import React from "react";
 
-interface ratingStarProps {
+interface Props {
   rating: number;
 }
 
-const RatingStars: React.FC<ratingStarProps> = ({ ...props }) => {
+const RatingStars: React.FC<Props> = ({ rating }) => {
   return (
     <Row style={{ alignItems: "end" }} justify="space-around">
       <StarFilled
         style={{
           fontSize: 65,
-          color: props.rating > 0 ? "#FFCC33" : "#C4C4C4",
+          color: rating > 0 ? "#FFCC33" : "#C4C4C4",
         }}
       />
       <StarFilled
         style={{
           fontSize: 75,
-          color: props.rating > 1 ? "#FFCC33" : "#C4C4C4",
+          color: rating > 1 ? "#FFCC33" : "#C4C4C4",
         }}
       />
       <StarFilled
         style={{
           fontSize: 80,
-          color: props.rating > 2 ? "#FFCC33" : "#C4C4C4",
+          color: rating > 2 ? "#FFCC33" : "#C4C4C4",
         }}
       />
       <StarFilled
         style={{
           fontSize: 75,
-          color: props.rating > 3 ? "#FFCC33" : "#C4C4C4",
+          color: rating > 3 ? "#FFCC33" : "#C4C4C4",
         }}
       />
       <StarFilled
         style={{
           fontSize: 65,
-          color: props.rating > 4 ? "#FFCC33" : "#C4C4C4",
+          color: rating > 4 ? "#FFCC33" : "#C4C4C4",
         }}
       />
     </Row>

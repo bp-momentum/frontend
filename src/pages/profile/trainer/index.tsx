@@ -75,7 +75,6 @@ const TrainerProfile: React.FC = () => {
   return (
     <Container
       currentPage="profile"
-      color="blue"
       confirmLeaveMessage={
         edited ? (t(Translations.common.confirmLeaveChanges) as string) : false
       }

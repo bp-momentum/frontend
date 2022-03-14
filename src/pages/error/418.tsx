@@ -5,7 +5,11 @@ import Translations from "@localization/translations";
 import Container from "@shared/container";
 import Error from "@static/_(.svg";
 
-const Error404: React.FC = () => {
+/**
+ * Error 404 page
+ * @returns {JSX.Element}
+ */
+const Error404: React.FC = (): JSX.Element => {
   return (
     <Container>
       <Layout style={{ height: "100%" }}>

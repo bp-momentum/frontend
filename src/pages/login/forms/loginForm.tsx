@@ -4,7 +4,7 @@ import Translations from "@localization/translations";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 
-interface loginProps {
+interface Props {
   onFinish: (values: Record<string, never>) => void;
   onFinishFailed: (errorInfo: unknown) => void;
   loading: boolean;
@@ -12,8 +12,18 @@ interface loginProps {
   setForm: (form: "login" | "reset") => void;
 }
 
-const LoginForm: React.FC<loginProps> = ({ ...props }) => {
-  const { onFinish, onFinishFailed, loading, error, setForm } = props;
+/**
+ * A form for logging in
+ * @param {Props} props
+ * @returns {JSX.Element}
+ */
+const LoginForm: React.FC<Props> = ({
+  onFinish,
+  onFinishFailed,
+  loading,
+  error,
+  setForm,
+}: Props): JSX.Element => {
   const { t } = useTranslation();
 
   return (

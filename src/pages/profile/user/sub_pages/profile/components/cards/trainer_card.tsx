@@ -5,14 +5,14 @@ import ButtonContact, { ContactType } from "@shared/button_contact";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-interface trainerCardProps {
+interface Props {
   name: string;
   address: string;
   phone: string;
   email: string;
 }
 
-const TrainerCard: React.FC<trainerCardProps> = ({ ...props }) => {
+const TrainerCard: React.FC<Props> = ({ ...props }) => {
   const { t } = useTranslation();
 
   return (

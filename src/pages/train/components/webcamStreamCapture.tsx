@@ -13,18 +13,24 @@ import { Button, Tooltip } from "antd";
 import Translations from "@localization/translations";
 import { useTranslation } from "react-i18next";
 
-interface webcamStreamCaptureProps {
+interface Props {
   webSocketRef: RefObject<ApiSocketConnection>;
   active: boolean;
   cameraShown: boolean;
+  children: React.ReactNode;
 }
 
-const WebcamStreamCapture: React.FC<webcamStreamCaptureProps> = ({
+/**
+ * The webcam stream capture component.
+ * @param {Props} props
+ * @returns {JSX.Element}
+ */
+const WebcamStreamCapture: React.FC<Props> = ({
   children,
-  ...props
-}) => {
-  const { webSocketRef, active, cameraShown } = props;
-
+  webSocketRef,
+  active,
+  cameraShown,
+}: Props): JSX.Element => {
   const webcamRef = useRef<Webcam>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const [capturing, setCapturing] = useState(false);
