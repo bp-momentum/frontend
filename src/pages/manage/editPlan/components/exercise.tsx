@@ -2,7 +2,7 @@ import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import VisibleExercise from "./visibleExercise";
 
-interface exerciseProps {
+interface Props {
   item: ExerciseCardData;
   index: number;
   details: boolean;
@@ -13,12 +13,17 @@ interface exerciseProps {
 
 /**
  * Draggable wrapper for the VisibleExercise component
- * @param {item: ExerciseCardData, index: number, details: boolean} props
- * @returns draggable visible exercise card
+ * @param {Props} props The props for the component.
+ * @returns {JSX.Element} The component.
  */
-const Exercise: React.FC<exerciseProps> = ({ ...props }) => {
-  const { item, index, details, exercises, openState, setOpenState } = props;
-
+const Exercise: React.FC<Props> = ({
+  item,
+  index,
+  details,
+  exercises,
+  openState,
+  setOpenState,
+}: Props): JSX.Element => {
   return (
     <Draggable key={item.id} draggableId={item.id} index={index}>
       {(provided) => (

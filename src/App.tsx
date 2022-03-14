@@ -35,7 +35,11 @@ import deDE from "antd/lib/locale-provider/de_DE";
 import enGB from "antd/lib/locale-provider/en_GB";
 import useLanguageUpdater from "@hooks/languageUpdater";
 
-const LocalizedApp: React.FC = () => {
+/**
+ * Wraps the normal {@link App} with a {@link ConfigProvider} to set the locale of the app.
+ * @returns {JSX.Element} The app.
+ */
+const LocalizedApp: React.FC = (): JSX.Element => {
   const [locale, setLocale] = React.useState<Locale>(deDE);
   const { i18n } = useTranslation();
 
@@ -70,8 +74,11 @@ const LocalizedApp: React.FC = () => {
   );
 };
 
-// Basic App that is just used to Route to different pages
-const App: React.FC = () => {
+/**
+ * Basic App that is just used to Route to different pages
+ * @returns {JSX.Element} The app.
+ */
+const App: React.FC = (): JSX.Element => {
   const token = useAppSelector((state) => state.token.token);
   const refreshToken = useAppSelector((state) => state.token.refreshToken);
 

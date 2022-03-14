@@ -11,6 +11,7 @@ on:
 
 env:
   NODE_VERSION: 16
+  FILES_PATH: /var/www/vhosts/bp/
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -55,7 +56,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build
-      - run: rm -rf /var/www/vhosts/bp/*
+      - run: rm -rf ${{ env.FILES_PATH }}*
         name: Delete old files
-      - run: cp -r * /var/www/vhosts/bp/
+      - run: cp -r * ${{ env.FILES_PATH }}
         name: Copy new files

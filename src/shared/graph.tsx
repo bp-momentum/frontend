@@ -1,20 +1,24 @@
 import { Line, LineConfig } from "@ant-design/plots";
 import React from "react";
 
-interface graphData {
+interface GraphData {
   type: string;
   set: string;
   performance: number;
 }
 
-interface graphProps {
+interface Props {
   width?: number;
-  data: graphData[];
+  data: GraphData[];
   style?: React.CSSProperties;
 }
 
-const Graph: React.FC<graphProps> = ({ ...props }) => {
-  const { width, data, style } = props;
+/**
+ * The graph component.
+ * @param {Props} props The properties of the component.
+ * @returns {JSX.Element} The component.
+ */
+const Graph: React.FC<Props> = ({ width, data, style }: Props): JSX.Element => {
   const maxWidth = width ? `${width}px` : "400px";
 
   const config: LineConfig = {
