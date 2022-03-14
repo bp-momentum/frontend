@@ -306,7 +306,9 @@
   "achievements": {
     "button-title": "Achievements",
     "hidden-title": "Hidden",
-    "hidden-description": "Nobody knows, what to do here!"
+    "hidden-description": "Nobody knows, what to do here!",
+    "loading": "Loading your achievements...",
+    "no-achievements": "You didn't earn any achievements yet!"
   },
   "admin-faq": {
     "q-01": "How can I invite new trainers?",
