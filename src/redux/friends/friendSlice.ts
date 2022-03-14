@@ -17,6 +17,9 @@ const initialState: FriendState = {
   sentRequests: null,
 };
 
+/**
+ * A slice for saving friends information like the current friend-list or requests.
+ */
 export const friendSlice = createSlice({
   name: "friend",
   initialState,

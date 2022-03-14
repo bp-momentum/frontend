@@ -49,6 +49,9 @@ const rootReducer = (state: any, action: any) => {
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
+/**
+ * Configure the cache.
+ */
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
