@@ -34,6 +34,9 @@ import "moment/locale/en-gb";
 import deDE from "antd/lib/locale-provider/de_DE";
 import enGB from "antd/lib/locale-provider/en_GB";
 
+/**
+ * Wraps the normal {@link App} with a {@link ConfigProvider} to set the locale of the app.
+ */
 const LocalizedApp: React.FC = () => {
   const [locale, setLocale] = React.useState<Locale>(deDE);
   const { i18n } = useTranslation();

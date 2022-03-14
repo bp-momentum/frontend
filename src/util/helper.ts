@@ -1,7 +1,14 @@
 import { Buffer } from "buffer";
 import Translations from "@localization/translations";
 
+/**
+ * Contains different utility methods used across the site.
+ */
 const Helper = {
+  /**
+   * Returns the account-type of a user by a given token.
+   * @param token  the user's token
+   */
   getAccountType: (token: string): "user" | "trainer" | "admin" => {
     const jwt = Helper.getJWTPayload(token);
     if (
@@ -15,6 +22,10 @@ const Helper = {
     return jwt["account_type"];
   },
 
+  /**
+   * Returns the username of a user by a given token.
+   * @param token  the user's token
+   */
   getUserName: (token: string): string => {
     const payload = Helper.getJWTPayload(token);
     if (!payload["username"] || typeof payload["username"] !== "string") {
@@ -23,13 +34,27 @@ const Helper = {
     return payload["username"];
   },
 
-  // Session Token is valid for 1 day
+  /**
+   * Checks if the given session token is still valid.
+   * Session Tokens are valid for one day.
+   * @param token  the token to check
+   */
   isSessionTokenValid: (token?: string | null): boolean =>
     Helper.checkTokenTime(86400000, token),
-  // Refresh Token is valid for 30 days
+
+  /**
+   * Checks if the given refresh token is still valid.
+   * Refresh Tokens are valid for 30 days.
+   * @param token  the token to check
+   */
   isRefreshTokenValid: (token?: string | null): boolean =>
     Helper.checkTokenTime(2592000000, token),
 
+  /**
+   * Checks if the given token is still valid.
+   * @param timeout  the time before a token becomes invalid
+   * @param token    the token to check
+   */
   checkTokenTime: (timeout: number, token?: string | null): boolean => {
     if (!token) {
       return false;
@@ -43,6 +68,10 @@ const Helper = {
     return tokenTime > now - timeout;
   },
 
+  /**
+   * Extracts the payload out of a given token.
+   * @param token  the token
+   */
   getJWTPayload: (token: string): Record<string, unknown> => {
     const split = token.split(".");
     if (split.length !== 3) return {};
@@ -50,10 +79,13 @@ const Helper = {
     return JSON.parse(Buffer.from(atob(payload)).toString("ascii"));
   },
 
-  // This script is released to the public domain and may be used, modified and
-  // distributed without restrictions. Attribution not necessary but appreciated.
-  // Source: https://weeknumber.com/how-to/javascript
-  // Returns the ISO week of the date.
+  /**
+   * This script is released to the public domain and may be used, modified and
+   * distributed without restrictions. Attribution not necessary but appreciated.
+   * Source: https://weeknumber.com/how-to/javascript
+   * Returns the ISO week of the date.
+   * @param d  the {@link Date} to check
+   */
   getWeek: (d: Date): number => {
     const date = new Date(d.getTime());
     date.setHours(0, 0, 0, 0);
@@ -73,17 +105,30 @@ const Helper = {
     );
   },
 
+  /**
+   * Returns the english name of the current day.
+   */
   getCurrentDayName: (): string => {
     return new Date()
       .toLocaleDateString("en-GB", { weekday: "long" })
       .toLowerCase();
   },
 
+  /**
+   * Returns the ISO week of the current date.
+   */
   getCurrentWeek: (): number => {
     return Helper.getWeek(new Date());
   },
 
+  /**
+   * The maximum allowed username length.
+   */
   maxUsernameLength: 50,
+
+  /**
+   * Checks if a username contains only allowed characters and has a valid length.
+   */
   checkUsername: (username: string): string | undefined => {
     if (username.length === 0) {
       return Translations.profile.usernameEmpty;
