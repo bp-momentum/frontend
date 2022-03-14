@@ -8,7 +8,6 @@ const useLanguageUpdater = () => {
   const { i18n } = useTranslation();
 
   const updateLanguage = useCallback(() => {
-    console.log("Update language");
     const language = i18n.language;
     const lng = language.toLowerCase().includes("de") ? "de" : "en";
     api.execute(Routes.changeLanguage({ language: lng })).catch(console.error);
