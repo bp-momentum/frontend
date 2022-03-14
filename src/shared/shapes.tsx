@@ -2,8 +2,7 @@ import React from "react";
 import { RandomHLine } from "react-random-shapes";
 
 const getSeed = () => {
-  const seed = Math.random();
-  return seed;
+  return Math.random();
 };
 
 const style = {

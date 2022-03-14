@@ -13,6 +13,10 @@ interface Props {
   label: string;
 }
 
+/**
+ * A simple component which displays an email or phone number and can be clicked
+ * to open the email or phone app of a device.
+ */
 const ButtonContact: React.FC<Props> = ({ ...props }) => {
   const getLink = () => {
     switch (props.type) {
