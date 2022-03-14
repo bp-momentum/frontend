@@ -48,7 +48,7 @@ const ExerciseDone: React.FC<Props> = ({
   const loadAvatar = async () => {
     const result = await api.execute(Routes.getProfile());
     if (!result.success) message.error(result.description);
-    else setAvatarId(result.data.avatar ?? "");
+    else setAvatarId(result.data.avatar ?? 0);
   };
 
   const goHome = (): void => {
