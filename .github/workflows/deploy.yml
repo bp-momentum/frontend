@@ -28,6 +28,12 @@ jobs:
         name: Clear test cache
       - name: Run tests
         run: yarn test
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          key: ${{ github.sha }}
+          path: |
+            node_modules
 
   build:
     runs-on: ubuntu-latest
@@ -37,7 +43,12 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - run: yarn
+      - name: Restore dependencies
+        uses: actions/cache@v2
+        with:
+          key: ${{ github.sha }}
+          path: |
+            node_modules
       - run: CI=false yarn build
         name: Build static page
       - name: Store build
