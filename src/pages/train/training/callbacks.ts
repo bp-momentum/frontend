@@ -140,8 +140,8 @@ export const statsCallback = ({
   currentRepeat.current++;
   setProgress((currentRepeat.current / repeats) * 100);
   setFeedback({
-    x: data.x,
-    y: data.y,
+    x: data.coordinates.x,
+    y: data.coordinates.y,
     addedPoints: total,
     totalPoints: totalPoints.current + total,
   });
