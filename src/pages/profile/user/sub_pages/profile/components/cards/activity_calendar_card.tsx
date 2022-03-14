@@ -158,7 +158,7 @@ const ActivityCalendarCard = (): JSX.Element => {
   let currentMonthViewed = new Date().getMonth();
 
   const { refetch } = useGetDoneExercisesInMonthQuery({
-    month: new Date().getMonth(),
+    month: new Date().getMonth() + 1,
     year: new Date().getFullYear(),
   });
 
