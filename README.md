@@ -104,6 +104,6 @@ For the audio files 4 categories are required:
 
 Each category has an arbitrary amount of files specified in the settings file.
 
-The default URL scheme looks the following:
+The default URL scheme looks as following:
 
   * `sounds/<category>/<filename>` where the category is one of the above and the filename is the name of the file as specified in the categories list in the settings file.
