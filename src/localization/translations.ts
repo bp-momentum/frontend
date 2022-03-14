@@ -292,11 +292,14 @@ const Translations = {
     medalTitle: "medals.title",
     amount: "medals.amount",
     noMedals: "medals.no-medals",
+    loading: "medals.loading",
   },
   achievements: {
     buttonTitle: "achievements.button-title",
     hiddenTitle: "achievements.hidden-title",
     hiddenDescription: "achievements.hidden-description",
+    loading: "achievements.loading",
+    noAchievements: "achievements.no-achievements",
   },
   adminFAQs: {
     afaq01: {

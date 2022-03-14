@@ -302,12 +302,15 @@
     "title_none": "{{exercise}}",
     "amount_one": "You earned this medal one time!",
     "amount_other": "You earned this medal {{count}} times!",
-    "no-medals": "You didn't earn any medals yet!"
+    "no-medals": "You didn't earn any medals yet!",
+    "loading": "Loading your medals..."
   },
   "achievements": {
     "button-title": "Achievements",
     "hidden-title": "Hidden",
-    "hidden-description": "Nobody knows, what to do here!"
+    "hidden-description": "Nobody knows, what to do here!",
+    "loading": "Loading your achievements...",
+    "no-achievements": "You didn't earn any achievements yet!"
   },
   "admin-faq": {
     "q-01": "How can I invite new trainers?",
