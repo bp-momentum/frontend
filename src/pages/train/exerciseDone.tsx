@@ -8,6 +8,8 @@ import useApi from "@hooks/api";
 import Routes from "@util/routes";
 import { message } from "antd";
 import { useTranslation } from "react-i18next";
+import config from "@config";
+import SpeechBubble from "@shared/speechBubble";
 
 interface exerciseDoneProps {
   stats: MutableRefObject<statsType>;
@@ -20,6 +22,8 @@ const ExerciseDone: React.FC<exerciseDoneProps> = ({ ...props }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const api = useApi();
+
+  const [avatarId, setAvatarId] = React.useState<number | null>(null);
 
   const checkForExerciseAchievements = async () => {
     const response = await api.execute(Routes.loadExerciseAchievements());
@@ -35,12 +39,19 @@ const ExerciseDone: React.FC<exerciseDoneProps> = ({ ...props }) => {
     );
   };
 
+  const loadAvatar = async () => {
+    const result = await api.execute(Routes.getProfile());
+    if (!result.success) message.error(result.description);
+    else setAvatarId(result.data.avatar ?? "");
+  };
+
   const goHome = (): void => {
     navigate("/");
   };
 
   useEffect(() => {
     checkForExerciseAchievements().catch();
+    loadAvatar().catch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -91,9 +102,33 @@ const ExerciseDone: React.FC<exerciseDoneProps> = ({ ...props }) => {
           marginBottom: 30,
           minHeight: "230px",
           width: "100%",
-          overflow: "hidden",
         }}
       >
+        <div style={{ position: "relative", top: "-50px" }}>
+          {avatarId != null && (
+            <img
+              alt="Avatar"
+              src={config.avatarUrlFormatter(avatarId)}
+              style={{
+                height: "300px",
+                width: "300px",
+              }}
+            />
+          )}
+          <div
+            style={{
+              position: "absolute",
+              width: "300px",
+              bottom: "320px",
+              left: "-200px",
+            }}
+          >
+            <SpeechBubble
+              text={t(Translations.training.mascotText)}
+              padding={10}
+            ></SpeechBubble>
+          </div>
+        </div>
         <div style={{ width: 1100, height: 185 }} />
         <div style={{ width: 100, margin: "55px 20px" }}>
           <div

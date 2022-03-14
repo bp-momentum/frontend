@@ -1,4 +1,4 @@
-import { DoneExercise } from "@api/done_exercise";
+import { DoneExercise } from "@api/doneExercise";
 
 interface ProfileData {
   dailyRating: number;

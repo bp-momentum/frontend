@@ -18,9 +18,6 @@ const Graph: React.FC<graphProps> = ({ ...props }) => {
   const { width, data, setSize, style } = props;
   const maxWidth = width ? `${width}px` : "400px";
 
-  console.log("tickInterval: " + setSize);
-  console.log(data);
-
   const config: LineConfig = {
     data,
     xField: "set",

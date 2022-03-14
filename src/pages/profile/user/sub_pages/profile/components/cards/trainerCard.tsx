@@ -1,7 +1,7 @@
 import { Card, Row } from "antd";
 import Text from "antd/lib/typography/Text";
 import Translations from "@localization/translations";
-import ButtonContact, { ContactType } from "@shared/button_contact";
+import ButtonContact, { ContactType } from "@shared/buttonContact";
 import React from "react";
 import { useTranslation } from "react-i18next";
 

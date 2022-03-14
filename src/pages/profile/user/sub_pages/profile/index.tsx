@@ -6,10 +6,10 @@ import { setRefreshToken, setToken } from "@redux/token/tokenSlice";
 import useApi from "@hooks/api";
 import Helper from "@util/helper";
 import Routes from "@util/routes";
-import ActivityCalendarCard from "./components/cards/activity_calendar_card";
-import DailySummaryCard from "./components/cards/daily_summary_card";
-import TrainerCard from "./components/cards/trainer_card";
-import UserCard from "./components/cards/user_card";
+import ActivityCalendarCard from "./components/cards/activityCalendarCard";
+import DailySummaryCard from "./components/cards/dailySummaryCard";
+import TrainerCard from "./components/cards/trainerCard";
+import UserCard from "./components/cards/userCard";
 import { ProfileData } from "@pages/profile/user/types";
 
 function mergeData<Type>(data: Type, newData: Record<string, unknown>): Type {

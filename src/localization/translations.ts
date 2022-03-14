@@ -244,6 +244,7 @@ const Translations = {
     clickToStart: "training.click-to-start",
     checkVisibility: "training.check-visibility",
     newAchievements: "training.new-achievements",
+    mascotText: "training.mascot-text",
   },
   trainerProfile: {
     title: "trainer-profile.title",
