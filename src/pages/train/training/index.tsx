@@ -17,6 +17,7 @@ import TrainLayout from "../components/trainLayout";
 import {
   doneCallback,
   endCallback,
+  informationCallback,
   initCallback,
   statsCallback,
 } from "./callbacks";
@@ -68,6 +69,7 @@ const Training: React.FC<Props> = ({
     addedPoints: 0,
     totalPoints: 0,
   });
+  const [information, setInformation] = useState<string | null>(null);
 
   const currentRepeat = useRef(0);
   const totalPoints = useRef(0);
@@ -162,6 +164,9 @@ const Training: React.FC<Props> = ({
             playRandomSound,
             audioFeedbackChance,
           });
+          break;
+        case "information":
+          informationCallback(message.data.information, setInformation);
           break;
         case "end_set":
           endCallback(stats.current, setActive, setSubPage, points.current);
@@ -285,9 +290,11 @@ const Training: React.FC<Props> = ({
             {isFeedbackNew && <>+{feedback.addedPoints}</>}
           </span>
         </WebcamStreamCapture>
-        <h1 style={{ color: "white", fontSize: "25px", paddingTop: "10px" }}>
-          {t(Translations.training.checkVisibility)}
-        </h1>
+        {information && (
+          <h1 style={{ color: "white", fontSize: "25px", paddingTop: "10px" }}>
+            {information}
+          </h1>
+        )}
       </div>
     </TrainLayout>
   );
