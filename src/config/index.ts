@@ -30,17 +30,28 @@ class config {
   // ====================================================
   //                  Auditive Feedback
   // ====================================================
-  // File extension of the audio files
-  #audioFileExtension = ".wav";
   // specif URL for a given audio file in a given category
   audioUrlFormatter = (id: string, category: string) =>
-    `${this.cdnUrl}sounds/${category}/${id}${this.#audioFileExtension}`;
+    `${this.cdnUrl}sounds/${category}/${id}`;
   // all available audio files by category
   soundsPerCategory: Record<audioCategory, string[]> = {
-    good: ["good", "keep_it_up", "way_to_go"],
-    better: ["NICE", "RIGHT_ON", "there_you_go", "WOUW", "WOW", "YEAH"],
-    best: ["AMAZING", "EXCELLENT", "INCREDIBLE", "LOOKS_GREAT", "THERE_IT_IS"],
-    perfect: ["GREAT_AIR", "NICE_JUMP"],
+    good: ["good.wav", "keep_it_up.wav", "way_to_go.wav"],
+    better: [
+      "NICE.wav",
+      "RIGHT_ON.wav",
+      "there_you_go.wav",
+      "WOUW.wav",
+      "WOW.wav",
+      "YEAH.wav",
+    ],
+    best: [
+      "AMAZING.wav",
+      "EXCELLENT.wav",
+      "INCREDIBLE.wav",
+      "LOOKS_GREAT.wav",
+      "THERE_IT_IS.wav",
+    ],
+    perfect: ["GREAT_AIR.wav", "NICE_JUMP.wav"],
   };
   // all audio category thresholds
   // This is the upper bound for the audio category.
