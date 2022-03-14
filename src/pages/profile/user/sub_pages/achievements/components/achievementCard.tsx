@@ -34,7 +34,7 @@ const AchievementCard: React.FC<achievementCardProps> = ({ ...props }) => {
   return (
     <Container
       size={{ width: "350px", height: "140px" }}
-      backgroundColor={isDone(achievement) ? undefined : "#E4E4E4"}
+      backgroundColor={achievement.level !== 0 ? undefined : "#E4E4E4"}
     >
       <Row style={{ height: "100%" }}>
         <div style={{ marginTop: "auto", marginBottom: "auto" }}>
@@ -73,7 +73,7 @@ const AchievementCard: React.FC<achievementCardProps> = ({ ...props }) => {
               )
             }
             status={isDone(achievement) ? "success" : "normal"}
-            percent={isDone(achievement) ? 100 : getProgress(achievement)}
+            percent={getProgress(achievement)}
           />
         </Col>
       </Row>
