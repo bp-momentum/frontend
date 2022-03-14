@@ -11,4 +11,4 @@ export interface Medal {
 /**
  * All types of medals.
  */
-export type MedalType = "none" | "bronze" | "silver" | "gold";
+export type MedalType = "unknown" | "none" | "bronze" | "silver" | "gold";
