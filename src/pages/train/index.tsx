@@ -29,6 +29,7 @@ const Train: React.FC<Props> = ({ rawExercise }: Props): JSX.Element => {
 
   const stats = useRef<StatsType>({
     data: [],
+    setAverages: [],
     totalPoints: 0,
     set: 0,
   });

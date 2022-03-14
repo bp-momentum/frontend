@@ -8,6 +8,8 @@ import useApi from "@hooks/api";
 import Routes from "@util/routes";
 import { message } from "antd";
 import { useTranslation } from "react-i18next";
+import config from "@config";
+import SpeechBubble from "@shared/speechBubble";
 
 interface Props {
   stats: MutableRefObject<StatsType>;
@@ -27,6 +29,8 @@ const ExerciseDone: React.FC<Props> = ({
   const { t } = useTranslation();
   const api = useApi();
 
+  const [avatarId, setAvatarId] = React.useState<number | null>(null);
+
   const checkForExerciseAchievements = async () => {
     const response = await api.execute(Routes.loadExerciseAchievements());
     if (!response || !response.success) {
@@ -41,12 +45,19 @@ const ExerciseDone: React.FC<Props> = ({
     );
   };
 
+  const loadAvatar = async () => {
+    const result = await api.execute(Routes.getProfile());
+    if (!result.success) message.error(result.description);
+    else setAvatarId(result.data.avatar ?? 0);
+  };
+
   const goHome = (): void => {
     navigate("/");
   };
 
   useEffect(() => {
     checkForExerciseAchievements().catch();
+    loadAvatar().catch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -76,17 +87,31 @@ const ExerciseDone: React.FC<Props> = ({
         background: "#466995",
       }}
     >
-      <h1 style={{ color: "white", fontSize: "60px" }}>{exercise?.title}</h1>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: 20,
+          marginBottom: 100,
+        }}
+      >
+        <h1 style={{ color: "white", fontSize: "60px", marginRight: 40 }}>
+          {exercise?.title}
+        </h1>
 
-      {medalType && (
-        <Medal
-          size="large"
-          type={medalType}
-          tooltipText={t(Translations.training.medal, {
-            context: medalType === "none" ? null : medalType,
-          })}
-        />
-      )}
+        {medalType && (
+          <Medal
+            size="large"
+            type={medalType}
+            tooltipText={t(Translations.training.medal, {
+              context: medalType === "none" ? null : medalType,
+            })}
+          />
+        )}
+      </div>
+
       <div
         style={{
           position: "relative",
@@ -97,11 +122,60 @@ const ExerciseDone: React.FC<Props> = ({
           marginBottom: 30,
           minHeight: "230px",
           width: "100%",
-          overflow: "hidden",
         }}
       >
-        <div style={{ width: 1100, height: 185 }} />
-        <div style={{ width: 100, margin: "55px 20px" }}>
+        <div
+          style={{
+            width: 400,
+            display: "flex",
+            justifyContent: "center",
+            height: "200px",
+          }}
+        >
+          <div
+            style={{
+              position: "relative",
+            }}
+          >
+            {avatarId && (
+              <img
+                alt="Avatar"
+                src={config.avatarUrlFormatter(avatarId)}
+                style={{
+                  height: "200px",
+                  width: "200px",
+                }}
+              />
+            )}
+            <div
+              style={{
+                position: "absolute",
+                width: "300px",
+                bottom: "220px",
+                right: "130px",
+              }}
+            >
+              <SpeechBubble
+                text={t(Translations.training.mascotText)}
+                padding={10}
+              ></SpeechBubble>
+            </div>
+          </div>
+        </div>
+        <div
+          style={{
+            height: 200,
+            marginLeft: "31px",
+          }}
+        >
+          <Graph
+            data={stats.current.data}
+            setSize={exercise?.repeatsPerSet ?? 1}
+            width={600}
+            style={{ marginLeft: -31 }}
+          />
+        </div>
+        <div style={{ width: 400, margin: "55px 20px" }}>
           <div
             style={{
               display: "flex",
@@ -123,23 +197,6 @@ const ExerciseDone: React.FC<Props> = ({
               {t(Translations.training.backHome)}
             </span>
           </div>
-        </div>
-        <div
-          style={{
-            position: "absolute",
-            height: 200,
-            top: 0,
-            left: "50%",
-            display: "flex",
-            justifyContent: "center",
-            transform: "translateX(-50%)",
-          }}
-        >
-          <Graph
-            data={stats.current.data}
-            width={600}
-            style={{ marginLeft: -31 }}
-          />
         </div>
       </div>
       <h1 style={{ color: "white", fontSize: "45px", marginTop: -50 }}>

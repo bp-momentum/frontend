@@ -10,6 +10,7 @@ interface GraphData {
 interface Props {
   width?: number;
   data: GraphData[];
+  setSize: number;
   style?: React.CSSProperties;
 }
 
@@ -18,7 +19,8 @@ interface Props {
  * @param {Props} props The properties of the component.
  * @returns {JSX.Element} The component.
  */
-const Graph: React.FC<Props> = ({ width, data, style }: Props): JSX.Element => {
+const Graph: React.FC<Props> = ({ ...props }) => {
+  const { width, data, setSize, style } = props;
   const maxWidth = width ? `${width}px` : "400px";
 
   const config: LineConfig = {
@@ -28,12 +30,14 @@ const Graph: React.FC<Props> = ({ width, data, style }: Props): JSX.Element => {
     seriesField: "type",
     xAxis: {
       label: {
-        formatter: (value: string) => `Set ${value}`,
+        formatter: (value: string) => `Set ${value.split("-")[0]}`,
         style: {
           fill: "#fff",
           fontSize: 15,
         },
       },
+      tickInterval: setSize,
+      tickCount: Math.floor(data.length / 3 / setSize),
     },
     yAxis: {
       label: {

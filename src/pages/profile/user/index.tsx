@@ -5,14 +5,14 @@ import { useAppSelector } from "@redux/hooks";
 import Helper from "@util/helper";
 import "@styles/profile.css";
 import Routes from "@util/routes";
-import ProfileSider from "./components/profile_sider";
+import ProfileSider from "./components/profileSider";
 import {
   DoneExercise,
   getApproximateExerciseDurationMinutes,
-} from "@api/done_exercise";
+} from "@api/doneExercise";
 import useApi from "@hooks/api";
 import SubPageProfile from "./sub_pages/profile";
-import ProfileLoadingView from "./components/profile_loading_view";
+import ProfileLoadingView from "./components/profileLoadingView";
 import SubPageFriends from "./sub_pages/friends";
 import SubPageAchievements from "./sub_pages/achievements";
 import config from "@config";

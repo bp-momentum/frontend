@@ -61,9 +61,12 @@ const SetDone: React.FC<Props> = ({
     }
   };
 
-  let focus = stats.current.data.length === 0 ? null : stats.current.data[0];
-  for (const data of stats.current.data) {
-    if ((focus?.performance ?? 0) < data.performance) {
+  let focus =
+    stats.current.setAverages.length === 0
+      ? null
+      : stats.current.setAverages[0];
+  for (const data of stats.current.setAverages.slice(-3)) {
+    if (data.performance < (focus?.performance ?? 0)) {
       focus = data;
     }
   }

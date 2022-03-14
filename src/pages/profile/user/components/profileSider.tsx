@@ -1,5 +1,5 @@
 import { Col, Layout, Row } from "antd";
-import SiderButton from "./sider_button";
+import SiderButton from "./siderButton";
 import React from "react";
 import "@styles/ProfileSider.css";
 import { useAppSelector } from "@redux/hooks";

@@ -1,5 +1,5 @@
 import { Card, Col, Row } from "antd";
-import RatingStars from "../rating_stars";
+import RatingStars from "../ratingStars";
 import Translations from "@localization/translations";
 import Text from "antd/lib/typography/Text";
 import { ShareAltOutlined } from "@ant-design/icons";
@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import {
   DoneExercise,
   getApproximateExerciseDurationMinutes,
-} from "@api/done_exercise";
+} from "@api/doneExercise";
 import Helper from "@util/helper";
 import { useGetExerciseByIdQuery } from "@redux/exercises/exerciseSlice";
 
