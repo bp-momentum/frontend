@@ -41,6 +41,28 @@ const calculatePoints = (points: Points[], set: number): dataEntryType[] => {
   ];
 };
 
+const getStatsPoints = (points: Points[], set: number): dataEntryType[] => {
+  const entries: dataEntryType[][] = points.map((p, i) => [
+    {
+      type: "Intensity",
+      set: set.toString() + "-" + i,
+      performance: Math.round(p.intensity),
+    },
+    {
+      type: "Accuracy",
+      set: set.toString() + "-" + i,
+      performance: Math.round(p.accuracy),
+    },
+    {
+      type: "Speed",
+      set: set.toString() + "-" + i,
+      performance: Math.round(p.speed),
+    },
+  ]);
+
+  return entries.flat();
+};
+
 export const initCallback = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: Record<string, any>,
@@ -119,7 +141,10 @@ export const endCallback = (
   points: Points[]
 ): void => {
   setActive(false);
-  stats.data = stats.data.concat(calculatePoints(points, stats.set));
+  stats.data = stats.data.concat(getStatsPoints(points, stats.set));
+  stats.setAverages = stats.setAverages.concat(
+    calculatePoints(points, stats.set)
+  );
   stats.totalPoints += points.reduce((acc, curr) => acc + curr.total, 0);
   setTimeout(() => setSubPage("setDone"), 2000);
 };
@@ -131,7 +156,10 @@ export const doneCallback = (
   points: Points[]
 ): void => {
   setActive(false);
-  stats.data = stats.data.concat(calculatePoints(points, stats.set));
+  stats.data = stats.data.concat(getStatsPoints(points, stats.set));
+  stats.setAverages = stats.setAverages.concat(
+    calculatePoints(points, stats.set)
+  );
   stats.totalPoints += points.reduce((acc, curr) => acc + curr.total, 0);
   setTimeout(() => setSubPage("exerciseDone"), 2000);
 };

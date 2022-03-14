@@ -10,12 +10,16 @@ interface graphData {
 interface graphProps {
   width?: number;
   data: graphData[];
+  setSize: number;
   style?: React.CSSProperties;
 }
 
 const Graph: React.FC<graphProps> = ({ ...props }) => {
-  const { width, data, style } = props;
+  const { width, data, setSize, style } = props;
   const maxWidth = width ? `${width}px` : "400px";
+
+  console.log("tickInterval: " + setSize);
+  console.log(data);
 
   const config: LineConfig = {
     data,
@@ -24,12 +28,14 @@ const Graph: React.FC<graphProps> = ({ ...props }) => {
     seriesField: "type",
     xAxis: {
       label: {
-        formatter: (value: string) => `Set ${value}`,
+        formatter: (value: string) => `Set ${value.split("-")[0]}`,
         style: {
           fill: "#fff",
           fontSize: 15,
         },
       },
+      tickInterval: setSize,
+      tickCount: Math.floor(data.length / 3 / setSize),
     },
     yAxis: {
       label: {

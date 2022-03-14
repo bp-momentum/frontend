@@ -131,6 +131,7 @@ const ExerciseDone: React.FC<exerciseDoneProps> = ({ ...props }) => {
         >
           <Graph
             data={stats.current.data}
+            setSize={exercise?.repeatsPerSet ?? 1}
             width={600}
             style={{ marginLeft: -31 }}
           />

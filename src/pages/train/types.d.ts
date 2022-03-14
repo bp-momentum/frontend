@@ -31,6 +31,7 @@ interface ExerciseData {
 
 interface statsType {
   data: dataEntryType[];
+  setAverages: dataEntryType[];
   set: number;
   totalPoints: number;
 }

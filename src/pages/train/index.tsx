@@ -24,6 +24,7 @@ const Train: React.FC<TrainProps> = ({ rawExercise }) => {
 
   const stats = useRef<statsType>({
     data: [],
+    setAverages: [],
     totalPoints: 0,
     set: 0,
   });
