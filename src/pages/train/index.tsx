@@ -11,6 +11,7 @@ import { message } from "antd";
 import Translations from "@localization/translations";
 import { t } from "i18next";
 import useApi from "@hooks/api";
+import { MedalType } from "@api/medal";
 
 interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -24,6 +25,7 @@ interface Props {
  */
 const Train: React.FC<Props> = ({ rawExercise }: Props): JSX.Element => {
   const [exercise, setExercise] = React.useState<ExerciseData>();
+  const [medalType, setMedalType] = React.useState<MedalType>("none");
 
   const initialCollapsed = useRef(false);
 
@@ -74,6 +76,7 @@ const Train: React.FC<Props> = ({ rawExercise }: Props): JSX.Element => {
             <Training
               exercise={exercise}
               setSubPage={setSubPage}
+              setMedalType={setMedalType}
               stats={stats}
               initialCollapsed={initialCollapsed}
               setCameraShown={setCameraShown}
@@ -89,7 +92,11 @@ const Train: React.FC<Props> = ({ rawExercise }: Props): JSX.Element => {
             />
           )}
           {subPage === "exerciseDone" && (
-            <ExerciseDone stats={stats} exercise={exercise} />
+            <ExerciseDone
+              stats={stats}
+              exercise={exercise}
+              medalType={medalType}
+            />
           )}
         </>
       )}

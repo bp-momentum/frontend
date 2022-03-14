@@ -24,6 +24,7 @@ import {
 import { useParams } from "react-router-dom";
 import { MdVideocam, MdVideocamOff } from "react-icons/md";
 import config from "@config";
+import { MedalType } from "@api/medal";
 
 const playRandomSound = (category: audioCategory) => {
   const audioFiles = config.soundsPerCategory[category];
@@ -43,6 +44,7 @@ interface Props {
   setSubPage: Dispatch<SetStateAction<subPage>>;
   initialCollapsed: MutableRefObject<boolean>;
   setCameraShown: Dispatch<SetStateAction<boolean>>;
+  setMedalType: Dispatch<SetStateAction<MedalType>>;
   cameraShown: boolean;
 }
 
@@ -58,6 +60,7 @@ const Training: React.FC<Props> = ({
   initialCollapsed,
   setCameraShown,
   cameraShown,
+  setMedalType,
 }: Props): JSX.Element => {
   const [progress, setProgress] = useState(0); // repeats done per repeats to do in percent
   const [active, setActive] = useState(false); // whether sending video to server
@@ -172,7 +175,14 @@ const Training: React.FC<Props> = ({
           endCallback(stats.current, setActive, setSubPage, points.current);
           break;
         case "exercise_complete":
-          doneCallback(stats.current, setActive, setSubPage, points.current);
+          doneCallback(
+            stats.current,
+            message.data.medal,
+            setActive,
+            setSubPage,
+            setMedalType,
+            points.current
+          );
           break;
       }
     };
