@@ -33,6 +33,7 @@ import "moment/locale/en-gb";
 // import available languages from ant locales
 import deDE from "antd/lib/locale-provider/de_DE";
 import enGB from "antd/lib/locale-provider/en_GB";
+import useLanguageUpdater from "@hooks/languageUpdater";
 
 /**
  * Wraps the normal {@link App} with a {@link ConfigProvider} to set the locale of the app.
@@ -41,6 +42,9 @@ import enGB from "antd/lib/locale-provider/en_GB";
 const LocalizedApp: React.FC = (): JSX.Element => {
   const [locale, setLocale] = React.useState<Locale>(deDE);
   const { i18n } = useTranslation();
+
+  const token = useAppSelector((state) => state.token.token);
+  const languageUpdater = useLanguageUpdater();
 
   const updateLanguage = (language: string) => {
     moment.locale(language);
@@ -53,6 +57,14 @@ const LocalizedApp: React.FC = (): JSX.Element => {
         break;
     }
   };
+
+  useEffect(() => {
+    if (!token) {
+      return;
+    }
+    languageUpdater.updateLanguage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
 
   useEffect(() => updateLanguage(i18n.language), [i18n.language]);
   return (
