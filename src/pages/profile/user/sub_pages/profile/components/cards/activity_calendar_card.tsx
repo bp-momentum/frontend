@@ -7,7 +7,7 @@ import {
   CheckOutlined,
   CloseOutlined,
 } from "@ant-design/icons";
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import {
   useGetDoneExercisesInMonthQuery,
@@ -156,6 +156,16 @@ const ExerciseName = (props: {
 const ActivityCalendarCard = (): JSX.Element => {
   const { t } = useTranslation();
   let currentMonthViewed = new Date().getMonth();
+
+  const { refetch } = useGetDoneExercisesInMonthQuery({
+    month: new Date().getMonth(),
+    year: new Date().getFullYear(),
+  });
+
+  useEffect(() => {
+    refetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Card
