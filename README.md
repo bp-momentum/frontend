@@ -5,12 +5,12 @@
 <div align="center">
   
 
-  [![GitHub license](https://img.shields.io/github/license/BP-WiSe21-22-Gruppe-52/BP-frontend.svg)](https://github.com/BP-WiSe21-22-Gruppe-52/BP-frontend/blob/main/LICENSE)
-  [![Latest release](https://badgen.net/github/release/BP-WiSe21-22-Gruppe-52/BP-frontend)](https://github.com/BP-WiSe21-22-Gruppe-52/BP-frontend/releases)
-  [![GitHub commits](https://badgen.net/github/commits/BP-WiSe21-22-Gruppe-52/BP-frontend/main)](https://GitHub.com/BP-WiSe21-22-Gruppe-52/BP-frontend/commit/)
-  [![Github stars](https://img.shields.io/github/stars/BP-WiSe21-22-Gruppe-52/BP-frontend.svg)](https://GitHub.com/BP-WiSe21-22-Gruppe-52/BP-frontend/stargazers/)
-  ![Dependabot](https://badgen.net/github/dependabot/BP-WiSe21-22-Gruppe-52/BP-frontend)
-  [![Deploy](https://img.shields.io/github/workflow/status/BP-WiSe21-22-Gruppe-52/BP-frontend/Deploy)](https://github.com/BP-WiSe21-22-Gruppe-52/BP-frontend/actions/workflows/deploy.yml)
+  [![GitHub license](https://img.shields.io/github/license/bp-momentum/frontend.svg)](https://github.com/bp-momentum/frontend/blob/main/LICENSE)
+  [![Latest release](https://badgen.net/github/release/bp-momentum/frontend)](https://github.com/bp-momentum/frontend/releases)
+  [![GitHub commits](https://badgen.net/github/commits/bp-momentum/frontend/main)](https://GitHub.com/bp-momentum/frontend/commit/)
+  [![Github stars](https://img.shields.io/github/stars/bp-momentum/frontend.svg)](https://GitHub.com/bp-momentum/frontend/stargazers/)
+  ![Dependabot](https://badgen.net/github/dependabot/bp-momentum/frontend)
+  [![Deploy](https://img.shields.io/github/workflow/status/bp-momentum/frontend/Deploy)](https://github.com/bp-momentum/frontend/actions/workflows/deploy.yml)
 
 </div>
 
