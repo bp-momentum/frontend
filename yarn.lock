@@ -10567,7 +10567,18 @@ rc-switch@~3.2.0:
     classnames "^2.2.1"
     rc-util "^5.0.1"
 
-rc-table@^7.23.0, rc-table@~7.23.0:
+rc-table@^7.24.1:
+  version "7.24.1"
+  resolved "https://registry.yarnpkg.com/rc-table/-/rc-table-7.24.1.tgz#15ecabc9d69f8300b988caa52986e3b215150f2b"
+  integrity sha512-DRWpv5z5pmOaTmy5GqWoskeV1thaOu5HuD+2f61b/CkbBqlgJR3cygc5R/Qvd2uVW6pHU0lYulhmz0VLVFm+rw==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "^2.2.5"
+    rc-resize-observer "^1.1.0"
+    rc-util "^5.14.0"
+    shallowequal "^1.1.0"
+
+rc-table@~7.23.0:
   version "7.23.0"
   resolved "https://registry.yarnpkg.com/rc-table/-/rc-table-7.23.0.tgz#e5f76998ecf3246147d45ed311417c08886e6507"
   integrity sha512-Q1gneB2+lUa8EzCCfbrq+jO1qNSwQv1RUUXKB84W/Stdp4EvGOt2+QqGyfotMNM4JUw0fgGLwY+WjnhUhnLuQQ==
