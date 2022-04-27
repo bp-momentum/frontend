@@ -10,7 +10,7 @@
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",
     "@types/lodash": "^4.14.180",
-    "@types/react": "^17.0.40",
+    "@types/react": "^18.0.8",
     "@types/react-beautiful-dnd": "^13.1.2",
     "@types/react-webcam": "^3.0.0",
     "antd": "^4.19.2",
