@@ -10752,10 +10752,10 @@ react-error-overlay@^6.0.10:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-6.0.10.tgz#0fe26db4fa85d9dbb8624729580e90e7159a59a6"
   integrity sha512-mKR90fX7Pm5seCOfz8q9F+66VCc1PGsWSBxKbITjfKVQHMNF2zudxHnMdJiB1fRCb+XsbQV9sO9DCkgsMQgBIA==
 
-react-i18next@^11.15.7:
-  version "11.15.7"
-  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-11.15.7.tgz#f14c5fbf17c568fe356a848a7ef13420c323b87c"
-  integrity sha512-zSWZ+21LhaG4T155GcvLdepG1j/qJqD9hUGztVtD1MGBc4/l9ft/LMbUX7oKXdVVLyKWjUhUFoDNAwB2402BIQ==
+react-i18next@^11.16.10:
+  version "11.16.10"
+  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-11.16.10.tgz#79e5a68eb8a15136aaa2539b4847729a7b806dc0"
+  integrity sha512-QLEpURRywcwdSPXFYa79bFNT6fGrAnI2K1sfRmM1co2Itb2A2pjoMv/5zlM3/+TQy5hKaHGxlsL0z5Q0l5zgxQ==
   dependencies:
     "@babel/runtime" "^7.14.5"
     html-escaper "^2.0.2"
