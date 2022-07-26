@@ -53,7 +53,7 @@
   },
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "lint": "npx elsint --ext .js,.jsx,.ts,.tsx .",
+    "lint": "npx eslint --ext .js,.jsx,.ts,.tsx .",
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
