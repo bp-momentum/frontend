@@ -1,4 +1,3 @@
-import config from "@config";
 import React from "react";
 import { MedalType } from "@api/medal";
 
@@ -147,11 +146,11 @@ export const statsCallback = ({
   });
   setIsFeedbackNew(true);
   if (Math.random() < audioFeedbackChance.current) {
-    if (total <= config.audioThresholds.good * 100) {
+    if (total <= 50) {
       playRandomSound("good");
-    } else if (total <= config.audioThresholds.better * 100) {
+    } else if (total <= 70) {
       playRandomSound("better");
-    } else if (total <= config.audioThresholds.best * 100) {
+    } else if (total <= 90) {
       playRandomSound("best");
     } else {
       playRandomSound("perfect");

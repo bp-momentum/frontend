@@ -17,22 +17,21 @@ import storage from "redux-persist/lib/storage";
 import tokenReducer from "./token/tokenSlice";
 import changeReducer from "./changes/changeSlice";
 import friendReducer from "./friends/friendSlice";
-import exercisesReducer, { exerciseApi } from "./exercises/exerciseSlice";
+import apiReducer, { Api } from "./api/api";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import friendApiReducer, { friendApi } from "./friends/friendApiSlice";
 
 const persistConfig = {
   key: "root",
   version: 1,
   storage,
+  blacklist: [Api.reducerPath],
 };
 
 const appReducer = combineReducers({
   token: tokenReducer,
   changes: changeReducer,
   friends: friendReducer,
-  [exerciseApi.reducerPath]: exercisesReducer,
-  [friendApi.reducerPath]: friendApiReducer,
+  [Api.reducerPath]: apiReducer,
 });
 
 /**
@@ -61,9 +60,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    })
-      .concat(exerciseApi.middleware)
-      .concat(friendApi.middleware),
+    }).concat(Api.middleware),
   devTools: true,
 });
 

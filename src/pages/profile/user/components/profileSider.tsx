@@ -5,6 +5,8 @@ import "@styles/ProfileSider.css";
 import { useAppSelector } from "@redux/hooks";
 import Translations from "@localization/translations";
 import { useTranslation } from "react-i18next";
+import { Avatar } from "../types";
+import AvatarImage from "../sub_pages/profile/components/avatarDesigner/avatar";
 
 const { Sider } = Layout;
 
@@ -12,7 +14,7 @@ interface Props {
   onClickFriends: VoidFunction;
   onClickAchievements: VoidFunction;
   onClickProfile: VoidFunction;
-  avatarUrl: string;
+  avatar: Avatar | undefined;
   username: string;
   selected: "profile" | "friends" | "achievements" | "loading";
 }
@@ -26,7 +28,7 @@ const ProfileSider: React.FC<Props> = ({
   onClickFriends,
   onClickAchievements,
   onClickProfile,
-  avatarUrl,
+  avatar,
   username,
   selected,
 }: Props): JSX.Element => {
@@ -46,7 +48,7 @@ const ProfileSider: React.FC<Props> = ({
       }}
     >
       <Col style={{ height: "100%" }}>
-        {avatarUrl.length !== 0 && (
+        {avatar !== undefined && (
           <Row justify="center">
             <div
               onClick={() => onClickProfile()}
@@ -59,20 +61,15 @@ const ProfileSider: React.FC<Props> = ({
                 height: "160px",
                 width: "160px",
                 cursor: "pointer",
-                padding: "20px 10px 0px 10px",
+                padding: "20px 10px 0 10px",
                 overflow: "hidden",
                 marginTop: "20px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              <img
-                alt="Avatar"
-                key={avatarUrl}
-                src={avatarUrl}
-                style={{
-                  height: "100%",
-                  width: "100%",
-                }}
-              />
+              <AvatarImage {...avatar} width={130} />
             </div>
           </Row>
         )}

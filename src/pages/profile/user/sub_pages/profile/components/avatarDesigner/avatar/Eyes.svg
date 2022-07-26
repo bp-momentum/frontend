@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 499 499">
+  <defs>
+    <style>.eyes{fill:current;}.blank{fill:none;}</style>
+  </defs>
+  <g id="Layer_2" data-name="Layer 2">
+    <g id="Layer_1-2" data-name="Layer 1">
+      <rect class="eyes" x="320.4" y="261.15" width="24.2" height="36.3" rx="11" />
+      <rect class="eyes" x="155.4" y="261.15" width="24.2" height="36.3" rx="11" />
+    </g>
+    <g id="Layer_5" data-name="Layer 5">
+      <rect class="blank" width="499" height="499" />
+    </g>
+  </g>
+</svg>

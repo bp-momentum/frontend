@@ -1,15 +1,15 @@
-import config from "@config";
 import { Exercise } from "@api/exercise";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { store } from "../store";
+import { Friend } from "@api/friend";
 
 /**
  * A caching api for exercise information.
  */
-export const exerciseApi = createApi({
-  reducerPath: "exerciseApi",
+export const Api = createApi({
+  reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: config.backendUrl,
+    baseUrl: window._env_.BACKEND_URL,
     prepareHeaders: (headers, { getState }) => {
       headers.set(
         "Session-Token",
@@ -18,6 +18,7 @@ export const exerciseApi = createApi({
       return headers;
     },
   }),
+  refetchOnFocus: true,
   endpoints: (builder) => ({
     getExerciseById: builder.query<Exercise | undefined, number>({
       query(exerciseId) {
@@ -53,9 +54,33 @@ export const exerciseApi = createApi({
         };
       },
     }),
+    getFriendById: builder.query<Friend | undefined, string>({
+      query(username) {
+        return {
+          url: "/api/getprofileoffriend",
+          method: "POST",
+          body: {
+            username,
+          },
+        };
+      },
+      transformResponse(response: {
+        success: boolean;
+        data: Friend;
+        description: string;
+      }) {
+        if (response.success) {
+          return response.data;
+        }
+        return undefined;
+      },
+    }),
   }),
 });
 
-export default exerciseApi.reducer;
-export const { useGetExerciseByIdQuery, useGetDoneExercisesInMonthQuery } =
-  exerciseApi;
+export default Api.reducer;
+export const {
+  useGetExerciseByIdQuery,
+  useGetDoneExercisesInMonthQuery,
+  useGetFriendByIdQuery,
+} = Api;

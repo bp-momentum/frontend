@@ -35,3 +35,5 @@ interface StatsType {
   set: number;
   totalPoints: number;
 }
+
+type audioCategory = "good" | "better" | "best" | "perfect";

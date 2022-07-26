@@ -8,7 +8,6 @@ import { t } from "i18next";
 import { Content } from "antd/lib/layout/layout";
 import Stars from "./components/stars";
 import Helper from "@util/helper";
-import Crown from "@static/crown.svg";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useAppSelector } from "@redux/hooks";
 import useApi from "@hooks/api";
@@ -97,7 +96,7 @@ const Leaderboard: React.FC = (): JSX.Element => {
         <div>
           {record.rank === 1 && (
             <img
-              src={Crown}
+              src={process.env.PUBLIC_URL + "/crown.svg"}
               style={{
                 width: "22px",
                 position: "absolute",

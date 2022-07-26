@@ -1,3 +1,5 @@
+import { Avatar } from "@pages/profile/user/types";
+
 export interface Route {
   route: string;
   method: "GET" | "POST";
@@ -414,13 +416,13 @@ const Routes = {
    * @param {object} props  the new avatar
    * @returns {Route} the route to change the avatar
    */
-  changeAvatar: (props: { avatarId: number }): Route => {
+  changeAvatar: (props: { avatar: Avatar }): Route => {
     return {
       route: "/api/changeavatar",
       method: "POST",
       needsAuth: true,
       body: {
-        avatar: props.avatarId,
+        avatar: props.avatar,
       },
     };
   },

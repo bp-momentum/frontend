@@ -8,7 +8,6 @@ import Translations from "@localization/translations";
 import LoginForm from "./forms/loginForm";
 import ResetForm from "./forms/resetForm";
 import useApi from "@hooks/api";
-import config from "@config";
 
 /**
  * The login page
@@ -67,7 +66,7 @@ const Login: React.FC = (): JSX.Element => {
       .execute(
         Routes.requestPasswordReset({
           username,
-          url: config.frontendUrl,
+          url: window._env_.FRONTEND_URL,
         })
       )
       .then((response) => {

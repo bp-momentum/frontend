@@ -1,7 +1,6 @@
-import config from "@config";
 import EmptyDataRender from "@shared/emptyDataRender";
 import Translations from "@localization/translations";
-import { useGetFriendByIdQuery } from "@redux/friends/friendApiSlice";
+import { useGetFriendByIdQuery } from "@redux/api/api";
 import { Col, Progress, Row, Tooltip } from "antd";
 import React from "react";
 import { Emoji } from "react-apple-emojis";
@@ -11,6 +10,7 @@ import Container from "../../../components/container";
 import "@styles/friends.css";
 import Helper from "@util/helper";
 import Medal from "@shared/medal";
+import AvatarImage from "../../profile/components/avatarDesigner/avatar";
 
 interface Props {
   username: string;
@@ -69,15 +69,7 @@ const BigFriendCard: React.FC<Props> = ({
                 border: "1px solid gray",
               }}
             >
-              <img
-                alt="Avatar"
-                key={data.avatar}
-                src={config.avatarUrlFormatter(data.avatar)}
-                style={{
-                  height: "100%",
-                  width: "100%",
-                }}
-              />
+              <AvatarImage {...data.avatar} width={70} />
             </div>
             <div style={{ display: "flex", flexDirection: "column" }}>
               <span className="friendNameHeader">{data.username}</span>

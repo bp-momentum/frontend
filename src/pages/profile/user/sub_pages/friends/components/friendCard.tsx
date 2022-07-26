@@ -1,10 +1,10 @@
-import config from "@config";
 import Translations from "@localization/translations";
-import { useGetFriendByIdQuery } from "@redux/friends/friendApiSlice";
+import { useGetFriendByIdQuery } from "@redux/api/api";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { MdPersonRemove } from "react-icons/md";
 import Container from "../../../components/container";
+import AvatarImage from "../../profile/components/avatarDesigner/avatar";
 
 interface Props {
   username: string;
@@ -60,15 +60,7 @@ const FriendCard: React.FC<Props> = ({ username, onRemove, onClick }) => {
             border: "1px solid gray",
           }}
         >
-          <img
-            alt="Avatar"
-            key={data.avatar}
-            src={config.avatarUrlFormatter(data.avatar)}
-            style={{
-              height: "100%",
-              width: "100%",
-            }}
-          />
+          <AvatarImage {...data.avatar} width={43.75} />
         </div>
         <span
           style={{

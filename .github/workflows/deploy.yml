@@ -10,64 +10,61 @@ on:
       - main
 
 env:
-  NODE_VERSION: 16
-  FILES_PATH: /var/www/vhosts/bp/
+  NODE_VERSION: 17
+
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - run: yarn
-        name: Collect dependencies
-      - run: yarn run eslint ./src/
-        name: Check formatting
-      - run: yarn test --clearCache
-        name: Clear test cache
-      - name: Run tests
-        run: yarn test
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          key: ${{ github.sha }}
-          path: |
-            node_modules
 
-  build:
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.0.1
+        id: pnpm-install
+        with:
+          version: 7
+          run_install: false
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Check formatting
+        run: pnpm run lint
+
+      - name: Run tests
+        run: pnpm test
+
+  deploy:
     runs-on: ubuntu-latest
     needs: test
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      - name: Restore dependencies
-        uses: actions/cache@v2
-        with:
-          key: ${{ github.sha }}
-          path: |
-            node_modules
-      - run: CI=false yarn build
-        name: Build static page
-      - name: Store build
-        uses: actions/upload-artifact@v2
-        with:
-          name: build
-          path: build
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-  deploy:
-    runs-on: self-hosted
-    needs: build
-    steps:
-      - name: Clean workspace
-        run: rm -rf *
-      - name: Download build
-        uses: actions/download-artifact@v2
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Github Packages
+        uses: docker/login-action@v2
         with:
-          name: build
-      - run: rm -rf ${{ env.FILES_PATH }}*
-        name: Delete old files
-      - run: cp -r * ${{ env.FILES_PATH }}
-        name: Copy new files
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build image and push to Docker Hub and GitHub Container Registry
+        uses: docker/build-push-action@v2
+        with:
+          # relative path to the place where source code with Dockerfile is located
+          context: .
+          # Note: tags has to be all lower-case
+          tags: |
+            ghcr.io/bp-momentum/frontend:latest
+          # build on feature branches, push only on main branch
+          push: ${{ github.ref == 'refs/heads/main' }}

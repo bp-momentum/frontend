@@ -5,7 +5,12 @@ export interface Friend {
   username: string;
   level: number;
   level_progress: string;
-  avatar: number;
+  avatar: {
+    hairStyle: number;
+    hairColor: number;
+    skinColor: number;
+    eyeColor: number;
+  };
   motivation: string;
   last_achievements: {
     name: string;

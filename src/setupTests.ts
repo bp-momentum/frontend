@@ -1,8 +1,13 @@
 import "@testing-library/jest-dom";
 import nock from "nock";
-import config from "@config";
 
 jest.setTimeout(20000);
+
+window._env_ = {
+  BACKEND_URL: "http://localhost:8080",
+  WEBSOCKET_URL: "ws://localhost:8080",
+  FRONTEND_URL: "http://localhost:3000",
+};
 
 global.matchMedia =
   global.matchMedia ||
@@ -14,7 +19,7 @@ global.matchMedia =
   };
 
 // Test API responses
-nock(config.backendUrl)
+nock(window._env_.BACKEND_URL)
   .persist()
   .defaultReplyHeaders({
     "access-control-allow-origin": "*",
