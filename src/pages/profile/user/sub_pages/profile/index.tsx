@@ -10,7 +10,7 @@ import ActivityCalendarCard from "./components/cards/activityCalendarCard";
 import DailySummaryCard from "./components/cards/dailySummaryCard";
 import TrainerCard from "./components/cards/trainerCard";
 import UserCard from "./components/cards/userCard";
-import { ProfileData } from "@pages/profile/user/types";
+import { Avatar, ProfileData } from "@pages/profile/user/types";
 
 function mergeData<Type>(data: Type, newData: Record<string, unknown>): Type {
   return {
@@ -68,17 +68,22 @@ const SubPageProfile: React.FC<Props> = ({
     setProfileData(mergeData(profileData, { motivation: newMotivation }));
   };
 
-  const saveNewAvatar = async (newAvatarId: number) => {
-    if (newAvatarId === profileData.avatarId) {
+  const saveNewAvatar = async (newAvatar: Avatar) => {
+    if (
+      newAvatar.hairColor === profileData.avatar.hairColor &&
+      newAvatar.hairStyle === profileData.avatar.hairStyle &&
+      newAvatar.eyeColor === profileData.avatar.eyeColor &&
+      newAvatar.skinColor === profileData.avatar.skinColor
+    ) {
       return;
     }
     const result = await api.execute(
-      Routes.changeAvatar({ avatarId: newAvatarId })
+      Routes.changeAvatar({ avatar: newAvatar })
     );
     if (!result.success) {
       message.error(result.description);
     }
-    setProfileData(mergeData(profileData, { avatarId: newAvatarId }));
+    setProfileData(mergeData(profileData, { avatar: newAvatar }));
   };
 
   const onClickShare = () => {
@@ -94,7 +99,7 @@ const SubPageProfile: React.FC<Props> = ({
           style={{ marginTop: "30px", minWidth: "450px" }}
         >
           <UserCard
-            avatarId={profileData.avatarId}
+            avatar={profileData.avatar}
             username={Helper.getUserName(token ?? "")}
             accountCreated={profileData.accountCreated}
             motivation={profileData.motivation}
@@ -102,7 +107,7 @@ const SubPageProfile: React.FC<Props> = ({
             progress={profileData.levelProgress}
             saveNewUsername={saveUsername}
             saveNewMotivation={saveMotivation}
-            saveNewAvatarId={saveNewAvatar}
+            saveNewAvatar={saveNewAvatar}
           />
         </Col>
         <Col className="gutter-row" span={10} style={{ minWidth: "450px" }}>

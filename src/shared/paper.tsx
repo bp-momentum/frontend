@@ -1,5 +1,4 @@
 import React from "react";
-import pin from "@static/pin.png";
 
 interface Props {
   title: React.ReactNode;
@@ -53,7 +52,7 @@ const Paper: React.FC<Props> = ({
           }}
         >
           <img
-            src={pin}
+            src={process.env.PUBLIC_URL + "/pin.png"}
             alt="Pin"
             style={{
               left: "50%",

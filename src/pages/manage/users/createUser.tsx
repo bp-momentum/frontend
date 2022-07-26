@@ -5,7 +5,6 @@ import Routes from "@util/routes";
 import { useTranslation } from "react-i18next";
 import Translations from "@localization/translations";
 import useApi from "@hooks/api";
-import config from "@config";
 
 interface Props {
   updateValue: number;
@@ -40,7 +39,7 @@ const CreateUser: React.FC<Props> = ({
         firstName: firstName,
         lastName: lastName,
         email: email,
-        url: config.frontendUrl,
+        url: window._env_.FRONTEND_URL,
       })
     );
 

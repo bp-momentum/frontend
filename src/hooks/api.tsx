@@ -4,7 +4,6 @@ import { unsetRefreshToken, unsetToken } from "@redux/token/tokenSlice";
 import { message } from "antd";
 import { useTranslation } from "react-i18next";
 import Translations from "@localization/translations";
-import config from "@config";
 
 /**
  * This api handles all requests to the backend.
@@ -188,10 +187,10 @@ const useApi = () => {
     if (route.startsWith("/")) {
       route = route.substring(1);
     }
-    if (config.backendUrl.endsWith("/")) {
-      return config.backendUrl + route;
+    if (window._env_.BACKEND_URL.endsWith("/")) {
+      return window._env_.BACKEND_URL + route;
     } else {
-      return config.backendUrl + "/" + route;
+      return window._env_.BACKEND_URL + "/" + route;
     }
   };
 
@@ -201,7 +200,7 @@ const useApi = () => {
    * @returns {ApiSocketConnection} the created {@link ApiSocketConnection}
    */
   const openSocket = async (): Promise<ApiSocketConnection> => {
-    return new ApiSocketConnection(token, config.websocketUrl);
+    return new ApiSocketConnection(token, window._env_.WEBSOCKET_URL);
   };
 
   return { execute, openSocket };
@@ -216,7 +215,7 @@ export class ApiSocketConnection {
 
   constructor(token: string, url: string) {
     this.token = token;
-    this.ws = new WebSocket(url + "ws/socket");
+    this.ws = new WebSocket(url + "/ws/socket");
 
     this.ws.onopen = (event) => {
       this.ws.send(

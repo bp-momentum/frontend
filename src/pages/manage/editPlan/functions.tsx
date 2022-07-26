@@ -74,7 +74,7 @@ export const reorder = (
   if (fromStore) {
     count.current += 1;
     const data = leaveArr[source.index].data;
-    const item = { id: `exercise-${count}`, data: { ...data } };
+    const item = { id: `exercise-${count.current}`, data: { ...data } };
     joinArr.splice(dest.index, 0, item);
     return { leave: leaveArr, join: joinArr };
   }

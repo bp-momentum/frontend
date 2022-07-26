@@ -104,7 +104,6 @@ const Container: React.FC<Props> = ({
 
   const token = useAppSelector((state) => state.token.token);
   const isUser = token && helper.getAccountType(token) === "user";
-  const isAdmin = token && helper.getAccountType(token) === "admin";
   const isTrainer = token && helper.getAccountType(token) === "trainer";
 
   const hasRequests =
@@ -134,6 +133,88 @@ const Container: React.FC<Props> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const menuHome = {
+    key: "home",
+    icon: <HomeTwoTone />,
+    label: t(Translations.tabBar.home),
+  };
+
+  const menuUsers = {
+    key: "manage_users",
+    icon: <TeamOutlined style={{ color: "#1890ff" }} />,
+    label: t(Translations.tabBar.user),
+  };
+
+  const menuPlans = {
+    key: "manage_plans",
+    icon: <CalendarOutlined style={{ color: "#1890ff" }} />,
+    label: t(Translations.tabBar.plans),
+  };
+
+  const menuLeaderboard = {
+    key: "leaderboard",
+    icon: <CrownTwoTone />,
+    label: t(Translations.tabBar.leaderboard),
+  };
+
+  const menuProfile = {
+    key: "profile",
+    icon: <BarsOutlined style={{ color: "#1890ff" }} />,
+    label: (
+      <span
+        className={
+          hasRequests && currentPage !== "profile" ? "notification" : ""
+        }
+        style={{ position: "relative", paddingTop: 3, paddingRight: 3 }}
+      >
+        {t(Translations.tabBar.profile)}
+      </span>
+    ),
+    style: { marginLeft: "auto" },
+  };
+
+  const menuSettings = {
+    key: "settings",
+    icon: <SettingTwoTone />,
+    label: t(Translations.tabBar.settings),
+  };
+
+  const menuLogout = {
+    key: "logout",
+    icon: <LogoutOutlined style={{ color: "#1890ff" }} />,
+    label: t(Translations.tabBar.logout),
+  };
+
+  const menuItemsUser = [
+    menuHome,
+    menuLeaderboard,
+    menuProfile,
+    menuSettings,
+    menuLogout,
+  ];
+  const menuItemsTrainer = [
+    menuHome,
+    menuUsers,
+    menuPlans,
+    menuLeaderboard,
+    menuProfile,
+    menuSettings,
+    menuLogout,
+  ];
+  const menuItemsAdmin = [
+    menuHome,
+    menuUsers,
+    menuPlans,
+    menuSettings,
+    menuLogout,
+  ];
+
+  const menuItems = isUser
+    ? menuItemsUser
+    : isTrainer
+    ? menuItemsTrainer
+    : menuItemsAdmin;
+
   return (
     <Layout style={{ height: "100%", position: "absolute", width: "100%" }}>
       <Header style={{ backgroundColor: "#fff" }}>
@@ -141,63 +222,8 @@ const Container: React.FC<Props> = ({
           mode="horizontal"
           selectedKeys={currentPage ? [currentPage] : []}
           onClick={handleClick}
-        >
-          <Menu.Item key="home" icon={<HomeTwoTone />}>
-            {t(Translations.tabBar.home)}
-          </Menu.Item>
-          {(isTrainer || isAdmin) && (
-            <>
-              <Menu.Item
-                key="manage_users"
-                icon={<TeamOutlined style={{ color: "#1890ff" }} />}
-              >
-                {t(Translations.tabBar.user)}
-              </Menu.Item>
-              {isTrainer && (
-                <Menu.Item
-                  key="manage_plans"
-                  icon={<CalendarOutlined style={{ color: "#1890ff" }} />}
-                >
-                  {t(Translations.tabBar.plans)}
-                </Menu.Item>
-              )}
-            </>
-          )}
-          {!isAdmin && (
-            <Menu.Item key="leaderboard" icon={<CrownTwoTone />}>
-              {t(Translations.tabBar.leaderboard)}
-            </Menu.Item>
-          )}
-          {!isAdmin && (
-            <Menu.Item
-              key="profile"
-              icon={<BarsOutlined style={{ color: "#1890ff" }} />}
-              style={{ marginLeft: "auto" }}
-            >
-              <span
-                className={
-                  hasRequests && currentPage !== "profile" ? "notification" : ""
-                }
-                style={{ position: "relative", paddingTop: 3, paddingRight: 3 }}
-              >
-                {t(Translations.tabBar.profile)}
-              </span>
-            </Menu.Item>
-          )}
-          <Menu.Item
-            key="settings"
-            style={!isAdmin ? {} : { marginLeft: "auto" }}
-            icon={<SettingTwoTone />}
-          >
-            {t(Translations.tabBar.settings)}
-          </Menu.Item>
-          <Menu.Item
-            key="logout"
-            icon={<LogoutOutlined style={{ color: "#1890ff" }} />}
-          >
-            {t(Translations.tabBar.logout)}
-          </Menu.Item>
-        </Menu>
+          items={menuItems}
+        />
       </Header>
       <Content
         style={{ position: "relative", height: "100%", overflow: "auto" }}

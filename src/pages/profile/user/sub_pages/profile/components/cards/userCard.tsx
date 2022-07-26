@@ -7,10 +7,12 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import Helper from "@util/helper";
 import { FaPen } from "react-icons/fa";
-import config from "@config";
+import AvatarDesigner from "../avatarDesigner";
+import { Avatar } from "@pages/profile/user/types";
+import AvatarImage from "../avatarDesigner/avatar";
 
 interface Props {
-  avatarId: number;
+  avatar: Avatar;
   username: string;
   accountCreated: number;
   motivation: string;
@@ -18,7 +20,7 @@ interface Props {
   progress: string;
   saveNewUsername: (u: string) => void;
   saveNewMotivation: (m: string) => void;
-  saveNewAvatarId: (a: number) => void;
+  saveNewAvatar: (a: Avatar) => void;
 }
 
 /**
@@ -30,7 +32,9 @@ const UserCard: React.FC<Props> = ({ ...props }: Props): JSX.Element => {
   const { t } = useTranslation();
   const [userFlipped, setUserFlipped] = React.useState<boolean>(false);
   const [popoverVisible, setPopoverVisible] = React.useState<boolean>(false);
-  const [newAvatarId, setNewAvatarId] = React.useState<number>(props.avatarId);
+
+  const [avatar, setAvatar] = React.useState<Avatar>(props.avatar);
+
   const [newUsername, setNewUsername] = React.useState<string>(props.username);
   const [newUsernameError, setNewUsernameError] = React.useState<string | null>(
     null
@@ -69,7 +73,7 @@ const UserCard: React.FC<Props> = ({ ...props }: Props): JSX.Element => {
   };
 
   const resetEditFields = () => {
-    setNewAvatarId(props.avatarId);
+    setAvatar(props.avatar);
     setNewUsername(props.username);
     setNewMotivation(props.motivation);
   };
@@ -107,20 +111,22 @@ const UserCard: React.FC<Props> = ({ ...props }: Props): JSX.Element => {
             <EditOutlined style={{ fontSize: 16 }} />
           </span>
           <Row>
-            <img
-              alt="Avatar"
-              data-testid="user-avatar"
-              key={props.avatarId}
-              src={config.avatarUrlFormatter(props.avatarId)}
+            <div
               style={{
-                height: "100px",
-                padding: "20px 10px 0 10px",
+                cursor: "pointer",
+                height: "90px",
+                width: "90px",
+                padding: "15px 10px 0 10px",
                 marginBottom: "30px",
                 marginRight: "30px",
-                clipPath: "circle(50px at center)",
                 backgroundColor: "#626FE5",
+                display: "block",
+                borderRadius: "50%",
               }}
-            />
+              data-testid="user-avatar"
+            >
+              <AvatarImage width={70} {...avatar} />
+            </div>
             <Col>
               <Text style={{ fontSize: 24 }}>{props.username}</Text>
               <br />
@@ -210,7 +216,7 @@ const UserCard: React.FC<Props> = ({ ...props }: Props): JSX.Element => {
               onClick={async () => {
                 await props.saveNewUsername(newUsername);
                 await props.saveNewMotivation(newMotivation);
-                await props.saveNewAvatarId(newAvatarId);
+                await props.saveNewAvatar(avatar);
                 flipCard();
               }}
             >
@@ -220,34 +226,27 @@ const UserCard: React.FC<Props> = ({ ...props }: Props): JSX.Element => {
           </Row>
           <Row>
             <Popover
+              destroyTooltipOnHide
               visible={popoverVisible}
-              overlayStyle={{ width: "380px" }}
               placement="right"
               title={t(Translations.profile.selectNewAvatar)}
               content={
-                <Row gutter={16}>
-                  {config.avatarRange.map((id) => {
-                    return (
-                      <img
-                        alt="Avatar"
-                        onClick={() => {
-                          setNewAvatarId(id);
-                          setPopoverVisible(false);
-                        }}
-                        key={id}
-                        src={config.avatarUrlFormatter(id)}
-                        style={{
-                          height: "60px",
-                          padding: "10px 5px 0 5px",
-                          margin: "5px",
-                          clipPath: "circle(30px at center)",
-                          backgroundColor: "#626FE5",
-                          cursor: "pointer",
-                        }}
-                      />
-                    );
-                  })}
-                </Row>
+                <AvatarDesigner
+                  eyeColor={avatar.eyeColor}
+                  hairColor={avatar.hairColor}
+                  skinColor={avatar.skinColor}
+                  hairStyle={avatar.hairStyle}
+                  apply={(skinColor, hairColor, hairStyle, eyeColor) => {
+                    setAvatar({
+                      skinColor,
+                      hairColor,
+                      hairStyle,
+                      eyeColor,
+                    });
+                    setPopoverVisible(false);
+                  }}
+                  cancel={() => setPopoverVisible(false)}
+                />
               }
               trigger="click"
             >
@@ -256,28 +255,23 @@ const UserCard: React.FC<Props> = ({ ...props }: Props): JSX.Element => {
                   position: "relative",
                 }}
               >
-                <img
-                  alt="Avatar"
-                  onClick={() => {
-                    setPopoverVisible(!popoverVisible);
-                  }}
-                  key={newAvatarId}
-                  src={config.avatarUrlFormatter(newAvatarId)}
+                <div
                   style={{
-                    cursor: "pointer",
-                    height: "100px",
-                    padding: "20px 10px 0 10px",
-                    marginBottom: "30px",
+                    height: "90px",
+                    width: "90px",
+                    padding: "15px 10px 0 10px",
                     marginRight: "30px",
-                    clipPath: "circle(50px at center)",
                     backgroundColor: "#626FE5",
                     display: "block",
+                    borderRadius: "50%",
                   }}
-                />
+                >
+                  <AvatarImage width={70} {...avatar} />
+                </div>
                 {!popoverVisible && (
                   <div
                     onClick={() => {
-                      setPopoverVisible(!popoverVisible);
+                      setPopoverVisible(true);
                     }}
                     style={{
                       cursor: "pointer",

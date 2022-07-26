@@ -5,7 +5,6 @@
         "@util/*": ["util/*"],
         "@redux/*": ["redux/*"],
         "@styles/*": ["styles/*"],
-        "@static/*": ["static/*"],
         "@shared/*": ["shared/*"],
         "@localization/*": ["localization/*"],
         "@hooks/*": ["hooks/*"],

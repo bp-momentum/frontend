@@ -58,7 +58,7 @@ const Day: React.FC<Props> = ({
               {list.map((item, index) => (
                 <Exercise
                   key={item.id}
-                  item={{ ...item }}
+                  item={item}
                   index={index}
                   details={true}
                   exercises={exercises}

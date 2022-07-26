@@ -9,7 +9,6 @@ import TrainLayout from "./components/trainLayout";
 import { Col, Row } from "antd";
 import Paper from "@shared/paper";
 import { FaCheck } from "react-icons/fa";
-import continue_arrow from "@static/continue_arrow.png";
 import { useTranslation } from "react-i18next";
 import Translations from "@localization/translations";
 
@@ -160,7 +159,11 @@ const SetDone: React.FC<Props> = ({
                 marginRight: "20px",
               }}
             >
-              <img src={continue_arrow} alt="Continue" width="100px" />
+              <img
+                src={process.env.PUBLIC_URL + "/continue_arrow.png"}
+                alt="Continue"
+                width="100px"
+              />
               {t(Translations.training.nextSet, { seconds: remainingSeconds })}
             </Col>
           </Row>

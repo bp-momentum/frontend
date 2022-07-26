@@ -10,7 +10,7 @@ import {
   getApproximateExerciseDurationMinutes,
 } from "@api/doneExercise";
 import Helper from "@util/helper";
-import { useGetExerciseByIdQuery } from "@redux/exercises/exerciseSlice";
+import { useGetExerciseByIdQuery } from "@redux/api/api";
 
 interface Props {
   rating: number;

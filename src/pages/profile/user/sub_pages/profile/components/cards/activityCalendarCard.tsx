@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import {
   useGetDoneExercisesInMonthQuery,
   useGetExerciseByIdQuery,
-} from "@redux/exercises/exerciseSlice";
+} from "@redux/api/api";
 import { round } from "lodash";
 
 interface Props {

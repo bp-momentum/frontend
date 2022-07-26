@@ -7,7 +7,6 @@ module.exports = {
       "@util": path.resolve(__dirname, "src/util"),
       "@redux": path.resolve(__dirname, "src/redux"),
       "@styles": path.resolve(__dirname, "src/styles"),
-      "@static": path.resolve(__dirname, "src/static"),
       "@shared": path.resolve(__dirname, "src/shared"),
       "@localization": path.resolve(__dirname, "src/localization"),
       "@hooks": path.resolve(__dirname, "src/hooks"),

@@ -4,7 +4,7 @@ import Translations from "@localization/translations";
 import { t } from "i18next";
 import "@styles/home.css";
 import { useNavigate } from "react-router-dom";
-import { useGetExerciseByIdQuery } from "@redux/exercises/exerciseSlice";
+import { useGetExerciseByIdQuery } from "@redux/api/api";
 
 interface Props {
   exercise: Exercise;

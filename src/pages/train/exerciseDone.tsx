@@ -1,16 +1,16 @@
 import React, { MutableRefObject, useEffect } from "react";
 import Translations from "@localization/translations";
 import Graph from "@shared/graph";
-import continue_arrow from "@static/continue_arrow.png";
 import { useNavigate } from "react-router-dom";
 import Medal from "@shared/medal";
 import useApi from "@hooks/api";
 import Routes from "@util/routes";
 import { message } from "antd";
 import { useTranslation } from "react-i18next";
-import config from "@config";
 import SpeechBubble from "@shared/speechBubble";
 import { MedalType } from "@api/medal";
+import AvatarImage from "@pages/profile/user/sub_pages/profile/components/avatarDesigner/avatar";
+import { Avatar } from "@pages/profile/user/types";
 
 interface Props {
   stats: MutableRefObject<StatsType>;
@@ -32,7 +32,7 @@ const ExerciseDone: React.FC<Props> = ({
   const { t } = useTranslation();
   const api = useApi();
 
-  const [avatarId, setAvatarId] = React.useState<number | null>(null);
+  const [avatar, setAvatar] = React.useState<Avatar | null>(null);
 
   const checkForExerciseAchievements = async () => {
     const response = await api.execute(Routes.loadExerciseAchievements());
@@ -51,7 +51,15 @@ const ExerciseDone: React.FC<Props> = ({
   const loadAvatar = async () => {
     const result = await api.execute(Routes.getProfile());
     if (!result.success) message.error(result.description);
-    else setAvatarId(result.data.avatar ?? 0);
+    else
+      setAvatar(
+        result.data.avatar ?? {
+          eyeColor: 0,
+          hairColor: 0,
+          hairStyle: 0,
+          skinColor: 0,
+        }
+      );
   };
 
   const goHome = (): void => {
@@ -126,16 +134,7 @@ const ExerciseDone: React.FC<Props> = ({
               position: "relative",
             }}
           >
-            {avatarId && (
-              <img
-                alt="Avatar"
-                src={config.avatarUrlFormatter(avatarId)}
-                style={{
-                  height: "200px",
-                  width: "200px",
-                }}
-              />
-            )}
+            {avatar && <AvatarImage width={200} {...avatar} />}
             <div
               style={{
                 position: "absolute",
@@ -175,7 +174,7 @@ const ExerciseDone: React.FC<Props> = ({
             onClick={goHome}
           >
             <img
-              src={continue_arrow}
+              src={process.env.PUBLIC_URL + "/continue_arrow.png"}
               alt="Continue"
               width="100px"
               style={{ transform: "rotate(180deg)" }}

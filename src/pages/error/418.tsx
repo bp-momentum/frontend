@@ -3,7 +3,6 @@ import { t } from "i18next";
 import React from "react";
 import Translations from "@localization/translations";
 import Container from "@shared/container";
-import Error from "@static/_(.svg";
 
 /**
  * Error 404 page
@@ -27,7 +26,7 @@ const Error404: React.FC = (): JSX.Element => {
           <h1 style={{ fontSize: "60px", marginBottom: "-10px" }}>418</h1>
           <span>{t(Translations.errorPage.err418Text)}</span>
           <img
-            src={Error}
+            src={process.env.PUBLIC_URL + "/_(.svg"}
             style={{ marginTop: "80px", width: "600px" }}
             alt="Sad Error Face"
           ></img>

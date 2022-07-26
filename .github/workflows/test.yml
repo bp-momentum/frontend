@@ -11,43 +11,31 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  NODE_VERSION: 16
+  NODE_VERSION: 17
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      - run: yarn
-        name: Collect dependencies
-      - run: yarn run eslint ./src/
-        name: Check formatting
-      - run: yarn test --clearCache
-        name: Clear test cache
-      - name: Run tests
-        run: yarn test
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          key: ${{ github.sha }}
-          path: |
-            node_modules
+      - name: Checkout
+        uses: actions/checkout@v2
 
-  build:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - name: Install Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - name: Restore dependencies
-        uses: actions/cache@v2
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.0.1
+        id: pnpm-install
         with:
-          key: ${{ github.sha }}
-          path: |
-            node_modules
-      - run: CI=false yarn build
-        name: Build static page
+          version: 7
+          run_install: false
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Check formatting
+        run: pnpm run lint
+
+      - name: Run tests
+        run: pnpm test

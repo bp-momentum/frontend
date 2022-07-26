@@ -15,7 +15,6 @@ import SubPageProfile from "./sub_pages/profile";
 import ProfileLoadingView from "./components/profileLoadingView";
 import SubPageFriends from "./sub_pages/friends";
 import SubPageAchievements from "./sub_pages/achievements";
-import config from "@config";
 import { ProfileData } from "@pages/profile/user/types";
 
 /**
@@ -71,7 +70,12 @@ const Profile: React.FC = (): JSX.Element => {
 
     setProfileData({
       accountCreated: profile.data.first_login ?? 0,
-      avatarId: profile.data.avatar ?? "",
+      avatar: profile.data.avatar ?? {
+        eyeColor: 0,
+        hairColor: 0,
+        hairStyle: 0,
+        skinColor: 0,
+      },
       dailyRating: dailyRating,
       doneExercises: doneExercises,
       minutesTrainedGoal: trainDayGoal,
@@ -106,9 +110,7 @@ const Profile: React.FC = (): JSX.Element => {
           onClickFriends={onClickFriends}
           onClickAchievements={onClickAchievements}
           onClickProfile={onClickProfile}
-          avatarUrl={config.avatarUrlFormatter(
-            profileData ? profileData.avatarId : 0
-          )}
+          avatar={profileData?.avatar}
           username={Helper.getUserName(token ?? "")}
           selected={subPage}
         />

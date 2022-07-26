@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import Training from "./training";
 import SetDone from "./setDone";
 import ExerciseDone from "./exerciseDone";
-import { useGetExerciseByIdQuery } from "@redux/exercises/exerciseSlice";
+import { useGetExerciseByIdQuery } from "@redux/api/api";
 import { message } from "antd";
 import Translations from "@localization/translations";
 import { t } from "i18next";
