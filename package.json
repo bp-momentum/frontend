@@ -46,7 +46,7 @@
     "react-redux": "7.2.8",
     "react-router": "6.3.0",
     "react-router-dom": "6.3.0",
-    "react-scripts": "5.0.0",
+    "react-scripts": "5.0.1",
     "react-webcam": "7.0.1",
     "redux": "4.2.0",
     "redux-persist": "6.0.0",
