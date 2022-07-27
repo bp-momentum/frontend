@@ -41,7 +41,7 @@ specifiers:
   rc-menu: 9.6.0
   rc-table: 7.25.3
   react: 17.0.2
-  react-apple-emojis: 2.1.1
+  react-apple-emojis: 2.2.1
   react-beautiful-dnd: 13.1.0
   react-card-flip: 1.1.5
   react-dom: 17.0.2
@@ -91,7 +91,7 @@ dependencies:
   rc-menu: 9.6.0_sfoxds7t5ydpegc3knd667wn6m
   rc-table: 7.25.3_sfoxds7t5ydpegc3knd667wn6m
   react: 17.0.2
-  react-apple-emojis: 2.1.1_oxfzelaz5ynxsop2v2nu2h2m64
+  react-apple-emojis: 2.2.1_oxfzelaz5ynxsop2v2nu2h2m64
   react-beautiful-dnd: 13.1.0_sfoxds7t5ydpegc3knd667wn6m
   react-card-flip: 1.1.5_sfoxds7t5ydpegc3knd667wn6m
   react-dom: 17.0.2_react@17.0.2
@@ -11115,8 +11115,8 @@ packages:
       whatwg-fetch: 3.6.2
     dev: false
 
-  /react-apple-emojis/2.1.1_oxfzelaz5ynxsop2v2nu2h2m64:
-    resolution: {integrity: sha512-DnT7s9e6rIqCLEcXmQWxmVMpwVtclC3O8ASdvX2szZtOzNDHXcJmd87ZDocN32/01ToNsAwYEAu4c5gDLO3h9A==}
+  /react-apple-emojis/2.2.1_oxfzelaz5ynxsop2v2nu2h2m64:
+    resolution: {integrity: sha512-tgq/+GUR6WsBkkkl0EYgVbaU803IF8GoELcG83cfircrEiyiiIbHqpBXIHyD8YIOecAGgN2ucEG6U/REDR7jvQ==}
     peerDependencies:
       prop-types: '*'
       react: '>=16.x'
