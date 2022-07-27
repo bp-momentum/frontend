@@ -9,7 +9,7 @@
   [![Latest release](https://badgen.net/github/release/bp-momentum/frontend)](https://github.com/bp-momentum/frontend/releases)
   [![GitHub commits](https://badgen.net/github/commits/bp-momentum/frontend/main)](https://GitHub.com/bp-momentum/frontend/commit/)
   [![Github stars](https://img.shields.io/github/stars/bp-momentum/frontend.svg)](https://GitHub.com/bp-momentum/frontend/stargazers/)
-  ![Dependabot](https://badgen.net/github/dependabot/bp-momentum/frontend)
+  [![Dependabot](https://img.shields.io/badge/maintained%20with-renovate-brightgreen)](https://app.renovatebot.com/dashboard)
   [![Deploy](https://img.shields.io/github/workflow/status/bp-momentum/frontend/Deploy)](https://github.com/bp-momentum/frontend/actions/workflows/deploy.yml)
 
 </div>
