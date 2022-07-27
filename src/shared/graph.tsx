@@ -1,5 +1,6 @@
 import { Line, LineConfig } from "@ant-design/plots";
 import React from "react";
+import { Types } from "@antv/g2";
 
 interface GraphData {
   type: string;
@@ -50,7 +51,7 @@ const Graph: React.FC<Props> = ({ ...props }) => {
     },
     tooltip: {
       showTitle: false,
-    },
+    } as Types.TooltipCfg,
     legend: false,
     smooth: true,
     animation: {
