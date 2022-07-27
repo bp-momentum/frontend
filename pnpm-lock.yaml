@@ -52,7 +52,7 @@ specifiers:
   react-redux: 7.2.8
   react-router: 6.3.0
   react-router-dom: 6.3.0
-  react-scripts: 5.0.0
+  react-scripts: 5.0.1
   react-webcam: 7.0.1
   redux: 4.2.0
   redux-persist: 6.0.0
@@ -66,7 +66,7 @@ dependencies:
   '@antv/g2': 4.2.5
   '@babel/plugin-syntax-flow': 7.18.6_@babel+core@7.18.9
   '@babel/plugin-transform-react-jsx': 7.18.6_@babel+core@7.18.9
-  '@craco/craco': 6.4.5_xqhsv2bm4xvh2zejv426cjgjgu
+  '@craco/craco': 6.4.5_yzeq3ewoh7yw7jwnqaj6t4qcwq
   '@reduxjs/toolkit': 1.8.3_bjryulbxll5jujtwpu5a2wm2cy
   '@testing-library/react': 12.1.5_sfoxds7t5ydpegc3knd667wn6m
   '@types/jest': 28.1.6
@@ -80,7 +80,7 @@ dependencies:
   ajv: 8.11.0
   antd: 4.22.0_sfoxds7t5ydpegc3knd667wn6m
   buffer: 6.0.3
-  craco: 0.0.3_react-scripts@5.0.0
+  craco: 0.0.3_react-scripts@5.0.1
   eslint-plugin-prettier: 4.2.1_vvfpqh5kol6rhqy7beehv5uezq
   i18next: 21.8.14
   i18next-browser-languagedetector: 6.1.4
@@ -102,7 +102,7 @@ dependencies:
   react-redux: 7.2.8_sfoxds7t5ydpegc3knd667wn6m
   react-router: 6.3.0_react@17.0.2
   react-router-dom: 6.3.0_sfoxds7t5ydpegc3knd667wn6m
-  react-scripts: 5.0.0_sh4txp6fq4fddv4cynkrjeefca
+  react-scripts: 5.0.1_sh4txp6fq4fddv4cynkrjeefca
   react-webcam: 7.0.1_sfoxds7t5ydpegc3knd667wn6m
   redux: 4.2.0
   redux-persist: 6.0.0_react@17.0.2+redux@4.2.0
@@ -1619,7 +1619,7 @@ packages:
   /@bcoe/v8-coverage/0.2.3:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
 
-  /@craco/craco/5.9.0_react-scripts@5.0.0:
+  /@craco/craco/5.9.0_react-scripts@5.0.1:
     resolution: {integrity: sha512-2Q8gIB4W0/nPiUxr9iAKUhGsFlXYN0/wngUdK1VWtfV2NtBv+yllNn2AjieaLbttgpQinuOYmDU65vocC0NMDg==}
     engines: {node: '>=6'}
     hasBin: true
@@ -1628,11 +1628,11 @@ packages:
     dependencies:
       cross-spawn: 7.0.3
       lodash: 4.17.21
-      react-scripts: 5.0.0_sh4txp6fq4fddv4cynkrjeefca
+      react-scripts: 5.0.1_sh4txp6fq4fddv4cynkrjeefca
       webpack-merge: 4.2.2
     dev: false
 
-  /@craco/craco/6.4.5_xqhsv2bm4xvh2zejv426cjgjgu:
+  /@craco/craco/6.4.5_yzeq3ewoh7yw7jwnqaj6t4qcwq:
     resolution: {integrity: sha512-8F2rIAao8sEh0FPP52ViEvDM9GjJ7acq0knu1c8UgI+EuZMD5/ZB270ol6jV4iNY7it9Umg/RoGBvNRUNr8U8w==}
     engines: {node: '>=6'}
     hasBin: true
@@ -1643,7 +1643,7 @@ packages:
       cosmiconfig-typescript-loader: 1.0.9_f6w67sjx3imwytyzb2qhabnzqe
       cross-spawn: 7.0.3
       lodash: 4.17.21
-      react-scripts: 5.0.0_sh4txp6fq4fddv4cynkrjeefca
+      react-scripts: 5.0.1_sh4txp6fq4fddv4cynkrjeefca
       semver: 7.3.7
       webpack-merge: 4.2.2
     transitivePeerDependencies:
@@ -2723,7 +2723,7 @@ packages:
     resolution: {integrity: sha512-9K4zoImiZc3HlIp6AVUDE4CWYx22a+lhSZMYNpbjW04+YF0KWj4pJXnEMjdnFTiQibFFmElcsasJXDbdI/EPhA==}
     dependencies:
       '@types/eslint': 8.4.5
-      '@types/estree': 0.0.51
+      '@types/estree': 1.0.0
     dev: false
 
   /@types/eslint/8.4.5:
@@ -4817,12 +4817,12 @@ packages:
       yaml: 1.10.2
     dev: false
 
-  /craco/0.0.3_react-scripts@5.0.0:
+  /craco/0.0.3_react-scripts@5.0.1:
     resolution: {integrity: sha512-eeibbwJm1CTf/j3xvNgNmsRS7abegp4Cfm5qtn5nE9/0JjZRas+FHj8IlT8FMFWR0XOyZFGcWZgzaTU19DNGoQ==}
     engines: {node: '>=6.0.0'}
     dependencies:
       '@babel/core': 7.18.9
-      '@craco/craco': 5.9.0_react-scripts@5.0.0
+      '@craco/craco': 5.9.0_react-scripts@5.0.1
       '@types/babel__core': 7.1.19
       '@types/webpack': 4.41.32
       webpack: 4.46.0
@@ -11322,8 +11322,8 @@ packages:
       react: 17.0.2
     dev: false
 
-  /react-scripts/5.0.0_sh4txp6fq4fddv4cynkrjeefca:
-    resolution: {integrity: sha512-3i0L2CyIlROz7mxETEdfif6Sfhh9Lfpzi10CtcGs1emDQStmZfWjJbAIMtRD0opVUjQuFWqHZyRZ9PPzKCFxWg==}
+  /react-scripts/5.0.1_sh4txp6fq4fddv4cynkrjeefca:
+    resolution: {integrity: sha512-8VAmEm/ZAwQzJ+GOMLbBsTdDKOpuZh7RPs0UymvBR2vRk4iZWCskjbFnxqjrzoIvlNNRZ3QJFx6/qDSi6zSnaQ==}
     engines: {node: '>=14.0.0'}
     hasBin: true
     peerDependencies:
