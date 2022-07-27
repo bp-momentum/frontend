@@ -17,17 +17,19 @@ import "@util/i18n";
 
 ReactDOM.render(
   <React.StrictMode>
-    <MultiProvider
-      providers={[
-        <Provider store={store} />,
-        <PersistGate loading={null} persistor={persistor} />,
-        <HashRouter />,
-        <EmojiProvider data={emojiData} />,
-        <ConfigProvider renderEmpty={() => <EmptyDataRender />} />,
-      ]}
-    >
-      <LocalizedApp />
-    </MultiProvider>
+    {/* needs children so can't be part of multiprovider.... */}
+    <Provider store={store}>
+      <MultiProvider
+        providers={[
+          <PersistGate loading={null} persistor={persistor} />,
+          <HashRouter />,
+          <EmojiProvider data={emojiData} />,
+          <ConfigProvider renderEmpty={() => <EmptyDataRender />} />,
+        ]}
+      >
+        <LocalizedApp />
+      </MultiProvider>
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );
