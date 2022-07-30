@@ -1,6 +1,6 @@
 <h1 align="center">
   <img src=".preview/Logo.png" width="250"><br>
-  Momentum
+  Momentum Frontend
 </h1>
 <div align="center">
   
@@ -14,15 +14,7 @@
 
 </div>
 
-## About
-
-Momentum is a WebApp designed to help hemophiliacs to exercise and thus counteract the progression of the disease.
-By assigning a plan of exercises to a patient, the patient can execute these exercises while being supervised by an AI running on the backend. This way, the patient can be sure that the exercises are being executed correctly.
-
-<div align="center">
-  <img src=".preview/App.png" width="500">
-  <img src=".preview/Profile.png" width="500">
-</div>
+This is the repository for the Momentum Frontend.
 
 ## Getting Started
 
