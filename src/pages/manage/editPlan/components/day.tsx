@@ -1,9 +1,9 @@
 import React from "react";
 import { Col, Row } from "antd";
 import { Droppable } from "react-beautiful-dnd";
-import { t } from "i18next";
 import Translations from "@localization/translations";
 import Exercise from "../components/exercise";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   list: ExerciseCardData[];
@@ -27,6 +27,8 @@ const Day: React.FC<Props> = ({
   openState,
   setOpenState,
 }: Props): JSX.Element => {
+  const { t } = useTranslation();
+
   return (
     <Col>
       <h1>{displayName}</h1>

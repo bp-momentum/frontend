@@ -1,7 +1,6 @@
 import React, { createRef, RefObject, useEffect } from "react";
 import { Col, Progress, Card, Tooltip, Button } from "antd";
 import Translations from "@localization/translations";
-import { t } from "i18next";
 import { PlayCircleOutlined } from "@ant-design/icons";
 import { Emoji } from "react-apple-emojis";
 import "@styles/home.css";
@@ -9,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { isFuture, isPast } from "../functions";
 import ExerciseCard from "./exerciseCard";
 import useWindowDimensions from "@hooks/windowDimension";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   list: Exercise[];
@@ -28,6 +28,8 @@ const Day: React.FC<Props> = ({
   displayName,
   wrapper,
 }: Props): JSX.Element => {
+  const { t } = useTranslation();
+
   const exercises = list.filter((e) => e.date === name);
   const navigate = useNavigate();
 

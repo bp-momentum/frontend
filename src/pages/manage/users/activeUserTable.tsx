@@ -13,9 +13,9 @@ import { Plan } from "@api/plan";
 import Routes from "@util/routes";
 import { getColumnSearchProps } from "./tableSearch";
 import { QuestionCircleOutlined } from "@ant-design/icons";
-import { t } from "i18next";
 import Translations from "@localization/translations";
 import useApi from "@hooks/api";
+import { useTranslation } from "react-i18next";
 
 const { Option } = Select;
 
@@ -32,6 +32,8 @@ interface User {
  * @returns {JSX.Element} The page
  */
 const ActiveUserTable: React.FC = (): JSX.Element => {
+  const { t } = useTranslation();
+
   const searchInput = createRef<InputRef>();
   const [data, setData] = useState<User[]>([]);
   const [plans, setPlans] = React.useState<Plan[]>([]);

@@ -7,7 +7,7 @@ interface paperProps {
   width?: number;
 }
 
-const SpeechBubble: React.FC<paperProps> = ({ children, ...props }) => {
+const SpeechBubble: React.FC<paperProps> = ({ ...props }) => {
   const { text, padding, width } = props;
 
   return (

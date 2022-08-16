@@ -53,7 +53,7 @@ export function getColumnSearchProps<Type>(
             size="small"
             style={{ minWidth: 90 }}
           >
-            {t(Translations.userManagement.search)}
+            {t(Translations.userManagement.search) as string}
           </Button>
           <Button
             onClick={() => {
@@ -64,7 +64,7 @@ export function getColumnSearchProps<Type>(
             size="small"
             style={{ minWidth: 90 }}
           >
-            {t(Translations.userManagement.reset)}
+            {t(Translations.userManagement.reset) as string}
           </Button>
         </Space>
       </div>
