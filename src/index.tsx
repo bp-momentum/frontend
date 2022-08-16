@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import "@styles/index.css";
 import "antd/dist/antd.min.css";
 import LocalizedApp from "./App";
@@ -15,7 +15,10 @@ import { ConfigProvider } from "antd";
 import EmptyDataRender from "@shared/emptyDataRender";
 import "@util/i18n";
 
-ReactDOM.render(
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const root = createRoot(document.getElementById("root")!);
+
+root.render(
   <React.StrictMode>
     {/* needs children so can't be part of multiprovider.... */}
     <Provider store={store}>
@@ -30,6 +33,5 @@ ReactDOM.render(
         <LocalizedApp />
       </MultiProvider>
     </Provider>
-  </React.StrictMode>,
-  document.getElementById("root")
+  </React.StrictMode>
 );
