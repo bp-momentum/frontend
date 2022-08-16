@@ -1,4 +1,4 @@
-import { Line, LineConfig } from "@ant-design/plots";
+import { Line, LineConfig, Tooltip } from "@ant-design/plots";
 import React from "react";
 import { Types } from "@antv/g2";
 
@@ -51,7 +51,7 @@ const Graph: React.FC<Props> = ({ ...props }) => {
     },
     tooltip: {
       showTitle: false,
-    } as Types.TooltipCfg,
+    } as Types.TooltipCfg as Tooltip,
     legend: false,
     smooth: true,
     animation: {

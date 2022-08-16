@@ -16,8 +16,8 @@ import Helper from "@util/helper";
 import { useAppSelector } from "@redux/hooks";
 import { Navigate } from "react-router-dom";
 import ActiveTrainerTable from "./activeTrainerTable";
-import { t } from "i18next";
 import Translations from "@localization/translations";
+import { useTranslation } from "react-i18next";
 
 const { TabPane } = Tabs;
 
@@ -26,6 +26,8 @@ const { TabPane } = Tabs;
  * @returns {JSX.Element} The page
  */
 const Users: React.FC = (): JSX.Element => {
+  const { t } = useTranslation();
+
   const token = useAppSelector((state) => state.token.token);
   const type = (token && Helper.getAccountType(token)) || "user";
 

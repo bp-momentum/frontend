@@ -46,7 +46,7 @@ const WebcamStreamCapture: React.FC<Props> = ({
   );
 
   const handleDataAvailable = useCallback(
-    ({ data }) => {
+    ({ data }: { data: Blob }) => {
       if (data.size > 0) {
         sendChunks(data);
       }

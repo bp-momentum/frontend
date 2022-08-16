@@ -5,8 +5,8 @@ import { getColumnSearchProps } from "./tableSearch";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { AlignType } from "rc-table/lib/interface";
 import Translations from "@localization/translations";
-import { t } from "i18next";
 import useApi from "@hooks/api";
+import { useTranslation } from "react-i18next";
 
 interface User {
   key: string;
@@ -19,6 +19,8 @@ interface User {
  * @returns {JSX.Element} The page
  */
 const ActiveTrainerTable: React.FC = (): JSX.Element => {
+  const { t } = useTranslation();
+
   const searchInput = createRef<InputRef>();
   const [data, setData] = useState<User[]>([]);
   const [, draw] = useState({});

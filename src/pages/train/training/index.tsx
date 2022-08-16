@@ -10,7 +10,6 @@ import React, {
 } from "react";
 import "@styles/train.css";
 import Translations from "@localization/translations";
-import { t } from "i18next";
 import WebcamStreamCapture from "../components/webcamStreamCapture";
 import useApi, { ApiSocketConnection } from "@hooks/api";
 import TrainLayout from "../components/trainLayout";
@@ -24,6 +23,7 @@ import {
 import { useParams } from "react-router-dom";
 import { MdVideocam, MdVideocamOff } from "react-icons/md";
 import { MedalType } from "@api/medal";
+import { useTranslation } from "react-i18next";
 
 const soundsPerCategory: Record<audioCategory, string[]> = {
   good: ["good.opus", "keep_it_up.opus", "way_to_go.opus"],
@@ -82,6 +82,8 @@ const Training: React.FC<Props> = ({
   cameraShown,
   setMedalType,
 }: Props): JSX.Element => {
+  const { t } = useTranslation();
+
   const [progress, setProgress] = useState(0); // repeats done per repeats to do in percent
   const [active, setActive] = useState(false); // whether sending video to server
   const [currentSet, setCurrentSet] = useState(stats.current.set);

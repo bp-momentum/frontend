@@ -4,13 +4,13 @@ import { Layout, message, Spin, Table } from "antd";
 import Container from "@shared/container";
 import Routes from "@util/routes";
 import Translations from "@localization/translations";
-import { t } from "i18next";
 import { Content } from "antd/lib/layout/layout";
 import Stars from "./components/stars";
 import Helper from "@util/helper";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useAppSelector } from "@redux/hooks";
 import useApi from "@hooks/api";
+import { useTranslation } from "react-i18next";
 
 interface LeaderboardEntry {
   rank: number;
@@ -28,6 +28,8 @@ interface LeaderboardEntry {
  * @returns {JSX.Element} The page
  */
 const Leaderboard: React.FC = (): JSX.Element => {
+  const { t } = useTranslation();
+
   const [entries, setEntries] = React.useState<LeaderboardEntry[]>([]);
   const [loading, setLoading] = React.useState(true);
 

@@ -1,10 +1,10 @@
 import React from "react";
 import { Tooltip } from "antd";
 import Translations from "@localization/translations";
-import { t } from "i18next";
 import "@styles/home.css";
 import { useNavigate } from "react-router-dom";
 import { useGetExerciseByIdQuery } from "@redux/api/api";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   exercise: Exercise;
@@ -20,6 +20,8 @@ const ExerciseCard: React.FC<Props> = ({
   exercise,
   today,
 }: Props): JSX.Element => {
+  const { t } = useTranslation();
+
   const { data, isLoading, isError, error } = useGetExerciseByIdQuery(
     exercise.id
   );
@@ -51,7 +53,7 @@ const ExerciseCard: React.FC<Props> = ({
         {isLoading
           ? t(Translations.exercises.loading)
           : isError
-          ? error
+          ? String(error)
           : data?.title}
       </h4>
       <Tooltip

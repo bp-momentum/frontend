@@ -149,16 +149,18 @@ const ExerciseName = (props: {
     <span style={{ whiteSpace: "nowrap" }}>
       <Col>
         <Text>
-          {props.done ? (
-            <CheckOutlined style={{ color: "green", paddingRight: "5px" }} />
-          ) : (
-            <CloseOutlined style={{ color: "red", paddingRight: "5px" }} />
-          )}
-          {isLoading
-            ? t(Translations.exercises.loading)
-            : isError
-            ? error
-            : text}
+          <>
+            {props.done ? (
+              <CheckOutlined style={{ color: "green", paddingRight: "5px" }} />
+            ) : (
+              <CloseOutlined style={{ color: "red", paddingRight: "5px" }} />
+            )}
+            {isLoading
+              ? t(Translations.exercises.loading)
+              : isError
+              ? error
+              : text}
+          </>
         </Text>
         <br />
       </Col>

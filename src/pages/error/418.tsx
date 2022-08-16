@@ -1,14 +1,16 @@
 import Layout, { Content } from "antd/lib/layout/layout";
-import { t } from "i18next";
 import React from "react";
 import Translations from "@localization/translations";
 import Container from "@shared/container";
+import { useTranslation } from "react-i18next";
 
 /**
  * Error 404 page
  * @returns {JSX.Element} The page
  */
 const Error404: React.FC = (): JSX.Element => {
+  const { t } = useTranslation();
+
   return (
     <Container>
       <Layout style={{ height: "100%" }}>

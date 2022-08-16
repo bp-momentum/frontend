@@ -40,12 +40,14 @@ const DailySummaryCard: React.FC<Props> = ({
     );
     return (
       <Text>
-        {isLoading
-          ? t(Translations.exercises.loading)
-          : isError
-          ? error
-          : data?.title}
-        <br />
+        <>
+          {isLoading
+            ? t(Translations.exercises.loading)
+            : isError
+            ? error
+            : data?.title}
+          <br />
+        </>
       </Text>
     );
   };

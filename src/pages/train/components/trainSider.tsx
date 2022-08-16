@@ -1,7 +1,7 @@
 import React from "react";
 import Translations from "@localization/translations";
-import { t } from "i18next";
 import Paper from "@shared/paper";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   collapsed: boolean;
@@ -17,6 +17,8 @@ const TrainSider: React.FC<Props> = ({
   exercise,
   collapsed,
 }: Props): JSX.Element => {
+  const { t } = useTranslation();
+
   return (
     <>
       <div
