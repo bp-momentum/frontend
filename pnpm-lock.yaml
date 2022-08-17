@@ -39,7 +39,7 @@ specifiers:
   prettier: 2.7.1
   prop-types: 15.8.1
   rc-menu: 9.6.0
-  rc-table: 7.25.3
+  rc-table: 7.26.0
   react: 18.2.0
   react-apple-emojis: 2.1.1
   react-beautiful-dnd: 13.1.0
@@ -89,7 +89,7 @@ dependencies:
   prettier: 2.7.1
   prop-types: 15.8.1
   rc-menu: 9.6.0_biqbaboplfbrettd7655fr4n2y
-  rc-table: 7.25.3_biqbaboplfbrettd7655fr4n2y
+  rc-table: 7.26.0_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
   react-apple-emojis: 2.1.1_v2m5e27vhdewzwhryxwfaorcca
   react-beautiful-dnd: 13.1.0_biqbaboplfbrettd7655fr4n2y
@@ -10992,6 +10992,22 @@ packages:
 
   /rc-table/7.25.3_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-McsLJ2rg8EEpRBRYN4Pf9gT7ZNYnjvF9zrBpUBBbUX/fxk+eGi5ff1iPIhMyiHsH71/BmTUzX9nc9XqupD0nMg==}
+    engines: {node: '>=8.x'}
+    peerDependencies:
+      react: '>=16.9.0'
+      react-dom: '>=16.9.0'
+    dependencies:
+      '@babel/runtime': 7.18.9
+      classnames: 2.3.1
+      rc-resize-observer: 1.2.0_biqbaboplfbrettd7655fr4n2y
+      rc-util: 5.23.0_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      shallowequal: 1.1.0
+    dev: false
+
+  /rc-table/7.26.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-0cD8e6S+DTGAt5nBZQIPFYEaIukn17sfa5uFL98faHlH/whZzD8ii3dbFL4wmUDEL4BLybhYop+QUfZJ4CPvNQ==}
     engines: {node: '>=8.x'}
     peerDependencies:
       react: '>=16.9.0'
