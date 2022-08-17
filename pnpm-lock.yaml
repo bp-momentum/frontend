@@ -56,7 +56,7 @@ specifiers:
   react-webcam: 7.0.1
   redux: 4.2.0
   redux-persist: 6.0.0
-  ts-jest: 28.0.7
+  ts-jest: 28.0.8
   typescript: 4.7.4
   web-vitals: 2.1.4
 
@@ -120,7 +120,7 @@ devDependencies:
   eslint: 8.20.0
   jest: 28.1.3_@types+node@18.6.1
   nock: 13.2.9
-  ts-jest: 28.0.7_ta2dmbt2qiyd6mcpkta7cldhsy
+  ts-jest: 28.0.8_ta2dmbt2qiyd6mcpkta7cldhsy
 
 packages:
 
@@ -12902,8 +12902,8 @@ packages:
     resolution: {integrity: sha512-c3zayb8/kWWpycWYg87P71E1S1ZL6b6IJxfb5fvsUgsf0S2MVGaDhDXXjDMpdCpfWXqptc+4mXwmiy1ypXqRAA==}
     dev: false
 
-  /ts-jest/28.0.7_ta2dmbt2qiyd6mcpkta7cldhsy:
-    resolution: {integrity: sha512-wWXCSmTwBVmdvWrOpYhal79bDpioDy4rTT+0vyUnE3ZzM7LOAAGG9NXwzkEL/a516rQEgnMmS/WKP9jBPCVJyA==}
+  /ts-jest/28.0.8_ta2dmbt2qiyd6mcpkta7cldhsy:
+    resolution: {integrity: sha512-5FaG0lXmRPzApix8oFG8RKjAz4ehtm8yMKOTy5HX3fY6W8kmvOrmcY0hKDElW52FJov+clhUbrKAqofnj4mXTg==}
     engines: {node: ^12.13.0 || ^14.15.0 || ^16.10.0 || >=17.0.0}
     hasBin: true
     peerDependencies:
