@@ -13,7 +13,7 @@ specifiers:
   '@craco/craco': 6.4.5
   '@reduxjs/toolkit': 1.8.3
   '@testing-library/jest-dom': 5.16.4
-  '@testing-library/react': 12.1.5
+  '@testing-library/react': 13.3.0
   '@types/jest': 28.1.6
   '@types/lodash': 4.14.182
   '@types/node': 18.6.1
@@ -68,7 +68,7 @@ dependencies:
   '@babel/plugin-transform-react-jsx': 7.18.10_@babel+core@7.18.10
   '@craco/craco': 6.4.5_yzeq3ewoh7yw7jwnqaj6t4qcwq
   '@reduxjs/toolkit': 1.8.3_kkwg4cbsojnjnupd3btipussee
-  '@testing-library/react': 12.1.5_biqbaboplfbrettd7655fr4n2y
+  '@testing-library/react': 13.3.0_biqbaboplfbrettd7655fr4n2y
   '@types/jest': 28.1.6
   '@types/lodash': 4.14.182
   '@types/node': 18.6.1
@@ -2632,16 +2632,16 @@ packages:
       redent: 3.0.0
     dev: true
 
-  /@testing-library/react/12.1.5_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-OfTXCJUFgjd/digLUuPxa0+/3ZxsQmE7ub9kcbW/wi96Bh3o/p5vrETcBGfP17NWPGqeYYl5LTRpwyGoMC4ysg==}
+  /@testing-library/react/13.3.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-DB79aA426+deFgGSjnf5grczDPiL4taK3hFaa+M5q7q20Kcve9eQottOG5kZ74KEr55v0tU2CQormSSDK87zYQ==}
     engines: {node: '>=12'}
     peerDependencies:
-      react: <18.0.0
-      react-dom: <18.0.0
+      react: ^18.0.0
+      react-dom: ^18.0.0
     dependencies:
       '@babel/runtime': 7.18.9
       '@testing-library/dom': 8.16.0
-      '@types/react-dom': 17.0.17
+      '@types/react-dom': 18.0.6
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -2863,12 +2863,6 @@ packages:
       '@types/react': 18.0.17
     dev: false
 
-  /@types/react-dom/17.0.17:
-    resolution: {integrity: sha512-VjnqEmqGnasQKV0CWLevqMTXBYG9GbwuE6x3VetERLh0cq2LTptFE73MrQi2S7GkKXCf2GgwItB/melLnxfnsg==}
-    dependencies:
-      '@types/react': 17.0.48
-    dev: false
-
   /@types/react-dom/18.0.6:
     resolution: {integrity: sha512-/5OFZgfIPSwy+YuIBP/FgJnQnsxhZhjjrnxudMddeblOouIodEQ75X14Rr4wGSG/bknL+Omy9iWlLo1u/9GzAA==}
     dependencies:
@@ -2882,14 +2876,6 @@ packages:
       '@types/react': 18.0.17
       hoist-non-react-statics: 3.3.2
       redux: 4.2.0
-    dev: false
-
-  /@types/react/17.0.48:
-    resolution: {integrity: sha512-zJ6IYlJ8cYYxiJfUaZOQee4lh99mFihBoqkOSEGV+dFi9leROW6+PgstzQ+w3gWTnUfskALtQPGHK6dYmPj+2A==}
-    dependencies:
-      '@types/prop-types': 15.7.5
-      '@types/scheduler': 0.16.2
-      csstype: 3.1.0
     dev: false
 
   /@types/react/18.0.17:
