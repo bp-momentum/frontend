@@ -1,27 +1,17 @@
 {
-  "timezone": "Europe/Berlin",
-  "semanticCommitType": ":arrow_up:",
-  "semanticCommitScope": null,
+  "labels": ["📌 dependencies"],
+  "commitMessagePrefix": "⬆️",
+  "commitMessageAction": "Upgrade",
   "packageRules": [
     {
-      "updateTypes": [
-        "lockFileMaintenance",
-        "pin"
-      ],
-      "semanticCommitType": ":pushpin:"
+      "updateTypes": ["pin"],
+      "commitMessagePrefix": "📌",
+      "commitMessageAction": "Pin"
     },
     {
-      "updateTypes": [
-        "rollback"
-      ],
-      "semanticCommitType": ":arrow_down:"
-    },
-    {
-      "updateTypes": [
-        "digest",
-        "bump"
-      ],
-      "semanticCommitType": ":bookmark:"
+      "updateTypes": ["rollback"],
+      "commitMessagePrefix": "⬇️",
+      "commitMessageAction": "Downgrade"
     }
   ]
 }
