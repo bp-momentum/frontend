@@ -20,7 +20,7 @@ const Helper = {
     ) {
       throw new Error("Invalid token");
     }
-    return jwt["account_type"];
+    return jwt["account_type"] as "user" | "trainer" | "admin";
   },
 
   /**
@@ -80,7 +80,7 @@ const Helper = {
    */
   getJWTPayload: (token: string): Record<string, unknown> => {
     const split = token.split(".");
-    if (split.length !== 3) return {};
+    if (split.length !== 3) return { account_type: "user" };
     const payload = split[1];
     return JSON.parse(Buffer.from(payload, "base64").toString("ascii"));
   },
