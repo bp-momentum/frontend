@@ -186,29 +186,20 @@ export const endCallback = (
 
 /**
  * Handle the end of a training
- * @param {StatsType} stats stats
  * @param {MedalType} medalType type of medal
  * @param {React.Dispatch<React.SetStateAction<boolean>>} setActive set active
  * @param {React.Dispatch<React.SetStateAction<subPage>>} setSubPage set sub-page
  * @param {React.Dispatch<React.SetStateAction<MedalType>>} setMedalType set medal type
- * @param {Points[]} points points
  * @returns {void}
  */
 export const doneCallback = (
-  stats: StatsType,
   medalType: MedalType,
   setActive: React.Dispatch<React.SetStateAction<boolean>>,
   setSubPage: React.Dispatch<React.SetStateAction<subPage>>,
-  setMedalType: React.Dispatch<React.SetStateAction<MedalType>>,
-  points: Points[]
+  setMedalType: React.Dispatch<React.SetStateAction<MedalType>>
 ): void => {
   setActive(false);
   setMedalType(medalType);
-  stats.data = stats.data.concat(getStatsPoints(points, stats.set));
-  stats.setAverages = stats.setAverages.concat(
-    calculatePoints(points, stats.set)
-  );
-  stats.totalPoints += points.reduce((acc, curr) => acc + curr.total, 0);
   setTimeout(() => setSubPage("exerciseDone"), 2000);
 };
 

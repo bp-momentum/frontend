@@ -197,14 +197,7 @@ const Training: React.FC<Props> = ({
           endCallback(stats.current, setActive, setSubPage, points.current);
           break;
         case "exercise_complete":
-          doneCallback(
-            stats.current,
-            message.data.medal,
-            setActive,
-            setSubPage,
-            setMedalType,
-            points.current
-          );
+          doneCallback(message.data.medal, setActive, setSubPage, setMedalType);
           break;
       }
     };
