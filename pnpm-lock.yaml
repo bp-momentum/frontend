@@ -58,7 +58,7 @@ specifiers:
   redux-persist: 6.0.0
   ts-jest: 28.0.8
   typescript: 4.7.4
-  web-vitals: 2.1.4
+  web-vitals: 3.0.0
 
 dependencies:
   '@ant-design/icons': 4.7.0_biqbaboplfbrettd7655fr4n2y
@@ -108,7 +108,7 @@ dependencies:
   redux: 4.2.0
   redux-persist: 6.0.0_react@18.2.0+redux@4.2.0
   typescript: 4.7.4
-  web-vitals: 2.1.4
+  web-vitals: 3.0.0
 
 devDependencies:
   '@babel/core': 7.18.13
@@ -13400,8 +13400,8 @@ packages:
       minimalistic-assert: 1.0.1
     dev: false
 
-  /web-vitals/2.1.4:
-    resolution: {integrity: sha512-sVWcwhU5mX6crfI5Vd2dC4qchyTqxV8URinzt25XqVh+bHEPGH4C3NPrNionCP7Obx59wrYEbNlw4Z8sjALzZg==}
+  /web-vitals/3.0.0:
+    resolution: {integrity: sha512-3Gh6rH5aetFYqfkl9V59KCvjj9vp9U2Tkaep9MO+xpAVg+JULmQfi5zEkcPLkE6iU8pNYVwdjHvIU8RFAchYyQ==}
     dev: false
 
   /webidl-conversions/3.0.1:
