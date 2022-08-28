@@ -6,7 +6,6 @@
   
 
   [![GitHub license](https://img.shields.io/github/license/bp-momentum/frontend.svg)](https://github.com/bp-momentum/frontend/blob/main/LICENSE)
-  [![Latest release](https://badgen.net/github/release/bp-momentum/frontend)](https://github.com/bp-momentum/frontend/releases)
   [![GitHub commits](https://badgen.net/github/commits/bp-momentum/frontend/main)](https://GitHub.com/bp-momentum/frontend/commit/)
   [![Github stars](https://img.shields.io/github/stars/bp-momentum/frontend.svg)](https://GitHub.com/bp-momentum/frontend/stargazers/)
   [![Dependabot](https://img.shields.io/badge/maintained%20with-renovate-brightgreen)](https://app.renovatebot.com/dashboard)
