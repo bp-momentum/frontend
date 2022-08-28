@@ -80,7 +80,7 @@ const Helper = {
    */
   getJWTPayload: (token: string): Record<string, unknown> => {
     const split = token.split(".");
-    if (split.length !== 3) return { account_type: "user" };
+    if (split.length !== 3) return {};
     const payload = split[1];
     return JSON.parse(Buffer.from(payload, "base64").toString("ascii"));
   },
