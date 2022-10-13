@@ -25,7 +25,7 @@
     "antd": "4.23.5",
     "buffer": "6.0.3",
     "craco": "0.0.3",
-    "eslint": "8.22.0",
+    "eslint": "8.25.0",
     "eslint-plugin-prettier": "4.2.1",
     "i18next": "21.9.1",
     "i18next-browser-languagedetector": "6.1.5",
