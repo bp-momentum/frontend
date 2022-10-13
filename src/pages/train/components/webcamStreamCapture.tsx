@@ -149,7 +149,7 @@ const WebcamStreamCapture: React.FC<Props> = ({
       {!capturing && (
         <Tooltip
           title={t(Translations.training.clickToStart)}
-          defaultVisible={true}
+          defaultOpen={true}
         >
           <Button
             onClick={handleStartCaptureClick}

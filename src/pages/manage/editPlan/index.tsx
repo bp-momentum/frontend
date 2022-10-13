@@ -486,7 +486,7 @@ const EditPlan: React.FC = (): JSX.Element => {
                       {t(Translations.confirm.save)}
                     </Button>
                     <Modal
-                      visible={saveModalVisible}
+                      open={saveModalVisible}
                       title={t(Translations.planEditor.savePlanMissingName)}
                       okText={t(Translations.confirm.save)}
                       okType="primary"
