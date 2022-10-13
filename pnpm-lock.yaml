@@ -42,7 +42,7 @@ specifiers:
   rc-table: 7.27.1
   react: 18.2.0
   react-apple-emojis: 2.1.1
-  react-beautiful-dnd: 13.1.0
+  react-beautiful-dnd: 13.1.1
   react-card-flip: 1.1.5
   react-dom: 18.2.0
   react-i18next: 11.18.5
@@ -93,7 +93,7 @@ dependencies:
   rc-table: 7.27.1_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
   react-apple-emojis: 2.1.1_v2m5e27vhdewzwhryxwfaorcca
-  react-beautiful-dnd: 13.1.0_biqbaboplfbrettd7655fr4n2y
+  react-beautiful-dnd: 13.1.1_biqbaboplfbrettd7655fr4n2y
   react-card-flip: 1.1.5_biqbaboplfbrettd7655fr4n2y
   react-dom: 18.2.0_react@18.2.0
   react-i18next: 11.18.5_4sidbwfhen5r7txudrvpua6nty
@@ -11373,11 +11373,11 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /react-beautiful-dnd/13.1.0_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-aGvblPZTJowOWUNiwd6tNfEpgkX5OxmpqxHKNW/4VmvZTNTbeiq7bA3bn5T+QSF2uibXB0D1DmJsb1aC/+3cUA==}
+  /react-beautiful-dnd/13.1.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-0Lvs4tq2VcrEjEgDXHjT98r+63drkKEgqyxdA7qD3mvKwga6a5SscbdLPO2IExotU1jW8L0Ksdl0Cj2AF67nPQ==}
     peerDependencies:
-      react: ^16.8.5 || ^17.0.0
-      react-dom: ^16.8.5 || ^17.0.0
+      react: ^16.8.5 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.5 || ^17.0.0 || ^18.0.0
     dependencies:
       '@babel/runtime': 7.18.9
       css-box-model: 1.2.1
