@@ -227,7 +227,7 @@ const UserCard: React.FC<Props> = ({ ...props }: Props): JSX.Element => {
           <Row>
             <Popover
               destroyTooltipOnHide
-              visible={popoverVisible}
+              open={popoverVisible}
               placement="right"
               title={t(Translations.profile.selectNewAvatar)}
               content={

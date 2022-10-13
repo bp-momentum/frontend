@@ -34,7 +34,10 @@ const VisibleExercise: React.FC<Props> = ({
    * @param {number} value new number of sets
    * @returns {void}
    */
-  const changeSets = (value: number) => {
+  const changeSets = (value: number | null) => {
+    if (value === null) {
+      value = 0;
+    }
     card.sets = value;
     dispatch(setPlanChanges(true));
     redraw({});
@@ -44,7 +47,10 @@ const VisibleExercise: React.FC<Props> = ({
    * @param {number} value new number of repeats per set
    * @returns {void}
    */
-  const changeRepeats = (value: number) => {
+  const changeRepeats = (value: number | null) => {
+    if (value === null) {
+      value = 0;
+    }
     card.repeats = value;
     dispatch(setPlanChanges(true));
     redraw({});
