@@ -49,7 +49,7 @@ specifiers:
   react-icons: 4.4.0
   react-pendulum: 0.0.1
   react-random-shapes: 0.6.1
-  react-redux: 8.0.2
+  react-redux: 8.0.4
   react-router: 6.3.0
   react-router-dom: 6.3.0
   react-scripts: 5.0.1
@@ -67,7 +67,7 @@ dependencies:
   '@babel/plugin-syntax-flow': 7.18.6_@babel+core@7.19.3
   '@babel/plugin-transform-react-jsx': 7.19.0_@babel+core@7.19.3
   '@craco/craco': 6.4.5_4gf4lslbczhta6gwgbuf3pgiby
-  '@reduxjs/toolkit': 1.8.5_kkwg4cbsojnjnupd3btipussee
+  '@reduxjs/toolkit': 1.8.5_kuo2ie247izvzll3jejufdtq3q
   '@testing-library/react': 13.4.0_biqbaboplfbrettd7655fr4n2y
   '@types/jest': 28.1.8
   '@types/lodash': 4.14.184
@@ -100,7 +100,7 @@ dependencies:
   react-icons: 4.4.0_react@18.2.0
   react-pendulum: 0.0.1_react@18.2.0
   react-random-shapes: 0.6.1_react@18.2.0
-  react-redux: 8.0.2_yfr4m6wk75wdra335rld4tkrbu
+  react-redux: 8.0.4_yfr4m6wk75wdra335rld4tkrbu
   react-router: 6.3.0_react@18.2.0
   react-router-dom: 6.3.0_biqbaboplfbrettd7655fr4n2y
   react-scripts: 5.0.1_7gg5l7upxgbi4do23xcthipduu
@@ -2466,7 +2466,7 @@ packages:
       webpack-dev-server: 4.9.3_webpack@5.74.0
     dev: false
 
-  /@reduxjs/toolkit/1.8.5_kkwg4cbsojnjnupd3btipussee:
+  /@reduxjs/toolkit/1.8.5_kuo2ie247izvzll3jejufdtq3q:
     resolution: {integrity: sha512-f4D5EXO7A7Xq35T0zRbWq5kJQyXzzscnHKmjnu2+37B3rwHU6mX9PYlbfXdnxcY6P/7zfmjhgan0Z+yuOfeBmA==}
     peerDependencies:
       react: ^16.9.0 || ^17.0.0 || ^18
@@ -2479,7 +2479,7 @@ packages:
     dependencies:
       immer: 9.0.15
       react: 18.2.0
-      react-redux: 8.0.2_yfr4m6wk75wdra335rld4tkrbu
+      react-redux: 8.0.4_yfr4m6wk75wdra335rld4tkrbu
       redux: 4.2.0
       redux-thunk: 2.4.1_redux@4.2.0
       reselect: 4.1.6
@@ -11588,8 +11588,8 @@ packages:
       react-is: 17.0.2
     dev: false
 
-  /react-redux/8.0.2_yfr4m6wk75wdra335rld4tkrbu:
-    resolution: {integrity: sha512-nBwiscMw3NoP59NFCXFf02f8xdo+vSHT/uZ1ldDwF7XaTpzm+Phk97VT4urYBl5TYAPNVaFm12UHAEyzkpNzRA==}
+  /react-redux/8.0.4_yfr4m6wk75wdra335rld4tkrbu:
+    resolution: {integrity: sha512-yMfQ7mX6bWuicz2fids6cR1YT59VTuT8MKyyE310wJQlINKENCeT1UcPdEiX6znI5tF8zXyJ/VYvDgeGuaaNwQ==}
     peerDependencies:
       '@types/react': ^16.8 || ^17.0 || ^18.0
       '@types/react-dom': ^16.8 || ^17.0 || ^18.0
