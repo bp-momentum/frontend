@@ -117,21 +117,11 @@ nock(window._env_.BACKEND_URL)
       name: "",
     },
   })
-  .get("/api/getdoneexercises")
+  .get("/api/getstreak")
   .reply(200, {
     success: true,
-    data: {
-      exercises: [
-        {
-          id: 1,
-          date: 0,
-          done: true,
-          sets: 1,
-          repeats_per_set: 1,
-          exercise_plan_id: 1,
-        },
-      ],
-    },
+    description: "returning streak",
+    data: { days: 0, flame_glow: true, flame_height: 0.0 },
   })
   .post("/api/getdoneexercisesinmonth")
   .reply(200, {
