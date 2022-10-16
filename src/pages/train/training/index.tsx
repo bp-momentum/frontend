@@ -1,4 +1,4 @@
-import { message, Progress, Tooltip } from "antd";
+import { message, Progress, Space, Tooltip } from "antd";
 import React, {
   createRef,
   Dispatch,
@@ -216,32 +216,45 @@ const Training: React.FC<Props> = ({
         style={{
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
           alignItems: "center",
           overflowY: "auto",
+          height: "100%",
+          paddingTop: "50px",
         }}
       >
-        <h1 style={{ color: "white", fontSize: "40px" }}>{exercise?.title}</h1>
-        <div style={{ color: "white", marginBottom: "20px" }}>
-          <Tooltip title={t(Translations.training.currentSet)}>
-            {currentSet}/{exercise?.sets}
-          </Tooltip>
-        </div>
         <div
           style={{
-            width: "100%",
-            maxWidth: "min(64%, 500px)",
-            marginTop: "20px",
+            display: "flex",
+            alignItems: "center",
+            marginBottom: "20px",
           }}
         >
-          <Progress
-            percent={progress}
-            status="active"
-            showInfo={false}
-            strokeColor={"#0ff"}
-            className="training-progress"
-          />
+          <Space size={[50, 50]}>
+            <h1 style={{ color: "white", fontSize: "40px" }}>
+              {exercise?.title}
+            </h1>
+
+            <Tooltip title={t(Translations.training.currentSet)}>
+              <Progress
+                type="circle"
+                percent={Math.round(
+                  ((currentSet - 1) / (exercise?.sets ?? 1)) * 100 +
+                    progress / (exercise?.sets ?? 1)
+                )}
+                width={80}
+                format={() => (
+                  <span
+                    style={{
+                      color: "white",
+                    }}
+                  >{`${currentSet}/${exercise?.sets}`}</span>
+                )}
+                strokeColor={"#0ff"}
+              />
+            </Tooltip>
+          </Space>
         </div>
+
         <WebcamStreamCapture
           webSocketRef={webSocketRef}
           active={active}
@@ -314,9 +327,29 @@ const Training: React.FC<Props> = ({
           >
             {isFeedbackNew && <>+{feedback.addedPoints}</>}
           </span>
+          <div
+            style={{
+              position: "absolute",
+              bottom: "-60px",
+              width: "calc(100% + 40px)",
+              maxWidth: "calc(100% + 40px)",
+              left: "-20px",
+            }}
+          >
+            <Progress
+              percent={progress}
+              status="active"
+              showInfo={false}
+              strokeColor={"#0ff"}
+              className="training-progress"
+              style={{
+                width: "100%",
+              }}
+            />
+          </div>
         </WebcamStreamCapture>
         {information && (
-          <h1 style={{ color: "white", fontSize: "25px", paddingTop: "10px" }}>
+          <h1 style={{ color: "white", fontSize: "25px", marginTop: "60px" }}>
             {information}
           </h1>
         )}

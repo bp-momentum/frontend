@@ -3,11 +3,6 @@
   width: calc(100% - 10px);
 }
 
-.ant-progress-inner {
-  border: 1px solid black;
-  display: block;
-}
-
 .ant-progress-small.ant-progress-line {
   display: flex;
   flex-direction: row;
