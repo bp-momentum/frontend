@@ -11,7 +11,7 @@ specifiers:
   '@babel/preset-env': 7.19.4
   '@babel/preset-typescript': 7.18.6
   '@craco/craco': 6.4.5
-  '@reduxjs/toolkit': 1.8.5
+  '@reduxjs/toolkit': 1.8.6
   '@testing-library/jest-dom': 5.16.5
   '@testing-library/react': 13.4.0
   '@types/jest': 28.1.8
@@ -67,7 +67,7 @@ dependencies:
   '@babel/plugin-syntax-flow': 7.18.6_@babel+core@7.19.3
   '@babel/plugin-transform-react-jsx': 7.19.0_@babel+core@7.19.3
   '@craco/craco': 6.4.5_4gf4lslbczhta6gwgbuf3pgiby
-  '@reduxjs/toolkit': 1.8.5_kuo2ie247izvzll3jejufdtq3q
+  '@reduxjs/toolkit': 1.8.6_kuo2ie247izvzll3jejufdtq3q
   '@testing-library/react': 13.4.0_biqbaboplfbrettd7655fr4n2y
   '@types/jest': 28.1.8
   '@types/lodash': 4.14.186
@@ -2466,8 +2466,8 @@ packages:
       webpack-dev-server: 4.9.3_webpack@5.74.0
     dev: false
 
-  /@reduxjs/toolkit/1.8.5_kuo2ie247izvzll3jejufdtq3q:
-    resolution: {integrity: sha512-f4D5EXO7A7Xq35T0zRbWq5kJQyXzzscnHKmjnu2+37B3rwHU6mX9PYlbfXdnxcY6P/7zfmjhgan0Z+yuOfeBmA==}
+  /@reduxjs/toolkit/1.8.6_kuo2ie247izvzll3jejufdtq3q:
+    resolution: {integrity: sha512-4Ia/Loc6WLmdSOzi7k5ff7dLK8CgG2b8aqpLsCAJhazAzGdp//YBUSaj0ceW6a3kDBDNRrq5CRwyCS0wBiL1ig==}
     peerDependencies:
       react: ^16.9.0 || ^17.0.0 || ^18
       react-redux: ^7.2.1 || ^8.0.2
