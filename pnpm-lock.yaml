@@ -38,7 +38,7 @@ specifiers:
   nock: 13.2.9
   prettier: 2.7.1
   prop-types: 15.8.1
-  rc-menu: 9.6.3
+  rc-menu: 9.6.4
   rc-table: 7.27.2
   react: 18.2.0
   react-apple-emojis: 2.1.1
@@ -89,7 +89,7 @@ dependencies:
   moment: 2.29.4
   prettier: 2.7.1
   prop-types: 15.8.1
-  rc-menu: 9.6.3_biqbaboplfbrettd7655fr4n2y
+  rc-menu: 9.6.4_biqbaboplfbrettd7655fr4n2y
   rc-table: 7.27.2_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
   react-apple-emojis: 2.1.1_v2m5e27vhdewzwhryxwfaorcca
@@ -3683,7 +3683,7 @@ packages:
       rc-input: 0.1.2_biqbaboplfbrettd7655fr4n2y
       rc-input-number: 7.3.9_biqbaboplfbrettd7655fr4n2y
       rc-mentions: 1.10.0_biqbaboplfbrettd7655fr4n2y
-      rc-menu: 9.6.3_biqbaboplfbrettd7655fr4n2y
+      rc-menu: 9.6.4_biqbaboplfbrettd7655fr4n2y
       rc-motion: 2.6.2_biqbaboplfbrettd7655fr4n2y
       rc-notification: 4.6.0_biqbaboplfbrettd7655fr4n2y
       rc-pagination: 3.1.17_biqbaboplfbrettd7655fr4n2y
@@ -11017,7 +11017,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.18.9
       classnames: 2.3.1
-      rc-menu: 9.6.3_biqbaboplfbrettd7655fr4n2y
+      rc-menu: 9.6.4_biqbaboplfbrettd7655fr4n2y
       rc-textarea: 0.4.5_biqbaboplfbrettd7655fr4n2y
       rc-trigger: 5.3.1_biqbaboplfbrettd7655fr4n2y
       rc-util: 5.23.0_biqbaboplfbrettd7655fr4n2y
@@ -11025,8 +11025,8 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /rc-menu/9.6.3_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-KY9QilKWgkJZ0JSpOBgIpQF2wMRRodRxpIMYyIJ3Nd5N6xfVLOxXCxevHcBplt+Ez7MhUF+I03MuAKqWQJLZgw==}
+  /rc-menu/9.6.4_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-6DiNAjxjVIPLZXHffXxxcyE15d4isRL7iQ1ru4MqYDH2Cqc5bW96wZOdMydFtGLyDdnmEQ9jVvdCE9yliGvzkw==}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
@@ -11272,7 +11272,7 @@ packages:
       '@babel/runtime': 7.18.9
       classnames: 2.3.1
       rc-dropdown: 4.0.1_biqbaboplfbrettd7655fr4n2y
-      rc-menu: 9.6.3_biqbaboplfbrettd7655fr4n2y
+      rc-menu: 9.6.4_biqbaboplfbrettd7655fr4n2y
       rc-motion: 2.6.2_biqbaboplfbrettd7655fr4n2y
       rc-resize-observer: 1.2.0_biqbaboplfbrettd7655fr4n2y
       rc-util: 5.23.0_biqbaboplfbrettd7655fr4n2y
