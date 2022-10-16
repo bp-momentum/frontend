@@ -172,6 +172,7 @@ const Translations = {
     motivation: "exercises.motivation",
     medalMotivation: "exercises.medal-motivation",
     loading: "exercises.loading",
+    noPlan: "exercises.no-plan",
   },
   leaderboard: {
     rank: "leaderboard.rank",

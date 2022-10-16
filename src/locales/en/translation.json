@@ -169,7 +169,8 @@
     "medal-motivation_zero": "You collected all medals for today!",
     "medal-motivation_one": "You can still collect one medal today!",
     "medal-motivation_other": "You can still collect {{count}} medals today!",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "no-plan": "No plan was assigned to you yet!\nWait for your trainer to assign you a plan."
   },
   "leaderboard": {
     "rank": "Rank",
