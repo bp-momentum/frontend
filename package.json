@@ -28,7 +28,7 @@
     "eslint": "8.25.0",
     "eslint-plugin-prettier": "4.2.1",
     "i18next": "21.9.1",
-    "i18next-browser-languagedetector": "6.1.5",
+    "i18next-browser-languagedetector": "6.1.8",
     "lodash": "4.17.21",
     "moment": "2.29.4",
     "prettier": "2.7.1",
