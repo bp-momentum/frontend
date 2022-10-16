@@ -19,6 +19,29 @@ const TrainSider: React.FC<Props> = ({
 }: Props): JSX.Element => {
   const { t } = useTranslation();
 
+  const videoEmbed = (
+    video: string,
+    style: React.CSSProperties
+  ): JSX.Element => {
+    // check for youtube
+    const vidID = video.match(
+      /^.*(?:youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|clip\/|shorts\/|v=)([^#&?]*).*/
+    );
+    if (vidID && vidID[1]) {
+      return (
+        <iframe
+          src={`https://www.youtube.com/embed/${vidID[1]}`}
+          title="YouTube video player"
+          frameBorder="0"
+          allowFullScreen
+          style={style}
+        ></iframe>
+      );
+    }
+    // try to embed the video as a video tag
+    return <video src={video} controls style={style} />;
+  };
+
   return (
     <>
       <div
@@ -68,17 +91,25 @@ const TrainSider: React.FC<Props> = ({
         </Paper>
 
         {exercise?.videoPath && (
-          <video
-            src={exercise.videoPath}
-            controls
+          <div
             style={{
               marginTop: "80px",
-              fontSize: "20px",
-              fontWeight: "bold",
+              position: "relative",
+              height: 0,
               width: "80%",
-              background: "white",
+              maxWidth: "80%",
+              paddingBottom: "45%",
+              overflow: "hidden",
             }}
-          />
+          >
+            {videoEmbed(exercise.videoPath, {
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+            })}
+          </div>
         )}
       </div>
     </>
