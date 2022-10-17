@@ -230,7 +230,7 @@ const Training: React.FC<Props> = ({
           }}
         >
           <Space size={[50, 50]}>
-            <h1 style={{ color: "white", fontSize: "40px" }}>
+            <h1 style={{ color: "white", fontSize: "40px", marginBottom: 0 }}>
               {exercise?.title}
             </h1>
 

@@ -9,9 +9,7 @@ import Webcam from "react-webcam";
 import useWindowDimensions from "@hooks/windowDimension";
 import { ApiSocketConnection } from "@hooks/api";
 import { PlayCircleOutlined } from "@ant-design/icons";
-import { Button, Tooltip } from "antd";
-import Translations from "@localization/translations";
-import { useTranslation } from "react-i18next";
+import { Button } from "antd";
 
 interface Props {
   webSocketRef: RefObject<ApiSocketConnection>;
@@ -35,7 +33,16 @@ const WebcamStreamCapture: React.FC<Props> = ({
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const [capturing, setCapturing] = useState(false);
 
-  const { t } = useTranslation();
+  const [countdown, setCountdown] = useState(-1);
+  const [webcamReady, setWebcamReady] = useState(false);
+
+  useEffect(() => {
+    if (webcamRef.current) {
+      webcamRef.current.video?.addEventListener("canplay", () => {
+        setWebcamReady(true);
+      });
+    }
+  }, [webcamRef]);
 
   const sendChunks = useCallback(
     (data: Blob): void => {
@@ -94,6 +101,15 @@ const WebcamStreamCapture: React.FC<Props> = ({
     mediaRecorderRef.current.start(100);
   }, [webSocketRef, handleDataAvailable]);
 
+  const startCountdown = useCallback(async () => {
+    for (let i = 3; i > 0; i--) {
+      setCountdown(i);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    }
+    setCountdown(0);
+    handleStartCaptureClick();
+  }, [handleStartCaptureClick]);
+
   const { height } = useWindowDimensions();
 
   return (
@@ -146,28 +162,41 @@ const WebcamStreamCapture: React.FC<Props> = ({
           {children}
         </div>
       </div>
-      {!capturing && (
-        <Tooltip
-          title={t(Translations.training.clickToStart)}
-          defaultOpen={true}
+      {!capturing && countdown < 0 && (
+        <Button
+          onClick={startCountdown}
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            borderRadius: "10px",
+            padding: "10px",
+            height: "inherit",
+            width: "inherit",
+            fontSize: "30px",
+          }}
+          icon={<PlayCircleOutlined style={{ fontSize: "30px" }} />}
+          className="no-font-fix-button-weirdness"
+          disabled={!webcamReady}
+        />
+      )}
+      {countdown > 0 && (
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            fontSize: "150px",
+            color: "#fff",
+            fontWeight: "bold",
+            fontFamily: "BigBoy",
+            WebkitTextStroke: "5px #0ff",
+          }}
         >
-          <Button
-            onClick={handleStartCaptureClick}
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              borderRadius: "10px",
-              padding: "10px",
-              height: "inherit",
-              width: "inherit",
-              fontSize: "30px",
-            }}
-            icon={<PlayCircleOutlined style={{ fontSize: "30px" }} />}
-            className="no-font-fix-button-weirdness"
-          />
-        </Tooltip>
+          {countdown}
+        </div>
       )}
     </div>
   );

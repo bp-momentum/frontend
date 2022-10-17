@@ -1,6 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&family=Patrick+Hand&display=swap');
 
+@font-face {
+  font-family: "Scrappy";
+  src: url('../fonts/Scrappy.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "Bigboy";
+  src: url('../fonts/Bigboy.ttf') format('truetype');
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -16,8 +26,12 @@ code {
 }
 
 *:not(svg) {
-  font-family: 'Patrick Hand';
+  /* font-family: 'Patrick Hand'; */
+  font-family: 'Scrappy', 'Patrick Hand';
   font-size: 20px;
+  font-weight: 600;
+  /* letter spacing */
+  letter-spacing: -0.02em;
 }
 
 .ant-btn:not(.ant-btn-sm):not(.no-font-fix-button-weirdness) {
