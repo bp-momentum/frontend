@@ -50,8 +50,8 @@ specifiers:
   react-pendulum: 0.0.1
   react-random-shapes: 0.6.1
   react-redux: 8.0.4
-  react-router: 6.3.0
-  react-router-dom: 6.3.0
+  react-router: 6.4.2
+  react-router-dom: 6.4.2
   react-scripts: 5.0.1
   react-webcam: 7.0.1
   redux: 4.2.0
@@ -101,8 +101,8 @@ dependencies:
   react-pendulum: 0.0.1_react@18.2.0
   react-random-shapes: 0.6.1_react@18.2.0
   react-redux: 8.0.4_yfr4m6wk75wdra335rld4tkrbu
-  react-router: 6.3.0_react@18.2.0
-  react-router-dom: 6.3.0_biqbaboplfbrettd7655fr4n2y
+  react-router: 6.4.2_react@18.2.0
+  react-router-dom: 6.4.2_biqbaboplfbrettd7655fr4n2y
   react-scripts: 5.0.1_xgafidmxutkymyk6hrj4mgb47m
   react-webcam: 7.0.1_biqbaboplfbrettd7655fr4n2y
   redux: 4.2.0
@@ -2482,6 +2482,11 @@ packages:
       redux: 4.2.0
       redux-thunk: 2.4.1_redux@4.2.0
       reselect: 4.1.6
+    dev: false
+
+  /@remix-run/router/1.0.2:
+    resolution: {integrity: sha512-GRSOFhJzjGN+d4sKHTMSvNeUPoZiDHWmRnXfzaxrqe7dE/Nzlc8BiMSJdLDESZlndM7jIUrZ/F4yWqVYlI0rwQ==}
+    engines: {node: '>=14'}
     dev: false
 
   /@rollup/plugin-babel/5.3.1_fbukwyssbvzqsv3m2wyb4mncma:
@@ -6984,12 +6989,6 @@ packages:
   /he/1.2.0:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
-    dev: false
-
-  /history/5.3.0:
-    resolution: {integrity: sha512-ZqaKwjjrAYUYfLG+htGaIIZ4nioX2L70ZUMIFysS3xvBsSG4x/n1V6TXV3N8ZYNuFGlDirFg32T7B6WOUPDYcQ==}
-    dependencies:
-      '@babel/runtime': 7.19.4
     dev: false
 
   /hmac-drbg/1.0.1:
@@ -11590,24 +11589,26 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /react-router-dom/6.3.0_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-uaJj7LKytRxZNQV8+RbzJWnJ8K2nPsOOEuX7aQstlMZKQT0164C+X2w6bnkqU3sjtLvpd5ojrezAyfZ1+0sStw==}
+  /react-router-dom/6.4.2_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-yM1kjoTkpfjgczPrcyWrp+OuQMyB1WleICiiGfstnQYo/S8hPEEnVjr/RdmlH6yKK4Tnj1UGXFSa7uwAtmDoLQ==}
+    engines: {node: '>=14'}
     peerDependencies:
       react: '>=16.8'
       react-dom: '>=16.8'
     dependencies:
-      history: 5.3.0
+      '@remix-run/router': 1.0.2
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      react-router: 6.3.0_react@18.2.0
+      react-router: 6.4.2_react@18.2.0
     dev: false
 
-  /react-router/6.3.0_react@18.2.0:
-    resolution: {integrity: sha512-7Wh1DzVQ+tlFjkeo+ujvjSqSJmkt1+8JO+T5xklPlgrh70y7ogx75ODRW0ThWhY7S+6yEDks8TYrtQe/aoboBQ==}
+  /react-router/6.4.2_react@18.2.0:
+    resolution: {integrity: sha512-Rb0BAX9KHhVzT1OKhMvCDMw776aTYM0DtkxqUBP8dNBom3mPXlfNs76JNGK8wKJ1IZEY1+WGj+cvZxHVk/GiKw==}
+    engines: {node: '>=14'}
     peerDependencies:
       react: '>=16.8'
     dependencies:
-      history: 5.3.0
+      '@remix-run/router': 1.0.2
       react: 18.2.0
     dev: false
 
