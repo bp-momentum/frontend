@@ -14,7 +14,7 @@ specifiers:
   '@reduxjs/toolkit': 1.8.6
   '@testing-library/jest-dom': 5.16.5
   '@testing-library/react': 13.4.0
-  '@types/jest': 29.1.2
+  '@types/jest': 29.2.0
   '@types/lodash': 4.14.186
   '@types/node': 18.6.1
   '@types/react': 18.0.21
@@ -69,7 +69,7 @@ dependencies:
   '@craco/craco': 6.4.5_koip3jzghppdm6uujk6cx352di
   '@reduxjs/toolkit': 1.8.6_kuo2ie247izvzll3jejufdtq3q
   '@testing-library/react': 13.4.0_biqbaboplfbrettd7655fr4n2y
-  '@types/jest': 29.1.2
+  '@types/jest': 29.2.0
   '@types/lodash': 4.14.186
   '@types/node': 18.6.1
   '@types/react': 18.0.21
@@ -2891,8 +2891,8 @@ packages:
     dependencies:
       '@types/istanbul-lib-report': 3.0.0
 
-  /@types/jest/29.1.2:
-    resolution: {integrity: sha512-y+nlX0h87U0R+wsGn6EBuoRWYyv3KFtwRNP3QWp9+k2tJ2/bqcGS3UxD7jgT+tiwJWWq3UsyV4Y+T6rsMT4XMg==}
+  /@types/jest/29.2.0:
+    resolution: {integrity: sha512-KO7bPV21d65PKwv3LLsD8Jn3E05pjNjRZvkm+YTacWhVmykAb07wW6IkZUmQAltwQafNcDUEUrMO2h3jeBSisg==}
     dependencies:
       expect: 29.2.0
       pretty-format: 29.2.0
@@ -3015,7 +3015,7 @@ packages:
   /@types/testing-library__jest-dom/5.14.5:
     resolution: {integrity: sha512-SBwbxYoyPIvxHbeHxTZX2Pe/74F/tX2/D3mMvzabdeJ25bBojfW0TyB8BHrbq/9zaaKICJZjLP+8r6AeZMFCuQ==}
     dependencies:
-      '@types/jest': 29.1.2
+      '@types/jest': 29.2.0
 
   /@types/trusted-types/2.0.2:
     resolution: {integrity: sha512-F5DIZ36YVLE+PN+Zwws4kJogq47hNgX3Nx6WyDJ3kcplxyke3XIzB8uK5n/Lpm1HBsbGzd6nmGehL8cPekP+Tg==}
