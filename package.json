@@ -35,6 +35,7 @@
     "prop-types": "15.8.1",
     "rc-menu": "9.6.4",
     "rc-table": "7.27.2",
+    "rc-tween-one": "^3.0.6",
     "react": "18.2.0",
     "react-apple-emojis": "2.1.1",
     "react-beautiful-dnd": "13.1.1",
