@@ -288,28 +288,25 @@ const Training: React.FC<Props> = ({
             >
               {feedback.totalPoints}
             </span>
-
-            {active && (
-              <div
-                onClick={() => setCameraShown(!cameraShown)}
-                style={{
-                  marginRight: "-5px",
-                  marginLeft: "auto",
-                  width: "50px",
-                  height: "50px",
-                  borderRadius: "50%",
-                  backgroundColor: "white",
-                  padding: "5px",
-                  cursor: "pointer",
-                }}
-              >
-                {cameraShown ? (
-                  <MdVideocam color="black" size="40px" />
-                ) : (
-                  <MdVideocamOff color="red" size="40px" />
-                )}
-              </div>
-            )}
+            <div
+              onClick={() => setCameraShown(!cameraShown)}
+              style={{
+                marginRight: "-5px",
+                marginLeft: "auto",
+                width: "50px",
+                height: "50px",
+                borderRadius: "50%",
+                backgroundColor: "white",
+                padding: "5px",
+                cursor: "pointer",
+              }}
+            >
+              {cameraShown ? (
+                <MdVideocam color="black" size="40px" />
+              ) : (
+                <MdVideocamOff color="red" size="40px" />
+              )}
+            </div>
           </div>
           <span
             style={{

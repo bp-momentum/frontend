@@ -199,7 +199,7 @@ const useApi = () => {
    * Uses the configured {@link config.websocketUrl} to connect to the websocket.
    * @returns {ApiSocketConnection} the created {@link ApiSocketConnection}
    */
-  const openSocket = async (): Promise<ApiSocketConnection> => {
+  const openSocket = (): ApiSocketConnection => {
     return new ApiSocketConnection(token, window._env_.WEBSOCKET_URL);
   };
 

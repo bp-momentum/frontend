@@ -5,11 +5,13 @@ import React, {
   useRef,
   useState,
 } from "react";
-import Webcam from "react-webcam";
 import useWindowDimensions from "@hooks/windowDimension";
 import { ApiSocketConnection } from "@hooks/api";
 import { PlayCircleOutlined } from "@ant-design/icons";
 import { Button } from "antd";
+import { Camera } from "@mediapipe/camera_utils";
+import { Pose, POSE_CONNECTIONS, Results } from "@mediapipe/pose";
+import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
 
 interface Props {
   webSocketRef: RefObject<ApiSocketConnection>;
@@ -29,77 +31,28 @@ const WebcamStreamCapture: React.FC<Props> = ({
   active,
   cameraShown,
 }: Props): JSX.Element => {
-  const webcamRef = useRef<Webcam>(null);
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
   const [capturing, setCapturing] = useState(false);
 
   const [countdown, setCountdown] = useState(-1);
-  const [webcamReady, setWebcamReady] = useState(false);
 
-  useEffect(() => {
-    if (webcamRef.current) {
-      webcamRef.current.video?.addEventListener("canplay", () => {
-        setWebcamReady(true);
-      });
-    }
-  }, [webcamRef]);
-
-  const sendChunks = useCallback(
-    (data: Blob): void => {
-      if (!active) return;
-      webSocketRef.current?.send(data);
+  const sendImage = useCallback(
+    async (video: HTMLVideoElement) => {
+      if (!capturing || !active) return;
+      const canvas = document.createElement("canvas");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const context = canvas.getContext("2d");
+      if (!context) return;
+      context.drawImage(video, 0, 0);
+      const image = canvas.toDataURL("image/jpeg");
+      const utf8Encode = new TextEncoder();
+      webSocketRef.current?.send(utf8Encode.encode(image));
     },
-    [active, webSocketRef]
+    [capturing, webSocketRef, active]
   );
-
-  const handleDataAvailable = useCallback(
-    ({ data }: { data: Blob }) => {
-      if (data.size > 0) {
-        sendChunks(data);
-      }
-    },
-    [sendChunks]
-  );
-
-  const handlerRef = useRef<({ data }: { data: Blob }) => void>();
-
-  useEffect(() => {
-    if (handlerRef.current)
-      mediaRecorderRef.current?.removeEventListener(
-        "dataavailable",
-        handlerRef.current
-      );
-    mediaRecorderRef.current?.addEventListener(
-      "dataavailable",
-      handleDataAvailable
-    );
-    handlerRef.current = handleDataAvailable;
-  }, [handleDataAvailable]);
-
-  const handleStartCaptureClick = useCallback(() => {
-    if (!webcamRef.current?.stream?.active || !webSocketRef.current) return;
-    setCapturing(true);
-
-    webSocketRef.current?.send(
-      JSON.stringify({
-        message_type: "start_set",
-        data: { user_token: "", exercise_id: 1 },
-      })
-    );
-
-    mediaRecorderRef.current = new MediaRecorder(
-      webcamRef.current.stream as MediaStream,
-      {
-        mimeType: "video/webm",
-      }
-    );
-    mediaRecorderRef.current.addEventListener(
-      "dataavailable",
-      handleDataAvailable
-    );
-    // data available every 100 milliseconds
-    mediaRecorderRef.current.start(100);
-  }, [webSocketRef, handleDataAvailable]);
 
   const startCountdown = useCallback(async () => {
     for (let i = 3; i > 0; i--) {
@@ -107,8 +60,99 @@ const WebcamStreamCapture: React.FC<Props> = ({
       await new Promise((resolve) => setTimeout(resolve, 1000));
     }
     setCountdown(0);
-    handleStartCaptureClick();
-  }, [handleStartCaptureClick]);
+    setCapturing(true);
+    webSocketRef.current?.send(
+      JSON.stringify({
+        message_type: "start_set",
+        data: { user_token: "", exercise_id: 1 },
+      })
+    );
+  }, [webSocketRef]);
+
+  // -------------------------------
+  // MEDIAPIPE POSE ESTIMATION START
+  // -------------------------------
+  const [pose, setPose] = useState<Pose>();
+
+  const onResults = useCallback((results: Results) => {
+    if (!results.poseLandmarks || !canvasRef.current) return;
+    const canvasCtx = canvasRef.current.getContext("2d");
+    if (!canvasCtx) return;
+    canvasCtx.clearRect(
+      0,
+      0,
+      canvasRef.current.width,
+      canvasRef.current.height
+    );
+    drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, {
+      color: "#00FF00",
+      lineWidth: 4,
+    });
+    drawLandmarks(canvasCtx, results.poseLandmarks, {
+      color: "#FF0000",
+      lineWidth: 2,
+    });
+  }, []);
+
+  useEffect(() => {
+    // if (!webSocketRef.current) return;
+    const pose = new Pose({
+      locateFile: (file) => {
+        return `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`;
+      },
+    });
+    pose.setOptions({
+      modelComplexity: 0,
+      smoothLandmarks: true,
+      enableSegmentation: true,
+      smoothSegmentation: true,
+      minDetectionConfidence: 0.5,
+      minTrackingConfidence: 0.5,
+    });
+    pose.onResults(onResults);
+    setPose(pose);
+    return () => {
+      console.log("Cleaning up");
+      pose.close();
+    };
+  }, [onResults, webSocketRef]);
+
+  useEffect(() => {
+    if (!videoRef.current) return;
+    const camera = new Camera(videoRef?.current, {
+      onFrame: async () => {
+        if (!videoRef.current) return;
+        sendImage(videoRef.current);
+        await pose?.send({ image: videoRef.current });
+      },
+    });
+    camera.start();
+    return () => {
+      console.log("Stopping camera");
+      camera.stop();
+    };
+  }, [videoRef, pose, sendImage]);
+
+  // set the correct size attribute for the canvas
+  // even though it is possisioned with css,
+  // mediapipe needs the width and height attributes for some unholy reason
+  useEffect(() => {
+    if (!videoRef.current || !canvasRef.current) return;
+    const obs = new ResizeObserver(() => {
+      canvasRef.current?.setAttribute(
+        "width",
+        `${videoRef.current?.clientWidth}`
+      );
+      canvasRef.current?.setAttribute(
+        "height",
+        `${videoRef.current?.clientHeight}`
+      );
+    });
+    obs.observe(videoRef.current as Element);
+  }, [videoRef, canvasRef]);
+  // -----------------------------
+  // MEDIAPIPE POSE ESTIMATION END
+  // -----------------------------
 
   const { height } = useWindowDimensions();
 
@@ -122,16 +166,15 @@ const WebcamStreamCapture: React.FC<Props> = ({
         margin: "10px",
       }}
     >
-      <Webcam
-        audio={false}
-        ref={webcamRef}
-        mirrored
+      <video
+        ref={videoRef}
         style={{
           maxWidth: "80%",
           maxHeight: Math.max((height - 230) * 0.8, 200),
           objectFit: "cover",
           borderRadius: "30px",
           boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.5)",
+          // filter: cameraShown ? "none" : "blur(15px)",
         }}
       />
       <div
@@ -146,6 +189,30 @@ const WebcamStreamCapture: React.FC<Props> = ({
             !cameraShown || (capturing && !active) ? "blur(50px)" : "none",
           WebkitBackdropFilter:
             !cameraShown || (capturing && !active) ? "blur(50px)" : "none",
+          borderRadius: "30px",
+        }}
+      ></div>
+      <canvas
+        style={{
+          position: "absolute",
+          margin: "auto",
+          maxWidth: "80%",
+          maxHeight: Math.max((height - 230) * 0.8, 200),
+          width: "100%",
+          height: "100%",
+          minWidth: "100px",
+          borderRadius: "30px",
+        }}
+        ref={canvasRef}
+      ></canvas>
+      <div
+        style={{
+          position: "absolute",
+          margin: "auto",
+          maxWidth: "80%",
+          maxHeight: Math.max((height - 230) * 0.8, 200),
+          width: "100%",
+          height: "100%",
           borderRadius: "30px",
           padding: "15px 20px",
           border: "2px solid #fff",
@@ -178,7 +245,6 @@ const WebcamStreamCapture: React.FC<Props> = ({
           }}
           icon={<PlayCircleOutlined style={{ fontSize: "30px" }} />}
           className="no-font-fix-button-weirdness"
-          disabled={!webcamReady}
         />
       )}
       {countdown > 0 && (
