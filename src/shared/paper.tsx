@@ -3,6 +3,7 @@ import React from "react";
 interface Props {
   title: React.ReactNode;
   padding: number;
+  margin: string;
   backdropColor?: string;
   totalWidth?: number;
   lineColor?: string;
@@ -18,6 +19,7 @@ const Paper: React.FC<Props> = ({
   children,
   title,
   padding,
+  margin,
   totalWidth,
   backdropColor,
   lineColor,
@@ -28,7 +30,7 @@ const Paper: React.FC<Props> = ({
   const realLineColor = lineColor || "#000";
 
   return (
-    <div style={{ width: realTotalWidth, paddingTop: "20px" }}>
+    <div style={{ width: realTotalWidth, paddingTop: "20px", margin: margin }}>
       <div
         style={{
           width: realInnerWidth,

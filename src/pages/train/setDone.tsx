@@ -1,22 +1,15 @@
-import React, {
-  Dispatch,
-  MutableRefObject,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import React, { useEffect, useState } from "react";
 import TrainLayout from "./components/trainLayout";
 import { Col, Row } from "antd";
 import Paper from "@shared/paper";
 import { FaCheck } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import Translations from "@localization/translations";
+import { useAppSelector } from "@redux/hooks";
 
 interface Props {
-  stats: MutableRefObject<StatsType>;
-  initialCollapsed: MutableRefObject<boolean>;
   exercise?: ExerciseData;
-  setSubPage: Dispatch<SetStateAction<subPage>>;
+  continueTraining: () => void;
 }
 
 /**
@@ -25,10 +18,8 @@ interface Props {
  * @returns {JSX.Element} The component.
  */
 const SetDone: React.FC<Props> = ({
-  stats,
   exercise,
-  setSubPage,
-  initialCollapsed,
+  continueTraining,
 }: Props): JSX.Element => {
   const [remainingSeconds, setRemainingSeconds] = useState<number>(30);
   const { t } = useTranslation();
@@ -36,7 +27,7 @@ const SetDone: React.FC<Props> = ({
   useEffect(() => {
     let isMounted = true;
     if (remainingSeconds === 0) {
-      setSubPage("training");
+      continueTraining();
       return;
     }
     setTimeout(() => {
@@ -49,29 +40,40 @@ const SetDone: React.FC<Props> = ({
     };
   });
 
-  const getTypeKey = (type: DataEntryType) => {
-    switch (type.type) {
+  const getTypeKey = (type: string) => {
+    switch (type) {
       case "Intensity":
         return Translations.training.intensity;
       case "Accuracy":
         return Translations.training.accuracy;
       case "Speed":
+      default:
         return Translations.training.speed;
     }
   };
 
-  let focus =
-    stats.current.setAverages.length === 0
-      ? null
-      : stats.current.setAverages[0];
-  for (const data of stats.current.setAverages.slice(-3)) {
-    if (data.performance < (focus?.performance ?? 0)) {
-      focus = data;
-    }
+  const stats = useAppSelector((state) => state.trainingScore);
+
+  const setScores = stats.scoreHistory[stats.currentSet];
+  const totalAccuracy = setScores.reduce((acc, cur) => acc + cur.accuracy, 0);
+  const totalSpeed = setScores.reduce((acc, cur) => acc + cur.speed, 0);
+  const totalIntensity = setScores.reduce((acc, cur) => acc + cur.intensity, 0);
+
+  // focus is "Accuracy", "Speed", "Intensity"
+  // it is determined by the lowest total score
+  let focus = "Accuracy";
+  let lowest = totalAccuracy;
+  if (totalSpeed < lowest) {
+    focus = "Speed";
+    lowest = totalSpeed;
+  }
+  if (totalIntensity < lowest) {
+    focus = "Intensity";
+    lowest = totalIntensity;
   }
 
   return (
-    <TrainLayout exercise={exercise} initialCollapsed={initialCollapsed}>
+    <TrainLayout exercise={exercise}>
       <div
         style={{
           overflowY: "auto",
@@ -100,7 +102,7 @@ const SetDone: React.FC<Props> = ({
           >
             <h3 style={{ width: "200px", color: "white", fontSize: "36px" }}>
               {t(Translations.training.score, {
-                points: stats.current.totalPoints,
+                points: "TODO",
               })}
             </h3>
             <Paper
@@ -113,6 +115,7 @@ const SetDone: React.FC<Props> = ({
               backdropColor="#466995"
               lineColor="#A1C7DA"
               totalWidth={500}
+              margin="0"
             >
               <div
                 style={{
@@ -125,7 +128,7 @@ const SetDone: React.FC<Props> = ({
                       {t(Translations.training.set, { number: set + 1 })}
                       <br />
                     </>
-                    {set < stats.current.set && <FaCheck color="green" />}
+                    {set < stats.currentSet && <FaCheck color="green" />}
                   </Row>
                 ))}
               </div>
@@ -146,12 +149,11 @@ const SetDone: React.FC<Props> = ({
               style={{ color: "white", fontSize: "40px", paddingTop: "50px" }}
             >
               {t(Translations.training.remainingSets, {
-                count:
-                  (exercise?.sets ?? stats.current.set) - stats.current.set,
+                count: (exercise?.sets ?? stats.currentSet) - stats.currentSet,
               })}
             </h3>
             <Col
-              onClick={() => setSubPage("training")}
+              onClick={continueTraining}
               style={{
                 cursor: "pointer",
                 width: "130px",

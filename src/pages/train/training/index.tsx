@@ -1,72 +1,69 @@
-import { message, Progress, Space, Tooltip } from "antd";
-import React, {
-  createRef,
-  Dispatch,
-  MutableRefObject,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React from "react";
 import "@styles/train.css";
 import Translations from "@localization/translations";
-import WebcamStreamCapture from "../components/webcamStreamCapture";
-import useApi, { ApiSocketConnection } from "@hooks/api";
 import TrainLayout from "../components/trainLayout";
-import {
-  doneCallback,
-  endCallback,
-  informationCallback,
-  initCallback,
-  statsCallback,
-} from "./callbacks";
-import { useParams } from "react-router-dom";
-import { MdVideocam, MdVideocamOff } from "react-icons/md";
-import { MedalType } from "@api/medal";
 import { useTranslation } from "react-i18next";
-
-const soundsPerCategory: Record<audioCategory, string[]> = {
-  good: ["good.opus", "keep_it_up.opus", "way_to_go.opus"],
-  better: [
-    "NICE.opus",
-    "RIGHT_ON.opus",
-    "there_you_go.opus",
-    "WOUW.opus",
-    "WOW.opus",
-    "YEAH.opus",
-  ],
-  best: [
-    "AMAZING.opus",
-    "EXCELLENT.opus",
-    "INCREDIBLE.opus",
-    "LOOKS_GREAT.opus",
-    "THERE_IT_IS.opus",
-  ],
-  perfect: ["GREAT_AIR.opus", "NICE_JUMP.opus"],
-};
-
-const playRandomSound = (category: audioCategory) => {
-  const audioFiles = soundsPerCategory[category];
-
-  const file = Math.floor(Math.random() * audioFiles.length);
-  const fileId = audioFiles[file];
-
-  const url = process.env.PUBLIC_URL + "/audio/" + fileId;
-
-  const audio = new Audio(url);
-  audio.volume = 0.2;
-  audio.play();
-};
+import Paper from "@shared/paper";
+import useWindowDimensions from "@hooks/windowDimension";
+import VideoElement from "../components/videoElement";
+import { useAppSelector } from "@redux/hooks";
 
 interface Props {
-  exercise?: ExerciseData;
-  stats: MutableRefObject<StatsType>;
-  setSubPage: Dispatch<SetStateAction<subPage>>;
-  initialCollapsed: MutableRefObject<boolean>;
-  setCameraShown: Dispatch<SetStateAction<boolean>>;
-  setMedalType: Dispatch<SetStateAction<MedalType>>;
-  cameraShown: boolean;
+  exercise: ExerciseData;
+  onFinishSet: () => void;
 }
+
+const InformationComponent: React.FC = () => {
+  const information = useAppSelector(
+    (state) => state.trainingScore.information
+  );
+
+  if (information)
+    return (
+      <h1 style={{ color: "white", fontSize: "25px", marginTop: "60px" }}>
+        {information}
+      </h1>
+    );
+
+  return <></>;
+};
+
+const PointsPaper: React.FC = () => {
+  const latestPoints = useAppSelector(
+    (state) => state.trainingScore.latestScore
+  );
+  const { t } = useTranslation();
+
+  return (
+    <Paper
+      title={
+        <span style={{ fontSize: "40px", lineHeight: "47.145px" }}>
+          {t(Translations.training.stats)}
+        </span>
+      }
+      backdropColor="#466995"
+      totalWidth={400}
+      lineColor="#A1C7DA"
+      padding={20}
+      margin="40px 20px 40px 40px"
+    >
+      {t(Translations.training.accuracy) +
+        ": \t" +
+        Math.round(latestPoints.accuracy * 100) / 100 +
+        "%"}
+      <br />
+      {t(Translations.training.intensity) +
+        ": \t" +
+        Math.round(latestPoints.intensity * 100) / 100 +
+        "%"}
+      <br />
+      {t(Translations.training.speed) +
+        ": \t" +
+        Math.round(latestPoints.speed * 100) / 100 +
+        "%"}
+    </Paper>
+  );
+};
 
 /**
  * The component that handles the training itself.
@@ -75,143 +72,12 @@ interface Props {
  */
 const Training: React.FC<Props> = ({
   exercise,
-  stats,
-  setSubPage,
-  initialCollapsed,
-  setCameraShown,
-  cameraShown,
-  setMedalType,
+  onFinishSet,
 }: Props): JSX.Element => {
-  const { t } = useTranslation();
-
-  const [progress, setProgress] = useState(0); // repeats done per repeats to do in percent
-  const [active, setActive] = useState(false); // whether sending video to server
-  const [currentSet, setCurrentSet] = useState(stats.current.set);
-  const [isFeedbackNew, setIsFeedbackNew] = useState(false);
-  const [feedback, setFeedback] = useState<Feedback>({
-    x: -100,
-    y: -100,
-    addedPoints: 0,
-    totalPoints: 0,
-  });
-  const [information, setInformation] = useState<string | null>(null);
-
-  const currentRepeat = useRef(0);
-  const totalPoints = useRef(0);
-  const webSocketRef = useRef<ApiSocketConnection | null>(null);
-  const points = useRef<Points[]>([]); // used to cache points per exercise
-
-  const ptsRef = createRef<HTMLSpanElement>();
-  const addPtsRef = createRef<HTMLSpanElement>();
-
-  const { exercisePlanId } = useParams();
-
-  const audioFeedbackChance = useRef(1);
-
-  const api = useApi();
-
-  useEffect(() => {
-    totalPoints.current = feedback.totalPoints;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [feedback.totalPoints]);
-
-  useEffect(() => {
-    if (!isFeedbackNew || !addPtsRef.current) return;
-
-    //animate total points
-    if (!ptsRef.current) return;
-    ptsRef.current.style.fontSize = "2.2rem";
-    setTimeout(() => {
-      if (!ptsRef.current) return;
-      ptsRef.current.style.fontSize = "2rem";
-    }, 100);
-
-    // animate added points
-    addPtsRef.current.style.transform = "translate(-50%, -100%)";
-    setTimeout(() => {
-      if (!addPtsRef.current) return;
-      addPtsRef.current.style.opacity = "0";
-    }, 300);
-    setTimeout(() => {
-      if (!addPtsRef.current) return;
-      addPtsRef.current.style.opacity = "1";
-      addPtsRef.current.style.transform = "translate(-50%, -50%)";
-      setIsFeedbackNew(false);
-    }, 500);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isFeedbackNew]);
-
-  useEffect(() => {
-    // start websocket connection on mount and disconnect on unmount
-    connectToWS().catch(message.error);
-
-    return () => {
-      if (webSocketRef.current) webSocketRef.current.onclose = null;
-      webSocketRef.current?.close();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  async function connectToWS() {
-    webSocketRef.current = await api.openSocket();
-
-    const webSocket = webSocketRef.current as ApiSocketConnection;
-
-    webSocket.onopen = () => {
-      webSocket.send(
-        JSON.stringify({
-          message_type: "init",
-          data: { exercise: exercisePlanId },
-        })
-      );
-    };
-
-    webSocket.onmessage = (message) => {
-      if (!message || !message?.success) return;
-
-      switch (message.message_type) {
-        case "init":
-          initCallback(message.data, stats, setCurrentSet);
-          break;
-        case "start_set":
-          setActive(true);
-          break;
-        case "statistics":
-          statsCallback({
-            data: message.data,
-            points: points.current,
-            repeats: exercise?.repeatsPerSet || 1,
-            setProgress,
-            currentRepeat,
-            setFeedback,
-            totalPoints,
-            setIsFeedbackNew,
-            playRandomSound,
-            audioFeedbackChance,
-          });
-          break;
-        case "information":
-          informationCallback(message.data.information, setInformation);
-          break;
-        case "end_set":
-          endCallback(stats.current, setActive, setSubPage, points.current);
-          break;
-        case "exercise_complete":
-          doneCallback(message.data.medal, setActive, setSubPage, setMedalType);
-          break;
-      }
-    };
-
-    webSocket.onclose = function () {
-      setTimeout(function () {
-        console.warn("WebSocket closed! Trying to reconnect...");
-        connectToWS();
-      }, 1000);
-    };
-  }
+  const { width } = useWindowDimensions();
 
   return (
-    <TrainLayout exercise={exercise} initialCollapsed={initialCollapsed}>
+    <TrainLayout exercise={exercise}>
       <div
         style={{
           display: "flex",
@@ -219,7 +85,7 @@ const Training: React.FC<Props> = ({
           alignItems: "center",
           overflowY: "auto",
           height: "100%",
-          paddingTop: "50px",
+          paddingTop: "20px",
         }}
       >
         <div
@@ -229,127 +95,29 @@ const Training: React.FC<Props> = ({
             marginBottom: "20px",
           }}
         >
-          <Space size={[50, 50]}>
-            <h1 style={{ color: "white", fontSize: "40px", marginBottom: 0 }}>
-              {exercise?.title}
-            </h1>
-
-            <Tooltip title={t(Translations.training.currentSet)}>
-              <Progress
-                type="circle"
-                percent={Math.round(
-                  ((currentSet - 1) / (exercise?.sets ?? 1)) * 100 +
-                    progress / (exercise?.sets ?? 1)
-                )}
-                width={80}
-                format={() => (
-                  <span
-                    style={{
-                      color: "white",
-                    }}
-                  >{`${currentSet}/${exercise?.sets}`}</span>
-                )}
-                strokeColor={"#0ff"}
-              />
-            </Tooltip>
-          </Space>
-        </div>
-
-        <WebcamStreamCapture
-          webSocketRef={webSocketRef}
-          active={active}
-          cameraShown={cameraShown}
-        >
-          <div
+          <h1
             style={{
-              position: "relative",
-              height: "45px",
-              display: "flex",
-              color: "#466995",
-              fontWeight: "bold",
-              textShadow:
-                "-1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff",
-              alignItems: "flex-end",
+              color: "white",
+              fontSize: "40px",
+              marginBottom: 0,
+              fontFamily: "BigBoy",
             }}
           >
-            <span
-              style={{
-                fontSize: "2rem",
-              }}
-            >
-              {t(Translations.training.scoreShort)}:&nbsp;
-            </span>
-            <span
-              ref={ptsRef}
-              style={{
-                transition: "font-size 0.1s ease-in-out",
-                fontSize: "2rem",
-              }}
-            >
-              {feedback.totalPoints}
-            </span>
-            <div
-              onClick={() => setCameraShown(!cameraShown)}
-              style={{
-                marginRight: "-5px",
-                marginLeft: "auto",
-                width: "50px",
-                height: "50px",
-                borderRadius: "50%",
-                backgroundColor: "white",
-                padding: "5px",
-                cursor: "pointer",
-              }}
-            >
-              {cameraShown ? (
-                <MdVideocam color="black" size="40px" />
-              ) : (
-                <MdVideocamOff color="red" size="40px" />
-              )}
-            </div>
-          </div>
-          <span
-            style={{
-              position: "absolute",
-              left: `${feedback?.x}%`,
-              top: `${feedback?.y}%`,
-              color: "#466995",
-              textShadow:
-                "-1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff",
-              transform: "translate(-50%, -50%)",
-              fontSize: "1.5rem",
-              transition: "transform 0.5s ease-out, opacity 0.2s ease-out",
-            }}
-            ref={addPtsRef}
-          >
-            {isFeedbackNew && <>+{feedback.addedPoints}</>}
-          </span>
-          <div
-            style={{
-              position: "absolute",
-              bottom: "-60px",
-              width: "calc(100% + 40px)",
-              maxWidth: "calc(100% + 40px)",
-              left: "-20px",
-            }}
-          >
-            <Progress
-              percent={progress}
-              status="active"
-              showInfo={false}
-              strokeColor={"#0ff"}
-              className="training-progress"
-              style={{
-                width: "100%",
-              }}
-            />
-          </div>
-        </WebcamStreamCapture>
-        {information && (
-          <h1 style={{ color: "white", fontSize: "25px", marginTop: "60px" }}>
-            {information}
+            {exercise?.title}
           </h1>
-        )}
+        </div>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            flexWrap: width < 900 ? "wrap" : "nowrap",
+            justifyContent: "center",
+          }}
+        >
+          <VideoElement onFinishSet={onFinishSet} exercise={exercise} />
+          <PointsPaper />
+        </div>
+        <InformationComponent />
       </div>
     </TrainLayout>
   );

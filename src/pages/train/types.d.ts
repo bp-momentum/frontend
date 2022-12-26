@@ -26,7 +26,7 @@ interface ExerciseData {
   sets: number;
   repeatsPerSet: number;
   videoPath: string | null;
-  activated: boolean;
+  expectation: NormalizedLandmarkList[];
 }
 
 interface StatsType {

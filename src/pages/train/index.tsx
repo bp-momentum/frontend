@@ -1,5 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
-import Container from "@shared/container";
+import React, { useEffect, useState } from "react";
 import Routes from "@util/routes";
 import "@styles/train.css";
 import { useParams } from "react-router-dom";
@@ -7,11 +6,9 @@ import Training from "./training";
 import SetDone from "./setDone";
 import ExerciseDone from "./exerciseDone";
 import { useGetExerciseByIdQuery } from "@redux/api/api";
-import { message } from "antd";
-import Translations from "@localization/translations";
-import { t } from "i18next";
+import { Layout, message } from "antd";
 import useApi from "@hooks/api";
-import { MedalType } from "@api/medal";
+import { useAppSelector } from "@redux/hooks";
 
 interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -25,19 +22,8 @@ interface Props {
  */
 const Train: React.FC<Props> = ({ rawExercise }: Props): JSX.Element => {
   const [exercise, setExercise] = React.useState<ExerciseData>();
-  const [medalType, setMedalType] = React.useState<MedalType>("none");
-
-  const initialCollapsed = useRef(false);
-
-  const stats = useRef<StatsType>({
-    data: [],
-    setAverages: [],
-    totalPoints: 0,
-    set: 0,
-  });
 
   const [subPage, setSubPage] = useState<subPage>("training");
-  const [cameraShown, setCameraShown] = useState(true);
 
   const { data, isLoading } = useGetExerciseByIdQuery(rawExercise.id);
 
@@ -51,7 +37,7 @@ const Train: React.FC<Props> = ({ rawExercise }: Props): JSX.Element => {
         sets: rawExercise.sets,
         repeatsPerSet: rawExercise.repeats_per_set,
         videoPath: data.video,
-        activated: true,
+        expectation: data.expectation,
       });
     }
 
@@ -61,13 +47,10 @@ const Train: React.FC<Props> = ({ rawExercise }: Props): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, rawExercise.repeats_per_set, rawExercise.sets]);
 
-  const leaveMessage =
-    subPage !== "exerciseDone"
-      ? t(Translations.common.confirmLeaveProgress)
-      : false;
+  const currentSet = useAppSelector((state) => state.trainingScore.currentSet);
 
   return (
-    <Container confirmLeaveMessage={leaveMessage}>
+    <Layout style={{ height: "100%", position: "absolute", width: "100%" }}>
       {isLoading || !exercise ? (
         <div>Loading...</div>
       ) : (
@@ -75,32 +58,23 @@ const Train: React.FC<Props> = ({ rawExercise }: Props): JSX.Element => {
           {subPage === "training" && (
             <Training
               exercise={exercise}
-              setSubPage={setSubPage}
-              setMedalType={setMedalType}
-              stats={stats}
-              initialCollapsed={initialCollapsed}
-              setCameraShown={setCameraShown}
-              cameraShown={cameraShown}
+              onFinishSet={() =>
+                setSubPage(
+                  currentSet + 1 === exercise.sets ? "exerciseDone" : "setDone"
+                )
+              }
             />
           )}
           {subPage === "setDone" && (
             <SetDone
-              stats={stats}
               exercise={exercise}
-              setSubPage={setSubPage}
-              initialCollapsed={initialCollapsed}
+              continueTraining={() => setSubPage("training")}
             />
           )}
-          {subPage === "exerciseDone" && (
-            <ExerciseDone
-              stats={stats}
-              exercise={exercise}
-              medalType={medalType}
-            />
-          )}
+          {subPage === "exerciseDone" && <ExerciseDone exercise={exercise} />}
         </>
       )}
-    </Container>
+    </Layout>
   );
 };
 

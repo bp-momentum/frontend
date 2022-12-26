@@ -232,6 +232,7 @@ const Translations = {
   },
   training: {
     instructions: "training.instructions",
+    stats: "training.stats",
     score: "training.score",
     todo: "training.todo",
     tip: "training.tip",

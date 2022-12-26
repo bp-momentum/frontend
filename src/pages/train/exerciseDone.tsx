@@ -1,21 +1,18 @@
-import React, { MutableRefObject, useEffect } from "react";
+import React, { useEffect } from "react";
 import Translations from "@localization/translations";
 import Graph from "@shared/graph";
 import { useNavigate } from "react-router-dom";
-import Medal from "@shared/medal";
 import useApi from "@hooks/api";
 import Routes from "@util/routes";
 import { message } from "antd";
 import { useTranslation } from "react-i18next";
 import SpeechBubble from "@shared/speechBubble";
-import { MedalType } from "@api/medal";
 import AvatarImage from "@pages/profile/user/sub_pages/profile/components/avatarDesigner/avatar";
 import { Avatar } from "@pages/profile/user/types";
+import { useAppSelector } from "@redux/hooks";
 
 interface Props {
-  stats: MutableRefObject<StatsType>;
   exercise?: ExerciseData;
-  medalType: MedalType;
 }
 
 /**
@@ -23,11 +20,7 @@ interface Props {
  * @param {Props} props The properties of the component
  * @returns {JSX.Element} The component
  */
-const ExerciseDone: React.FC<Props> = ({
-  stats,
-  exercise,
-  medalType,
-}: Props): JSX.Element => {
+const ExerciseDone: React.FC<Props> = ({ exercise }: Props): JSX.Element => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const api = useApi();
@@ -72,6 +65,31 @@ const ExerciseDone: React.FC<Props> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const stats = useAppSelector((state) => state.trainingScore);
+
+  const entries: DataEntryType[][] = Object.entries(stats.scoreHistory).map(
+    ([set, p]) => {
+      const entrs: DataEntryType[][] = p.map((s, i) => [
+        {
+          type: "Intensity",
+          set: set + "-" + i,
+          performance: Math.round(s.intensity),
+        },
+        {
+          type: "Accuracy",
+          set: set + "-" + i,
+          performance: Math.round(s.accuracy),
+        },
+        {
+          type: "Speed",
+          set: set + "-" + i,
+          performance: Math.round(s.speed),
+        },
+      ]);
+      return entrs.flat();
+    }
+  );
+
   return (
     <div
       style={{
@@ -98,7 +116,7 @@ const ExerciseDone: React.FC<Props> = ({
           {exercise?.title}
         </h1>
 
-        {medalType && (
+        {/* TODO: {medalType && (
           <Medal
             size="large"
             type={medalType}
@@ -106,7 +124,7 @@ const ExerciseDone: React.FC<Props> = ({
               context: medalType === "none" ? null : medalType,
             })}
           />
-        )}
+        )} */}
       </div>
 
       <div
@@ -157,7 +175,7 @@ const ExerciseDone: React.FC<Props> = ({
           }}
         >
           <Graph
-            data={stats.current.data}
+            data={entries.flat()}
             setSize={exercise?.repeatsPerSet ?? 1}
             width={600}
             style={{ marginLeft: -31 }}
@@ -189,7 +207,7 @@ const ExerciseDone: React.FC<Props> = ({
       </div>
       <h1 style={{ color: "white", fontSize: "45px", marginTop: -50 }}>
         {t(Translations.training.score, {
-          points: stats.current.totalPoints,
+          points: "TODO",
         })}
       </h1>
     </div>

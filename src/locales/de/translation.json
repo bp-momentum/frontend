@@ -230,6 +230,7 @@
   },
   "training": {
     "instructions": "Instruktionen",
+    "stats": "Statistiken",
     "score": "Punkte: {{points}}",
     "todo": "Zu Erledigen",
     "tip": "Tipp: Versuche dich beim nächsten Set auf deine {{type}} zu konzentrieren!",
