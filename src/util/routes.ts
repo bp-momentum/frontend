@@ -148,6 +148,42 @@ const Routes = {
   },
 
   /**
+   * Set the visibility of an exercise's instructions.
+   * @param {object} props  the exercise's id and visibility
+   * @returns {Route} the route to set the visibility of an exercise's instructions
+   */
+  setExerciseInstructionVisibility: (props: {
+    id: number;
+    visible: boolean;
+  }): Route => {
+    return {
+      route: "/api/setexerciseinstructionvisibility",
+      method: "POST",
+      needsAuth: true,
+      body: {
+        id: props.id,
+        visible: props.visible,
+      },
+    };
+  },
+
+  /**
+   * Get the visibility of an exercise's instructions.
+   * @param {object} props  the exercise's id
+   * @returns {Route} the route to get the visibility of an exercise's instructions
+   */
+  getExerciseInstructionVisibility: (props: { id: number }): Route => {
+    return {
+      route: "/api/getexerciseinstructionvisibility",
+      method: "POST",
+      needsAuth: true,
+      body: {
+        id: props.id,
+      },
+    };
+  },
+
+  /**
    * Fetches a list of all exercises.
    * @returns {Route} the route to fetch all exercises
    */

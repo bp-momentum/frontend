@@ -46,25 +46,18 @@ const VideoElement: React.FC<Props> = ({
   // STATES
   const [cameraShown, setCameraShown] = useState(true);
   const [countdown, setCountdown] = useState(-1);
+  const [started, setStarted] = useState(false);
 
   // REFS
   const capturing = useRef(false);
   const progress = useRef(0);
+  const currentPose = useRef<NormalizedLandmarkList>();
 
   const estimationCanvasRef = useRef<HTMLCanvasElement>(null);
   const expectedCanvasRef = useRef<HTMLCanvasElement>(null);
 
   // REDUX STUFF
   const dispatch = useAppDispatch();
-
-  const startCountdown = async () => {
-    for (let i = 3; i > 0; i--) {
-      setCountdown(i);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-    }
-    setCountdown(0);
-    startSet();
-  };
 
   // --------------------------
   // WEBSOCKET CONNECTION START
@@ -150,44 +143,53 @@ const VideoElement: React.FC<Props> = ({
   // WEBSOCKET CONNECTION END
   // ------------------------
 
-  // -----------------------------
-  // GENERAL MEDIAPIPE STUFF START
-  // -----------------------------
-  const onResults = useCallback(
-    (
-      landmarks: NormalizedLandmarkList,
-      canvasRef: RefObject<HTMLCanvasElement>,
-      target: boolean
-    ) => {
-      if (!landmarks || !canvasRef.current) return;
-      const canvasCtx = canvasRef.current.getContext("2d");
-      if (!canvasCtx) return;
-      canvasCtx.clearRect(
-        0,
-        0,
-        canvasRef.current.width,
-        canvasRef.current.height
-      );
-      drawConnectors(canvasCtx, landmarks, POSE_CONNECTIONS, {
-        color: target ? "#ff9900" : "#00FF00",
-        lineWidth: 4,
-      });
-      drawLandmarks(canvasCtx, landmarks, {
-        color: target ? "#0000" : "#FF0000",
-        lineWidth: 2,
-      });
-    },
-    []
-  );
-  // ---------------------------
-  // GENERAL MEDIAPIPE STUFF END
-  // ---------------------------
-
   // -------------------------
   // EXPECTATION OVERLAY START
   // -------------------------
+  const comparePosition = useCallback(
+    (
+      actualLandmarks: NormalizedLandmarkList,
+      expectedLandmarks: NormalizedLandmarkList
+    ) => {
+      if (!actualLandmarks || !expectedLandmarks) return;
+      let sum = 0;
+      for (let i = 0; i < actualLandmarks.length; i++) {
+        const actual = actualLandmarks[i];
+        const expected = expectedLandmarks[i];
+        // get the normalized 2D position of the landmarks
+        sum += Math.sqrt(
+          Math.pow(actual.x - expected.x, 2) +
+            Math.pow(actual.y - expected.y, 2)
+        );
+      }
+      return sum / actualLandmarks.length;
+    },
+    []
+  );
+
   const startSet = async () => {
-    // TODO: Wait for player to be positioned correctly
+    setStarted(true);
+    // Wait for player to be positioned correctly
+    // Show first frame of expectation
+    onResults(exercise.expectation[0], expectedCanvasRef, true);
+
+    // check every .1 seconds if currentPose is close enough to expectation
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      if (!currentPose.current) continue;
+      const distance =
+        comparePosition(currentPose.current, exercise.expectation[0]) || 1;
+      // TODO: this value may need to be adjusted (it is good enough for now)
+      if (distance < 0.05) break;
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+
+    for (let i = 3; i > 0; i--) {
+      setCountdown(i);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    }
+    setCountdown(0);
+
     webSocketRef.current?.send(
       JSON.stringify({
         message_type: "start_set",
@@ -215,6 +217,43 @@ const VideoElement: React.FC<Props> = ({
   // -----------------------
   // EXPECTATION OVERLAY END
   // -----------------------
+
+  // -----------------------------
+  // GENERAL MEDIAPIPE STUFF START
+  // -----------------------------
+  const onResults = useCallback(
+    (
+      landmarks: NormalizedLandmarkList,
+      canvasRef: RefObject<HTMLCanvasElement>,
+      isExpected: boolean
+    ) => {
+      if (!landmarks || !canvasRef.current) return;
+      const canvasCtx = canvasRef.current.getContext("2d");
+      if (!canvasCtx) return;
+      canvasCtx.clearRect(
+        0,
+        0,
+        canvasRef.current.width,
+        canvasRef.current.height
+      );
+      drawConnectors(canvasCtx, landmarks, POSE_CONNECTIONS, {
+        color: isExpected ? "#ff9900" : "#00FF00",
+        lineWidth: 4,
+      });
+      drawLandmarks(canvasCtx, landmarks, {
+        color: isExpected ? "#0000" : "#FF0000",
+        lineWidth: 2,
+      });
+
+      if (!isExpected) {
+        currentPose.current = landmarks;
+      }
+    },
+    []
+  );
+  // ---------------------------
+  // GENERAL MEDIAPIPE STUFF END
+  // ---------------------------
 
   // -------------------------------
   // MEDIAPIPE POSE ESTIMATION START
@@ -398,9 +437,9 @@ const VideoElement: React.FC<Props> = ({
             />
           </div>
           {/* START BUTTON */}
-          {!capturing.current && countdown < 0 && (
+          {!started && (
             <Button
-              onClick={startCountdown}
+              onClick={startSet}
               style={{
                 position: "absolute",
                 top: "50%",

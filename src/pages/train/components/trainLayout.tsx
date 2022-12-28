@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Layout, Menu, Modal } from "antd";
 import { Header } from "antd/lib/layout/layout";
 import { CloseCircleOutlined, InfoCircleOutlined } from "@ant-design/icons";
@@ -8,10 +8,12 @@ import { MenuInfo } from "rc-menu/lib/interface";
 import { useNavigate } from "react-router";
 import InstructionOverlay from "./instructionsOverlay";
 import { useAppSelector } from "@redux/hooks";
+import useApi from "@hooks/api";
+import Routes from "@util/routes";
 const { Content } = Layout;
 
 interface Props {
-  exercise?: ExerciseData;
+  exercise: ExerciseData;
   children: React.ReactNode;
 }
 
@@ -25,6 +27,17 @@ const TrainLayout: React.FC<Props> = ({
   exercise,
 }: Props): JSX.Element => {
   const [overlay, setOverlay] = useState(false);
+
+  const api = useApi();
+
+  useEffect(() => {
+    api
+      .execute(Routes.getExerciseInstructionVisibility({ id: exercise.id }))
+      .then((res) => {
+        setOverlay(res.data.visible);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const { t } = useTranslation();
 

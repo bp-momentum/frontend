@@ -32,6 +32,7 @@ const Train: React.FC<Props> = ({ rawExercise }: Props): JSX.Element => {
 
     if (data && isMounted && rawExercise.id !== -1) {
       setExercise({
+        id: rawExercise.id,
         title: data.title,
         description: data.description,
         sets: rawExercise.sets,

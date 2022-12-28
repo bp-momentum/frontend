@@ -8,7 +8,7 @@ import Translations from "@localization/translations";
 import { useAppSelector } from "@redux/hooks";
 
 interface Props {
-  exercise?: ExerciseData;
+  exercise: ExerciseData;
   continueTraining: () => void;
 }
 

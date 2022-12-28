@@ -21,6 +21,7 @@ interface Feedback {
 }
 
 interface ExerciseData {
+  id: number;
   title: string;
   description: string;
   sets: number;

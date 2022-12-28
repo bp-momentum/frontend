@@ -1,5 +1,7 @@
+import useApi from "@hooks/api";
+import Routes from "@util/routes";
 import { Button, Checkbox } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 
 interface Props {
   exercise: ExerciseData;
@@ -32,6 +34,29 @@ const InstructionOverlay: React.FC<Props> = ({ exercise, onClose }) => {
     }
     // try to embed the video as a video tag
     return <video src={video} controls style={style} />;
+  };
+
+  const api = useApi();
+
+  const updateInstructionVisibility = () => {
+    api
+      .execute(Routes.getExerciseInstructionVisibility({ id: exercise.id }))
+      .then((res) => {
+        setShowInstructions(res.data.visible);
+      });
+  };
+
+  const [showInstructions, setShowInstructions] = React.useState(false);
+  useEffect(() => {
+    updateInstructionVisibility();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const setInstructionVisibility = (val: boolean) => {
+    api.execute(
+      Routes.setExerciseInstructionVisibility({ id: exercise.id, visible: val })
+    );
+    updateInstructionVisibility();
   };
 
   // Create a box that has the title on top centered,
@@ -152,7 +177,15 @@ const InstructionOverlay: React.FC<Props> = ({ exercise, onClose }) => {
           display: "flex",
         }}
       >
-        <Checkbox style={{ margin: "auto" }}>Don&#39;t show again</Checkbox>
+        <Checkbox
+          style={{ margin: "auto" }}
+          onChange={(e) => {
+            setInstructionVisibility(!e.target.checked);
+          }}
+          checked={!showInstructions}
+        >
+          Don&#39;t show again
+        </Checkbox>
         <Button
           type="primary"
           onClick={onClose}
