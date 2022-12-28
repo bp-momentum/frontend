@@ -1,7 +1,10 @@
-export const randomColor = (blueBoost: boolean) => {
-  const hue = 360 * Math.random();
-  let saturation = 40 + 55 * Math.random();
-  let lightness = 80 + 10 * Math.random();
+import { mulberry32 } from "@util/helper";
+
+export const randomColor = (blueBoost: boolean, seed: number) => {
+  const randomGen = mulberry32(seed);
+  const hue = 360 * randomGen();
+  let saturation = 40 + 55 * randomGen();
+  let lightness = 80 + 10 * randomGen();
 
   if (blueBoost && hue > 215 && hue < 265) {
     const gain = 20;

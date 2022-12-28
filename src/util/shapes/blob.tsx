@@ -8,9 +8,15 @@ import {
 } from ".";
 import Tween, { Plugins } from "rc-tween-one";
 import SvgMorphPlugin from "rc-tween-one/es/plugin/SvgMorphPlugin";
+import { mulberry32 } from "@util/helper";
 Plugins.push(SvgMorphPlugin);
 
-const generateRandomBlobShape = ({ points }: { points: number }) => {
+const generateRandomBlobShape = (
+  { points }: { points: number },
+  seed: number
+) => {
+  const randomGen = mulberry32(seed);
+
   // create a random blob shape with from _points_ points
   // should be an svg path in the area of 0,0 to 100,100
   // with a center of 50,50
@@ -21,7 +27,7 @@ const generateRandomBlobShape = ({ points }: { points: number }) => {
   // where n is the number of points and i is the point number
   // the radius of the polygon is 30
   // the center of the polygon is 50,50
-  const randomAngleOffset = Math.random() * 0.4 - 0.8;
+  const randomAngleOffset = randomGen() * 0.4 - 0.8;
   const polygonPoints = Array.from(Array(points).keys()).map((i) => {
     const angle = randomAngleOffset + ((2 * Math.PI) / points) * i;
     const x = 50 + 30 * Math.cos(angle);
@@ -33,7 +39,7 @@ const generateRandomBlobShape = ({ points }: { points: number }) => {
   const randomPoints = polygonPoints.map((point) => {
     // shift the point a bit along the line from the center to the point
     const angle = Math.atan2(point.y - 50, point.x - 50);
-    const offset = (Math.random() * 50) / 3 - 50 / 4;
+    const offset = (randomGen() * 50) / 3 - 50 / 4;
     const x = point.x + offset * Math.cos(angle);
     const y = point.y + offset * Math.sin(angle);
     return { x, y };
@@ -53,18 +59,18 @@ const generateRandomBlobShape = ({ points }: { points: number }) => {
     const incomingControlPoint = {
       x:
         point.x -
-        deltaX * (HANDLE_MIN_OFFSET + Math.random() * HANDLE_RANDOMNESS),
+        deltaX * (HANDLE_MIN_OFFSET + randomGen() * HANDLE_RANDOMNESS),
       y:
         point.y -
-        deltaY * (HANDLE_MIN_OFFSET + Math.random() * HANDLE_RANDOMNESS),
+        deltaY * (HANDLE_MIN_OFFSET + randomGen() * HANDLE_RANDOMNESS),
     };
     const outgoingControlPoint = {
       x:
         point.x +
-        deltaX * (HANDLE_MIN_OFFSET + Math.random() * HANDLE_RANDOMNESS),
+        deltaX * (HANDLE_MIN_OFFSET + randomGen() * HANDLE_RANDOMNESS),
       y:
         point.y +
-        deltaY * (HANDLE_MIN_OFFSET + Math.random() * HANDLE_RANDOMNESS),
+        deltaY * (HANDLE_MIN_OFFSET + randomGen() * HANDLE_RANDOMNESS),
     };
     return { point, incomingControlPoint, outgoingControlPoint };
   });
@@ -85,18 +91,19 @@ const Blob: React.FC<shapeProps> = ({
   width,
   height,
   animated,
+  seed,
 }: shapeProps): JSX.Element => {
-  const [points] = useState(Math.floor(Math.random() * 8) + 4);
+  const [points] = useState(Math.floor(mulberry32(seed)() * 8) + 4);
 
   const [path, setPath] = useState("M 0 0");
   const [altPath, setAltPath] = useState("M 0 0");
 
   useEffect(() => {
-    setPath(generateRandomBlobShape({ points }));
-    setAltPath(generateRandomBlobShape({ points }));
-  }, [points]);
+    setPath(generateRandomBlobShape({ points }, seed));
+    setAltPath(generateRandomBlobShape({ points }, seed + 1));
+  }, [points, seed]);
 
-  const [color] = useState(randomColor(true));
+  const [color] = useState(randomColor(true, seed));
 
   const backgroundColor = `hsl(${color.hue}, ${color.saturation}%, ${color.lightness}%)`;
 

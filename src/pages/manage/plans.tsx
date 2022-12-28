@@ -11,6 +11,7 @@ import { Plan } from "@api/plan";
 import useApi from "@hooks/api";
 import { useTranslation } from "react-i18next";
 import Shape from "@util/shapes";
+import { hashCode } from "@util/helper";
 
 /**
  * Consists of a list of all the plans the user has access to.
@@ -109,7 +110,13 @@ const ManagePlans: React.FC = (): JSX.Element => {
                     onClick={() => navigate(`/manage/plans/${plan.id}`)}
                     className="no-font-fix-button-weirdness"
                   >
-                    <Shape type="random" width={150} height={100} animated />
+                    <Shape
+                      type="random"
+                      width={150}
+                      height={100}
+                      animated
+                      seed={hashCode(plan.name)}
+                    />
                   </Button>
                   <span
                     style={{

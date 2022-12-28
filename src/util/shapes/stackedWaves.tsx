@@ -7,6 +7,7 @@ import {
 } from ".";
 import { randomColor } from "./colors";
 import Tween from "rc-tween-one";
+import { mulberry32 } from "@util/helper";
 
 const generateWave = ({
   orientation,
@@ -14,6 +15,7 @@ const generateWave = ({
   points,
   offset,
   length,
+  seed,
 }: {
   orientation: string;
   closing: {
@@ -29,7 +31,10 @@ const generateWave = ({
   points: number;
   offset: number;
   length: number;
+  seed: number;
 }) => {
+  const randomGen = mulberry32(seed);
+
   const scaledHANDLE_MIN_OFFSET = (HANDLE_MIN_OFFSET / 100) * length;
   const scaledHANDLE_RANDOMNESS = (HANDLE_RANDOMNESS / 100) * length;
 
@@ -38,12 +43,12 @@ const generateWave = ({
       ? Array.from({ length: points }, (_, i) => {
           return {
             x: (i * length) / (points - 1),
-            y: offset + (Math.random() * length) / 7 - length / 9,
+            y: offset + (randomGen() * length) / 7 - length / 9,
           };
         })
       : Array.from({ length: points }, (_, i) => {
           return {
-            x: offset + (Math.random() * length) / 7 - length / 9,
+            x: offset + (randomGen() * length) / 7 - length / 9,
             y: (i * length) / (points - 1),
           };
         });
@@ -62,21 +67,21 @@ const generateWave = ({
       x:
         point.x -
         deltaX *
-          (scaledHANDLE_MIN_OFFSET + Math.random() * scaledHANDLE_RANDOMNESS),
+          (scaledHANDLE_MIN_OFFSET + randomGen() * scaledHANDLE_RANDOMNESS),
       y:
         point.y -
         deltaY *
-          (scaledHANDLE_MIN_OFFSET + Math.random() * scaledHANDLE_RANDOMNESS),
+          (scaledHANDLE_MIN_OFFSET + randomGen() * scaledHANDLE_RANDOMNESS),
     };
     const outgoingControlPoint = {
       x:
         point.x +
         deltaX *
-          (scaledHANDLE_MIN_OFFSET + Math.random() * scaledHANDLE_RANDOMNESS),
+          (scaledHANDLE_MIN_OFFSET + randomGen() * scaledHANDLE_RANDOMNESS),
       y:
         point.y +
         deltaY *
-          (scaledHANDLE_MIN_OFFSET + Math.random() * scaledHANDLE_RANDOMNESS),
+          (scaledHANDLE_MIN_OFFSET + randomGen() * scaledHANDLE_RANDOMNESS),
     };
     return { point, incomingControlPoint, outgoingControlPoint };
   });
@@ -95,9 +100,12 @@ const StackedWaves: React.FC<shapeProps> = ({
   width,
   height,
   animated,
+  seed,
 }: shapeProps): JSX.Element => {
-  const [orientation] = useState(Math.random() > 0.5 ? "-" : "|");
-  const [direction] = useState(Math.random() > 0.5 ? "up" : "down");
+  const randomGen = mulberry32(seed);
+
+  const [orientation] = useState(randomGen() > 0.5 ? "-" : "|");
+  const [direction] = useState(randomGen() > 0.5 ? "up" : "down");
 
   const WAVE_COUNT = orientation === "-" ? 3 : 5;
 
@@ -107,7 +115,7 @@ const StackedWaves: React.FC<shapeProps> = ({
   });
 
   useEffect(() => {
-    const generateWaves = () => {
+    const generateWaves = (j: number) => {
       let waves = Array.from({ length: WAVE_COUNT }, (_, i) => {
         return generateWave({
           orientation,
@@ -124,6 +132,7 @@ const StackedWaves: React.FC<shapeProps> = ({
             (i + 1) *
             ((orientation === "-" ? height : width) / (WAVE_COUNT + 1)),
           length: orientation === "-" ? width : height,
+          seed: seed + i + j,
         });
       });
       if (
@@ -136,12 +145,12 @@ const StackedWaves: React.FC<shapeProps> = ({
     };
 
     setWaves({
-      waves: generateWaves(),
-      altWaves: generateWaves(),
+      waves: generateWaves(0),
+      altWaves: generateWaves(1),
     });
-  }, [WAVE_COUNT, direction, height, orientation, width]);
+  }, [WAVE_COUNT, direction, height, orientation, seed, width]);
 
-  const [color] = useState(randomColor(true));
+  const [color] = useState(randomColor(true, seed));
 
   const backgroundColor = `hsl(${color.hue}, ${color.saturation}%, ${color.lightness}%)`;
 

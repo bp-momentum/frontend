@@ -7,6 +7,7 @@ import {
 } from ".";
 import Tween from "rc-tween-one";
 import { randomColor } from "./colors";
+import { mulberry32 } from "@util/helper";
 
 const mirrorImage = (
   m1x: number,
@@ -43,17 +44,21 @@ const generateBlobCurve = ({
   to,
   center,
   points,
+  seed,
 }: {
   from: { x: number; y: number };
   to: { x: number; y: number };
   center: { x: number; y: number };
   points: number;
+  seed: number;
 }): string => {
   // draw _points_ points on a basic curve from _from_ to _to_
   // assume the distance of _from_ to _center_ is the same as _to_ to _center_
   // the curve is a bezier curve with two control points
   // the control points point towards the mirror point of the center along the line from _from_ to _to_
   // the control points are 2/3 of the distance from _center_ to _from_ and _to_
+
+  const randomGen = mulberry32(seed);
 
   const radius = Math.sqrt(
     (from.x - center.x) * (from.x - center.x) +
@@ -95,7 +100,7 @@ const generateBlobCurve = ({
     const deltaY = p.y - center.y;
     const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     const angle = Math.atan2(deltaY, deltaX);
-    const randomOffset = (Math.random() * radius) / 3 - radius / 4;
+    const randomOffset = (randomGen() * radius) / 3 - radius / 4;
     const randomDistance = distance + randomOffset;
     const randomX = center.x + randomDistance * Math.cos(angle);
     const randomY = center.y + randomDistance * Math.sin(angle);
@@ -118,13 +123,13 @@ const generateBlobCurve = ({
     deltaX /= norm;
     deltaY /= norm;
     const randomInc =
-      scaledHANDLE_MIN_OFFSET + Math.random() * scaledHANDLE_RANDOMNESS;
+      scaledHANDLE_MIN_OFFSET + randomGen() * scaledHANDLE_RANDOMNESS;
     const incomingControlPoint = {
       x: point.x - deltaX * randomInc,
       y: point.y - deltaY * randomInc,
     };
     const randomOut =
-      scaledHANDLE_MIN_OFFSET + Math.random() * scaledHANDLE_RANDOMNESS;
+      scaledHANDLE_MIN_OFFSET + randomGen() * scaledHANDLE_RANDOMNESS;
     const outgoingControlPoint = {
       x: point.x + deltaX * randomOut,
       y: point.y + deltaY * randomOut,
@@ -148,8 +153,9 @@ const BlobScene: React.FC<shapeProps> = ({
   width,
   height,
   animated,
+  seed,
 }: shapeProps): JSX.Element => {
-  const [orientation] = useState(Math.random() > 0.5 ? "\\" : "/");
+  const [orientation] = useState(mulberry32(seed)() > 0.5 ? "\\" : "/");
 
   const [path1, setPath1] = useState("M 0 0");
   const [path2, setPath2] = useState("M 0 0");
@@ -164,29 +170,41 @@ const BlobScene: React.FC<shapeProps> = ({
       let from = { x: 0, y: height - radius };
       let to = { x: radius, y: height };
       let center = { x: 0, y: height };
-      setPath1(generateBlobCurve({ from, to, center, points: 4 }));
-      setAltPath1(generateBlobCurve({ from, to, center, points: 4 }));
+      setPath1(generateBlobCurve({ from, to, center, points: 4, seed }));
+      setAltPath1(
+        generateBlobCurve({ from, to, center, points: 4, seed: seed + 1 })
+      );
       from = { x: width - radius, y: 0 };
       to = { x: width, y: radius };
       center = { x: width, y: 0 };
-      setPath2(generateBlobCurve({ from, to, center, points: 4 }));
-      setAltPath2(generateBlobCurve({ from, to, center, points: 4 }));
+      setPath2(
+        generateBlobCurve({ from, to, center, points: 4, seed: seed + 2 })
+      );
+      setAltPath2(
+        generateBlobCurve({ from, to, center, points: 4, seed: seed + 3 })
+      );
     }
     if (orientation === "/") {
       let from = { x: 0, y: radius };
       let to = { x: radius, y: 0 };
       let center = { x: 0, y: 0 };
-      setPath1(generateBlobCurve({ from, to, center, points: 4 }));
-      setAltPath1(generateBlobCurve({ from, to, center, points: 4 }));
+      setPath1(generateBlobCurve({ from, to, center, points: 4, seed }));
+      setAltPath1(
+        generateBlobCurve({ from, to, center, points: 4, seed: seed + 1 })
+      );
       from = { x: width - radius, y: height };
       to = { x: width, y: height - radius };
       center = { x: width, y: height };
-      setPath2(generateBlobCurve({ from, to, center, points: 4 }));
-      setAltPath2(generateBlobCurve({ from, to, center, points: 4 }));
+      setPath2(
+        generateBlobCurve({ from, to, center, points: 4, seed: seed + 2 })
+      );
+      setAltPath2(
+        generateBlobCurve({ from, to, center, points: 4, seed: seed + 3 })
+      );
     }
-  }, [width, height, orientation]);
+  }, [width, height, orientation, seed]);
 
-  const [color] = useState(randomColor(true));
+  const [color] = useState(randomColor(true, seed));
 
   const backgroundColor = `hsl(${color.hue}, ${color.saturation}%, ${color.lightness}%)`;
 
