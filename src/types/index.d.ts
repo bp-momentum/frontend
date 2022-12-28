@@ -6,6 +6,7 @@ declare global {
       BACKEND_URL: string;
       WEBSOCKET_URL: string;
       FRONTEND_URL: string;
+      DEBUG: boolean;
     };
   }
 }

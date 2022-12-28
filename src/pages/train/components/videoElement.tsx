@@ -10,6 +10,7 @@ import { PlayCircleOutlined } from "@ant-design/icons";
 import { Button, message, Progress } from "antd";
 import { Camera } from "@mediapipe/camera_utils";
 import {
+  NormalizedLandmark,
   NormalizedLandmarkList,
   Pose,
   POSE_CONNECTIONS,
@@ -25,6 +26,7 @@ import {
 } from "@redux/training/trainingSlice";
 import { useParams } from "react-router-dom";
 import { MdVideocam, MdVideocamOff } from "react-icons/md";
+import { playBeep } from "../training/audio";
 
 interface Props {
   exercise: ExerciseData;
@@ -47,6 +49,74 @@ const VideoElement: React.FC<Props> = ({
   const [cameraShown, setCameraShown] = useState(true);
   const [countdown, setCountdown] = useState(-1);
   const [started, setStarted] = useState(false);
+  const [diff, setDiff] = useState(-1);
+  const diffRef = useRef(-1);
+
+  const diffToError = (diff: number) => {
+    const colorR1 = 0x00;
+    const colorG1 = 0xff;
+    const colorR2 = 0xff;
+    const colorG2 = 0x00;
+
+    // bad diff := diff > 10
+    // good diff := diff < 3
+    const colorR = (colorR1 * (10 - diff) + colorR2 * diff) / 10;
+    const colorG = (colorG1 * (10 - diff) + colorG2 * diff) / 10;
+    const color = `rgb(${colorR}, ${colorG}, 0)`;
+
+    if (diff < 0) {
+      let errorMsg = "";
+      switch (diff) {
+        case -1:
+          errorMsg = "Not Initialized";
+          break;
+        case -2:
+          errorMsg = "Missing Landmarks";
+          break;
+        case -3:
+          errorMsg = "Invalid Landmarks";
+          break;
+        case -4:
+          errorMsg = "Not fully in view";
+          break;
+        default:
+          errorMsg = "Unknown Error";
+      }
+      return (
+        <span
+          style={{
+            color: "white",
+            fontFamily: "inherit",
+            fontWeight: "inherit",
+            fontSize: "inherit",
+          }}
+        >
+          {errorMsg}
+        </span>
+      );
+    }
+
+    // Normal value
+    return (
+      <span
+        style={{
+          color: color,
+          fontFamily: "inherit",
+          fontWeight: "inherit",
+          fontSize: "inherit",
+        }}
+      >
+        {diff.toFixed(2)}
+      </span>
+    );
+  };
+
+  useEffect(() => {
+    setInterval(() => {
+      if (!currentPose.current) return;
+      comparePosition(currentPose.current, exercise.expectation[0]);
+    }, 500);
+  });
 
   // REFS
   const capturing = useRef(false);
@@ -146,23 +216,118 @@ const VideoElement: React.FC<Props> = ({
   // -------------------------
   // EXPECTATION OVERLAY START
   // -------------------------
+  const isValidLandmark = (lm: NormalizedLandmark) => {
+    return lm.x > 0 && lm.y > 0 && lm.x < 1 && lm.y < 1;
+  };
+
   const comparePosition = useCallback(
     (
       actualLandmarks: NormalizedLandmarkList,
       expectedLandmarks: NormalizedLandmarkList
     ) => {
-      if (!actualLandmarks || !expectedLandmarks) return;
+      if (!actualLandmarks || !expectedLandmarks) {
+        setDiff(-2);
+        diffRef.current = -2;
+        return -2;
+      }
+
+      if (actualLandmarks.length !== expectedLandmarks.length) {
+        setDiff(-3);
+        diffRef.current = -3;
+        return -3;
+      }
+
+      // check if all landmarks are valid
+      if (
+        !actualLandmarks.every((lm) => isValidLandmark(lm)) ||
+        !expectedLandmarks.every((lm) => isValidLandmark(lm))
+      ) {
+        setDiff(-4);
+        diffRef.current = -4;
+        return -4;
+      }
+
+      // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+      //                         EXPECTED LANDMARKS
+      // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+      let internalExpectedLandmarks = expectedLandmarks;
+      // find lowest y value in all expected landmarks
+      const lowestY = Math.min(
+        ...internalExpectedLandmarks.map((landmark) => landmark.y)
+      );
+      // find the average x value of all expected landmarks
+      let averageX = internalExpectedLandmarks.reduce(
+        (acc, landmark) => acc + landmark.x,
+        0
+      );
+      averageX /= internalExpectedLandmarks.length;
+      // subtract lowest y value and average x value from all expected landmarks
+      internalExpectedLandmarks = internalExpectedLandmarks.map((landmark) => ({
+        ...landmark,
+        y: landmark.y - lowestY,
+        x: landmark.x - averageX,
+      }));
+      // find the highest y value in all expected landmarks
+      const highestY = Math.max(
+        ...internalExpectedLandmarks.map((landmark) => landmark.y)
+      );
+      // 2D scale to a total height of 100 with the origin at (0, 0)
+      internalExpectedLandmarks = internalExpectedLandmarks.map((landmark) => ({
+        ...landmark,
+        y: (landmark.y / highestY) * 100,
+        x: (landmark.x / highestY) * 100,
+      }));
+
+      // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+      //                         ACTUAL LANDMARKS
+      // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+      let internalActualLandmarks = actualLandmarks;
+      // find lowest y value in all actual landmarks
+      const lowestYActual = Math.min(
+        ...internalActualLandmarks.map((landmark) => landmark.y)
+      );
+      // find the average x value of all actual landmarks
+      let averageXActual = internalActualLandmarks.reduce(
+        (acc, landmark) => acc + landmark.x,
+        0
+      );
+      averageXActual /= internalActualLandmarks.length;
+      // subtract lowest y value and average x value from all actual landmarks
+      internalActualLandmarks = internalActualLandmarks.map((landmark) => ({
+        ...landmark,
+        y: landmark.y - lowestYActual,
+        x: landmark.x - averageXActual,
+      }));
+      // find the highest y value in all actual landmarks
+      const highestYActual = Math.max(
+        ...internalActualLandmarks.map((landmark) => landmark.y)
+      );
+      // 2D scale to a total height of 100 with the origin at (0, 0)
+      internalActualLandmarks = internalActualLandmarks.map((landmark) => ({
+        ...landmark,
+        y: (landmark.y / highestYActual) * 100,
+        x: (landmark.x / highestYActual) * 100,
+      }));
+
+      // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+      //                         CALCULATE DISTANCE
+      // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
       let sum = 0;
-      for (let i = 0; i < actualLandmarks.length; i++) {
-        const actual = actualLandmarks[i];
-        const expected = expectedLandmarks[i];
+      for (let i = 0; i < internalActualLandmarks.length; i++) {
+        const actual = internalActualLandmarks[i];
+        const expected = internalExpectedLandmarks[i];
         // get the normalized 2D position of the landmarks
         sum += Math.sqrt(
           Math.pow(actual.x - expected.x, 2) +
             Math.pow(actual.y - expected.y, 2)
         );
       }
-      return sum / actualLandmarks.length;
+
+      // average distance between actual and expected landmarks
+
+      setDiff(sum / internalActualLandmarks.length);
+      diffRef.current = sum / internalActualLandmarks.length;
+      return sum / internalActualLandmarks.length;
     },
     []
   );
@@ -177,18 +342,21 @@ const VideoElement: React.FC<Props> = ({
     // eslint-disable-next-line no-constant-condition
     while (true) {
       if (!currentPose.current) continue;
-      const distance =
-        comparePosition(currentPose.current, exercise.expectation[0]) || 1;
+      const distance = diffRef.current;
       // TODO: this value may need to be adjusted (it is good enough for now)
-      if (distance < 0.05) break;
+      // distance < 0 => error
+      // distance > x.x => not close enough
+      if (distance > 0 && distance < 3) break;
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
 
     for (let i = 3; i > 0; i--) {
       setCountdown(i);
+      playBeep(false);
       await new Promise((resolve) => setTimeout(resolve, 1000));
     }
     setCountdown(0);
+    playBeep(true);
 
     webSocketRef.current?.send(
       JSON.stringify({
@@ -270,8 +438,8 @@ const VideoElement: React.FC<Props> = ({
     pose.setOptions({
       modelComplexity: 0,
       smoothLandmarks: true,
-      enableSegmentation: true,
-      smoothSegmentation: true,
+      enableSegmentation: false,
+      smoothSegmentation: false,
       minDetectionConfidence: 0.5,
       minTrackingConfidence: 0.5,
     });
@@ -305,7 +473,7 @@ const VideoElement: React.FC<Props> = ({
 
   // set the correct size attribute for the canvas
   // even though it is positioned with css,
-  // mediapipe needs the width and height attributes for some unholy reason
+  // MediaPipe needs the width and height attributes for some unholy reason
   useEffect(() => {
     if (!videoRef.current || !estimationCanvasRef.current) return;
     const obs = new ResizeObserver(() => {
@@ -333,149 +501,173 @@ const VideoElement: React.FC<Props> = ({
   // -----------------------------
 
   return (
-    <div
-      style={{
-        position: "relative",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        margin: "0 50px",
-        minWidth: "300px",
-      }}
-    >
-      {/* WEBCAM */}
-      <video
-        ref={videoRef}
-        style={{
-          width: "100%",
-          height: "100%",
-          maxWidth: "100%",
-          maxHeight: Math.max(height - 167 - 80, 200),
-          objectFit: "cover",
-          borderRadius: "5px",
-          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.5)",
-        }}
-      />
-      {/* OVERLAY */}
+    <>
       <div
         style={{
-          position: "absolute",
-          maxWidth: "100%",
-          maxHeight: Math.max(height - 167 - 80, 200),
-          width: "100%",
-          height: "100%",
-          backdropFilter: !cameraShown ? "blur(50px)" : "none",
-          WebkitBackdropFilter: !cameraShown ? "blur(50px)" : "none",
-          borderRadius: "5px",
+          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          margin: "0 50px",
+          minWidth: "300px",
         }}
       >
-        <div
+        {/* WEBCAM */}
+        <video
+          ref={videoRef}
           style={{
-            position: "relative",
             width: "100%",
             height: "100%",
-            top: 0,
+            maxWidth: "100%",
+            maxHeight: Math.max(height - 167 - 80, 200),
+            objectFit: "cover",
+            borderRadius: "5px",
+            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.5)",
+          }}
+        />
+        {/* OVERLAY */}
+        <div
+          style={{
+            position: "absolute",
+            maxWidth: "100%",
+            maxHeight: Math.max(height - 167 - 80, 200),
+            width: "100%",
+            height: "100%",
+            backdropFilter: !cameraShown ? "blur(50px)" : "none",
+            WebkitBackdropFilter: !cameraShown ? "blur(50px)" : "none",
+            borderRadius: "5px",
           }}
         >
-          {/* MEDIAPIPE EXPECTED POSE */}
-          <canvas
-            style={{
-              position: "absolute",
-              width: "100%",
-              height: "100%",
-            }}
-            ref={expectedCanvasRef}
-          ></canvas>
-          {/* MEDIAPIPE ACTUAL POSE ESTIMATION */}
-          <canvas
-            style={{
-              position: "absolute",
-              width: "100%",
-              height: "100%",
-            }}
-            ref={estimationCanvasRef}
-          ></canvas>
-          {/* TODO: SHOW POINTS */}
-          {/* CAMERA TOGGLE */}
-          <div
-            onClick={() => setCameraShown(!cameraShown)}
-            style={{
-              position: "absolute",
-              top: 10,
-              right: 10,
-              width: "50px",
-              height: "50px",
-              borderRadius: "50%",
-              backgroundColor: "white",
-              padding: "5px",
-              cursor: "pointer",
-            }}
-          >
-            {cameraShown ? (
-              <MdVideocam color="black" size="40px" />
-            ) : (
-              <MdVideocamOff color="red" size="40px" />
-            )}
-          </div>
-          {/* INTRA SET PROGRESS */}
           <div
             style={{
-              position: "absolute",
-              bottom: "-10px",
+              position: "relative",
               width: "100%",
+              height: "100%",
+              top: 0,
             }}
           >
-            <Progress
-              percent={progress.current}
-              status="active"
-              showInfo={false}
-              strokeColor={"#0ff"}
-              className="training-progress"
-              style={{
-                width: "100%",
-              }}
-            />
-          </div>
-          {/* START BUTTON */}
-          {!started && (
-            <Button
-              onClick={startSet}
+            {/* MEDIAPIPE EXPECTED POSE */}
+            <canvas
               style={{
                 position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                borderRadius: "10px",
-                padding: "10px",
-                height: "initial",
-                width: "initial",
-                fontSize: "30px",
+                width: "100%",
+                height: "100%",
               }}
-              icon={<PlayCircleOutlined style={{ fontSize: "30px" }} />}
-              className="no-font-fix-button-weirdness"
-            />
-          )}
-          {/* COUNTDOWN */}
-          {countdown > 0 && (
+              ref={expectedCanvasRef}
+            ></canvas>
+            {/* MEDIAPIPE ACTUAL POSE ESTIMATION */}
+            <canvas
+              style={{
+                position: "absolute",
+                width: "100%",
+                height: "100%",
+              }}
+              ref={estimationCanvasRef}
+            ></canvas>
+            {/* TODO: SHOW POINTS */}
+            {/* CAMERA TOGGLE */}
+            <div
+              onClick={() => setCameraShown(!cameraShown)}
+              style={{
+                position: "absolute",
+                top: 10,
+                right: 10,
+                width: "50px",
+                height: "50px",
+                borderRadius: "50%",
+                backgroundColor: "white",
+                padding: "5px",
+                cursor: "pointer",
+              }}
+            >
+              {cameraShown ? (
+                <MdVideocam color="black" size="40px" />
+              ) : (
+                <MdVideocamOff color="red" size="40px" />
+              )}
+            </div>
+            {/* INTRA SET PROGRESS */}
             <div
               style={{
                 position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                fontSize: "150px",
-                color: "#fff",
-                fontWeight: "bold",
-                fontFamily: "BigBoy",
-                WebkitTextStroke: "5px #0ff",
+                bottom: "-10px",
+                width: "100%",
               }}
             >
-              {countdown}
+              <Progress
+                percent={progress.current}
+                status="active"
+                showInfo={false}
+                strokeColor={"#0ff"}
+                className="training-progress"
+                style={{
+                  width: "100%",
+                }}
+              />
             </div>
-          )}
+            {/* START BUTTON */}
+            {!started && (
+              <Button
+                onClick={startSet}
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  borderRadius: "10px",
+                  padding: "10px",
+                  height: "initial",
+                  width: "initial",
+                  fontSize: "30px",
+                }}
+                icon={<PlayCircleOutlined style={{ fontSize: "30px" }} />}
+                className="no-font-fix-button-weirdness"
+              />
+            )}
+            {/* COUNTDOWN */}
+            {countdown > 0 && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  fontSize: "150px",
+                  color: "#fff",
+                  fontWeight: "bold",
+                  fontFamily: "BigBoy",
+                  WebkitTextStroke: "5px #0ff",
+                }}
+              >
+                {countdown}
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+      {window._env_.DEBUG && (
+        <div
+          style={{
+            position: "absolute",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            top: "20px",
+            right: "20px",
+            fontSize: "15px",
+            fontFamily: "Consolas",
+            fontWeight: "normal",
+            padding: "10px",
+            borderRadius: "5px",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            color: "#ddd",
+          }}
+        >
+          Debug values: <br />
+          {diffToError(diff)}
+        </div>
+      )}
+    </>
   );
 };
 

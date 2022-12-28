@@ -30,3 +30,12 @@ export const playRandomSound = (category: audioCategory) => {
   audio.volume = 0.2;
   audio.play();
 };
+
+export const playBeep = (final: boolean) => {
+  const url =
+    process.env.PUBLIC_URL + "/audio/" + (final ? "beep2.wav" : "beep.wav");
+
+  const audio = new Audio(url);
+  audio.volume = 0.2;
+  audio.play();
+};
