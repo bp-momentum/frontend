@@ -11,6 +11,18 @@
   src: url('../fonts/Bigboy.ttf') format('truetype');
 }
 
+:where(.css-dev-only-do-not-override-acm2ia).ant-typography,
+:where(.css-dev-only-do-not-override-acm2ia)[class^="ant-typography"],
+:where(.css-dev-only-do-not-override-acm2ia)[class*=" ant-typography"],
+:where(.css-dev-only-do-not-override-acm2ia).ant-layout,
+:where(.css-dev-only-do-not-override-acm2ia).ant-layout * {
+  font-family: 'Scrappy', 'Patrick Hand';
+  color: unset;
+  word-break: unset;
+  line-height: unset;
+  font-size: unset;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

@@ -1,3 +1,4 @@
+import "i18next";
 export {};
 
 declare global {
@@ -8,5 +9,11 @@ declare global {
       FRONTEND_URL: string;
       DEBUG: boolean;
     };
+  }
+}
+
+declare module "i18next" {
+  interface CustomTypeOptions {
+    returnNull: false;
   }
 }

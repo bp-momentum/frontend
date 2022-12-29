@@ -4,9 +4,6 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import { useAppSelector } from "@redux/hooks";
 import Helper from "@util/helper";
 import { ConfigProvider } from "antd";
-import { Locale } from "antd/lib/locale-provider";
-import { useTranslation } from "react-i18next";
-import moment from "moment";
 
 import Home from "@pages/home";
 import Login from "@pages/login";
@@ -31,8 +28,6 @@ import "moment/locale/de";
 import "moment/locale/en-gb";
 
 // import available languages from ant locales
-import deDE from "antd/lib/locale-provider/de_DE";
-import enGB from "antd/lib/locale-provider/en_GB";
 import useLanguageUpdater from "@hooks/languageUpdater";
 
 /**
@@ -40,23 +35,8 @@ import useLanguageUpdater from "@hooks/languageUpdater";
  * @returns {JSX.Element} The app.
  */
 const LocalizedApp: React.FC = (): JSX.Element => {
-  const [locale, setLocale] = React.useState<Locale>(deDE);
-  const { i18n } = useTranslation();
-
   const token = useAppSelector((state) => state.token.token);
   const languageUpdater = useLanguageUpdater();
-
-  const updateLanguage = (language: string) => {
-    moment.locale(language);
-    switch (language) {
-      case "de":
-        setLocale(deDE);
-        break;
-      case "en":
-        setLocale(enGB);
-        break;
-    }
-  };
 
   useEffect(() => {
     if (!token) {
@@ -66,9 +46,8 @@ const LocalizedApp: React.FC = (): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
-  useEffect(() => updateLanguage(i18n.language), [i18n.language]);
   return (
-    <ConfigProvider locale={locale}>
+    <ConfigProvider>
       <App />
     </ConfigProvider>
   );

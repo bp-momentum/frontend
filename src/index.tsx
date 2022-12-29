@@ -2,7 +2,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import "@styles/index.css";
-import "antd/dist/antd.min.css";
 import LocalizedApp from "./App";
 import { Provider } from "react-redux";
 import { store, persistor } from "@redux/store";

@@ -209,24 +209,21 @@ const ActivityCalendarCard = (): JSX.Element => {
         }}
         fullscreen={false}
         headerRender={({ value, onChange }) => {
-          const localeData = value.localeData();
           return (
             <div style={{ padding: 8, color: "black" }}>
               <Row justify="space-between">
                 <LeftOutlined
                   onClick={() => {
-                    const newDate = value.clone();
-                    newDate.subtract(1, "month");
+                    const newDate = value.clone().subtract(1, "month");
                     onChange(newDate);
                   }}
                 />
                 <Text style={{ fontSize: 20, marginTop: -8 }}>
-                  {localeData.months(value) + " " + value.year()}
+                  {value.format("MM YYYY")}
                 </Text>
                 <RightOutlined
                   onClick={() => {
-                    const newDate = value.clone();
-                    newDate.add(1, "month");
+                    const newDate = value.clone().add(1, "month");
                     onChange(newDate);
                   }}
                 />
