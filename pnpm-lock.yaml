@@ -49,7 +49,7 @@ specifiers:
   react-beautiful-dnd: 13.1.1
   react-card-flip: 1.1.6
   react-dom: 18.2.0
-  react-i18next: 11.18.6
+  react-i18next: 12.1.1
   react-icons: 4.6.0
   react-pendulum: 0.0.1
   react-random-shapes: 0.6.1
@@ -104,14 +104,14 @@ dependencies:
   react-beautiful-dnd: 13.1.1_biqbaboplfbrettd7655fr4n2y
   react-card-flip: 1.1.6_biqbaboplfbrettd7655fr4n2y
   react-dom: 18.2.0_react@18.2.0
-  react-i18next: 11.18.6_vfm63zmruocgezzfl2v26zlzpy
+  react-i18next: 12.1.1_vfm63zmruocgezzfl2v26zlzpy
   react-icons: 4.6.0_react@18.2.0
   react-pendulum: 0.0.1_react@18.2.0
   react-random-shapes: 0.6.1_react@18.2.0
   react-redux: 8.0.4_yfr4m6wk75wdra335rld4tkrbu
   react-router: 6.4.2_react@18.2.0
   react-router-dom: 6.4.2_biqbaboplfbrettd7655fr4n2y
-  react-scripts: 5.0.1_q5exndy6ksylmkqoqxdzmpht4y
+  react-scripts: 5.0.1_xgafidmxutkymyk6hrj4mgb47m
   react-webcam: 7.0.1_biqbaboplfbrettd7655fr4n2y
   redux: 4.2.0
   redux-persist: 6.0.0_react@18.2.0+redux@4.2.0
@@ -1676,7 +1676,7 @@ packages:
     dependencies:
       cross-spawn: 7.0.3
       lodash: 4.17.21
-      react-scripts: 5.0.1_q5exndy6ksylmkqoqxdzmpht4y
+      react-scripts: 5.0.1_xgafidmxutkymyk6hrj4mgb47m
       webpack-merge: 4.2.2
     dev: false
 
@@ -1691,7 +1691,7 @@ packages:
       cosmiconfig-typescript-loader: 1.0.9_t6iukbiom2jlsbp4uv3roalcz4
       cross-spawn: 7.0.3
       lodash: 4.17.21
-      react-scripts: 5.0.1_q5exndy6ksylmkqoqxdzmpht4y
+      react-scripts: 5.0.1_xgafidmxutkymyk6hrj4mgb47m
       semver: 7.3.7
       webpack-merge: 4.2.2
     transitivePeerDependencies:
@@ -3573,8 +3573,10 @@ packages:
       ajv: 6.12.6
     dev: false
 
-  /ajv-formats/2.1.1:
+  /ajv-formats/2.1.1_ajv@8.11.0:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependencies:
+      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -11472,6 +11474,12 @@ packages:
   /react-dev-utils/12.0.1_iphotpp42ipt4ovquw5uqijhcq:
     resolution: {integrity: sha512-84Ivxmr17KjUupyqzFode6xKhjwuEJDROWKJy/BthkL7Wn6NJ8h4WE6k/exAv6ImS+0oZLRRW5j/aINMHyeGeQ==}
     engines: {node: '>=14'}
+    peerDependencies:
+      typescript: '>=2.7'
+      webpack: '>=4'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
     dependencies:
       '@babel/code-frame': 7.18.6
       address: 1.2.0
@@ -11502,9 +11510,7 @@ packages:
     transitivePeerDependencies:
       - eslint
       - supports-color
-      - typescript
       - vue-template-compiler
-      - webpack
     dev: false
 
   /react-dom/18.2.0_react@18.2.0:
@@ -11521,8 +11527,8 @@ packages:
     resolution: {integrity: sha512-/6UZ2qgEyH2aqzYZgQPxEnz33NJ2gNsnHA2o5+o4wW9bLM/JYQitNP9xPhsXwC08hMMovfGe/8retsdDsczPRg==}
     dev: false
 
-  /react-i18next/11.18.6_vfm63zmruocgezzfl2v26zlzpy:
-    resolution: {integrity: sha512-yHb2F9BiT0lqoQDt8loZ5gWP331GwctHz9tYQ8A2EIEUu+CcEdjBLQWli1USG3RdWQt3W+jqQLg/d4rrQR96LA==}
+  /react-i18next/12.1.1_vfm63zmruocgezzfl2v26zlzpy:
+    resolution: {integrity: sha512-mFdieOI0LDy84q3JuZU6Aou1DoWW2fhapcTGeBS8+vWSJuViuoCLQAMYSb0QoHhXS8B0WKUOPpx4cffAP7r/aA==}
     peerDependencies:
       i18next: '>= 19.0.0'
       react: '>= 16.8.0'
@@ -11534,7 +11540,7 @@ packages:
       react-native:
         optional: true
     dependencies:
-      '@babel/runtime': 7.18.9
+      '@babel/runtime': 7.19.4
       html-parse-stringify: 3.0.1
       i18next: 21.10.0
       react: 18.2.0
@@ -11663,11 +11669,12 @@ packages:
       react: 18.2.0
     dev: false
 
-  /react-scripts/5.0.1_q5exndy6ksylmkqoqxdzmpht4y:
+  /react-scripts/5.0.1_xgafidmxutkymyk6hrj4mgb47m:
     resolution: {integrity: sha512-8VAmEm/ZAwQzJ+GOMLbBsTdDKOpuZh7RPs0UymvBR2vRk4iZWCskjbFnxqjrzoIvlNNRZ3QJFx6/qDSi6zSnaQ==}
     engines: {node: '>=14.0.0'}
     hasBin: true
     peerDependencies:
+      eslint: '*'
       react: '>= 16'
       typescript: ^3.2.1 || ^4
     peerDependenciesMeta:
@@ -12233,7 +12240,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1
+      ajv-formats: 2.1.1_ajv@8.11.0
       ajv-keywords: 5.1.0_ajv@8.11.0
     dev: false
 
