@@ -1,6 +1,6 @@
 FROM node:18 AS builder
 
-RUN curl -fsSL https://get.pnpm.io/install.sh | sh -
+RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
 
 WORKDIR /usr/web/
 
