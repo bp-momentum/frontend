@@ -1,16 +1,16 @@
 name: Deploy
 
-concurrency:
-  group: ${{ github.ref }}
-  cancel-in-progress: true
-
 on:
   push:
     branches:
       - main
 
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 env:
-  NODE_VERSION: 17
+  NODE_VERSION: 18
 
 jobs:
   test:
