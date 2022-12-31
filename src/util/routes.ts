@@ -152,18 +152,32 @@ const Routes = {
    * @param {object} props  the exercise's id and visibility
    * @returns {Route} the route to set the visibility of an exercise's instructions
    */
-  setExerciseInstructionVisibility: (props: {
+  setExercisePreferences: (props: {
     id: number;
-    visible: boolean;
+    visible?: boolean;
+    speed?: number;
   }): Route => {
+    const body: {
+      id: number;
+      visible?: boolean;
+      speed?: number;
+    } = {
+      id: props.id,
+    };
+
+    if (props.visible !== undefined) {
+      body["visible"] = props.visible;
+    }
+
+    if (props.speed !== undefined) {
+      body["speed"] = props.speed;
+    }
+
     return {
-      route: "/api/setexerciseinstructionvisibility",
+      route: "/api/setexercisepreferences",
       method: "POST",
       needsAuth: true,
-      body: {
-        id: props.id,
-        visible: props.visible,
-      },
+      body: body,
     };
   },
 
@@ -172,9 +186,9 @@ const Routes = {
    * @param {object} props  the exercise's id
    * @returns {Route} the route to get the visibility of an exercise's instructions
    */
-  getExerciseInstructionVisibility: (props: { id: number }): Route => {
+  getExercisePreferences: (props: { id: number }): Route => {
     return {
-      route: "/api/getexerciseinstructionvisibility",
+      route: "/api/getexercisepreferences",
       method: "POST",
       needsAuth: true,
       body: {

@@ -7,9 +7,10 @@ import Translations from "@localization/translations";
 import { MenuInfo } from "rc-menu/lib/interface";
 import { useNavigate } from "react-router";
 import InstructionOverlay from "./instructionsOverlay";
-import { useAppSelector } from "@redux/hooks";
+import { useAppDispatch, useAppSelector } from "@redux/hooks";
 import useApi from "@hooks/api";
 import Routes from "@util/routes";
+import { setExercisePrefs } from "@redux/exercise/prefsSlice";
 const { Content } = Layout;
 
 interface Props {
@@ -30,12 +31,28 @@ const TrainLayout: React.FC<Props> = ({
 
   const api = useApi();
 
-  useEffect(() => {
-    api
-      .execute(Routes.getExerciseInstructionVisibility({ id: exercise.id }))
+  const dispatch = useAppDispatch();
+
+  const updateInstructionPrefs = (): Promise<boolean> => {
+    return api
+      .execute(Routes.getExercisePreferences({ id: exercise.id }))
       .then((res) => {
-        setOverlay(res.data.visible);
+        dispatch(
+          setExercisePrefs({
+            visible: res.data.visible,
+            speed: res.data.speed,
+          })
+        );
+        return res.data.visible;
+      })
+      .catch(() => {
+        return true;
       });
+  };
+
+  useEffect(() => {
+    // load initial value
+    updateInstructionPrefs().then((vis) => setOverlay(vis));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

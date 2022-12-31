@@ -17,7 +17,7 @@ import {
 } from "@mediapipe/pose";
 import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
 import useApi, { ApiSocketConnection } from "@hooks/api";
-import { useAppDispatch } from "@redux/hooks";
+import { useAppDispatch, useAppSelector } from "@redux/hooks";
 import {
   resetTrainingPoints,
   setInformation,
@@ -332,6 +332,8 @@ const VideoElement: React.FC<Props> = ({
     []
   );
 
+  const speed = useAppSelector((state) => state.exercisePrefs.speed);
+
   const startSet = async () => {
     setStarted(true);
     // Wait for player to be positioned correctly
@@ -370,7 +372,7 @@ const VideoElement: React.FC<Props> = ({
         // draw landmarks on canvas
         onResults(exercise.expectation[j], expectedCanvasRef, true);
         // wait for 1/10th of a second
-        await new Promise((resolve) => setTimeout(resolve, 100));
+        await new Promise((resolve) => setTimeout(resolve, (1 / speed) * 1000));
       }
     }
     capturing.current = false;

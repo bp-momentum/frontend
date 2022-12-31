@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "@styles/train.css";
 import Translations from "@localization/translations";
 import TrainLayout from "../components/trainLayout";
@@ -6,7 +6,11 @@ import { useTranslation } from "react-i18next";
 import Paper from "@shared/paper";
 import useWindowDimensions from "@hooks/windowDimension";
 import VideoElement from "../components/videoElement";
-import { useAppSelector } from "@redux/hooks";
+import { useAppDispatch, useAppSelector } from "@redux/hooks";
+import { Slider } from "antd";
+import useApi from "@hooks/api";
+import Routes from "@util/routes";
+import { setExercisePrefs } from "@redux/exercise/prefsSlice";
 
 interface Props {
   exercise: ExerciseData;
@@ -28,7 +32,56 @@ const InformationComponent: React.FC = () => {
   return <></>;
 };
 
-const PointsPaper: React.FC = () => {
+const SpeedSlider: React.FC<{ exId: number }> = ({
+  exId,
+}: {
+  exId: number;
+}) => {
+  const [tmpValue, setTmpValue] = React.useState(10);
+
+  const speed = useAppSelector((state) => state.exercisePrefs.speed);
+
+  useEffect(() => {
+    setTmpValue(speed);
+  }, [speed]);
+
+  const api = useApi();
+  const dispatch = useAppDispatch();
+
+  const updateInstructionPrefs = () => {
+    api.execute(Routes.getExercisePreferences({ id: exId })).then((res) => {
+      dispatch(
+        setExercisePrefs({
+          visible: res.data.visible,
+          speed: res.data.speed,
+        })
+      );
+    });
+  };
+
+  const setSpeed = (value: number) => {
+    api.execute(Routes.setExercisePreferences({ id: exId, speed: value }));
+    updateInstructionPrefs();
+  };
+
+  return (
+    <Slider
+      style={{ width: "100%" }}
+      value={tmpValue}
+      onAfterChange={setSpeed}
+      onChange={setTmpValue}
+      min={5}
+      max={15}
+      step={1}
+    />
+  );
+};
+
+const PointsPaper: React.FC<{ exId: number }> = ({
+  exId,
+}: {
+  exId: number;
+}) => {
   const latestPoints = useAppSelector(
     (state) => state.trainingScore.latestScore
   );
@@ -61,6 +114,19 @@ const PointsPaper: React.FC = () => {
         ": \t" +
         Math.round(latestPoints.speed * 100) / 100 +
         "%"}
+      <br />
+      <span
+        style={{
+          display: "block",
+          marginTop: "20px",
+          fontSize: "30px",
+          lineHeight: "47.145px",
+        }}
+      >
+        {t(Translations.tabBar.settings)}
+      </span>
+      {t(Translations.training.speed)}
+      <SpeedSlider exId={exId} />
     </Paper>
   );
 };
@@ -115,7 +181,15 @@ const Training: React.FC<Props> = ({
           }}
         >
           <VideoElement onFinishSet={onFinishSet} exercise={exercise} />
-          <PointsPaper />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <PointsPaper exId={exercise.id} />
+          </div>
         </div>
         <InformationComponent />
       </div>

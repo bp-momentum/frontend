@@ -1,7 +1,9 @@
 import useApi from "@hooks/api";
+import { setExercisePrefs } from "@redux/exercise/prefsSlice";
+import { useAppDispatch, useAppSelector } from "@redux/hooks";
 import Routes from "@util/routes";
 import { Button, Checkbox } from "antd";
-import React, { useEffect } from "react";
+import React from "react";
 
 interface Props {
   exercise: ExerciseData;
@@ -38,25 +40,27 @@ const InstructionOverlay: React.FC<Props> = ({ exercise, onClose }) => {
 
   const api = useApi();
 
-  const updateInstructionVisibility = () => {
+  const visibility = useAppSelector((state) => state.exercisePrefs.visible);
+  const dispatch = useAppDispatch();
+
+  const updateInstructionPrefs = () => {
     api
-      .execute(Routes.getExerciseInstructionVisibility({ id: exercise.id }))
+      .execute(Routes.getExercisePreferences({ id: exercise.id }))
       .then((res) => {
-        setShowInstructions(res.data.visible);
+        dispatch(
+          setExercisePrefs({
+            visible: res.data.visible,
+            speed: res.data.speed,
+          })
+        );
       });
   };
 
-  const [showInstructions, setShowInstructions] = React.useState(false);
-  useEffect(() => {
-    updateInstructionVisibility();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const setInstructionVisibility = (val: boolean) => {
     api.execute(
-      Routes.setExerciseInstructionVisibility({ id: exercise.id, visible: val })
+      Routes.setExercisePreferences({ id: exercise.id, visible: val })
     );
-    updateInstructionVisibility();
+    updateInstructionPrefs();
   };
 
   // Create a box that has the title on top centered,
@@ -182,7 +186,7 @@ const InstructionOverlay: React.FC<Props> = ({ exercise, onClose }) => {
           onChange={(e) => {
             setInstructionVisibility(!e.target.checked);
           }}
-          checked={!showInstructions}
+          checked={!visibility}
         >
           Don&#39;t show again
         </Checkbox>
