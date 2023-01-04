@@ -261,21 +261,32 @@ const VideoElement: React.FC<Props> = ({
         0
       );
       averageX /= internalExpectedLandmarks.length;
-      // subtract lowest y value and average x value from all expected landmarks
+      // find the average z value of all expected landmarks
+      let averageZ = internalExpectedLandmarks.reduce(
+        (acc, landmark) => acc + landmark.z,
+        0
+      );
+      averageZ /= internalExpectedLandmarks.length;
+      // subtract
+      //  lowest y value,
+      //  average x value and
+      //  average z value from all expected landmarks
       internalExpectedLandmarks = internalExpectedLandmarks.map((landmark) => ({
         ...landmark,
         y: landmark.y - lowestY,
         x: landmark.x - averageX,
+        z: landmark.z - averageZ,
       }));
       // find the highest y value in all expected landmarks
       const highestY = Math.max(
         ...internalExpectedLandmarks.map((landmark) => landmark.y)
       );
-      // 2D scale to a total height of 100 with the origin at (0, 0)
+      // 3D scale to a total height of 100 with the origin at (0, 0)
       internalExpectedLandmarks = internalExpectedLandmarks.map((landmark) => ({
         ...landmark,
         y: (landmark.y / highestY) * 100,
         x: (landmark.x / highestY) * 100,
+        z: (landmark.z / highestY) * 100,
       }));
 
       // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -292,21 +303,32 @@ const VideoElement: React.FC<Props> = ({
         0
       );
       averageXActual /= internalActualLandmarks.length;
-      // subtract lowest y value and average x value from all actual landmarks
+      // find the average z value of all actual landmarks
+      let averageZActual = internalActualLandmarks.reduce(
+        (acc, landmark) => acc + landmark.z,
+        0
+      );
+      averageZActual /= internalActualLandmarks.length;
+      // subtract
+      //  lowest y value,
+      //  average x value and
+      //  average z value from all actual landmarks
       internalActualLandmarks = internalActualLandmarks.map((landmark) => ({
         ...landmark,
         y: landmark.y - lowestYActual,
         x: landmark.x - averageXActual,
+        z: landmark.z - averageZActual,
       }));
       // find the highest y value in all actual landmarks
       const highestYActual = Math.max(
         ...internalActualLandmarks.map((landmark) => landmark.y)
       );
-      // 2D scale to a total height of 100 with the origin at (0, 0)
+      // 3D scale to a total height of 100 with the origin at (0, 0)
       internalActualLandmarks = internalActualLandmarks.map((landmark) => ({
         ...landmark,
         y: (landmark.y / highestYActual) * 100,
         x: (landmark.x / highestYActual) * 100,
+        z: (landmark.z / highestYActual) * 100,
       }));
 
       // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -319,7 +341,8 @@ const VideoElement: React.FC<Props> = ({
         // get the normalized 2D position of the landmarks
         sum += Math.sqrt(
           Math.pow(actual.x - expected.x, 2) +
-            Math.pow(actual.y - expected.y, 2)
+            Math.pow(actual.y - expected.y, 2) +
+            Math.pow(actual.z - expected.z, 2)
         );
       }
 
@@ -348,7 +371,7 @@ const VideoElement: React.FC<Props> = ({
       // TODO: this value may need to be adjusted (it is good enough for now)
       // distance < 0 => error
       // distance > x.x => not close enough
-      if (distance > 0 && distance < 3) break;
+      if (distance > 0 && distance < 10) break;
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
 
