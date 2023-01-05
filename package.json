@@ -24,7 +24,7 @@
     "@types/react-dom": "18.0.10",
     "@types/react-redux": "7.1.24",
     "@types/testing-library__jest-dom": "5.14.5",
-    "ajv": "8.11.2",
+    "ajv": "8.12.0",
     "antd": "5.1.1",
     "buffer": "6.0.3",
     "eslint": "8.30.0",
