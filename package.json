@@ -9,7 +9,7 @@
     "@ant-design/plots": "1.2.3",
     "@antv/g2": "4.2.8",
     "@babel/plugin-syntax-flow": "7.18.6",
-    "@babel/plugin-transform-react-jsx": "7.20.7",
+    "@babel/plugin-transform-react-jsx": "7.21.0",
     "@craco/craco": "7.0.0",
     "@mediapipe/camera_utils": "^0.3.1640029074",
     "@mediapipe/drawing_utils": "^0.3.1620248257",
@@ -85,10 +85,10 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "7.20.7",
-    "@babel/plugin-proposal-private-property-in-object": "7.20.5",
+    "@babel/core": "7.21.0",
+    "@babel/plugin-proposal-private-property-in-object": "7.21.0",
     "@babel/preset-env": "7.20.2",
-    "@babel/preset-typescript": "7.18.6",
+    "@babel/preset-typescript": "7.21.0",
     "@testing-library/jest-dom": "5.16.5",
     "babel-jest": "29.3.1",
     "canvas": "2.11.0",
