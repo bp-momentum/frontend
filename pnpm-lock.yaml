@@ -45,7 +45,6 @@ specifiers:
   rc-table: 7.31.0
   rc-tween-one: ^3.0.6
   react: 18.2.0
-  react-apple-emojis: 2.2.1
   react-beautiful-dnd: 13.1.1
   react-card-flip: 1.2.0
   react-dom: 18.2.0
@@ -100,7 +99,6 @@ dependencies:
   rc-table: 7.31.0_biqbaboplfbrettd7655fr4n2y
   rc-tween-one: 3.0.6_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
-  react-apple-emojis: 2.2.1_v2m5e27vhdewzwhryxwfaorcca
   react-beautiful-dnd: 13.1.1_biqbaboplfbrettd7655fr4n2y
   react-card-flip: 1.2.0_biqbaboplfbrettd7655fr4n2y
   react-dom: 18.2.0_react@18.2.0
@@ -10315,18 +10313,6 @@ packages:
       raf: 3.4.1
       regenerator-runtime: 0.13.11
       whatwg-fetch: 3.6.2
-    dev: false
-
-  /react-apple-emojis/2.2.1_v2m5e27vhdewzwhryxwfaorcca:
-    resolution: {integrity: sha512-tgq/+GUR6WsBkkkl0EYgVbaU803IF8GoELcG83cfircrEiyiiIbHqpBXIHyD8YIOecAGgN2ucEG6U/REDR7jvQ==}
-    peerDependencies:
-      prop-types: '*'
-      react: '>=16.x'
-      react-dom: '>=16.x'
-    dependencies:
-      prop-types: 15.8.1
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /react-beautiful-dnd/13.1.1_biqbaboplfbrettd7655fr4n2y:

@@ -2,7 +2,6 @@ import React, { createRef, RefObject, useEffect } from "react";
 import { Col, Progress, Card, Tooltip, Button } from "antd";
 import Translations from "@localization/translations";
 import { PlayCircleOutlined } from "@ant-design/icons";
-import { Emoji } from "react-apple-emojis";
 import "@styles/home.css";
 import { useNavigate } from "react-router-dom";
 import { isFuture, isPast } from "../functions";
@@ -159,7 +158,9 @@ const Day: React.FC<Props> = ({
         {exercises.length === 0 && (
           <h4 style={{ margin: "0" }}>
             {t(Translations.exercises.noExercises)}{" "}
-            <Emoji name="party-popper" width="25" />
+            <span style={{ fontSize: 25, fontFamily: "Noto Color Emoji" }}>
+              🎉
+            </span>
           </h4>
         )}
 

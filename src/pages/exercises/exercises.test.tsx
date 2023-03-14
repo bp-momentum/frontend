@@ -4,18 +4,14 @@ import { store } from "@redux/store";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import React from "react";
 import Exercises from ".";
-import { EmojiProvider } from "react-apple-emojis";
-import emojiData from "react-apple-emojis/lib/data.json";
 
 const ExercisesWrapper: React.FC = () => {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <EmojiProvider data={emojiData}>
-          <Routes>
-            <Route path="/" element={<Exercises />} />
-          </Routes>
-        </EmojiProvider>
+        <Routes>
+          <Route path="/" element={<Exercises />} />
+        </Routes>
       </BrowserRouter>
     </Provider>
   );

@@ -3,7 +3,6 @@ import Translations from "@localization/translations";
 import { useGetFriendByIdQuery } from "@redux/api/api";
 import { Col, Progress, Row, Tooltip } from "antd";
 import React from "react";
-import { Emoji } from "react-apple-emojis";
 import { useTranslation } from "react-i18next";
 import { MdClose } from "react-icons/md";
 import Container from "../../../components/container";
@@ -162,7 +161,12 @@ const BigFriendCard: React.FC<Props> = ({
               {t(Translations.friends.currentStreak)}:
               <span style={{ margin: "10px" }}>{data.days}</span>
               <div style={{ height: "40px", position: "relative" }}>
-                <Emoji name="fire" width={40} />
+                <span
+                  role="img"
+                  style={{ fontFamily: "Noto Color Emoji", fontSize: 40 }}
+                >
+                  🔥
+                </span>
                 <div
                   style={{
                     position: "absolute",

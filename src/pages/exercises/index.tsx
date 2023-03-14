@@ -5,7 +5,6 @@ import { Row, Layout, message, Spin } from "antd";
 import Translations from "@localization/translations";
 import Helper from "@util/helper";
 import { useAppSelector } from "@redux/hooks";
-import { Emoji } from "react-apple-emojis";
 import "@styles/home.css";
 import Day from "./components/day";
 import useApi from "@hooks/api";
@@ -62,7 +61,7 @@ const Exercises: React.FC = (): JSX.Element => {
         return;
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      setStreak(response.data as any);
+      setStreak({ ...response.data, ...{ flame_height: 0.5 } } as any);
     });
 
     return () => {
@@ -151,6 +150,8 @@ const Exercises: React.FC = (): JSX.Element => {
                     WebkitTextStroke: "1px black",
                     display: "flex",
                     flexWrap: "nowrap",
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
                 >
                   {streak?.days}
@@ -162,38 +163,40 @@ const Exercises: React.FC = (): JSX.Element => {
                       height: "76px",
                       width: "90px",
                       borderRadius: "50%",
-                      padding: "8px 15px",
+                      margin: "15px",
                       position: "relative",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
                     }}
                   >
-                    <div
+                    <span
                       style={{
-                        width: "60px",
-                        height: "60px",
-                        position: "relative",
+                        fontFamily: "Noto Color Emoji",
+                        fontSize: 45,
+                        position: "absolute",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        left: "0px",
                       }}
+                      role="img"
                     >
-                      <Emoji style={{}} name="fire" width={60} />
-                      <Emoji
-                        style={{
-                          position: "absolute",
-                          height: "100%",
-                          clipPath: `polygon(0 0, 100% 0, 100% ${
-                            100 - (streak?.flame_height || 0) * 100
-                          }%, 0% ${100 - (streak?.flame_height || 0) * 100}%)`,
-                          right: "0px",
-                          width: "100%",
-                          left: "0px",
-                          top: "0px",
-                          filter: "grayscale(100%)",
-                        }}
-                        name="fire"
-                        width={60}
-                      />
-                    </div>
+                      🔥
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: "Noto Color Emoji",
+                        fontSize: 45,
+                        position: "absolute",
+                        clipPath: `polygon(0 0, 100% 0, 100% ${
+                          100 - (streak?.flame_height || 0) * 100
+                        }%, 0% ${100 - (streak?.flame_height || 0) * 100}%)`,
+                        left: "0px",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        filter: "grayscale(100%)",
+                      }}
+                      role="img"
+                    >
+                      🔥
+                    </span>
                   </div>
                 </span>
               </div>
