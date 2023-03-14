@@ -11,26 +11,7 @@ import { Slider } from "antd";
 import useApi from "@hooks/api";
 import Routes from "@util/routes";
 import { setExercisePrefs } from "@redux/exercise/prefsSlice";
-
-interface Props {
-  exercise: ExerciseData;
-  onFinishSet: () => void;
-}
-
-const InformationComponent: React.FC = () => {
-  const information = useAppSelector(
-    (state) => state.trainingScore.information
-  );
-
-  if (information)
-    return (
-      <h1 style={{ color: "white", fontSize: "25px", marginTop: "60px" }}>
-        {information}
-      </h1>
-    );
-
-  return <></>;
-};
+import { webSocketController } from "..";
 
 const SpeedSlider: React.FC<{ exId: number }> = ({
   exId,
@@ -73,6 +54,11 @@ const SpeedSlider: React.FC<{ exId: number }> = ({
       min={5}
       max={15}
       step={1}
+      tooltip={{
+        formatter: (val) => {
+          return (val || 10) * 10 + "%";
+        },
+      }}
     />
   );
 };
@@ -82,9 +68,6 @@ const PointsPaper: React.FC<{ exId: number }> = ({
 }: {
   exId: number;
 }) => {
-  const latestPoints = useAppSelector(
-    (state) => state.trainingScore.latestScore
-  );
   const { t } = useTranslation();
 
   return (
@@ -100,20 +83,7 @@ const PointsPaper: React.FC<{ exId: number }> = ({
       padding={20}
       margin="40px 20px 40px 40px"
     >
-      {t(Translations.training.accuracy) +
-        ": \t" +
-        Math.round(latestPoints.accuracy * 100) / 100 +
-        "%"}
-      <br />
-      {t(Translations.training.intensity) +
-        ": \t" +
-        Math.round(latestPoints.intensity * 100) / 100 +
-        "%"}
-      <br />
-      {t(Translations.training.speed) +
-        ": \t" +
-        Math.round(latestPoints.speed * 100) / 100 +
-        "%"}
+      TODO: Find Replacement for Live Stats
       <br />
       <span
         style={{
@@ -131,6 +101,13 @@ const PointsPaper: React.FC<{ exId: number }> = ({
   );
 };
 
+interface Props {
+  exercise: ExerciseData;
+  onFinishSet: () => void;
+  currentSet: React.MutableRefObject<number>;
+  socketController: React.MutableRefObject<webSocketController>;
+}
+
 /**
  * The component that handles the training itself.
  * @param {Props} props The properties of the component.
@@ -139,11 +116,13 @@ const PointsPaper: React.FC<{ exId: number }> = ({
 const Training: React.FC<Props> = ({
   exercise,
   onFinishSet,
+  currentSet,
+  socketController,
 }: Props): JSX.Element => {
   const { width } = useWindowDimensions();
 
   return (
-    <TrainLayout exercise={exercise}>
+    <TrainLayout exercise={exercise} currentSet={currentSet}>
       <div
         style={{
           display: "flex",
@@ -180,7 +159,11 @@ const Training: React.FC<Props> = ({
             justifyContent: "center",
           }}
         >
-          <VideoElement onFinishSet={onFinishSet} exercise={exercise} />
+          <VideoElement
+            onFinishSet={onFinishSet}
+            exercise={exercise}
+            socketController={socketController}
+          />
           <div
             style={{
               display: "flex",
@@ -191,7 +174,6 @@ const Training: React.FC<Props> = ({
             <PointsPaper exId={exercise.id} />
           </div>
         </div>
-        <InformationComponent />
       </div>
     </TrainLayout>
   );

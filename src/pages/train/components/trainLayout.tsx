@@ -7,7 +7,7 @@ import Translations from "@localization/translations";
 import { MenuInfo } from "rc-menu/lib/interface";
 import { useNavigate } from "react-router";
 import InstructionOverlay from "./instructionsOverlay";
-import { useAppDispatch, useAppSelector } from "@redux/hooks";
+import { useAppDispatch } from "@redux/hooks";
 import useApi from "@hooks/api";
 import Routes from "@util/routes";
 import { setExercisePrefs } from "@redux/exercise/prefsSlice";
@@ -16,6 +16,7 @@ const { Content } = Layout;
 interface Props {
   exercise: ExerciseData;
   children: React.ReactNode;
+  currentSet: React.MutableRefObject<number>;
 }
 
 /**
@@ -26,6 +27,7 @@ interface Props {
 const TrainLayout: React.FC<Props> = ({
   children,
   exercise,
+  currentSet,
 }: Props): JSX.Element => {
   const [overlay, setOverlay] = useState(false);
 
@@ -58,8 +60,6 @@ const TrainLayout: React.FC<Props> = ({
 
   const { t } = useTranslation();
 
-  const currentSet = useAppSelector((state) => state.trainingScore.currentSet);
-
   const menuCancel = {
     key: "cancel",
     icon: <CloseCircleOutlined />,
@@ -70,7 +70,7 @@ const TrainLayout: React.FC<Props> = ({
     key: "status",
     label: (
       <span style={{ color: "black" }}>
-        {currentSet + 1 + "/" + exercise?.sets}
+        {currentSet.current + "/" + exercise?.sets}
       </span>
     ),
     style: { marginLeft: "auto", marginRight: "auto", cursor: "default" },

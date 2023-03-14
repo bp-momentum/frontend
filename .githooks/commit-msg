@@ -1,14 +1,18 @@
 #!/bin/sh
 commit_msg_type_regex='feat|fix|refactor|style|test|docs|build|wip|chore'
+commit_msg_type_gitmoji=':[a-z_]{3,20}:'
 commit_msg_scope_regex='.{1,20}'
-commit_msg_subject_regex='.{1,100}'
-commit_msg_regex="^((${commit_msg_type_regex})|(:[a-z_]{3,20}:))(\(${commit_msg_scope_regex}\))?!?: (${commit_msg_subject_regex})\$"
+commit_msg_subject_regex='.{1,40}' # total length > 72 will be truncated by GitHub
+commit_msg_regex="^((${commit_msg_type_regex})|(${commit_msg_type_gitmoji}))(\(${commit_msg_scope_regex}\))?!?: (${commit_msg_subject_regex})\$"
+
+# Special cases:
 merge_msg_regex="^Merge branch '.+'\$"
 revert_msg_regex="^Revert \".+\"\$"
+special_msg_regex="^(${merge_msg_regex})|(${revert_msg_regex})\$"
 
 commit_msg_header=$(cat "$1")
 
-if ! [[ "$commit_msg_header" =~ (${commit_msg_regex})|(${merge_msg_regex})|(${revert_msg_regex}) ]]; then
+if ! [[ "$commit_msg_header" =~ (${commit_msg_regex})|(${special_msg_regex}) ]]; then
   echo "$commit" >&2
   echo "ERROR: Invalid commit message format" >&2
   echo "$commit_msg_regex" >&2

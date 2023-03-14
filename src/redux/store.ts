@@ -17,7 +17,6 @@ import storage from "redux-persist/lib/storage";
 import tokenReducer from "./token/tokenSlice";
 import changeReducer from "./changes/changeSlice";
 import friendReducer from "./friends/friendSlice";
-import trainingScoreReducer from "./training/trainingSlice";
 import exercisePrefsReducer from "./exercise/prefsSlice";
 import apiReducer, { Api } from "./api/api";
 import { setupListeners } from "@reduxjs/toolkit/query";
@@ -33,7 +32,6 @@ const appReducer = combineReducers({
   token: tokenReducer,
   changes: changeReducer,
   friends: friendReducer,
-  trainingScore: trainingScoreReducer,
   exercisePrefs: exercisePrefsReducer,
   [Api.reducerPath]: apiReducer,
 });

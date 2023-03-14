@@ -140,7 +140,7 @@ const Routes = {
     return {
       route: "/api/getexercise",
       method: "POST",
-      needsAuth: true,
+      needsAuth: false,
       body: {
         id: props.id,
       },

@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import useWindowDimensions from "@hooks/windowDimension";
 import { PlayCircleOutlined } from "@ant-design/icons";
-import { Button, message, Progress } from "antd";
+import { Button, Progress, Tooltip } from "antd";
 import { Camera } from "@mediapipe/camera_utils";
 import {
   NormalizedLandmark,
@@ -16,21 +16,15 @@ import {
   POSE_CONNECTIONS,
 } from "@mediapipe/pose";
 import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
-import useApi, { ApiSocketConnection } from "@hooks/api";
-import { useAppDispatch, useAppSelector } from "@redux/hooks";
-import {
-  resetTrainingPoints,
-  setInformation,
-  setLatestTrainingPoints,
-  setSet,
-} from "@redux/training/trainingSlice";
-import { useParams } from "react-router-dom";
+import { useAppSelector } from "@redux/hooks";
 import { MdVideocam, MdVideocamOff } from "react-icons/md";
-import { playBeep } from "../training/audio";
+import { playBeep, playDing } from "../training/audio";
+import { webSocketController } from "..";
 
 interface Props {
   exercise: ExerciseData;
   onFinishSet: () => void;
+  socketController: React.MutableRefObject<webSocketController>;
 }
 
 /**
@@ -41,6 +35,7 @@ interface Props {
 const VideoElement: React.FC<Props> = ({
   exercise,
   onFinishSet,
+  socketController,
 }: Props): JSX.Element => {
   // CUSTOM HOOKS
   const { height } = useWindowDimensions();
@@ -98,15 +93,20 @@ const VideoElement: React.FC<Props> = ({
 
     // Normal value
     return (
-      <span
-        style={{
-          color: color,
-          fontFamily: "inherit",
-          fontWeight: "inherit",
-          fontSize: "inherit",
-        }}
-      >
-        {diff.toFixed(2)}
+      <span>
+        <Tooltip title={"Normalized Average Landmark Disposition"}>
+          NALD:
+        </Tooltip>
+        <span
+          style={{
+            color: color,
+            fontFamily: "inherit",
+            fontWeight: "inherit",
+            fontSize: "inherit",
+          }}
+        >
+          {diff.toFixed(2)}
+        </span>
       </span>
     );
   };
@@ -126,92 +126,7 @@ const VideoElement: React.FC<Props> = ({
   const estimationCanvasRef = useRef<HTMLCanvasElement>(null);
   const expectedCanvasRef = useRef<HTMLCanvasElement>(null);
 
-  // REDUX STUFF
-  const dispatch = useAppDispatch();
-
-  // --------------------------
-  // WEBSOCKET CONNECTION START
-  // --------------------------
-  const webSocketRef = useRef<ApiSocketConnection>();
-
-  useEffect(() => {
-    // start websocket connection on mount and disconnect on unmount
-    connectToWS().catch(message.error);
-
-    return () => {
-      if (webSocketRef.current) webSocketRef.current.onclose = null;
-      webSocketRef.current?.close();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const { exercisePlanId } = useParams();
-
-  const api = useApi();
-
-  async function connectToWS() {
-    webSocketRef.current = api.openSocket();
-
-    const webSocket = webSocketRef.current as ApiSocketConnection;
-
-    webSocket.onopen = () => {
-      webSocket.send(
-        JSON.stringify({
-          message_type: "init",
-          data: { exercise: exercisePlanId },
-        })
-      );
-    };
-
-    webSocket.onmessage = (message) => {
-      if (!message || !message?.success) return;
-
-      switch (message.message_type) {
-        case "init":
-          dispatch(resetTrainingPoints());
-          dispatch(setSet(message.data.current_set));
-          break;
-        case "statistics":
-          dispatch(
-            setLatestTrainingPoints({
-              accuracy: message.data.cleanliness,
-              intensity: message.data.intensity,
-              speed: message.data.speed,
-            })
-          );
-          break;
-        case "information":
-          dispatch(setInformation(message.data.information));
-          break;
-      }
-    };
-
-    webSocket.onclose = function () {
-      setTimeout(function () {
-        console.warn("WebSocket closed! Trying to reconnect...");
-        connectToWS();
-      }, 1000);
-    };
-  }
-
-  const sendImage = useCallback(
-    async (video: HTMLVideoElement) => {
-      if (!capturing.current) return;
-      const canvas = document.createElement("canvas");
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      const context = canvas.getContext("2d");
-      if (!context) return;
-      context.drawImage(video, 0, 0);
-      const image = canvas.toDataURL("image/jpeg");
-      const utf8Encode = new TextEncoder();
-      webSocketRef.current?.send(utf8Encode.encode(image));
-    },
-    [webSocketRef]
-  );
-  // ------------------------
-  // WEBSOCKET CONNECTION END
-  // ------------------------
+  const imageCounter = useRef(0);
 
   // -------------------------
   // EXPECTATION OVERLAY START
@@ -383,12 +298,7 @@ const VideoElement: React.FC<Props> = ({
     setCountdown(0);
     playBeep(true);
 
-    webSocketRef.current?.send(
-      JSON.stringify({
-        message_type: "start_set",
-        data: { user_token: "", exercise_id: 1 },
-      })
-    );
+    socketController.current.startSet();
     capturing.current = true;
     for (let i = 0; i < exercise.repeatsPerSet; i++) {
       for (let j = 0; j < exercise.expectation.length; j++) {
@@ -397,14 +307,13 @@ const VideoElement: React.FC<Props> = ({
         // wait for 1/10th of a second
         await new Promise((resolve) => setTimeout(resolve, (1 / speed) * 1000));
       }
+      // one repetition is done
+      socketController.current.endRepetition();
+      playDing();
     }
+    // entire set is done
     capturing.current = false;
-    webSocketRef.current?.send(
-      JSON.stringify({
-        message_type: "end_set",
-        data: { user_token: "", exercise_id: 1 },
-      })
-    );
+    socketController.current.endSet();
     onFinishSet();
   };
   // -----------------------
@@ -483,18 +392,23 @@ const VideoElement: React.FC<Props> = ({
     const camera = new Camera(videoRef?.current, {
       onFrame: async () => {
         if (!videoRef.current) return;
-        sendImage(videoRef.current);
         await pose?.send({ image: videoRef.current });
+        // send image to server every 10 frames
+        if (!capturing.current) return;
+        imageCounter.current += 1;
+        imageCounter.current %= 10;
+        if (imageCounter.current === 0)
+          socketController.current.sendImage(videoRef.current);
       },
-      width: 4096,
-      height: 2160,
+      width: 1920,
+      height: 1080,
     });
     camera.start();
     return () => {
       console.log("Stopping camera");
       camera.stop();
     };
-  }, [videoRef, pose, sendImage]);
+  }, [videoRef, pose, socketController]);
 
   // set the correct size attribute for the canvas
   // even though it is positioned with css,

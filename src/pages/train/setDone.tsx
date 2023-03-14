@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import TrainLayout from "./components/trainLayout";
 import { Col, Row } from "antd";
 import Paper from "@shared/paper";
-import { FaCheck } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import Translations from "@localization/translations";
-import { useAppSelector } from "@redux/hooks";
 
 interface Props {
   exercise: ExerciseData;
   continueTraining: () => void;
+  currentSet: React.MutableRefObject<number>;
 }
 
 /**
@@ -20,6 +19,7 @@ interface Props {
 const SetDone: React.FC<Props> = ({
   exercise,
   continueTraining,
+  currentSet,
 }: Props): JSX.Element => {
   const [remainingSeconds, setRemainingSeconds] = useState<number>(30);
   const { t } = useTranslation();
@@ -40,40 +40,8 @@ const SetDone: React.FC<Props> = ({
     };
   });
 
-  const getTypeKey = (type: string) => {
-    switch (type) {
-      case "Intensity":
-        return Translations.training.intensity;
-      case "Accuracy":
-        return Translations.training.accuracy;
-      case "Speed":
-      default:
-        return Translations.training.speed;
-    }
-  };
-
-  const stats = useAppSelector((state) => state.trainingScore);
-
-  const setScores = stats.scoreHistory[stats.currentSet];
-  const totalAccuracy = setScores.reduce((acc, cur) => acc + cur.accuracy, 0);
-  const totalSpeed = setScores.reduce((acc, cur) => acc + cur.speed, 0);
-  const totalIntensity = setScores.reduce((acc, cur) => acc + cur.intensity, 0);
-
-  // focus is "Accuracy", "Speed", "Intensity"
-  // it is determined by the lowest total score
-  let focus = "Accuracy";
-  let lowest = totalAccuracy;
-  if (totalSpeed < lowest) {
-    focus = "Speed";
-    lowest = totalSpeed;
-  }
-  if (totalIntensity < lowest) {
-    focus = "Intensity";
-    lowest = totalIntensity;
-  }
-
   return (
-    <TrainLayout exercise={exercise}>
+    <TrainLayout exercise={exercise} currentSet={currentSet}>
       <div
         style={{
           overflowY: "auto",
@@ -128,20 +96,11 @@ const SetDone: React.FC<Props> = ({
                       {t(Translations.training.set, { number: set + 1 })}
                       <br />
                     </>
-                    {set < stats.currentSet && <FaCheck color="green" />}
+                    {set}
                   </Row>
                 ))}
               </div>
             </Paper>
-            {focus ? (
-              <h3 style={{ width: "200px", color: "white", fontSize: "24px" }}>
-                {t(Translations.training.tip, {
-                  type: t(getTypeKey(focus)),
-                })}
-              </h3>
-            ) : (
-              <div style={{ width: "200px" }} />
-            )}
           </Row>
           <Row justify="space-between" style={{ width: "100%" }}>
             <div style={{ width: "130px" }} />
@@ -149,7 +108,7 @@ const SetDone: React.FC<Props> = ({
               style={{ color: "white", fontSize: "40px", paddingTop: "50px" }}
             >
               {t(Translations.training.remainingSets, {
-                count: (exercise?.sets ?? stats.currentSet) - stats.currentSet,
+                count: exercise.sets - currentSet.current,
               })}
             </h3>
             <Col

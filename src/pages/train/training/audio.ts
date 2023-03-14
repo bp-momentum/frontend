@@ -39,3 +39,11 @@ export const playBeep = (final: boolean) => {
   audio.volume = 0.2;
   audio.play();
 };
+
+export const playDing = () => {
+  const url = process.env.PUBLIC_URL + "/audio/ding.wav";
+
+  const audio = new Audio(url);
+  audio.volume = 0.2;
+  audio.play();
+};

@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import Translations from "@localization/translations";
-import Graph from "@shared/graph";
 import { useNavigate } from "react-router-dom";
 import useApi from "@hooks/api";
 import Routes from "@util/routes";
@@ -9,7 +8,6 @@ import { useTranslation } from "react-i18next";
 import SpeechBubble from "@shared/speechBubble";
 import AvatarImage from "@pages/profile/user/sub_pages/profile/components/avatarDesigner/avatar";
 import { Avatar } from "@pages/profile/user/types";
-import { useAppSelector } from "@redux/hooks";
 
 interface Props {
   exercise?: ExerciseData;
@@ -64,31 +62,6 @@ const ExerciseDone: React.FC<Props> = ({ exercise }: Props): JSX.Element => {
     loadAvatar().catch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const stats = useAppSelector((state) => state.trainingScore);
-
-  const entries: DataEntryType[][] = Object.entries(stats.scoreHistory).map(
-    ([set, p]) => {
-      const entrs: DataEntryType[][] = p.map((s, i) => [
-        {
-          type: "Intensity",
-          set: set + "-" + i,
-          performance: Math.round(s.intensity),
-        },
-        {
-          type: "Accuracy",
-          set: set + "-" + i,
-          performance: Math.round(s.accuracy),
-        },
-        {
-          type: "Speed",
-          set: set + "-" + i,
-          performance: Math.round(s.speed),
-        },
-      ]);
-      return entrs.flat();
-    }
-  );
 
   return (
     <div
@@ -167,19 +140,6 @@ const ExerciseDone: React.FC<Props> = ({ exercise }: Props): JSX.Element => {
               />
             </div>
           </div>
-        </div>
-        <div
-          style={{
-            height: 200,
-            marginLeft: "31px",
-          }}
-        >
-          <Graph
-            data={entries.flat()}
-            setSize={exercise?.repeatsPerSet ?? 1}
-            width={600}
-            style={{ marginLeft: -31 }}
-          />
         </div>
         <div style={{ width: 400, margin: "55px 20px" }}>
           <div
