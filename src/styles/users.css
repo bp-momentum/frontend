@@ -1,29 +1,3 @@
-.ant-progress {
-  display: block;
-  width: calc(100% - 10px);
-}
-
-.ant-progress-small.ant-progress-line {
-  display: flex;
-  flex-direction: row;
-  align-content: center;
-  justify-content: center;
-  align-items: center;
-}
-
-.ant-progress-show-info .ant-progress-outer {
-  margin-right: initial;
-  padding-right: initial;
-  flex-grow: 1;
-  width: initial;
-  margin-right: 10px;
-}
-
-.ant-progress-text {
-  text-align: right;
-  width: initial;
-}
-
 .ant-tabs-tab {
   border-top: 1px solid darkgray !important;
   border-bottom: 1px solid darkgray !important;

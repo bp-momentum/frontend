@@ -44,7 +44,7 @@ const DateCell: React.FC<Props> = ({
     id: number;
     points: number | null;
     done: boolean | undefined;
-  }[] = data ? data.data.done : [];
+  }[] = data && data.data && data.data.done ? data.data.done : [];
 
   const daysExercises = exercises.filter((e) => {
     const d = new Date(e.date * 1000);
