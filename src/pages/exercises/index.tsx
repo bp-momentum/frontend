@@ -61,7 +61,7 @@ const Exercises: React.FC = (): JSX.Element => {
         return;
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      setStreak({ ...response.data, ...{ flame_height: 0.5 } } as any);
+      setStreak(response.data as any);
     });
 
     return () => {
