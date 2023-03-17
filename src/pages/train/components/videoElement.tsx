@@ -393,10 +393,10 @@ const VideoElement: React.FC<Props> = ({
       onFrame: async () => {
         if (!videoRef.current) return;
         await pose?.send({ image: videoRef.current });
-        // send image to server every 10 frames
+        // send image to server every 5 frames
         if (!capturing.current) return;
         imageCounter.current += 1;
-        imageCounter.current %= 10;
+        imageCounter.current %= 5;
         if (imageCounter.current === 0)
           socketController.current.sendImage(videoRef.current);
       },
