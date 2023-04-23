@@ -34,7 +34,7 @@
     "lodash": "4.17.21",
     "moment": "2.29.4",
     "postcss": "^8.4.21",
-    "prettier": "2.8.4",
+    "prettier": "2.8.8",
     "prop-types": "15.8.1",
     "rc-menu": "9.8.2",
     "rc-table": "7.31.0",
