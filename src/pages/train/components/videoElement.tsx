@@ -8,14 +8,12 @@ import React, {
 import useWindowDimensions from "@hooks/windowDimension";
 import { PlayCircleOutlined } from "@ant-design/icons";
 import { Button, Progress, Tooltip } from "antd";
-import { Camera } from "@mediapipe/camera_utils";
 import {
-  NormalizedLandmark,
-  NormalizedLandmarkList,
-  Pose,
-  POSE_CONNECTIONS,
-} from "@mediapipe/pose";
-import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
+  FilesetResolver,
+  PoseLandmarker,
+  DrawingUtils,
+} from "@mediapipe/tasks-vision";
+import type { NormalizedLandmark } from "@mediapipe/tasks-vision";
 import { useAppSelector } from "@redux/hooks";
 import { MdVideocam, MdVideocamOff } from "react-icons/md";
 import { playBeep, playDing } from "../training/audio";
@@ -121,12 +119,10 @@ const VideoElement: React.FC<Props> = ({
   // REFS
   const capturing = useRef(false);
   const progress = useRef(0);
-  const currentPose = useRef<NormalizedLandmarkList>();
+  const currentPose = useRef<NormalizedLandmark[]>();
 
   const estimationCanvasRef = useRef<HTMLCanvasElement>(null);
   const expectedCanvasRef = useRef<HTMLCanvasElement>(null);
-
-  const imageCounter = useRef(0);
 
   // -------------------------
   // EXPECTATION OVERLAY START
@@ -137,8 +133,8 @@ const VideoElement: React.FC<Props> = ({
 
   const comparePosition = useCallback(
     (
-      actualLandmarks: NormalizedLandmarkList,
-      expectedLandmarks: NormalizedLandmarkList
+      actualLandmarks: NormalizedLandmark[],
+      expectedLandmarks: NormalizedLandmark[]
     ) => {
       if (!actualLandmarks || !expectedLandmarks) {
         setDiff(-2);
@@ -325,7 +321,7 @@ const VideoElement: React.FC<Props> = ({
   // -----------------------------
   const onResults = useCallback(
     (
-      landmarks: NormalizedLandmarkList,
+      landmarks: NormalizedLandmark[],
       canvasRef: RefObject<HTMLCanvasElement>,
       isExpected: boolean
     ) => {
@@ -338,14 +334,13 @@ const VideoElement: React.FC<Props> = ({
         canvasRef.current.width,
         canvasRef.current.height
       );
-      drawConnectors(canvasCtx, landmarks, POSE_CONNECTIONS, {
-        color: isExpected ? "#ff9900" : "#00FF00",
-        lineWidth: 4,
+
+      const drawingUtils = new DrawingUtils(canvasCtx);
+      drawingUtils.drawLandmarks(landmarks, {
+        radius: (data) =>
+          DrawingUtils.lerp(data.from?.z ?? 0, -0.15, 0.1, 5, 1),
       });
-      drawLandmarks(canvasCtx, landmarks, {
-        color: isExpected ? "#0000" : "#FF0000",
-        lineWidth: 2,
-      });
+      drawingUtils.drawConnectors(landmarks, PoseLandmarker.POSE_CONNECTIONS);
 
       if (!isExpected) {
         currentPose.current = landmarks;
@@ -360,55 +355,72 @@ const VideoElement: React.FC<Props> = ({
   // -------------------------------
   // MEDIAPIPE POSE ESTIMATION START
   // -------------------------------
-  const [pose, setPose] = useState<Pose>();
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    const pose = new Pose({
-      locateFile: (file) => {
-        return `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`;
-      },
-    });
-    pose.setOptions({
-      modelComplexity: 0,
-      smoothLandmarks: true,
-      enableSegmentation: false,
-      smoothSegmentation: false,
-      minDetectionConfidence: 0.5,
-      minTrackingConfidence: 0.5,
-    });
-    pose.onResults((result) =>
-      onResults(result.poseLandmarks, estimationCanvasRef, false)
-    );
-    setPose(pose);
+    // wait for video to be there
+    if (!videoRef.current) return;
+
+    // load camera
+    if (navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then((stream) => {
+          if (videoRef.current) videoRef.current.srcObject = stream;
+        })
+        .catch(() => {
+          console.log("Something went wrong!");
+        });
+    }
+
+    const clear = (async () => {
+      const vision = await FilesetResolver.forVisionTasks(
+        "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm"
+      );
+      const pose = await PoseLandmarker.createFromOptions(vision, {
+        baseOptions: {
+          modelAssetPath:
+            "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task",
+          delegate: "GPU",
+        },
+        runningMode: "IMAGE",
+        minPoseDetectionConfidence: 0.5,
+        minPosePresenceConfidence: 0.5,
+        minTrackingConfidence: 0.5,
+      });
+
+      const interval = setInterval(() => {
+        if (!videoRef.current) return;
+        if (videoRef.current.paused) {
+          videoRef.current.play();
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = videoRef.current.videoWidth;
+        canvas.height = videoRef.current.videoHeight;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+        ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+        if (pose) {
+          pose.detect(canvas, (result) => {
+            if (result.landmarks && result.landmarks.length > 0) {
+              onResults(result.landmarks[0], estimationCanvasRef, false);
+            }
+          });
+        }
+        if (capturing.current)
+          socketController.current.sendImage(videoRef.current);
+      }, 100);
+
+      return () => {
+        clearInterval(interval);
+        pose.close();
+      };
+    })();
     return () => {
       console.log("Cleaning up");
-      pose.close();
+      clear.then((clear) => clear());
     };
-  }, [onResults]);
-
-  useEffect(() => {
-    if (!videoRef.current) return;
-    const camera = new Camera(videoRef?.current, {
-      onFrame: async () => {
-        if (!videoRef.current) return;
-        await pose?.send({ image: videoRef.current });
-        // send image to server every 5 frames
-        if (!capturing.current) return;
-        imageCounter.current += 1;
-        imageCounter.current %= 5;
-        if (imageCounter.current === 0)
-          socketController.current.sendImage(videoRef.current);
-      },
-      width: 1920,
-      height: 1080,
-    });
-    camera.start();
-    return () => {
-      console.log("Stopping camera");
-      camera.stop();
-    };
-  }, [videoRef, pose, socketController]);
+  }, [videoRef, socketController, onResults]);
 
   // set the correct size attribute for the canvas
   // even though it is positioned with css,
@@ -463,6 +475,7 @@ const VideoElement: React.FC<Props> = ({
             borderRadius: "5px",
             boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.5)",
           }}
+          autoPlay
         />
         {/* OVERLAY */}
         <div

@@ -1,4 +1,4 @@
-import { NormalizedLandmarkList } from "@mediapipe/pose";
+import { NormalizedLandmark } from "@mediapipe/tasks-vision";
 
 /**
  * All the properties of an exercise.
@@ -8,5 +8,5 @@ export interface Exercise {
   description: string;
   title: string;
   video: string;
-  expectation: NormalizedLandmarkList[];
+  expectation: NormalizedLandmark[][];
 }
