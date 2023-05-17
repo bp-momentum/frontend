@@ -339,8 +339,11 @@ const VideoElement: React.FC<Props> = ({
       drawingUtils.drawLandmarks(landmarks, {
         radius: (data) =>
           DrawingUtils.lerp(data.from?.z ?? 0, -0.15, 0.1, 5, 1),
+        color: isExpected ? "#0000" : "#FF0000",
       });
-      drawingUtils.drawConnectors(landmarks, PoseLandmarker.POSE_CONNECTIONS);
+      drawingUtils.drawConnectors(landmarks, PoseLandmarker.POSE_CONNECTIONS, {
+        color: isExpected ? "#ff9900" : "#00FF00",
+      });
 
       if (!isExpected) {
         currentPose.current = landmarks;
