@@ -1,16 +1,14 @@
 import { Col, message, Row } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import React from "react";
-import { useAppDispatch, useAppSelector } from "@redux/hooks";
-import { setRefreshToken, setToken } from "@redux/token/tokenSlice";
 import useApi from "@hooks/api";
-import Helper from "@util/helper";
 import Routes from "@util/routes";
 import ActivityCalendarCard from "./components/cards/activityCalendarCard";
 import DailySummaryCard from "./components/cards/dailySummaryCard";
-import TrainerCard from "./components/cards/trainerCard";
 import UserCard from "./components/cards/userCard";
 import { Avatar, ProfileData } from "@pages/profile/user/types";
+import { useAppDispatch, useAppSelector } from "@redux/hooks";
+import { changeUsername } from "@redux/profile/profileSlice";
 
 function mergeData<Type>(data: Type, newData: Record<string, unknown>): Type {
   return {
@@ -33,26 +31,23 @@ const SubPageProfile: React.FC<Props> = ({
   profileData,
   setProfileData,
 }: Props): JSX.Element => {
-  const token = useAppSelector((state) => state.token.token);
-
   const api = useApi();
+
+  const username = useAppSelector((state) => state.profile.username) || "";
+
   const dispatch = useAppDispatch();
 
   const saveUsername = async (newUsername: string) => {
-    if (newUsername === Helper.getUserName(token ?? "")) {
+    if (newUsername === username) {
       return;
     }
     const result = await api.execute(
       Routes.changeUsername({ username: newUsername })
     );
+    dispatch(changeUsername(newUsername));
     if (!result.success) {
       message.error(result.description);
     }
-
-    const sessionToken = result.data.session_token;
-    const refreshToken = result.data.refresh_token;
-    dispatch(setToken(sessionToken));
-    dispatch(setRefreshToken(refreshToken));
   };
 
   const saveMotivation = async (newMotivation: string) => {
@@ -100,22 +95,12 @@ const SubPageProfile: React.FC<Props> = ({
         >
           <UserCard
             avatar={profileData.avatar}
-            username={Helper.getUserName(token ?? "")}
+            username={username}
             accountCreated={profileData.accountCreated}
             motivation={profileData.motivation}
-            level={profileData.level}
-            progress={profileData.levelProgress}
             saveNewUsername={saveUsername}
             saveNewMotivation={saveMotivation}
             saveNewAvatar={saveNewAvatar}
-          />
-        </Col>
-        <Col className="gutter-row" span={10} style={{ minWidth: "450px" }}>
-          <TrainerCard
-            name={profileData.trainerName}
-            address={profileData.trainerAddress}
-            phone={profileData.trainerPhone}
-            email={profileData.trainerEmail}
           />
         </Col>
         <Col className="gutter-row" span={10} style={{ minWidth: "450px" }}>

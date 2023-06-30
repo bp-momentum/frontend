@@ -73,7 +73,6 @@
   },
   "tab-bar": {
     "home": "Home",
-    "leaderboard": "Leaderboard",
     "settings": "Settings",
     "profile": "Profile",
     "overview": "Overview",
@@ -97,17 +96,6 @@
     "delete-modal-confirm": "Delete Account",
     "delete-modal-cancel": "Cancel",
     "successfully-deleted-account": "Account Deletion was successful! You will be logged out shortly.",
-    "logout-all-devices": {
-      "title": "Logout all devices",
-      "success": "Successfully logged out all other devices from your account!",
-      "success-login": "Successfully logged out all devices from your account! You need to login again!",
-      "modal": {
-        "title": "Logout all devices",
-        "message": "Are you sure you want to logout all other accounts from your account?",
-        "confirm": "Logout",
-        "cancel": "Cancel"
-      }
-    },
     "change-password": {
       "button-title": "Change password",
       "title": "Change password",
@@ -166,17 +154,8 @@
     "next-exercise": "Go to the next exercise",
     "day-off": "Take a day off",
     "motivation": "Let's go, ",
-    "medal-motivation_zero": "You collected all medals for today!",
-    "medal-motivation_one": "You can still collect one medal today!",
-    "medal-motivation_other": "You can still collect {{count}} medals today!",
     "loading": "Loading...",
     "no-plan": "No plan was assigned to you yet!\nWait for your trainer to assign you a plan."
-  },
-  "leaderboard": {
-    "rank": "Rank",
-    "name": "Name",
-    "score": "Score",
-    "details": "Details"
   },
   "user-management": {
     "users": "Users",
@@ -219,10 +198,7 @@
     "points": "{{points}} points",
     "username-empty": "Your username cannot be empty!",
     "username-too-long": "Your username is too long! (max. {{max}} characters)",
-    "username-not-allowed": "Your username uses illegal characters!",
-    "friends": "Friends",
-    "achievements": "Achievements",
-    "level": "Lvl {{level}}"
+    "username-not-allowed": "Your username uses illegal characters!"
   },
   "error-page": {
     "404-text": "We don't have that!",
@@ -243,75 +219,9 @@
     "speed": "speed",
     "score-short": "Pts",
     "current-set": "Current Set",
-    "medal": "Sadly you did not earn a medal this time!",
-    "medal_bronze": "Bronze Medal",
-    "medal_silver": "Silver Medal",
-    "medal_gold": "Gold Medal",
     "back-home": "Back to Home",
     "click-to-start": "Click here to start!",
-    "new-achievements_one": "Congratulations! You unlocked a new achievement!",
-    "new-achievements_other": "Congratulations! You unlocked  {{count}} new achievements!",
     "mascot-text": "On this graph you can track your performance!"
-  },
-  "trainer-profile": {
-    "title": "Hello, {{name}}",
-    "subtitle": "Here you can change your contact information. It will only be shown to your patients.",
-    "submit": "Save",
-    "academia": "Academic Title",
-    "telephone": "Telephone",
-    "street": "Street",
-    "city": "City",
-    "country": "Country",
-    "house-nr": "House Nr.",
-    "address-addition": "Address Addition",
-    "postal-code": "ZIP code",
-    "email": "Email: {{email}}",
-    "success": "Your information was successfully updated!"
-  },
-  "friends": {
-    "last-online-today": "today",
-    "last-online-yesterday": "yesterday",
-    "last-online-days-ago_one": "{{count}} day ago",
-    "last-online-days-ago": "{{count}} days ago",
-    "last-online-weeks-ago_one": "{{count}} week ago",
-    "last-online-weeks-ago": "{{count}} weeks ago",
-    "last-online-months-ago_one": "{{count}} month ago",
-    "last-online-months-ago": "{{count}} months ago",
-    "last-online-years-ago_one": "{{count}} year ago",
-    "last-online-years-ago": "{{count}} years ago",
-    "friends": "Friends",
-    "requests": "Requests",
-    "add-friend": "Add Friend",
-    "outgoing-requests": "Outgoing Requests",
-    "incoming-requests": "Incoming Requests",
-    "no-incoming": "No incoming requests",
-    "no-outgoing": "No outgoing requests",
-    "last-active": "Last active",
-    "motivation": "Motivation",
-    "level": "Level",
-    "last-achievements": "Last Achievements",
-    "no-achievements": "No achievements yet",
-    "current-streak": "Current Streak",
-    "no-friends": "No friends yet",
-    "new-achievement": "Congratulations! You unlocked a new achievement!"
-  },
-  "medals": {
-    "button-title": "Medals",
-    "title_gold": "Gold {{exercise}}",
-    "title_silver": "Silver {{exercise}}",
-    "title_bronze": "Bronze {{exercise}}",
-    "title_none": "{{exercise}}",
-    "amount_one": "You earned this medal one time!",
-    "amount_other": "You earned this medal {{count}} times!",
-    "no-medals": "You didn't earn any medals yet!",
-    "loading": "Loading your medals..."
-  },
-  "achievements": {
-    "button-title": "Achievements",
-    "hidden-title": "Hidden",
-    "hidden-description": "Nobody knows, what to do here!",
-    "loading": "Loading your achievements...",
-    "no-achievements": "You didn't earn any achievements yet!"
   },
   "admin-faq": {
     "q-01": "How can I invite new trainers?",
@@ -332,11 +242,9 @@
     "a-03": "When a plan is deleted, all users who it was previously assigned to will be shown an \"empty\" plan. As long as the users do not have a plan, their streak will not be increased (but also not reset) and no XP / level can be gained.",
     "q-04": "What happens if I assign a different training plan to a user?",
     "a-04": "Assigning a new plan is equivalent to editing the current plan.",
-    "q-05": "How does the leaderboard work?",
-    "a-05": "The leaderboard shows both your own users and those of other trainers. For your own users, you can always see their real names.",
-    "q-06": "Can I view the recorded videos?",
-    "a-06": "The videos are stored on the server for a certain period of time, but cannot be viewed in the App.",
-    "q-07": "Can I reset the password of my users?",
-    "a-07": "No, users can simply do this themselves via the login page. There is a button \"Forgot password?\" which can be used to reset the password. An email with a link will then be sent to the user, which can be used to select a new password."
+    "q-05": "Can I view the recorded videos?",
+    "a-05": "The videos are stored on the server for a certain period of time, but cannot be viewed in the App.",
+    "q-06": "Can I reset the password of my users?",
+    "a-06": "No, users can simply do this themselves via the login page. There is a button \"Forgot password?\" which can be used to reset the password. An email with a link will then be sent to the user, which can be used to select a new password."
   }
 }

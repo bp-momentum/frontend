@@ -3,11 +3,10 @@ import { Avatar } from "@pages/profile/user/types";
 export interface Route {
   route: string;
   method: "GET" | "POST";
-  needsAuth: boolean;
   body?: Record<string, unknown>;
 }
 
-const Routes = {
+const ApiRoutes = {
   /**
    * Registers a new user with a given registerToken.
    * The user receives this token in their register email.
@@ -21,7 +20,6 @@ const Routes = {
   }): Route => {
     return {
       route: "/api/register",
-      needsAuth: false,
       method: "POST",
       body: {
         password: props.password,
@@ -39,12 +37,33 @@ const Routes = {
   login: (props: { username: string; password: string }): Route => {
     return {
       route: "/api/login",
-      needsAuth: false,
       method: "POST",
       body: {
         username: props.username,
         password: props.password,
       },
+    };
+  },
+
+  /**
+   * Check if the user is logged in.
+   * @returns {Route} the route to check if the user is logged in
+   */
+  checkLogin: (): Route => {
+    return {
+      route: "/api/checklogin",
+      method: "GET",
+    };
+  },
+
+  /**
+   * Logout the user.
+   * @returns {Route} the route to logout the user
+   */
+  logout: (): Route => {
+    return {
+      route: "/api/logout",
+      method: "GET",
     };
   },
 
@@ -62,29 +81,12 @@ const Routes = {
   }): Route => {
     return {
       route: "/api/createuser",
-      needsAuth: true,
       method: "POST",
       body: {
         first_name: props.firstName,
         last_name: props.lastName,
         email_address: props.email,
         url: props.url,
-      },
-    };
-  },
-
-  /**
-   * Fetch a new session token with a given refresh token.
-   * @param {object} props  the refresh token
-   * @returns {Route} the route to fetch a new session token
-   */
-  auth: (props: { refreshToken: string }): Route => {
-    return {
-      route: "/api/auth",
-      needsAuth: false,
-      method: "POST",
-      body: {
-        refresh_token: props.refreshToken,
       },
     };
   },
@@ -97,7 +99,6 @@ const Routes = {
   deleteAccount: (): Route => {
     return {
       route: "/api/deleteaccount",
-      needsAuth: true,
       method: "POST",
       body: {},
     };
@@ -110,7 +111,6 @@ const Routes = {
   getTrainingPlans: (): Route => {
     return {
       route: "/api/getlistofplans",
-      needsAuth: true,
       method: "GET",
     };
   },
@@ -122,12 +122,8 @@ const Routes = {
    */
   getTrainingPlan: (props: { planId: string }): Route => {
     return {
-      route: "/api/getplan",
-      needsAuth: true,
-      method: "POST",
-      body: {
-        plan: props.planId,
-      },
+      route: `/api/getplan/${props.planId}/`,
+      method: "GET",
     };
   },
 
@@ -138,12 +134,8 @@ const Routes = {
    */
   getExercise: (props: { id: number }): Route => {
     return {
-      route: "/api/getexercise",
-      method: "POST",
-      needsAuth: false,
-      body: {
-        id: props.id,
-      },
+      route: `/api/getexercise/${props.id}/`,
+      method: "GET",
     };
   },
 
@@ -158,12 +150,9 @@ const Routes = {
     speed?: number;
   }): Route => {
     const body: {
-      id: number;
       visible?: boolean;
       speed?: number;
-    } = {
-      id: props.id,
-    };
+    } = {};
 
     if (props.visible !== undefined) {
       body["visible"] = props.visible;
@@ -174,9 +163,8 @@ const Routes = {
     }
 
     return {
-      route: "/api/setexercisepreferences",
+      route: `/api/setexercisepreferences/${props.id}/`,
       method: "POST",
-      needsAuth: true,
       body: body,
     };
   },
@@ -188,12 +176,8 @@ const Routes = {
    */
   getExercisePreferences: (props: { id: number }): Route => {
     return {
-      route: "/api/getexercisepreferences",
-      method: "POST",
-      needsAuth: true,
-      body: {
-        id: props.id,
-      },
+      route: `/api/getexercisepreferences/${props.id}/`,
+      method: "GET",
     };
   },
 
@@ -204,7 +188,6 @@ const Routes = {
   getExercises: (): Route => {
     return {
       route: "/api/getexerciselist",
-      needsAuth: true,
       method: "GET",
     };
   },
@@ -226,7 +209,6 @@ const Routes = {
   }): Route => {
     return {
       route: "/api/createplan",
-      needsAuth: true,
       method: "POST",
       body: {
         id: props.id,
@@ -243,12 +225,8 @@ const Routes = {
    */
   deleteTrainingPlan: (props: { planId: string }): Route => {
     return {
-      route: "/api/deleteplan",
-      needsAuth: true,
-      method: "POST",
-      body: {
-        id: props.planId,
-      },
+      route: `/api/deleteplan/${props.planId}/`,
+      method: "GET",
     };
   },
 
@@ -261,7 +239,6 @@ const Routes = {
     return {
       route: "api/addplantouser",
       method: "POST",
-      needsAuth: true,
       body: {
         plan: props.planId,
         user: props.username,
@@ -277,7 +254,6 @@ const Routes = {
   getDoneExercises: (): Route => {
     return {
       route: "/api/getdoneexercises",
-      needsAuth: true,
       method: "GET",
     };
   },
@@ -292,7 +268,6 @@ const Routes = {
     return {
       route: "/api/getdoneexercisesinmonth",
       method: "POST",
-      needsAuth: true,
       body: {
         year: props.year,
         month: props.month,
@@ -308,7 +283,6 @@ const Routes = {
   getAssignedPlans: (): Route => {
     return {
       route: "/api/requestplanofuser",
-      needsAuth: true,
       method: "POST",
     };
   },
@@ -322,26 +296,9 @@ const Routes = {
   getAssignedPlanOfUser: (props: { username: string }): Route => {
     return {
       route: "/api/requestplanofuser",
-      needsAuth: true,
       method: "POST",
       body: {
         username: props.username,
-      },
-    };
-  },
-
-  /**
-   * Fetch user-specific Leaderboard
-   * @returns {Route} the route to fetch user-specific Leaderboard
-   * @param {object} props  the user's id
-   */
-  getLeaderboard: (props: { count: number }): Route => {
-    return {
-      route: "/api/listleaderboard",
-      needsAuth: true,
-      method: "POST",
-      body: {
-        count: props.count,
       },
     };
   },
@@ -353,7 +310,6 @@ const Routes = {
   getTrainerUsers: (): Route => {
     return {
       route: "/api/gettrainersuser",
-      needsAuth: true,
       method: "GET",
     };
   },
@@ -365,7 +321,6 @@ const Routes = {
   getTrainers: (): Route => {
     return {
       route: "/api/gettrainers",
-      needsAuth: true,
       method: "GET",
     };
   },
@@ -378,7 +333,6 @@ const Routes = {
   deleteUser: (props: { userId: string }): Route => {
     return {
       route: "/api/deleteuser",
-      needsAuth: true,
       method: "POST",
       body: {
         id: props.userId,
@@ -394,7 +348,6 @@ const Routes = {
   deleteTrainer: (props: { trainerId: string }): Route => {
     return {
       route: "/api/deletetrainer",
-      needsAuth: true,
       method: "POST",
       body: {
         id: props.trainerId,
@@ -411,37 +364,6 @@ const Routes = {
     return {
       route: "/api/getprofile",
       method: "GET",
-      needsAuth: true,
-    };
-  },
-
-  /**
-   * Get user's level information.
-   * This can only be called by a user.
-   * @param {object} props  the user's id
-   * @returns {Route} the route to get user's level information
-   */
-  getUserLevel: (props: { username: string }): Route => {
-    return {
-      route: "/api/getuserlevel",
-      method: "POST",
-      needsAuth: true,
-      body: {
-        username: props.username,
-      },
-    };
-  },
-
-  /**
-   * Get trainer's contact information.
-   * This can only be called by a user or trainer.
-   * @returns {Route} the route to get trainer's contact information
-   */
-  getTrainerContact: (): Route => {
-    return {
-      route: "/api/gettrainercontact",
-      method: "GET",
-      needsAuth: true,
     };
   },
 
@@ -454,7 +376,6 @@ const Routes = {
     return {
       route: "/api/changeusername",
       method: "POST",
-      needsAuth: true,
       body: {
         username: props.username,
       },
@@ -470,7 +391,6 @@ const Routes = {
     return {
       route: "/api/changeavatar",
       method: "POST",
-      needsAuth: true,
       body: {
         avatar: props.avatar,
       },
@@ -486,7 +406,6 @@ const Routes = {
     return {
       route: "/api/changemotivation",
       method: "POST",
-      needsAuth: true,
       body: {
         motivation: props.motivation,
       },
@@ -501,7 +420,6 @@ const Routes = {
   changeLanguage: (props: { language: string }): Route => {
     return {
       route: "/api/changelanguage",
-      needsAuth: true,
       method: "POST",
       body: {
         language: props.language,
@@ -517,7 +435,6 @@ const Routes = {
   getInvited: (): Route => {
     return {
       route: "/api/getinvited",
-      needsAuth: true,
       method: "GET",
     };
   },
@@ -529,8 +446,7 @@ const Routes = {
    */
   invalidateInvitation: (props: { invitationId: string }): Route => {
     return {
-      route: "/api/invalidateinvite",
-      needsAuth: true,
+      route: "/api/cancelinvite",
       method: "POST",
       body: {
         id: props.invitationId,
@@ -546,7 +462,6 @@ const Routes = {
   requestPasswordReset: (props: { username: string; url: string }): Route => {
     return {
       route: "/api/getresetpasswordemail",
-      needsAuth: false,
       method: "POST",
       body: {
         username: props.username,
@@ -560,28 +475,19 @@ const Routes = {
    * @param {object} props  the user's id and new password
    * @returns {Route} the route to reset password
    */
-  resetPassword: (props: { password: string; token: string }): Route => {
+  resetPassword: (props: {
+    password: string;
+    token: string;
+    username: string;
+  }): Route => {
     return {
       route: "/api/resetpassword",
-      needsAuth: false,
       method: "POST",
       body: {
         new_password: props.password,
         reset_token: props.token,
+        username: props.username,
       },
-    };
-  },
-
-  /**
-   * Logs the user out of all other devices
-   * @returns {Route} the route to log the user out of all other devices
-   * @param {object} props  the user's id
-   */
-  logoutAllDevices: (): Route => {
-    return {
-      route: "/api/logoutdevices",
-      needsAuth: true,
-      method: "POST",
     };
   },
 
@@ -593,7 +499,6 @@ const Routes = {
   changePassword: (props: { password: string; newPassword: string }): Route => {
     return {
       route: "/api/changepassword",
-      needsAuth: true,
       method: "POST",
       body: {
         password: props.password,
@@ -601,226 +506,6 @@ const Routes = {
       },
     };
   },
-
-  /**
-   * get Friends
-   * @returns {Route} the route to get Friends
-   */
-  getFriends: (): Route => {
-    return {
-      route: "/api/getfriends",
-      needsAuth: true,
-      method: "GET",
-    };
-  },
-
-  /**
-   * get Friend Requests
-   * @returns {Route} the route to get Friend Requests
-   */
-  getFriendRequests: (): Route => {
-    return {
-      route: "/api/getfriendrequests",
-      needsAuth: true,
-      method: "GET",
-    };
-  },
-
-  /**
-   * get Friend Requests
-   * @returns {Route} the route to get Friend Requests
-   */
-  getSentFriendRequests: (): Route => {
-    return {
-      route: "/api/getpendingfriendrequests",
-      needsAuth: true,
-      method: "GET",
-    };
-  },
-
-  /**
-   * add Friend
-   * @param {object} props  the user's id
-   * @returns {Route} the route to add Friend
-   */
-  addFriend: (props: { friendId: string }): Route => {
-    return {
-      route: "/api/addfriend",
-      needsAuth: true,
-      method: "POST",
-      body: {
-        username: props.friendId,
-      },
-    };
-  },
-
-  /**
-   * accept Friend Request
-   * @param {object} props  the user's id
-   * @returns {Route} the route to accept Friend Request
-   */
-  acceptFriendRequest: (props: { friendId: number }): Route => {
-    return {
-      route: "/api/acceptfriendrequest",
-      needsAuth: true,
-      method: "POST",
-      body: {
-        id: props.friendId,
-      },
-    };
-  },
-
-  /**
-   * decline Friend Request
-   * @param {object} props  the user's id
-   * @returns {Route} the route to decline Friend Request
-   */
-  declineFriendRequest: (props: { friendId: number }): Route => {
-    return {
-      route: "/api/declinefriendrequest",
-      needsAuth: true,
-      method: "POST",
-      body: {
-        id: props.friendId,
-      },
-    };
-  },
-
-  /**
-   * remove Friend
-   * @param {object} props  the user's id
-   * @returns {Route} the route to remove Friend
-   */
-  removeFriend: (props: { friendId: number }): Route => {
-    return {
-      route: "/api/removefriend",
-      needsAuth: true,
-      method: "POST",
-      body: {
-        id: props.friendId,
-      },
-    };
-  },
-
-  /**
-   * Change the contact address of the logged in trainer.
-   * @param {object} props  the user's id and new address
-   * @returns {Route} the route to change the contact address of the logged in trainer.
-   */
-  changeLocation: (props: {
-    street: string;
-    postalCode: string;
-    country: string;
-    city: string;
-    houseNr: string;
-    addressAddition: string;
-  }): Route => {
-    return {
-      route: "/api/changelocation",
-      method: "POST",
-      needsAuth: true,
-      body: {
-        street: props.street,
-        postal_code: props.postalCode,
-        country: props.country,
-        city: props.city,
-        house_nr: props.houseNr,
-        address_add: props.addressAddition,
-      },
-    };
-  },
-
-  /**
-   * Change the contact telephone number of the logged in trainer.
-   * @param {object} props  the user's id and new telephone number
-   * @returns {Route} the route to change the contact telephone number of the logged in trainer.
-   */
-  changeTelephone: (props: { telephone: string }): Route => {
-    return {
-      route: "/api/changetelephone",
-      method: "POST",
-      needsAuth: true,
-      body: {
-        telephone: props.telephone,
-      },
-    };
-  },
-
-  /**
-   * Change the academic title of the logged in trainer.
-   * @param {object} props  the user's id and new academic title
-   * @returns {Route} the route to change the academic title of the logged in trainer.
-   */
-  changeAcademia: (props: { academia: string }): Route => {
-    return {
-      route: "/api/changeacademia",
-      method: "POST",
-      needsAuth: true,
-      body: {
-        academia: props.academia,
-      },
-    };
-  },
-
-  /**
-   * Get the logged-in user's achievements.
-   * @returns {Route} the route to get the logged-in user's achievements.
-   */
-  getAchievements: (): Route => {
-    return {
-      route: "/api/getachievements",
-      needsAuth: true,
-      method: "GET",
-    };
-  },
-
-  /**
-   * Get the logged-in user's medals.
-   * @returns {Route} the route to get the logged-in user's medals.
-   */
-  getMedals: (): Route => {
-    return {
-      route: "/api/getmedals",
-      needsAuth: true,
-      method: "GET",
-    };
-  },
-
-  /**
-   * Checks it the logged-in user unlocked the friends achievement.
-   * @returns {Route} the route to check it the logged-in user unlocked the friends achievement.
-   */
-  loadFriendAchievement: (): Route => {
-    return {
-      route: "/api/loadfriendachievements",
-      needsAuth: true,
-      method: "GET",
-    };
-  },
-
-  /**
-   * Checks it the logged-in user unlocked new achievements from exercises.
-   * @returns {Route} the route to check it the logged-in user unlocked new achievements from exercises.
-   */
-  loadExerciseAchievements: (): Route => {
-    return {
-      route: "/api/loadexerciseachievements",
-      needsAuth: true,
-      method: "GET",
-    };
-  },
-
-  /**
-   * get the streak
-   * @returns {Route} the route to get the streak
-   */
-  getStreak: (): Route => {
-    return {
-      route: "/api/getstreak",
-      needsAuth: true,
-      method: "GET",
-    };
-  },
 };
 
-export default Routes;
+export default ApiRoutes;

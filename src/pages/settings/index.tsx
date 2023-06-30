@@ -1,7 +1,5 @@
 import React from "react";
-import { useAppDispatch, useAppSelector } from "@redux/hooks";
 import Container from "@shared/container";
-import helper from "@util/helper";
 import {
   Alert,
   Button,
@@ -14,17 +12,12 @@ import {
   Space,
 } from "antd";
 import Routes from "@util/routes";
-import {
-  setRefreshToken,
-  setToken,
-  unsetRefreshToken,
-  unsetToken,
-} from "@redux/token/tokenSlice";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import Translations from "@localization/translations";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import useApi from "@hooks/api";
+import { useAppSelector } from "@redux/hooks";
 
 /**
  * A page containing the settings.
@@ -37,9 +30,9 @@ const Settings: React.FC = (): JSX.Element => {
 
   const api = useApi();
 
-  const dispatch = useAppDispatch();
+  const role = useAppSelector((state) => state.profile.role);
+
   const { t, i18n } = useTranslation();
-  const token = useAppSelector((state) => state.token.token);
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng).catch(message.error);
@@ -72,73 +65,6 @@ const Settings: React.FC = (): JSX.Element => {
     setSuccess(t(Translations.settings.successfullyDeletedAccount));
     setTimeout(() => setSuccess(null), 5000);
     await new Promise((resolve) => setTimeout(resolve, 5000)); // sleep for 5 seconds
-    dispatch(unsetRefreshToken());
-    dispatch(unsetToken());
-  };
-
-  function onLogoutAllDevices() {
-    Modal.confirm({
-      title: t(Translations.settings.logoutAllDevices.modal.title),
-      icon: <ExclamationCircleOutlined />,
-      content: t(Translations.settings.logoutAllDevices.modal.message),
-      okText: t(Translations.settings.logoutAllDevices.modal.confirm),
-      okType: "danger",
-      cancelText: t(Translations.settings.logoutAllDevices.modal.cancel),
-      onOk() {
-        onConfirmLogoutAllDevices().catch(message.error);
-      },
-    });
-  }
-
-  const onConfirmLogoutAllDevices = async () => {
-    setError(null);
-    const response = await api.execute(Routes.logoutAllDevices());
-    if (!response || !response.success) {
-      setError(t(response.description ?? Translations.errors.unknownError));
-      return;
-    }
-
-    /**
-     * This method displays a message that the logout was successful, but that the user has to log in manually again.
-     * This happens with a 2-second delay.
-     * @returns {Promise<void>} nothing
-     */
-    const displaySuccessAndRedirect = async (): Promise<void> => {
-      setSuccess(t(Translations.settings.logoutAllDevices.successLogin));
-      setTimeout(() => setSuccess(null), 5000);
-      await new Promise((resolve) => setTimeout(resolve, 5000)); // sleep for 2 Seconds
-      dispatch(unsetRefreshToken());
-      dispatch(unsetToken());
-    };
-
-    const refreshToken = response.data["refresh_token"];
-    let sessionToken = response.data["session_token"];
-
-    // if no refresh token is returned, we have to redirect the user to the login
-    if (!refreshToken) {
-      await displaySuccessAndRedirect();
-      return;
-    }
-
-    // if we have a refresh token but no session token, we need to authenticate again to get a fresh session token
-    if (!sessionToken) {
-      const authResponse = await api.execute(
-        Routes.auth({ refreshToken: refreshToken })
-      );
-
-      // authentication failed, redirect user to login
-      if (!response || !response.success) {
-        await displaySuccessAndRedirect();
-        return;
-      }
-      sessionToken = authResponse.data["session_token"];
-    }
-
-    // save new tokens
-    setSuccess(t(Translations.settings.logoutAllDevices.success));
-    dispatch(setRefreshToken(refreshToken));
-    dispatch(setToken(sessionToken));
-    setTimeout(() => setSuccess(null), 5000);
   };
 
   const onChangePassword = async () => {
@@ -191,12 +117,6 @@ const Settings: React.FC = (): JSX.Element => {
               {t(Translations.settings.security)}
             </Divider>
 
-            <Row justify="center" style={{ paddingBottom: "20px" }}>
-              <Button onClick={onLogoutAllDevices}>
-                {t(Translations.settings.logoutAllDevices.title)}
-              </Button>
-            </Row>
-
             <Row justify="center">
               <Button onClick={onChangePassword}>
                 {t(Translations.settings.changePassword.buttonTitle)}
@@ -229,9 +149,7 @@ const Settings: React.FC = (): JSX.Element => {
               <Button
                 onClick={showDeleteConfirm}
                 danger
-                disabled={
-                  token != null && helper.getAccountType(token) === "admin"
-                }
+                disabled={role === "admin"}
               >
                 {t(Translations.settings.deleteAccount)}
               </Button>

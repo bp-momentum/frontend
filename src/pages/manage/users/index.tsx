@@ -12,12 +12,11 @@ import {
   FormOutlined,
   RocketOutlined,
 } from "@ant-design/icons";
-import Helper from "@util/helper";
-import { useAppSelector } from "@redux/hooks";
 import { Navigate } from "react-router-dom";
 import ActiveTrainerTable from "./activeTrainerTable";
 import Translations from "@localization/translations";
 import { useTranslation } from "react-i18next";
+import { useAppSelector } from "@redux/hooks";
 
 const { TabPane } = Tabs;
 
@@ -28,12 +27,11 @@ const { TabPane } = Tabs;
 const Users: React.FC = (): JSX.Element => {
   const { t } = useTranslation();
 
-  const token = useAppSelector((state) => state.token.token);
-  const type = (token && Helper.getAccountType(token)) || "user";
+  const role = useAppSelector((state) => state.profile.role);
 
   const [updateValue, setUpdateValue] = React.useState(0);
 
-  if (type === "user") return <Navigate to="/" />;
+  if (role === "player") return <Navigate to="/" />;
 
   return (
     <Container currentPage="manage">
@@ -50,7 +48,7 @@ const Users: React.FC = (): JSX.Element => {
           }}
         >
           <h1 style={{ fontSize: "40px", margin: "30px 0px" }}>
-            {type === "trainer"
+            {role === "trainer"
               ? t(Translations.userManagement.users)
               : t(Translations.userManagement.trainers)}
           </h1>
@@ -73,7 +71,7 @@ const Users: React.FC = (): JSX.Element => {
                 }
                 key="1"
               >
-                {type === "trainer" ? (
+                {role === "trainer" ? (
                   <ActiveUserTable />
                 ) : (
                   <ActiveTrainerTable />

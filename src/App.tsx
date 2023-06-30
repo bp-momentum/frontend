@@ -1,19 +1,14 @@
 import "@styles/App.css";
 import React, { useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
-import { useAppSelector } from "@redux/hooks";
-import Helper from "@util/helper";
 import { ConfigProvider } from "antd";
 
 import Home from "@pages/home";
-import Login from "@pages/login";
 import Register from "@pages/register";
-import AutoLogin from "@pages/login/autoLogin";
 import Settings from "@pages/settings";
 import EditPlan from "@pages/manage/editPlan";
 import ManagePlans from "@pages/manage/plans";
 import Exercises from "@pages/exercises";
-import Leaderboard from "@pages/leaderboard";
 import Train from "@pages/train";
 import Error404 from "@pages/error/404";
 import Error418 from "@pages/error/418";
@@ -29,22 +24,25 @@ import "moment/locale/en-gb";
 
 // import available languages from ant locales
 import useLanguageUpdater from "@hooks/languageUpdater";
+import { useAppDispatch, useAppSelector } from "@redux/hooks";
+import Login from "@pages/login";
+import useApi from "@hooks/api";
+import ApiRoutes from "@util/routes";
+import { login } from "@redux/profile/profileSlice";
 
 /**
  * Wraps the normal {@link App} with a {@link ConfigProvider} to set the locale of the app.
  * @returns {JSX.Element} The app.
  */
 const LocalizedApp: React.FC = (): JSX.Element => {
-  const token = useAppSelector((state) => state.token.token);
   const languageUpdater = useLanguageUpdater();
 
+  const loggedIn = useAppSelector((state) => state.profile.loggedIn);
+
   useEffect(() => {
-    if (!token) {
-      return;
-    }
-    languageUpdater.updateLanguage();
+    if (loggedIn) languageUpdater.updateLanguage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+  }, [loggedIn]);
 
   return (
     <ConfigProvider>
@@ -58,12 +56,31 @@ const LocalizedApp: React.FC = (): JSX.Element => {
  * @returns {JSX.Element} The app.
  */
 const App: React.FC = (): JSX.Element => {
-  const token = useAppSelector((state) => state.token.token);
-  const refreshToken = useAppSelector((state) => state.token.refreshToken);
-
   const useQuery = new URLSearchParams(useLocation().search);
   const new_user_token = useQuery.get("new_user_token");
   const reset_token = useQuery.get("reset_token");
+  const username = useQuery.get("username");
+  const loggedIn = useAppSelector((state) => state.profile.loggedIn);
+  const role = useAppSelector((state) => state.profile.role);
+  const api = useApi();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    // test for login when loading the app
+    api.execute(ApiRoutes.checkLogin()).then((response) => {
+      console.log(response);
+      if (!response || !response.success) {
+        return;
+      }
+      dispatch(
+        login({
+          username: response.data["username"],
+          role: response.data["role"],
+        })
+      );
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (new_user_token && reset_token) {
     return <Error418 />;
@@ -73,31 +90,23 @@ const App: React.FC = (): JSX.Element => {
     return <Register registerToken={new_user_token} />;
   }
 
-  if (reset_token) {
-    return <ResetForm resetToken={reset_token} />;
+  if ((reset_token || username) && !reset_token && !username) {
+    return <Error418 />;
   }
 
-  if (
-    !Helper.isRefreshTokenValid(refreshToken) &&
-    !Helper.isSessionTokenValid(token)
-  ) {
+  if (reset_token && username) {
+    return <ResetForm resetToken={reset_token} username={username} />;
+  }
+
+  if (!loggedIn) {
     return <Login />;
   }
 
-  if (!Helper.isSessionTokenValid(token)) {
-    return <AutoLogin />;
-  }
-
-  const isUser = token && Helper.getAccountType(token) === "user";
-  const isTrainer = token && Helper.getAccountType(token) === "trainer";
-  const isAdmin = token && Helper.getAccountType(token) === "admin";
-
-  if (isUser) {
+  if (role === "player") {
     return (
       <Routes>
         <Route path="/" element={<Exercises />} />
         <Route path="/train/:exercisePlanId" element={<Train />} />
-        <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/settings/change_password" element={<ChangePassword />} />
@@ -106,11 +115,10 @@ const App: React.FC = (): JSX.Element => {
     );
   }
 
-  if (isTrainer) {
+  if (role === "trainer") {
     return (
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/profile" element={<TrainerProfile />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/settings/change_password" element={<ChangePassword />} />
@@ -124,7 +132,7 @@ const App: React.FC = (): JSX.Element => {
     );
   }
 
-  if (isAdmin) {
+  if (role === "admin") {
     return (
       <Routes>
         <Route path="/" element={<Home />} />

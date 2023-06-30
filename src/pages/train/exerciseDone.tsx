@@ -25,20 +25,6 @@ const ExerciseDone: React.FC<Props> = ({ exercise }: Props): JSX.Element => {
 
   const [avatar, setAvatar] = React.useState<Avatar | null>(null);
 
-  const checkForExerciseAchievements = async () => {
-    const response = await api.execute(Routes.loadExerciseAchievements());
-    if (!response || !response.success) {
-      return;
-    }
-    const achievements = response.data.achievements;
-    if (!achievements || achievements.length === 0) {
-      return;
-    }
-    message.success(
-      t(Translations.training.newAchievements, { count: achievements.length })
-    );
-  };
-
   const loadAvatar = async () => {
     const result = await api.execute(Routes.getProfile());
     if (!result.success) message.error(result.description);
@@ -58,7 +44,6 @@ const ExerciseDone: React.FC<Props> = ({ exercise }: Props): JSX.Element => {
   };
 
   useEffect(() => {
-    checkForExerciseAchievements().catch();
     loadAvatar().catch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -88,16 +73,6 @@ const ExerciseDone: React.FC<Props> = ({ exercise }: Props): JSX.Element => {
         <h1 style={{ color: "white", fontSize: "60px", marginRight: 40 }}>
           {exercise?.title}
         </h1>
-
-        {/* TODO: {medalType && (
-          <Medal
-            size="large"
-            type={medalType}
-            tooltipText={t(Translations.training.medal, {
-              context: medalType === "none" ? null : medalType,
-            })}
-          />
-        )} */}
       </div>
 
       <div

@@ -16,12 +16,6 @@ interface ProfileData {
   doneExercises: DoneExercise[];
   accountCreated: number;
   motivation: string;
-  trainerName: string;
-  trainerAddress: string;
-  trainerPhone: string;
-  trainerEmail: string;
   avatar: Avatar;
   minutesTrained: number;
-  level: number;
-  levelProgress: string;
 }

@@ -73,7 +73,6 @@
   },
   "tab-bar": {
     "home": "Home",
-    "leaderboard": "Rangliste",
     "settings": "Einstellungen",
     "profile": "Profil",
     "overview": "Übersicht",
@@ -97,17 +96,6 @@
     "delete-modal-confirm": "Account Löschen",
     "delete-modal-cancel": "Abbrechen",
     "successfully-deleted-account": "Der Account wurde erfolgreich gelöscht! Du wirst in Kürze abgemeldet.",
-    "logout-all-devices": {
-      "title": "Alle Geräte ausloggen",
-      "success": "Alle anderen Geräte wurden erfolgreich aus deinem Account ausgeloggt!",
-      "success-login": "Alle Geräte wurden erfolgreich aus deinem Account ausgeloggt! Du musst dich erneut einloggen!",
-      "modal": {
-        "title": "Alle Geräte ausloggen",
-        "message": "Bist du dir sicher, dass du alle anderen Geräte aus deinem Account ausloggen möchtest?",
-        "confirm": "Ausloggen",
-        "cancel": "Abbrechen"
-      }
-    },
     "change-password": {
       "button-title": "Passwort ändern",
       "title": "Passwort ändern",
@@ -166,17 +154,8 @@
     "next-exercise": "Gehe zur nächsten Übung",
     "day-off": "Nimm dir einen Tag Pause",
     "motivation": "Auf geht's, ",
-    "medal-motivation_zero": "Du hast für heute alle Medaillen gesammelt!",
-    "medal-motivation_one": "Du kannst heute noch eine Medaille sammeln!",
-    "medal-motivation_other": "Du kannst heute noch {{count}} Medaillen sammeln!",
     "loading": "Lade...",
     "no-plan": "Dir wurde noch kein Plan zugewiesen!\nWarte, bis dein Trainer einen Plan für dich erstellt hat."
-  },
-  "leaderboard": {
-    "rank": "Rang",
-    "name": "Name",
-    "score": "Punktzahl",
-    "details": "Details"
   },
   "user-management": {
     "users": "Benutzer*innen",
@@ -219,10 +198,7 @@
     "points": "{{points}} Punkte",
     "username-empty": "Dein Nutzername darf nicht leer sein!",
     "username-too-long": "Dein Nutzername ist zu lang! ({{max}} Zeichen maximal)",
-    "username-not-allowed": "Dein Nutzername verwendet verbotene Zeichen!",
-    "friends": "Freunde",
-    "achievements": "Errungenschaften",
-    "level": "Lvl {{level}}"
+    "username-not-allowed": "Dein Nutzername verwendet verbotene Zeichen!"
   },
   "error-page": {
     "404-text": "Des hamma net!",
@@ -243,75 +219,9 @@
     "speed": "Schnelligkeit",
     "score-short": "Pkt",
     "current-set": "Aktuelles Set",
-    "medal": "Leider hast du dieses Mal keine Medaille verdient!",
-    "medal_bronze": "Bronze Medaille",
-    "medal_silver": "Silber Medaille",
-    "medal_gold": "Gold Medaille",
     "back-home": "Zurück zur Übersicht",
     "click-to-start": "Klicke hier um zu starten!",
-    "new-achievements_one": "Herzlichen Glückwunsch! Du hast eine neue Errungenschaft freigeschaltet!",
-    "new-achievements_other": "Herzlichen Glückwunsch! Du hast {{count}} neue Errungenschaften freigeschaltet!",
     "mascot-text": "An diesem Graph kannst Du deine Leistung nachvollziehen!"
-  },
-  "trainer-profile": {
-    "title": "Hallo, {{name}}",
-    "subtitle": "Hier können Sie Ihre Kontaktdaten ändern. Diese werden nur Ihren Patient:innen angezeigt.",
-    "submit": "Speichern",
-    "academia": "Akademischer Titel",
-    "telephone": "Telefon",
-    "street": "Straße",
-    "city": "Stadt",
-    "country": "Land",
-    "house-nr": "Hausnr.",
-    "address-addition": "Adresszusatz",
-    "postal-code": "PLZ",
-    "email": "E-Mail: {{email}}",
-    "success": "Die Informationen wurden erfolgreich aktualisiert!"
-  },
-  "friends": {
-    "last-online-today": "heute",
-    "last-online-yesterday": "gestern",
-    "last-online-days-ago_one": "vor einem Tag",
-    "last-online-days-ago": "vor {{count}} Tagen",
-    "last-online-weeks-ago_one": "vor einer Woche",
-    "last-online-weeks-ago": "vor {{count}} Wochen",
-    "last-online-months-ago_one": "vor einem Monat",
-    "last-online-months-ago": "vor {{count}} Monaten",
-    "last-online-years-ago_one": "vor einem Jahr",
-    "last-online-years-ago": "vor {{count}} Jahren",
-    "friends": "Freunde",
-    "requests": "Anfragen",
-    "add-friend": "Freund hinzufügen",
-    "outgoing-requests": "Ausgehende Anfragen",
-    "incoming-requests": "Eingehende Anfragen",
-    "no-incoming": "Keine eingehenden Anfragen",
-    "no-outgoing": "Keine ausgehenden Anfragen",
-    "last-active": "Zuletzt aktiv",
-    "motivation": "Motivation",
-    "level": "Level",
-    "last-achievements": "Letzte Errungenschaften",
-    "no-achievements": "Keine Errungenschaften",
-    "current-streak": "Aktuelle Streak",
-    "no-friends": "Keine Freunde",
-    "new-achievement": "Herzlichen Glückwunsch! Du hast eine neue Errungenschaft freigeschaltet!"
-  },
-  "medals": {
-    "button-title": "Medaillen",
-    "title_gold": "Gold {{exercise}}",
-    "title_silver": "Silber {{exercise}}",
-    "title_bronze": "Bronze {{exercise}}",
-    "title_none": "{{exercise}}",
-    "amount_one": "Du hast diese Medaille ein mal verdient!",
-    "amount_other": "Du hast diese Medaille {{count}}x verdient!",
-    "no-medals": "Du hast noch keine Medaille verdient!",
-    "loading": "Deine Medaillen werden geladen..."
-  },
-  "achievements": {
-    "button-title": "Errungenschaften",
-    "hidden-title": "Versteckt",
-    "hidden-description": "Niemand weiß, was hier zu tun ist!",
-    "loading": "Deine Errungenschaften werden geladen...",
-    "no-achievements": "Du hast noch keine Errungenschaften freigeschaltet!"
   },
   "admin-faq": {
     "q-01": "Wie kann ich neue Trainer*innnen einladen?",
@@ -332,11 +242,9 @@
     "a-03": "Wenn ein Plan gelöscht wird, wird allen Nutzer*innen die diesen vorher zugewiesen hatten anschließend ein \"leerer\" Plan angezeigt. Solange die Nutzer*innen keinen Plan haben, wird die Streak nicht erhöht (aber auch nicht zurückgesetzt) und es können keine XP / Level gewonnen werden.",
     "q-04": "Was passiert, wenn ich einem/r Nutzer*in einen anderen Trainingsplan zuweise?",
     "a-04": "Das Zuweisen von einem neuen Plan verhält sich äquivalent zum Editieren des aktuellen Plans.",
-    "q-05": "Wie funktioniert die Rangliste?",
-    "a-05": "Auf der Rangliste werden sowohl eigene, als auch Nutzer*innen von anderen Trainer*innen angezeigt. Bei eigenen Nutzer*innen ist immer der Klarnamen zu sehen.",
-    "q-06": "Kann ich die aufgenommenen Videos ansehen?",
-    "a-06": "Die Videos werden auf dem Server für eine gewisse Zeit gespeichert, können jedoch nicht ohne weiteres angesehen werden.",
-    "q-07": "Kann ich das Passwort meiner Nutzer*innen zurücksetzen?",
-    "a-07": "Nein, Nutzer*innen können dies über die Login-Seite einfach selbst tun. Dort existiert ein Button \"Passwort vergessen?\", über den das Passwort zurückgesetzt werden kann. Daraufhin wird eine EMail mit einem Link an den/die Nutzer*in gesendet, über den ein neues Passwort gewählt werden kann."
+    "q-05": "Kann ich die aufgenommenen Videos ansehen?",
+    "a-05": "Die Videos werden auf dem Server für eine gewisse Zeit gespeichert, können jedoch nicht ohne weiteres angesehen werden.",
+    "q-06": "Kann ich das Passwort meiner Nutzer*innen zurücksetzen?",
+    "a-06": "Nein, Nutzer*innen können dies über die Login-Seite einfach selbst tun. Dort existiert ein Button \"Passwort vergessen?\", über den das Passwort zurückgesetzt werden kann. Daraufhin wird eine EMail mit einem Link an den/die Nutzer*in gesendet, über den ein neues Passwort gewählt werden kann."
   }
 }

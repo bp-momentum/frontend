@@ -2,11 +2,9 @@ import { Alert, Button, Col, Form, Input, Row, Space } from "antd";
 import { LockOutlined } from "@ant-design/icons";
 import React from "react";
 import Routes from "@util/routes";
-import { setRefreshToken, setToken } from "@redux/token/tokenSlice";
 import { useNavigate } from "react-router";
 import Translations from "@localization/translations";
 import { useTranslation } from "react-i18next";
-import { useAppDispatch } from "@redux/hooks";
 import Container from "@shared/container";
 import useApi from "@hooks/api";
 
@@ -19,7 +17,6 @@ const ChangePassword: React.FC = (): JSX.Element => {
   const [error, setError] = React.useState<null | string>();
   const [success, setSuccess] = React.useState<null | string>(null);
   const { t } = useTranslation();
-  const dispatch = useAppDispatch();
   const api = useApi();
 
   /**
@@ -55,11 +52,6 @@ const ChangePassword: React.FC = (): JSX.Element => {
       return;
     }
 
-    const data = response.data;
-    const sessionToken = data["session_token"];
-    const refreshToken = data["refresh_token"];
-    dispatch(setToken(sessionToken));
-    dispatch(setRefreshToken(refreshToken));
     setSuccess(t(Translations.settings.changePassword.success));
     setTimeout(() => navigate("/settings"), 3000);
   };

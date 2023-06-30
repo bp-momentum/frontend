@@ -3,24 +3,20 @@ import { Content, Header } from "antd/lib/layout/layout";
 import {
   HomeTwoTone,
   SettingTwoTone,
-  CrownTwoTone,
   BarsOutlined,
   TeamOutlined,
   CalendarOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import Translations from "@localization/translations";
 import { MenuInfo } from "rc-menu/lib/interface";
 import { useAppDispatch, useAppSelector } from "@redux/hooks";
-import helper from "@util/helper";
 import { ExclamationCircleOutlined } from "@ant-design/icons/lib";
+import ApiRoutes from "@util/routes";
 import useApi from "@hooks/api";
-import Routes from "@util/routes";
-import { setFriendRequests } from "@redux/friends/friendSlice";
-import Helper from "@util/helper";
 
 const { confirm } = Modal;
 
@@ -28,7 +24,6 @@ type pages =
   | "manage"
   | "home"
   | "settings"
-  | "leaderboard"
   | "profile"
   | "manage_users"
   | "manage_plans"; // navigable pages
@@ -38,7 +33,6 @@ type pagesToRouteType = {
 const pageToRoute: pagesToRouteType = {
   home: "/",
   settings: "/settings",
-  leaderboard: "/leaderboard",
   profile: "/profile",
   manage: "/manage",
   manage_users: "/manage/users",
@@ -47,7 +41,7 @@ const pageToRoute: pagesToRouteType = {
 
 interface Props {
   children: React.ReactNode;
-  currentPage?: "home" | "settings" | "leaderboard" | "profile" | "manage"; // highlightable menu items
+  currentPage?: "home" | "settings" | "profile" | "manage"; // highlightable menu items
   confirmLeaveMessage?: false | string;
 }
 
@@ -64,6 +58,7 @@ const Container: React.FC<Props> = ({
   const navigate = useNavigate();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const api = useApi();
 
   const handleClick = (e: MenuInfo) => {
     if (confirmLeaveMessage) {
@@ -96,42 +91,14 @@ const Container: React.FC<Props> = ({
       okType: "danger",
       async onOk() {
         await new Promise((resolve) => setTimeout(resolve, 500)); // sleep for 0.5 seconds
+        api.execute(ApiRoutes.logout());
         dispatch({ type: "USER_LOGOUT" });
         navigate("/");
       },
     });
   };
 
-  const token = useAppSelector((state) => state.token.token);
-  const isUser = token && helper.getAccountType(token) === "user";
-  const isTrainer = token && helper.getAccountType(token) === "trainer";
-
-  const hasRequests =
-    useAppSelector((state) => state.friends.friendRequests).length > 0;
-
-  const api = useApi();
-  const username = token && Helper.getUserName(token);
-
-  const friendsToFriend = (friends: {
-    friend1: string;
-    friend2: string;
-    id: number;
-  }) => {
-    return {
-      username:
-        friends.friend1 === username ? friends.friend2 : friends.friend1,
-      id: friends.id,
-    };
-  };
-
-  useEffect(() => {
-    if (!isUser) return;
-
-    api.execute(Routes.getFriendRequests()).then((data) => {
-      dispatch(setFriendRequests(data.data.requests.map(friendsToFriend)));
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const role = useAppSelector((state) => state.profile.role);
 
   const menuHome = {
     key: "home",
@@ -151,25 +118,10 @@ const Container: React.FC<Props> = ({
     label: t(Translations.tabBar.plans),
   };
 
-  const menuLeaderboard = {
-    key: "leaderboard",
-    icon: <CrownTwoTone />,
-    label: t(Translations.tabBar.leaderboard),
-  };
-
   const menuProfile = {
     key: "profile",
     icon: <BarsOutlined style={{ color: "#1890ff" }} />,
-    label: (
-      <span
-        className={
-          hasRequests && currentPage !== "profile" ? "notification" : ""
-        }
-        style={{ position: "relative", paddingTop: 3, paddingRight: 3 }}
-      >
-        {t(Translations.tabBar.profile)}
-      </span>
-    ),
+    label: t(Translations.tabBar.profile),
     style: { marginLeft: "auto" },
   };
 
@@ -185,18 +137,11 @@ const Container: React.FC<Props> = ({
     label: t(Translations.tabBar.logout),
   };
 
-  const menuItemsUser = [
-    menuHome,
-    menuLeaderboard,
-    menuProfile,
-    menuSettings,
-    menuLogout,
-  ];
+  const menuItemsUser = [menuHome, menuProfile, menuSettings, menuLogout];
   const menuItemsTrainer = [
     menuHome,
     menuUsers,
     menuPlans,
-    menuLeaderboard,
     menuProfile,
     menuSettings,
     menuLogout,
@@ -209,11 +154,12 @@ const Container: React.FC<Props> = ({
     menuLogout,
   ];
 
-  const menuItems = isUser
-    ? menuItemsUser
-    : isTrainer
-    ? menuItemsTrainer
-    : menuItemsAdmin;
+  const menuItems =
+    role === "player"
+      ? menuItemsUser
+      : role === "trainer"
+      ? menuItemsTrainer
+      : menuItemsAdmin;
 
   return (
     <Layout style={{ height: "100%", position: "absolute", width: "100%" }}>

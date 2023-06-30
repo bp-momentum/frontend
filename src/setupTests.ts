@@ -7,6 +7,7 @@ window._env_ = {
   BACKEND_URL: "http://localhost:8080",
   WEBSOCKET_URL: "ws://localhost:8080",
   FRONTEND_URL: "http://localhost:3000",
+  DEBUG: true,
 };
 
 global.matchMedia =
@@ -64,38 +65,6 @@ nock(window._env_.BACKEND_URL)
       title: "Test Exercise",
       activated: true,
       video: "Test Video",
-    },
-  })
-  .post("/api/listleaderboard")
-  .reply(200, {
-    success: true,
-    data: {
-      leaderboard: [
-        {
-          rank: 1,
-          username: "UserA",
-          score: 1000,
-          speed: 1,
-          intensity: 1,
-          cleanliness: 1,
-        },
-        {
-          rank: 2,
-          username: "UserB",
-          score: 100,
-          speed: 1,
-          intensity: 1,
-          cleanliness: 1,
-        },
-        {
-          rank: 3,
-          username: "UserC",
-          score: 10,
-          speed: 1,
-          intensity: 1,
-          cleanliness: 1,
-        },
-      ],
     },
   })
   .get("/api/getprofile")

@@ -1,8 +1,8 @@
 import { Row, Col, Space, message } from "antd";
 import React from "react";
-import Routes from "@util/routes";
+import ApiRoutes from "@util/routes";
 import { useAppDispatch } from "@redux/hooks";
-import { setRefreshToken, setToken } from "@redux/token/tokenSlice";
+import { login } from "@redux/profile/profileSlice";
 import { useTranslation } from "react-i18next";
 import Translations from "@localization/translations";
 import LoginForm from "./forms/loginForm";
@@ -26,14 +26,13 @@ const Login: React.FC = (): JSX.Element => {
   const onLogin = async (values: Record<string, never>) => {
     const username = values["username"];
     const password = values["password"];
-    const remember = values["remember"];
     setError(null);
     setLoading(true);
 
     await new Promise((r) => setTimeout(r, 1000));
 
     const response = await api.execute(
-      Routes.login({
+      ApiRoutes.login({
         username: username,
         password: password,
       })
@@ -50,21 +49,21 @@ const Login: React.FC = (): JSX.Element => {
       return;
     }
 
-    const token = response.data["session_token"];
-    const refreshToken = response.data["refresh_token"];
+    dispatch(
+      login({
+        username: response.data["username"],
+        role: response.data["role"],
+      })
+    );
 
     setLoading(false);
-    if (remember) {
-      dispatch(setRefreshToken(refreshToken));
-    }
-    dispatch(setToken(token));
   };
 
   const onReset = (values: Record<string, never>) => {
     const username = values["username"];
     api
       .execute(
-        Routes.requestPasswordReset({
+        ApiRoutes.requestPasswordReset({
           username,
           url: window._env_.FRONTEND_URL,
         })

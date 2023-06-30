@@ -18,6 +18,7 @@ import { useAppSelector } from "@redux/hooks";
 import { MdVideocam, MdVideocamOff } from "react-icons/md";
 import { playBeep, playDing } from "../training/audio";
 import { webSocketController } from "..";
+import useWebcam from "@hooks/webcam";
 
 interface Props {
   exercise: ExerciseData;
@@ -360,21 +361,15 @@ const VideoElement: React.FC<Props> = ({
   // -------------------------------
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  const webcam = useWebcam();
+
   useEffect(() => {
-    // wait for video to be there
+    if (!webcam) return;
+
     if (!videoRef.current) return;
 
-    // load camera
-    if (navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices
-        .getUserMedia({ video: true })
-        .then((stream) => {
-          if (videoRef.current) videoRef.current.srcObject = stream;
-        })
-        .catch(() => {
-          console.log("Something went wrong!");
-        });
-    }
+    console.log("assigning webcam to video");
+    videoRef.current.srcObject = webcam;
 
     const clear = (async () => {
       const vision = await FilesetResolver.forVisionTasks(
@@ -403,7 +398,7 @@ const VideoElement: React.FC<Props> = ({
         const ctx = canvas.getContext("2d");
         if (!ctx) return;
         ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-        if (pose) {
+        if (pose && canvas && canvas.width && canvas.height) {
           pose.detect(canvas, (result) => {
             if (result.landmarks && result.landmarks.length > 0) {
               onResults(result.landmarks[0], estimationCanvasRef, false);
@@ -423,7 +418,7 @@ const VideoElement: React.FC<Props> = ({
       console.log("Cleaning up");
       clear.then((clear) => clear());
     };
-  }, [videoRef, socketController, onResults]);
+  }, [onResults, socketController, webcam]);
 
   // set the correct size attribute for the canvas
   // even though it is positioned with css,

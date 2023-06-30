@@ -2,8 +2,6 @@ import { Alert, Button, Checkbox, Col, Form, Input, Row, Space } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import React from "react";
 import Routes from "@util/routes";
-import { useAppDispatch } from "@redux/hooks";
-import { setRefreshToken, setToken } from "@redux/token/tokenSlice";
 import { useNavigate } from "react-router";
 import Translations from "@localization/translations";
 import { useTranslation } from "react-i18next";
@@ -20,7 +18,6 @@ interface Props {
  * @returns {JSX.Element} The form.
  */
 const Register: React.FC<Props> = ({ registerToken }: Props) => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [error, setError] = React.useState<null | string>();
   const { t } = useTranslation();
@@ -32,7 +29,6 @@ const Register: React.FC<Props> = ({ registerToken }: Props) => {
     const password = values["password"];
     const passwordRepeat = values["password-repeat"];
     const username = values["username"];
-    const remember = values["remember"];
 
     const usernameErrorKey = Helper.checkUsername(username);
     if (usernameErrorKey) {
@@ -60,13 +56,6 @@ const Register: React.FC<Props> = ({ registerToken }: Props) => {
       return;
     }
 
-    const token = response.data["session_token"];
-    const refreshToken = response.data["refresh_token"];
-
-    if (remember) {
-      dispatch(setRefreshToken(refreshToken));
-    }
-    dispatch(setToken(token));
     navigate("", { replace: true });
   };
 

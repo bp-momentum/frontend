@@ -3,13 +3,12 @@ import Routes from "@util/routes";
 import Container from "@shared/container";
 import { Row, Layout, message, Spin } from "antd";
 import Translations from "@localization/translations";
-import Helper from "@util/helper";
-import { useAppSelector } from "@redux/hooks";
 import "@styles/home.css";
 import Day from "./components/day";
 import useApi from "@hooks/api";
 import { useTranslation } from "react-i18next";
 import { LoadingOutlined } from "@ant-design/icons";
+import { useAppSelector } from "@redux/hooks";
 
 const { Content } = Layout;
 
@@ -21,11 +20,6 @@ const Exercises: React.FC = (): JSX.Element => {
   const { t } = useTranslation();
 
   const [exercises, setExercises] = React.useState<Exercise[]>([]);
-  const [streak, setStreak] = React.useState<{
-    days: number;
-    flame_glow: boolean;
-    flame_height: number;
-  }>();
 
   const [hasPlan, setHasPlan] = React.useState<number>(0);
 
@@ -52,33 +46,15 @@ const Exercises: React.FC = (): JSX.Element => {
       setExercises(response.data.exercises);
     });
 
-    api.execute(Routes.getStreak()).then((response) => {
-      if (!response || !isMounted) return;
-      if (!response.success) {
-        message.error(
-          t(response.description ?? Translations.errors.unknownError)
-        );
-        return;
-      }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      setStreak(response.data as any);
-    });
-
     return () => {
       isMounted = false;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const token = useAppSelector((state) => state.token.token);
-  const username = token && Helper.getUserName(token);
+  const username = useAppSelector((state) => state.profile.username);
 
   const wrapper = createRef<HTMLDivElement>();
-
-  const dayName = Helper.getCurrentDayName();
-  const todoExercises = exercises.filter((e) => e.date === dayName);
-  const doneExercises = todoExercises.filter((e) => e.done);
-  const medalCount = todoExercises.length - doneExercises.length;
 
   return (
     <Container currentPage="home">
@@ -114,92 +90,16 @@ const Exercises: React.FC = (): JSX.Element => {
               alignItems: "center",
             }}
           >
-            <Row style={{ alignItems: "center", width: "100%" }}>
-              <div
-                style={{
-                  marginLeft: "50%",
-                  transform: "translateX(-50%)",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <h1 style={{ fontSize: "48px" }}>
-                  {t(Translations.exercises.motivation)}
-                  {username}!
-                </h1>
-                <h2 style={{ fontSize: "24px" }}>
-                  {t(Translations.exercises.medalMotivation, {
-                    count: medalCount,
-                  })}
-                </h2>
-              </div>
-              <div
-                style={{
-                  marginLeft: "auto",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "flex-end",
-                  marginRight: "20px",
-                }}
-              >
-                <span
-                  style={{
-                    fontSize: "50px",
-                    color: "#FF8A00",
-                    WebkitTextStroke: "1px black",
-                    display: "flex",
-                    flexWrap: "nowrap",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  {streak?.days}
-                  <div
-                    style={{
-                      background: streak?.flame_glow
-                        ? "radial-gradient(#FF8A0060 15%, #ffbe3a00 70% )"
-                        : "",
-                      height: "76px",
-                      width: "90px",
-                      borderRadius: "50%",
-                      margin: "15px",
-                      position: "relative",
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontFamily: "Noto Color Emoji",
-                        fontSize: 45,
-                        position: "absolute",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        left: "0px",
-                      }}
-                      role="img"
-                    >
-                      🔥
-                    </span>
-                    <span
-                      style={{
-                        fontFamily: "Noto Color Emoji",
-                        fontSize: 45,
-                        position: "absolute",
-                        clipPath: `polygon(0 0, 100% 0, 100% ${
-                          100 - (streak?.flame_height || 0) * 100
-                        }%, 0% ${100 - (streak?.flame_height || 0) * 100}%)`,
-                        left: "0px",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        filter: "grayscale(100%)",
-                      }}
-                      role="img"
-                    >
-                      🔥
-                    </span>
-                  </div>
-                </span>
-              </div>
+            <Row
+              style={{
+                justifyContent: "center",
+                width: "100%",
+              }}
+            >
+              <h1 style={{ fontSize: "48px" }}>
+                {t(Translations.exercises.motivation)}
+                {username}!
+              </h1>
             </Row>
             <Content
               style={{

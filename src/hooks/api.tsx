@@ -1,18 +1,12 @@
-import { useAppDispatch, useAppSelector } from "@redux/hooks";
 import { Route } from "@util/routes";
-import { unsetRefreshToken, unsetToken } from "@redux/token/tokenSlice";
-import { message } from "antd";
-import { useTranslation } from "react-i18next";
-import Translations from "@localization/translations";
+import { useAppDispatch } from "@redux/hooks";
 
 /**
  * This api handles all requests to the backend.
  * @returns {Api} The api.
  */
 const useApi = () => {
-  const token = useAppSelector((state) => state.token.token) ?? "";
   const dispatch = useAppDispatch();
-  const { t } = useTranslation();
 
   /**
    * Executes a requests to the backend with the given {@link Route}.
@@ -28,7 +22,7 @@ const useApi = () => {
     let response;
     switch (route.method) {
       case "GET":
-        response = executeGet(route);
+        response = get(route.route);
         break;
       case "POST":
         response = executePost(route);
@@ -38,35 +32,19 @@ const useApi = () => {
       if (response.success) {
         return;
       }
-      if (response.description === "Token is not valid") {
-        message.error(t(Translations.errors.loggedOut));
-        dispatch(unsetToken());
-        dispatch(unsetRefreshToken());
+      if (response.status === 401) {
+        dispatch({ type: "USER_LOGOUT" });
       }
     });
     return response.catch((error) => {
       console.error(error);
       return {
+        status: 500,
         success: false,
         data: {},
         description: "Unable to connect to server.",
       };
     });
-  };
-
-  /**
-   * Fetches a {@link Route} with the GET method.
-   * It forwards the call to {@link getWithAuth} or {@link get} depending on whether the route requires
-   * authentication or not.
-   * @param {Route} route  the given {@link Route}
-   * @returns {Promise<Response>} The response of the request.
-   */
-  const executeGet = (route: Route): Promise<ApiResponse> => {
-    if (route.needsAuth) {
-      return getWithAuth(route.route);
-    } else {
-      return get(route.route);
-    }
   };
 
   /**
@@ -77,20 +55,15 @@ const useApi = () => {
   const get = (route: string): Promise<ApiResponse> => {
     return fetch(parseRoute(route), {
       method: "GET",
-    }).then((r) => r.json());
-  };
-
-  /**
-   * Fetches a {@link Route} with the GET method with authentication.
-   * The user's session token will be sent inside the request header.
-   * @param {Route} route  the given {@link Route}
-   * @returns {Promise<Response>} The response of the request.
-   */
-  const getWithAuth = (route: string): Promise<ApiResponse> => {
-    return fetch(parseRoute(route), {
-      method: "GET",
-      headers: { "Session-Token": token },
-    }).then((r) => r.json());
+      credentials: "include",
+    }).then((r) => {
+      if (r.status !== 200) {
+        return { status: r.status, success: false };
+      }
+      return r.json().then((data) => {
+        return { ...data, status: r.status };
+      });
+    });
   };
 
   /**
@@ -103,18 +76,10 @@ const useApi = () => {
    * @returns {Promise<Response>} The response of the request.
    */
   const executePost = (route: Route): Promise<ApiResponse> => {
-    if (route.needsAuth) {
-      if (route.body == null) {
-        return postWithAuth(route.route);
-      } else {
-        return postWithAuthAndBody(route.route, route.body);
-      }
+    if (route.body == null) {
+      return post(route.route);
     } else {
-      if (route.body == null) {
-        return post(route.route);
-      } else {
-        return postWithBody(route.route, route.body);
-      }
+      return postWithBody(route.route, route.body);
     }
   };
 
@@ -126,7 +91,15 @@ const useApi = () => {
   const post = (route: string): Promise<ApiResponse> => {
     return fetch(parseRoute(route), {
       method: "POST",
-    }).then((r) => r.json());
+      credentials: "include",
+    }).then((r) => {
+      if (r.status !== 200) {
+        return { status: r.status, success: false };
+      }
+      return r.json().then((data) => {
+        return { ...data, status: r.status };
+      });
+    });
   };
 
   /**
@@ -141,41 +114,17 @@ const useApi = () => {
   ): Promise<ApiResponse> => {
     return fetch(parseRoute(route), {
       method: "POST",
-      body: JSON.stringify(body),
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
-    }).then((r) => r.json());
-  };
-
-  /**
-   * Requests a {@link Route} with the POST method with authentication and without any data to send.
-   * @param {Route} route  the given {@link Route}
-   * @returns {Promise<Response>} The response of the request.
-   */
-  const postWithAuth = (route: string): Promise<ApiResponse> => {
-    return fetch(parseRoute(route), {
-      method: "POST",
-      headers: { "Session-Token": token },
-    }).then((r) => r.json());
-  };
-
-  /**
-   * Requests a {@link Route} with the POST method with authentication and with data to send.
-   * @param {Route} route  the given {@link Route}
-   * @param {Record<string, unkown>} body  object containing the data to send
-   * @returns {Promise<Response>} The response of the request.
-   */
-  const postWithAuthAndBody = (
-    route: string,
-    body: Record<string, unknown>
-  ): Promise<ApiResponse> => {
-    return fetch(parseRoute(route), {
-      method: "POST",
       body: JSON.stringify(body),
-      headers: {
-        "Session-Token": token,
-        "Content-Type": "application/json",
-      },
-    }).then((r) => r.json());
+    }).then((r) => {
+      if (r.status !== 200) {
+        return { status: r.status, success: false };
+      }
+      return r.json().then((data) => {
+        return { ...data, status: r.status };
+      });
+    });
   };
 
   /**
@@ -200,7 +149,7 @@ const useApi = () => {
    * @returns {ApiSocketConnection} the created {@link ApiSocketConnection}
    */
   const openSocket = (): ApiSocketConnection => {
-    return new ApiSocketConnection(token, window._env_.WEBSOCKET_URL);
+    return new ApiSocketConnection(window._env_.WEBSOCKET_URL);
   };
 
   return { execute, openSocket };
@@ -210,20 +159,12 @@ const useApi = () => {
  * Utility class to handle the websocket connection to the backend.
  */
 export class ApiSocketConnection {
-  readonly token: string;
   private ws: WebSocket;
 
-  constructor(token: string, url: string) {
-    this.token = token;
+  constructor(url: string) {
     this.ws = new WebSocket(url + "/ws/socket");
 
     this.ws.onopen = (event) => {
-      this.ws.send(
-        JSON.stringify({
-          message_type: "authenticate",
-          data: { session_token: this.token },
-        })
-      );
       if (this.onopen) this.onopen(event);
     };
 
@@ -288,6 +229,7 @@ export class ApiSocketConnection {
  * Wrapper for any response from the backend.
  */
 interface ApiResponse {
+  status: number;
   success: boolean;
   description: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

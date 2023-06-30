@@ -16,18 +16,15 @@ import "@util/i18n";
 const root = createRoot(document.getElementById("root")!);
 
 root.render(
-  <React.StrictMode>
-    {/* needs children so can't be part of multiprovider.... */}
-    <Provider store={store}>
-      <MultiProvider
-        providers={[
-          <PersistGate loading={null} persistor={persistor} />,
-          <HashRouter />,
-          <ConfigProvider renderEmpty={() => <EmptyDataRender />} />,
-        ]}
-      >
-        <LocalizedApp />
-      </MultiProvider>
-    </Provider>
-  </React.StrictMode>
+  <Provider store={store}>
+    <MultiProvider
+      providers={[
+        <PersistGate loading={null} persistor={persistor} />,
+        <HashRouter />,
+        <ConfigProvider renderEmpty={() => <EmptyDataRender />} />,
+      ]}
+    >
+      <LocalizedApp />
+    </MultiProvider>
+  </Provider>
 );

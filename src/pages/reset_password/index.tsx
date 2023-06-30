@@ -9,6 +9,7 @@ import useApi from "@hooks/api";
 
 interface Props {
   resetToken: string;
+  username: string;
 }
 
 /**
@@ -16,7 +17,10 @@ interface Props {
  * @param {Props} props The properties of the component.
  * @returns {JSX.Element} The form.
  */
-const ResetPw: React.FC<Props> = ({ resetToken }: Props): JSX.Element => {
+const ResetPw: React.FC<Props> = ({
+  resetToken,
+  username,
+}: Props): JSX.Element => {
   const navigate = useNavigate();
   const [error, setError] = React.useState<null | string>();
   const { t } = useTranslation();
@@ -37,6 +41,7 @@ const ResetPw: React.FC<Props> = ({ resetToken }: Props): JSX.Element => {
       Routes.resetPassword({
         password: password,
         token: resetToken,
+        username: username,
       })
     );
 

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import Container from "@shared/container";
 import { Layout, message } from "antd";
-import { useAppSelector } from "@redux/hooks";
 import Helper from "@util/helper";
 import "@styles/profile.css";
 import Routes from "@util/routes";
@@ -13,25 +12,25 @@ import {
 import useApi from "@hooks/api";
 import SubPageProfile from "./sub_pages/profile";
 import ProfileLoadingView from "./components/profileLoadingView";
-import SubPageFriends from "./sub_pages/friends";
-import SubPageAchievements from "./sub_pages/achievements";
 import { ProfileData } from "@pages/profile/user/types";
+import { useAppSelector } from "@redux/hooks";
 
 /**
  * The profile page for users.
  * @returns {JSX.Element} The component
  */
 const Profile: React.FC = (): JSX.Element => {
-  const token = useAppSelector((state) => state.token.token);
   const api = useApi();
+
+  const username = useAppSelector((state) => state.profile.username) || "";
 
   const [profileData, setProfileData] = React.useState<ProfileData | null>(
     null
   );
 
-  const [subPage, setSubPage] = React.useState<
-    "profile" | "friends" | "achievements" | "loading"
-  >("loading");
+  const [subPage, setSubPage] = React.useState<"profile" | "loading">(
+    "loading"
+  );
 
   useEffect(() => {
     loadProfile().catch((e) => message.error(e));
@@ -41,17 +40,16 @@ const Profile: React.FC = (): JSX.Element => {
   const loadProfile = async () => {
     const results = await Promise.all([
       api.execute(Routes.getProfile()),
-      api.execute(Routes.getTrainerContact()),
       api.execute(Routes.getDoneExercises()),
-      api.execute(
-        Routes.getUserLevel({ username: Helper.getUserName(token ?? "") })
-      ),
+      // TODO: fix
+      // api.execute(
+      //   Routes.getUserLevel({ username: Helper.getUserName(token ?? "") })
+      // ),
     ]);
 
     const profile = results[0];
-    const trainerContact = results[1];
-    const exercises = results[2];
-    const level = results[3];
+    const exercises = results[1];
+    // const level = results[3];
 
     const todayDayName = Helper.getCurrentDayName();
     const doneExercises: DoneExercise[] = exercises.data.exercises ?? [];
@@ -81,12 +79,6 @@ const Profile: React.FC = (): JSX.Element => {
       minutesTrainedGoal: trainDayGoal,
       minutesTrained: trainedTodayReal,
       motivation: profile.data.motivation ?? "",
-      trainerAddress: trainerContact.data.address ?? "",
-      trainerEmail: trainerContact.data.email ?? "",
-      trainerName: trainerContact.data.name ?? "",
-      trainerPhone: trainerContact.data.telephone ?? "",
-      level: level.data.level ?? 0,
-      levelProgress: level.data.progress ?? "",
     });
     setSubPage("profile");
   };
@@ -95,23 +87,13 @@ const Profile: React.FC = (): JSX.Element => {
     setSubPage("profile");
   };
 
-  const onClickFriends = () => {
-    return setSubPage("friends");
-  };
-
-  const onClickAchievements = () => {
-    return setSubPage("achievements");
-  };
-
   return (
     <Container currentPage="profile">
       <Layout style={{ height: "100%" }}>
         <ProfileSider
-          onClickFriends={onClickFriends}
-          onClickAchievements={onClickAchievements}
           onClickProfile={onClickProfile}
           avatar={profileData?.avatar}
-          username={Helper.getUserName(token ?? "")}
+          username={username}
           selected={subPage}
         />
         {subPage === "loading" && <ProfileLoadingView />}
@@ -121,8 +103,6 @@ const Profile: React.FC = (): JSX.Element => {
             setProfileData={setProfileData}
           />
         )}
-        {subPage === "friends" && <SubPageFriends />}
-        {subPage === "achievements" && <SubPageAchievements />}
       </Layout>
     </Container>
   );

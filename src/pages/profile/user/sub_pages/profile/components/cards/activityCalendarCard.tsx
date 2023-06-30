@@ -231,7 +231,7 @@ const ActivityCalendarCard = (): JSX.Element => {
             </div>
           );
         }}
-        dateFullCellRender={(date) => (
+        fullCellRender={(date) => (
           <DateCell
             month={date.month()}
             year={date.year()}

@@ -1,20 +1,20 @@
 import React from "react";
-import { useAppSelector } from "@redux/hooks";
 import Container from "@shared/container";
-import helper from "@util/helper";
 import { Col, Divider, Layout, Row } from "antd";
 import { useTranslation } from "react-i18next";
 import Translations from "@localization/translations";
-import FaqComponent from "@shared/faqComponent";
 import { Content } from "antd/lib/layout/layout";
+import { useAppSelector } from "@redux/hooks";
+import FaqComponent from "@shared/faqComponent";
 
 /**
  * The Homepage for administrators and trainers.
  * @returns {JSX.Element} The page
  */
 const Home: React.FC = (): JSX.Element => {
-  const token = useAppSelector((state) => state.token.token);
   const { t } = useTranslation();
+
+  const role = useAppSelector((state) => state.profile.role);
 
   return (
     <Container currentPage="home">
@@ -42,19 +42,18 @@ const Home: React.FC = (): JSX.Element => {
             <Divider plain style={{ fontSize: "20px", fontWeight: "bold" }}>
               {t(Translations.home.faq)}
             </Divider>
-            {token &&
-              Object.entries(
-                helper.getAccountType(token) === "admin"
-                  ? Translations.adminFAQs
-                  : Translations.trainerFAQs
-              ).map(([key, faq]) => (
-                <Row key={key} style={{ paddingBottom: "20px" }}>
-                  <FaqComponent
-                    question={t(faq.question)}
-                    answer={t(faq.answer)}
-                  />
-                </Row>
-              ))}
+            {Object.entries(
+              role === "admin"
+                ? Translations.adminFAQs
+                : Translations.trainerFAQs
+            ).map(([key, faq]) => (
+              <Row key={key} style={{ paddingBottom: "20px" }}>
+                <FaqComponent
+                  question={t(faq.question)}
+                  answer={t(faq.answer)}
+                />
+              </Row>
+            ))}
           </Col>
         </Content>
       </Layout>
