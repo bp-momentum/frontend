@@ -29,7 +29,7 @@ jobs:
         id: pnpm-install
         with:
           version: 7
-          run_install: false
+          run_install: true
 
       - name: Install dependencies
         run: pnpm install
