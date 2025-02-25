@@ -159,7 +159,7 @@ const Day: React.FC<Props> = ({
           <h4 style={{ margin: "0" }}>
             {t(Translations.exercises.noExercises)}{" "}
             <span style={{ fontSize: 25, fontFamily: "Noto Color Emoji" }}>
-              🎉
+              🎊
             </span>
           </h4>
         )}
