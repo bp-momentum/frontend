@@ -155,7 +155,7 @@
     "day-off": "Nimm dir einen Tag Pause",
     "motivation": "Auf geht's, ",
     "loading": "Lade...",
-    "no-plan": "Dir wurde noch kein Plan zugewiesen!\nWarte, bis Dein Trainer einen Plan für Dich erstellt hat."
+    "noPlan": "Dir wurde noch kein Plan zugewiesen!\nWarte, bis Dein Trainer einen Plan für Dich erstellt hat."
   },
   "user-management": {
     "users": "Benutzer*innen",
