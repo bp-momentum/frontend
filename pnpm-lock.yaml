@@ -5,8 +5,8 @@ dependencies:
     specifier: 5.0.1
     version: 5.0.1(react-dom@18.2.0)(react@18.2.0)
   '@ant-design/plots':
-    specifier: 1.2.5
-    version: 1.2.5(react-dom@18.2.0)(react@18.2.0)
+    specifier: 1.2.6
+    version: 1.2.6(react-dom@18.2.0)(react@18.2.0)
   '@antv/g2':
     specifier: 4.2.10
     version: 4.2.10
@@ -242,8 +242,8 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@ant-design/plots@1.2.5(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-8Jvu2xC5y5/B38/9Qr6CBiXCZopsGEA3IR4pjLFlkLoT4OHIKr4y8oIvhahM9mh9ZATyjkrZLWJBI8yETrReGg==}
+  /@ant-design/plots@1.2.6(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-fFzB9DxRSPQa47S3WypRk4Rh+P8vBUuY/DT+IXgUrlKJtvVZUFnuYfjypX3Q/Pie2PEbI6gmskzXLxVF+3Ztvw==}
     peerDependencies:
       react: '>=16.8.4'
       react-dom: '>=16.8.4'
@@ -6333,6 +6333,7 @@ packages:
 
   /glob@7.1.6:
     resolution: {integrity: sha512-LwaxwyZ72Lk7vZINtNNrywX0ZuLyStrdDtabefZKAY5ZGJhVtgdznluResxNmPitE0SAO+O26sWTHeKSI2wMBA==}
+    deprecated: Glob versions prior to v9 are no longer supported
     dependencies:
       fs.realpath: 1.0.0
       inflight: 1.0.6
