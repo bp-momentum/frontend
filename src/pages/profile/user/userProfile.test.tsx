@@ -55,13 +55,12 @@ describe("<Index/>", () => {
     expect(avatar).toBeInTheDocument();
     expect(avatar).toBeVisible();
 
-    {/*
+    
     const info = await screen.findByTestId("trainer-information", undefined, {
       timeout: 10000,
     });
     expect(info).toBeInTheDocument();
     expect(info).toBeVisible();
-    */}
 
     const calendar = await screen.findByTestId("activity-calendar", undefined, {
       timeout: 10000,
